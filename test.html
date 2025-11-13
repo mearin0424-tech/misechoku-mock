@@ -3,13 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ミセチョク - モックアップ (ネイビーxオレンジ)</title>
+    <title>ミセチョク - モックアップ (フル版)</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
     
     <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&display=swap" rel="stylesheet">
+    
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     
     <link rel="stylesheet" href="style.css">
     
@@ -38,7 +40,7 @@
             </div>
         </section>
 
-        <section class="content-section">
+        <section class="content-section" data-aos="fade-up">
             <div class="container">
                 <h2>ほげほげほげほげ</h2>
                 <div class="two-column">
@@ -51,7 +53,7 @@
             </div>
         </section>
         
-        <section class="content-section bg-base">
+        <section class="content-section bg-base" data-aos="fade-up" data-aos-delay="100">
             <div class="container">
                 <h2>ほげほげほげ</h2>
                 <div class="two-column">
@@ -63,7 +65,7 @@
             </div>
         </section>
 
-        <section class="form-section">
+        <section class="form-section" data-aos="fade-up" data-aos-delay="200">
             <div class="container">
                 <h2>ほげほげフォーム</h2>
                 <form action="#" method="POST">
@@ -80,10 +82,11 @@
                         <textarea id="message" name="message" rows="5"></textarea>
                     </div>
                     
-                    <div class="form-group" style="text-align: center;">
+                    <div class="form-group text-center">
                         <button type="submit" class="btn btn-primary">ほげ（送信）</button>
                     </div>
-                    </form>
+                    
+                </form>
             </div>
         </section>
 
@@ -94,6 +97,14 @@
             <p>&copy; 2025 ミセチョク. All Rights Reserved.</p>
         </div>
     </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 800, // アニメーションの時間
+            once: true // アニメーションを1回だけ実行
+        });
+    </script>
 
 </body>
 </html>
