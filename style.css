@@ -1,35 +1,51 @@
-/* --- ボタン共通スタイル --- */
-.btn {
-    display: inline-block;
-    padding: 12px 30px;
-    border-radius: 50px; 
-    text-decoration: none;
+/* --- カラーパレット --- */
+:root {
+    --bg-base: #FBF8F4;        /* ベース (オフホワイト) */
+    --color-main: #D8896F;     /* メイン (テラコッタ) */
+    --color-accent1: #E0B0B0;   /* アクセント1 (ローズゴールド/くすみピンク) */
+    --color-accent2: #8B4513;   /* アクセント2 (ダークブラウン/引き締め) */
+    --color-text: #4A4A4A;     /* テキスト (ダークグレー) */
+    --color-white: #FFFFFF;
+    --border-color: #EAE0D5;   /* 境界線 */
+}
+
+/* --- 基本設定 --- */
+body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg-base);
+    color: var(--color-text);
+    font-family: 'Noto Sans JP', sans-serif; /* 基本フォント */
+    line-height: 1.7;
+}
+
+.container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+h1, h2, h3 {
     font-weight: 700;
-    transition: all 0.3s;
-    border: none; /* グラデーションボタンは枠線なしに */
-    cursor: pointer;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* ボタンに少し影をつける */
 }
 
-/* プライマリボタン (オレンジ → 薄紫のグラデーション) */
-.btn-primary {
-    background: linear-gradient(to right, var(--color-main), var(--color-accent1)); /* グラデーション適用！ */
-    color: var(--color-white);
+p {
+    margin-bottom: 20px;
 }
 
-.btn-primary:hover {
-    opacity: 0.85; /* ホバー時は少し薄くする */
+/* --- ヘッダー --- */
+.header {
+    background-color: var(--bg-base);
+    padding: 20px 0;
+    border-bottom: 1px solid var(--border-color); 
 }
 
-/* セカンダリボタン (白背景の枠線ボタン) */
-.btn-secondary {
-    background: var(--color-white); /* 背景を白に */
-    border: 2px solid var(--color-main); /* 枠線をテラコッタに */
-    color: var(--color-main); /* 文字色をテラコッタに */
-    box-shadow: none; /* 影を消す */
+.header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-.btn-secondary:hover {
-    background-color: var(--color-main);
-    color: var(--color-white);
-}
+.logo {
+    font-size: 24px;
+    font-weight: 700
