@@ -1,21 +1,20 @@
-/* --- カラーパレット --- */
+/* --- カラーパレット (ネイビー x オレンジ) --- */
 :root {
-    --bg-base: #FBF8F4;        /* ベース (オフホワイト) */
-    --color-main: #D8896F;     /* メイン (テラコッタ) */
-    --color-accent1: #E0B0B0;   /* アクセント1 (ローズゴールド/くすみピンク) */
-    --color-accent2: #8B4513;   /* アクセント2 (ダークブラウン/引き締め) */
-    --color-text: #4A4A4A;     /* テキスト (ダークグレー) */
+    --bg-base: #FFFFFF;        /* ベース (真っ白) */
+    --color-main: #001F3F;     /* メイン (ネイビー) */
+    --color-accent1: #FF851B;   /* アクセント1 (鮮やかなオレンジ) */
+    --color-text: #001F3F;     /* テキスト (ネイビー) */
     --color-white: #FFFFFF;
-    --border-color: #EAE0D5;   /* 境界線 */
+    --border-color: #DDDDDD;   /* 境界線 (ライトグレー) */
 }
 
 /* --- 基本設定 --- */
 body {
     margin: 0;
     padding: 0;
-    background-color: var(--bg-base);
-    color: var(--color-text);
-    font-family: 'Noto Sans JP', sans-serif; /* 基本フォント */
+    background-color: var(--bg-base); /* 背景を白に */
+    color: var(--color-text);         /* 基本テキストをネイビーに */
+    font-family: 'Noto Sans JP', sans-serif; 
     line-height: 1.7;
 }
 
@@ -37,7 +36,7 @@ p {
 .header {
     background-color: var(--bg-base);
     padding: 20px 0;
-    border-bottom: 1px solid var(--border-color); 
+    border-bottom: 1px solid var(--border-color); /* 境界線をライトグレーに */
 }
 
 .header .container {
@@ -49,7 +48,7 @@ p {
 .logo {
     font-size: 24px;
     font-weight: 700;
-    color: var(--color-accent2); 
+    color: var(--color-main); /* ネイビー */
     text-decoration: none;
 }
 
@@ -66,13 +65,13 @@ p {
 
 .nav a {
     text-decoration: none;
-    color: var(--color-text);
+    color: var(--color-text); /* ネイビー */
     font-weight: 700;
     transition: color 0.3s;
 }
 
 .nav a:hover {
-    color: var(--color-main); 
+    color: var(--color-accent1); /* ホバーでオレンジ */
 }
 
 /* --- ヒーローセクション --- */
@@ -82,15 +81,11 @@ p {
 }
 
 .hero h1 {
-    font-size: 48px; /* フォントサイズを少し大きく */
-    font-family: 'Cinzel Decorative', cursive; /* 個性的なフォントを適用 */
-    color: var(--color-accent1); /* ローズゴールド */
+    font-size: 48px; 
+    font-family: 'Cinzel Decorative', cursive; /* 個性的なフォント */
+    color: var(--color-main); /* ネイビー */
     margin-bottom: 20px;
-    /* 立体感を出すためのtext-shadow */
-    text-shadow: 
-        1px 1px 0px rgba(0,0,0,0.1), /* 軽い影 */
-        2px 2px 0px rgba(0,0,0,0.05), /* 少し奥の影 */
-        3px 3px 5px rgba(0,0,0,0.02); /* ぼかしの影 */
+    text-shadow: none; /* 立体感を消してパキッとさせる */
 }
 
 .hero p {
@@ -106,26 +101,28 @@ p {
     text-decoration: none;
     font-weight: 700;
     transition: all 0.3s;
-    border: none; 
+    border: 2px solid transparent; /* 枠線を透明に */
     cursor: pointer;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
 }
 
-/* プライマリボタン (くすみオレンジ → ローズゴールドのグラデーション) */
+/* プライマリボタン (オレンジ) */
 .btn-primary {
-    background: linear-gradient(to right, var(--color-main), var(--color-accent1)); 
+    background: var(--color-accent1); /* オレンジ */
     color: var(--color-white);
+    border-color: var(--color-accent1); /* オレンジ */
 }
 
 .btn-primary:hover {
-    opacity: 0.85; 
+    background: #E67817; /* 少し濃いオレンジ */
+    border-color: #E67817;
 }
 
-/* セカンダリボタン (白背景の枠線ボタン - テラコッタ) */
+/* セカンダリボタン (ネイビーの枠線) */
 .btn-secondary {
-    background: var(--color-white); 
-    border: 2px solid var(--color-main); 
-    color: var(--color-main); 
+    background: transparent; 
+    border-color: var(--color-main); /* ネイビーの枠線 */
+    color: var(--color-main); /* ネイビーの文字 */
     box-shadow: none; 
 }
 
@@ -137,21 +134,22 @@ p {
 /* --- コンテンツセクション --- */
 .content-section {
     padding: 60px 0;
-    background-color: var(--color-white); 
+    background-color: var(--color-white); /* 白背景 */
     border-radius: 12px;
     margin-bottom: 40px;
+    /* 白背景なので影は残す */
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); 
 }
 
 .content-section.bg-base {
-    background-color: var(--bg-base); 
+    background-color: var(--bg-base); /* 白背景 */
     box-shadow: none;
 }
 
 .content-section h2 {
     text-align: center;
     font-size: 32px;
-    color: var(--color-accent2); 
+    color: var(--color-main); /* ネイビー */
     margin-bottom: 40px;
 }
 
@@ -177,7 +175,7 @@ p {
 .form-section h2 {
     text-align: center;
     font-size: 32px;
-    color: var(--color-accent2); 
+    color: var(--color-main); /* ネイビー */
     margin-bottom: 40px;
 }
 
@@ -192,7 +190,7 @@ p {
     display: block;
     margin-bottom: 8px;
     font-weight: 700;
-    color: var(--color-text);
+    color: var(--color-text); /* ネイビー */
 }
 
 .form-group input[type="text"],
@@ -200,9 +198,9 @@ p {
 .form-group textarea {
     width: 100%;
     padding: 12px;
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--border-color); /* グレーの枠線 */
     border-radius: 8px;
-    background-color: var(--bg-base); 
+    background-color: var(--color-white); /* 白背景 */
     font-family: 'Noto Sans JP', sans-serif;
     font-size: 16px;
     box-sizing: border-box; 
@@ -213,8 +211,8 @@ p {
 .form-group input[type="email"]:focus,
 .form-group textarea:focus {
     outline: none;
-    border-color: var(--color-accent1); /* フォーカス時にローズゴールド */
-    box-shadow: 0 0 5px rgba(224, 176, 176, 0.5); /* ローズゴールドの影 */
+    border-color: var(--color-accent1); /* フォーカス時にオレンジ */
+    box-shadow: 0 0 5px rgba(255, 133, 27, 0.5); /* オレンジの影 */
 }
 
 .form-group textarea {
@@ -227,8 +225,8 @@ p {
 
 /* --- フッター --- */
 .footer {
-    background-color: var(--color-text); 
-    color: var(--bg-base); 
+    background-color: var(--color-main); /* ネイビー */
+    color: var(--bg-base); /* 白文字 */
     padding: 40px 0;
     text-align: center;
     margin-top: 60px;
