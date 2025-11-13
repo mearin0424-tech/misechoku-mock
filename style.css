@@ -48,4 +48,193 @@ p {
 
 .logo {
     font-size: 24px;
-    font-weight: 700
+    font-weight: 700;
+    color: var(--color-accent2); 
+    text-decoration: none;
+}
+
+.nav ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+}
+
+.nav li {
+    margin-left: 30px;
+}
+
+.nav a {
+    text-decoration: none;
+    color: var(--color-text);
+    font-weight: 700;
+    transition: color 0.3s;
+}
+
+.nav a:hover {
+    color: var(--color-main); 
+}
+
+/* --- ヒーローセクション --- */
+.hero {
+    padding: 80px 0;
+    text-align: center;
+}
+
+.hero h1 {
+    font-size: 48px; /* フォントサイズを少し大きく */
+    font-family: 'Cinzel Decorative', cursive; /* 個性的なフォントを適用 */
+    color: var(--color-accent1); /* ローズゴールド */
+    margin-bottom: 20px;
+    /* 立体感を出すためのtext-shadow */
+    text-shadow: 
+        1px 1px 0px rgba(0,0,0,0.1), /* 軽い影 */
+        2px 2px 0px rgba(0,0,0,0.05), /* 少し奥の影 */
+        3px 3px 5px rgba(0,0,0,0.02); /* ぼかしの影 */
+}
+
+.hero p {
+    font-size: 18px;
+    margin-bottom: 30px;
+}
+
+/* --- ボタン共通スタイル --- */
+.btn {
+    display: inline-block;
+    padding: 12px 30px;
+    border-radius: 50px; 
+    text-decoration: none;
+    font-weight: 700;
+    transition: all 0.3s;
+    border: none; 
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
+}
+
+/* プライマリボタン (くすみオレンジ → ローズゴールドのグラデーション) */
+.btn-primary {
+    background: linear-gradient(to right, var(--color-main), var(--color-accent1)); 
+    color: var(--color-white);
+}
+
+.btn-primary:hover {
+    opacity: 0.85; 
+}
+
+/* セカンダリボタン (白背景の枠線ボタン - テラコッタ) */
+.btn-secondary {
+    background: var(--color-white); 
+    border: 2px solid var(--color-main); 
+    color: var(--color-main); 
+    box-shadow: none; 
+}
+
+.btn-secondary:hover {
+    background-color: var(--color-main);
+    color: var(--color-white);
+}
+
+/* --- コンテンツセクション --- */
+.content-section {
+    padding: 60px 0;
+    background-color: var(--color-white); 
+    border-radius: 12px;
+    margin-bottom: 40px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); 
+}
+
+.content-section.bg-base {
+    background-color: var(--bg-base); 
+    box-shadow: none;
+}
+
+.content-section h2 {
+    text-align: center;
+    font-size: 32px;
+    color: var(--color-accent2); 
+    margin-bottom: 40px;
+}
+
+.two-column {
+    display: block; 
+    text-align: center; 
+}
+
+.two-column .text-content {
+    max-width: 600px; 
+    margin: 0 auto;
+}
+
+/* --- フォームセクション --- */
+.form-section {
+    padding: 60px 0;
+    background-color: var(--color-white);
+    border-radius: 12px;
+    margin-bottom: 40px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); 
+}
+
+.form-section h2 {
+    text-align: center;
+    font-size: 32px;
+    color: var(--color-accent2); 
+    margin-bottom: 40px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    max-width: 600px; 
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 700;
+    color: var(--color-text);
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background-color: var(--bg-base); 
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 16px;
+    box-sizing: border-box; 
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="email"]:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--color-accent1); /* フォーカス時にローズゴールド */
+    box-shadow: 0 0 5px rgba(224, 176, 176, 0.5); /* ローズゴールドの影 */
+}
+
+.form-group textarea {
+    resize: vertical; 
+}
+
+.form-group .text-center {
+    text-align: center;
+}
+
+/* --- フッター --- */
+.footer {
+    background-color: var(--color-text); 
+    color: var(--bg-base); 
+    padding: 40px 0;
+    text-align: center;
+    margin-top: 60px;
+}
+
+.footer p {
+    margin: 0;
+    font-size: 14px;
+}
