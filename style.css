@@ -1,0 +1,170 @@
+/* --- カラーパレット --- */
+:root {
+    --bg-base: #FBF8F4;        /* ベース (オフホワイト) */
+    --color-main: #D8896F;     /* メイン (テラコッタ) */
+    --color-accent: #8B4513;   /* アクセント (ダークブラウン) */
+    --color-text: #4A4A4A;     /* テキスト (ダークグレー) */
+    --color-white: #FFFFFF;
+}
+
+/* --- 基本設定 --- */
+body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg-base);
+    color: var(--color-text);
+    font-family: 'Noto Sans JP', sans-serif;
+    line-height: 1.7;
+}
+
+.container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+h1, h2, h3 {
+    font-weight: 700;
+}
+
+p {
+    margin-bottom: 20px;
+}
+
+/* --- ヘッダー --- */
+.header {
+    background-color: var(--bg-base);
+    padding: 20px 0;
+    border-bottom: 1px solid #EAE0D5; 
+}
+
+.header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--color-accent); 
+    text-decoration: none;
+}
+
+.nav ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+}
+
+.nav li {
+    margin-left: 30px;
+}
+
+.nav a {
+    text-decoration: none;
+    color: var(--color-text);
+    font-weight: 700;
+    transition: color 0.3s;
+}
+
+.nav a:hover {
+    color: var(--color-main); 
+}
+
+/* --- ヒーローセクション (メインビジュアル) --- */
+.hero {
+    padding: 80px 0;
+    text-align: center;
+}
+
+.hero h1 {
+    font-size: 42px;
+    color: var(--color-main); 
+    margin-bottom: 20px;
+}
+
+.hero p {
+    font-size: 18px;
+    margin-bottom: 30px;
+}
+
+/* --- ボタン共通スタイル --- */
+.btn {
+    display: inline-block;
+    padding: 12px 30px;
+    border-radius: 50px; 
+    text-decoration: none;
+    font-weight: 700;
+    transition: all 0.3s;
+    border: 2px solid transparent;
+}
+
+/* メインのCTAボタン */
+.btn-primary {
+    background-color: var(--color-main); 
+    color: var(--color-white);
+}
+
+.btn-primary:hover {
+    background-color: #C77A60; 
+}
+
+/* サブのボタン */
+.btn-secondary {
+    background-color: transparent;
+    border-color: var(--color-accent); 
+    color: var(--color-accent);
+}
+
+.btn-secondary:hover {
+    background-color: var(--color-accent);
+    color: var(--color-white);
+}
+
+/* --- コンテンツセクション --- */
+.content-section {
+    padding: 60px 0;
+    background-color: var(--color-white); 
+    border-radius: 12px;
+    margin-bottom: 40px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); 
+}
+
+.content-section.bg-base {
+    background-color: var(--bg-base); 
+    box-shadow: none;
+}
+
+.content-section h2 {
+    text-align: center;
+    font-size: 32px;
+    color: var(--color-accent); 
+    margin-bottom: 40px;
+}
+
+/* 画像を消したため、カラム設定をシンプルに */
+.two-column {
+    display: block; /* フレックスをやめて縦並びに（またはこのクラス自体不要かも） */
+    text-align: center; /* コンテンツを中央寄せ */
+}
+
+.two-column .text-content {
+    max-width: 600px; /* テキストが横に広がりすぎないように */
+    margin: 0 auto;
+}
+
+/* --- フッター --- */
+.footer {
+    background-color: var(--color-text); 
+    color: var(--bg-base); 
+    padding: 40px 0;
+    text-align: center;
+    margin-top: 60px;
+}
+
+.footer p {
+    margin: 0;
+    font-size: 14px;
+}
