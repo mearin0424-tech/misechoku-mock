@@ -2,9 +2,11 @@
 :root {
     --bg-base: #FBF8F4;        /* ベース (オフホワイト) */
     --color-main: #D8896F;     /* メイン (テラコッタ) */
-    --color-accent: #8B4513;   /* アクセント (ダークブラウン) */
+    --color-accent1: #B8A9C9;   /* アクセント1 (薄紫/ラベンダー) */
+    --color-accent2: #8B4513;   /* アクセント2 (ダークブラウン/引き締め) */
     --color-text: #4A4A4A;     /* テキスト (ダークグレー) */
     --color-white: #FFFFFF;
+    --border-color: #EAE0D5;   /* 境界線 */
 }
 
 /* --- 基本設定 --- */
@@ -35,7 +37,7 @@ p {
 .header {
     background-color: var(--bg-base);
     padding: 20px 0;
-    border-bottom: 1px solid #EAE0D5; 
+    border-bottom: 1px solid var(--border-color); 
 }
 
 .header .container {
@@ -47,7 +49,7 @@ p {
 .logo {
     font-size: 24px;
     font-weight: 700;
-    color: var(--color-accent); 
+    color: var(--color-accent2); /* ダークブラウン */
     text-decoration: none;
 }
 
@@ -70,10 +72,10 @@ p {
 }
 
 .nav a:hover {
-    color: var(--color-main); 
+    color: var(--color-main); /* テラコッタ */
 }
 
-/* --- ヒーローセクション (メインビジュアル) --- */
+/* --- ヒーローセクション --- */
 .hero {
     padding: 80px 0;
     text-align: center;
@@ -81,7 +83,7 @@ p {
 
 .hero h1 {
     font-size: 42px;
-    color: var(--color-main); 
+    color: var(--color-accent1); /* 薄紫に変更 */
     margin-bottom: 20px;
 }
 
@@ -99,9 +101,10 @@ p {
     font-weight: 700;
     transition: all 0.3s;
     border: 2px solid transparent;
+    cursor: pointer; /* ボタンらしさを追加 */
 }
 
-/* メインのCTAボタン */
+/* プライマリボタン (テラコッタ) */
 .btn-primary {
     background-color: var(--color-main); 
     color: var(--color-white);
@@ -111,15 +114,15 @@ p {
     background-color: #C77A60; 
 }
 
-/* サブのボタン */
+/* セカンダリボタン (薄紫) */
 .btn-secondary {
     background-color: transparent;
-    border-color: var(--color-accent); 
-    color: var(--color-accent);
+    border-color: var(--color-accent1); /* 薄紫に変更 */
+    color: var(--color-accent1); /* 薄紫に変更 */
 }
 
 .btn-secondary:hover {
-    background-color: var(--color-accent);
+    background-color: var(--color-accent1);
     color: var(--color-white);
 }
 
@@ -140,19 +143,78 @@ p {
 .content-section h2 {
     text-align: center;
     font-size: 32px;
-    color: var(--color-accent); 
+    color: var(--color-accent2); /* ダークブラウン */
     margin-bottom: 40px;
 }
 
-/* 画像を消したため、カラム設定をシンプルに */
 .two-column {
-    display: block; /* フレックスをやめて縦並びに（またはこのクラス自体不要かも） */
-    text-align: center; /* コンテンツを中央寄せ */
+    display: block; 
+    text-align: center; 
 }
 
 .two-column .text-content {
-    max-width: 600px; /* テキストが横に広がりすぎないように */
+    max-width: 600px; 
     margin: 0 auto;
+}
+
+/* --- フォームセクション --- */
+.form-section {
+    padding: 60px 0;
+    background-color: var(--color-white);
+    border-radius: 12px;
+    margin-bottom: 40px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); 
+}
+
+.form-section h2 {
+    text-align: center;
+    font-size: 32px;
+    color: var(--color-accent2); /* ダークブラウン */
+    margin-bottom: 40px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    max-width: 600px; /* フォームの横幅を制限 */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 700;
+    color: var(--color-text);
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background-color: var(--bg-base); /* ベース色 */
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 16px;
+    box-sizing: border-box; /* paddingを含めて幅100%にする */
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="email"]:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--color-accent1); /* フォーカス時に薄紫 */
+    box-shadow: 0 0 5px rgba(184, 169, 201, 0.5); /* 薄紫の影 */
+}
+
+.form-group textarea {
+    resize: vertical; /* 縦方向のみリサイズ可 */
+}
+
+.form-group .text-center {
+    text-align: center;
 }
 
 /* --- フッター --- */
