@@ -12,8 +12,8 @@
 body {
     margin: 0;
     padding: 0;
-    background-color: var(--bg-base); /* 背景を白に */
-    color: var(--color-text);         /* 基本テキストをネイビーに */
+    background-color: var(--bg-base); 
+    color: var(--color-text);         
     font-family: 'Noto Sans JP', sans-serif; 
     line-height: 1.7;
 }
@@ -36,7 +36,7 @@ p {
 .header {
     background-color: var(--bg-base);
     padding: 20px 0;
-    border-bottom: 1px solid var(--border-color); /* 境界線をライトグレーに */
+    border-bottom: 1px solid var(--border-color); 
 }
 
 .header .container {
@@ -48,7 +48,7 @@ p {
 .logo {
     font-size: 24px;
     font-weight: 700;
-    color: var(--color-main); /* ネイビー */
+    color: var(--color-main); 
     text-decoration: none;
 }
 
@@ -63,16 +63,37 @@ p {
     margin-left: 30px;
 }
 
+/* ★修正：方法1 (ホバーアニメーション) */
 .nav a {
     text-decoration: none;
-    color: var(--color-text); /* ネイビー */
+    color: var(--color-text); 
     font-weight: 700;
-    transition: color 0.3s;
+    transition: color 0.3s ease; /* 色の変化 */
+    position: relative; 
+    padding-bottom: 5px; 
 }
 
 .nav a:hover {
     color: var(--color-accent1); /* ホバーでオレンジ */
 }
+
+.nav a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--color-accent1);
+    transform: scaleX(0); /* 最初は幅0 */
+    transform-origin: left; /* 左を起点に */
+    transition: transform 0.3s ease;
+}
+
+.nav a:hover::after {
+    transform: scaleX(1); /* ホバー時に幅100%にする */
+}
+
 
 /* --- ヒーローセクション --- */
 .hero {
@@ -80,18 +101,34 @@ p {
     text-align: center;
 }
 
+/* ★修正：方法2 (読み込み時アニメーション) */
+@keyframes fadeInUp {
+    from {
+        opacity: 0; 
+        transform: translateY(20px); 
+    }
+    to {
+        opacity: 1; 
+        transform: translateY(0); 
+    }
+}
+
 .hero h1 {
     font-size: 48px; 
-    font-family: 'Cinzel Decorative', cursive; /* 個性的なフォント */
-    color: var(--color-main); /* ネイビー */
+    font-family: 'Cinzel Decorative', cursive; 
+    color: var(--color-main); 
     margin-bottom: 20px;
-    text-shadow: none; /* 立体感を消してパキッとさせる */
+    text-shadow: none; 
+    animation: fadeInUp 0.8s ease backwards; /* 読み込みアニメーション適用 */
 }
 
 .hero p {
     font-size: 18px;
     margin-bottom: 30px;
+    animation: fadeInUp 0.8s ease backwards;
+    animation-delay: 0.2s; /* 0.2秒遅れて開始 */
 }
+
 
 /* --- ボタン共通スタイル --- */
 .btn {
@@ -100,30 +137,38 @@ p {
     border-radius: 50px; 
     text-decoration: none;
     font-weight: 700;
-    transition: all 0.3s;
-    border: 2px solid transparent; /* 枠線を透明に */
+    transition: all 0.3s ease; /* ★修正：easeを追加 */
+    border: 2px solid transparent; 
     cursor: pointer;
+}
+
+/* ★修正：方法1 (ホバーアニメーション) */
+.btn-primary {
+    background: var(--color-accent1); 
+    color: var(--color-white);
+    border-color: var(--color-accent1); 
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
 }
 
-/* プライマリボタン (オレンジ) */
-.btn-primary {
-    background: var(--color-accent1); /* オレンジ */
-    color: var(--color-white);
-    border-color: var(--color-accent1); /* オレンジ */
-}
-
 .btn-primary:hover {
-    background: #E67817; /* 少し濃いオレンジ */
+    background: #E67817; 
     border-color: #E67817;
+    /* ホバー時に上に3px移動し、影を濃くする */
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
 }
 
-/* セカンダリボタン (ネイビーの枠線) */
+/* ヒーローセクションのボタンにも読み込みアニメーション適用 */
+.hero .btn-primary {
+    animation: fadeInUp 0.8s ease backwards;
+    animation-delay: 0.4s; /* 0.4秒遅れて開始 */
+}
+
+
 .btn-secondary {
     background: transparent; 
-    border-color: var(--color-main); /* ネイビーの枠線 */
-    color: var(--color-main); /* ネイビーの文字 */
-    box-shadow: none; 
+    border-color: var(--color-main); 
+    color: var(--color-main); 
 }
 
 .btn-secondary:hover {
@@ -131,25 +176,25 @@ p {
     color: var(--color-white);
 }
 
+
 /* --- コンテンツセクション --- */
 .content-section {
     padding: 60px 0;
-    background-color: var(--color-white); /* 白背景 */
+    background-color: var(--color-white); 
     border-radius: 12px;
     margin-bottom: 40px;
-    /* 白背景なので影は残す */
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); 
 }
 
 .content-section.bg-base {
-    background-color: var(--bg-base); /* 白背景 */
+    background-color: var(--bg-base); 
     box-shadow: none;
 }
 
 .content-section h2 {
     text-align: center;
     font-size: 32px;
-    color: var(--color-main); /* ネイビー */
+    color: var(--color-main); 
     margin-bottom: 40px;
 }
 
@@ -175,7 +220,7 @@ p {
 .form-section h2 {
     text-align: center;
     font-size: 32px;
-    color: var(--color-main); /* ネイビー */
+    color: var(--color-main); 
     margin-bottom: 40px;
 }
 
@@ -190,7 +235,7 @@ p {
     display: block;
     margin-bottom: 8px;
     font-weight: 700;
-    color: var(--color-text); /* ネイビー */
+    color: var(--color-text); 
 }
 
 .form-group input[type="text"],
@@ -198,9 +243,9 @@ p {
 .form-group textarea {
     width: 100%;
     padding: 12px;
-    border: 1px solid var(--border-color); /* グレーの枠線 */
+    border: 1px solid var(--border-color); 
     border-radius: 8px;
-    background-color: var(--color-white); /* 白背景 */
+    background-color: var(--color-white); 
     font-family: 'Noto Sans JP', sans-serif;
     font-size: 16px;
     box-sizing: border-box; 
@@ -211,22 +256,23 @@ p {
 .form-group input[type="email"]:focus,
 .form-group textarea:focus {
     outline: none;
-    border-color: var(--color-accent1); /* フォーカス時にオレンジ */
-    box-shadow: 0 0 5px rgba(255, 133, 27, 0.5); /* オレンジの影 */
+    border-color: var(--color-accent1); 
+    box-shadow: 0 0 5px rgba(255, 133, 27, 0.5); 
 }
 
 .form-group textarea {
     resize: vertical; 
 }
 
-.form-group .text-center {
+/* ★追加：中央寄せ用のクラス */
+.text-center {
     text-align: center;
 }
 
 /* --- フッター --- */
 .footer {
-    background-color: var(--color-main); /* ネイビー */
-    color: var(--bg-base); /* 白文字 */
+    background-color: var(--color-main); 
+    color: var(--bg-base); 
     padding: 40px 0;
     text-align: center;
     margin-top: 60px;
