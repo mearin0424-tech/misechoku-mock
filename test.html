@@ -1,110 +1,57 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ミセチョク - モックアップ (フル版)</title>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
-    
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&display=swap" rel="stylesheet">
-    
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    
-    <link rel="stylesheet" href="style.css">
-    
-</head>
-<body>
-
-    <header class="header">...</header>
-    <main>
-        <section class="hero">...</section>
-        <section class="content-section" data-aos="fade-up">...</section>
-        <section class="content-section bg-base" data-aos="fade-up" data-aos-delay="100">...</section>
-
-
-        <section class="form-section" data-aos="fade-up" data-aos-delay="200">
-            <div class="container">
-                <h2>ほげほげフォーム</h2>
-                <form action="#" method="POST">
-                    
-                    <div class="form-group">
-                        <label for="name">
-                            ほげほげ（お名前）
-                            <span class="required-mark">*</span>
-                            <i class="fas fa-question-circle info-icon" data-tooltip="ほげほげ（ヒント）"></i>
-                        </label>
-                        <input type="text" id="name" name="name" placeholder="例：山田 ほげ子" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="email">
-                            ほげほげ（メール）
-                            <span class="required-mark">*</span>
-                            <i class="fas fa-question-circle info-icon" data-tooltip="ほげほげ（ヒント）"></i>
-                        </label>
-                        <input type="email" id="email" name="email" placeholder="例：hoge@example.com" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="date">
-                            ほげほげ（日付）
-                            <i class="fas fa-question-circle info-icon" data-tooltip="ほげほげ（ヒント）"></i>
-                        </label>
-                        <input type="date" id="date" name="date">
-                    </div>
-
-                    <div class="form-group">
-                        <label>
-                            ほげほげ（種別）
-                            <span class="required-mark">*</span>
-                            <i class="fas fa-question-circle info-icon" data-tooltip="ほげほげ（ヒント）"></i>
-                        </label>
-                        <div class="radio-group">
-                            <label class="radio-label">
-                                <input type="radio" name="type" value="A" required> ほげA
-                            </label>
-                            <label class="radio-label">
-                                <input type="radio" name="type" value="B"> ほげB
-                            </label>
-                            <label class="radio-label">
-                                <input type="radio" name="type" value="C"> ほげC
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="message">
-                            ほげほげ（本文）
-                            <span class="required-mark">*</span>
-                            <i class="fas fa-question-circle info-icon" data-tooltip="ほげほげ（ヒント）"></i>
-                        </label>
-                        <textarea id="message" name="message" rows="5" placeholder="ほげほげ..." required></textarea>
-                    </div>
-                    
-                    <div class="form-group text-center">
-                        <button type="submit" class="btn btn-primary">ほげ（送信）</button>
-                    </div>
-                    
-                </form>
+<section class="form-section" data-aos="fade-up" data-aos-delay="200">
+    <div class="container">
+        <h2>ほげほげフォーム</h2>
+        <form action="#" method="POST">
+            
+            <div class="form-group">
+                <label for="name">
+                    <span class="label-text">ほげほげ（お名前）</span>
+                    <span class="required-mark">*</span>
+                    <i class="fas fa-question-circle info-icon" data-tooltip="ほげほげ（ヒント）"></i>
+                </label>
+                <input type="text" id="name" name="name" placeholder="例：山田 ほげ子" required>
             </div>
-        </section>
+            
+            <div class="form-group">
+                <label for="email">
+                    <span class="label-text">ほげほげ（メール）</span>
+                    <span class="required-mark">*</span>
+                    <i class="fas fa-question-circle info-icon" data-tooltip="ほげほげ（ヒント）"></i>
+                </label>
+                <input type="email" id="email" name="email" placeholder="例：hoge@example.com" required>
+            </div>
 
-    </main>
+            <div class="form-group">
+                <label for="date">
+                    <span class="label-text">ほげほげ（日付）</span>
+                    <i class="fas fa-question-circle info-icon" data-tooltip="ほげほげ（ヒント）"></i>
+                </label>
+                <input type="date" id="date" name="date">
+            </div>
 
-    <footer class="footer">...</footer>
+            <div class="form-group">
+                <label>
+                    <span class="label-text">ほげほげ（種別）</span>
+                    <span class="required-mark">*</span>
+                    <i class="fas fa-question-circle info-icon" data-tooltip="ほげほげ（ヒント）"></i>
+                </label>
+                <div class="radio-group">
+                    </div>
+            </div>
 
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script>
-        AOS.init({
-            duration: 800, 
-            once: true 
-        });
-    </script>
-
-</body>
-</html>
+            <div class="form-group">
+                <label for="message">
+                    <span class="label-text">ほげほげ（本文）</span>
+                    <span class="required-mark">*</span>
+                    <i class="fas fa-question-circle info-icon" data-tooltip="ほげほげ（ヒント）"></i>
+                </label>
+                <textarea id="message" name="message" rows="5" placeholder="ほげほげ..." required></textarea>
+            </div>
+            
+            <div class="form-group text-center">
+                <button type="submit" class="btn btn-primary">ほげ（送信）</button>
+            </div>
+            
+        </form>
+    </div>
+</section>
