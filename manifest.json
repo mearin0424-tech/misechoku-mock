@@ -1,20 +1,24 @@
 {
-  "name": "Misechoku Mock App",
-  "short_name": "Misechoku",
-  "description": "misechoku-mockのPWAです。",
-  "start_url": "/misechoku-mock/test.html",
-  "scope": "/misechoku-mock/",
+  "name": "ミセチョク - デザインモック",
+  "short_name": "ミセチョク",
+  "description": "各種UIデザインのモックアップ",
+  "start_url": "./test.html",
   "display": "standalone",
-  "background_color": "#FFFFF0",
-  "theme_color": "#FFD700",
+  "background_color": "#f6fd86",
+  "theme_color": "#99CCCC",
   "icons": [
+    {
+      "src": "icons/icon-128x128.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    },
     {
       "src": "icons/icon-192x192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "icons/icon-512x512.png",
+      "src": "icons/hai-icon-512x512.png",
       "sizes": "512x512",
       "type": "image/png"
     }

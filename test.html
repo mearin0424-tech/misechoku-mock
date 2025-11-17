@@ -21,12 +21,18 @@
         <div class="container">
             <img src="images/misechoku-yoko.png" alt="ミセチョク ロゴ" id="main-logo">
             <p class="main-subtitle">デザインモックサイト</p>
+            
             <div class="menu-buttons">
                 <button id="btn-swipe-image" class="btn btn-menu"><i class="fas fa-arrows-alt-v"></i> スワイプイメージ</button>
                 <button id="btn-form-image" class="btn btn-menu"><i class="fas fa-edit"></i> フォームイメージ</button>
                 <button id="btn-popup-image" class="btn btn-menu"><i class="fas fa-window-maximize"></i> ポップアップイメージ</button>
-                <a href="https://mearin0424-tech.github.io/personality-test/personality-test.html" class="btn btn-menu" target="_blank" rel="noopener noreferrer"><i class="fas fa-diagnoses"></i> 診断アプリ</a>
                 <button id="btn-notification-screen" class="btn btn-menu"><i class="fas fa-bell"></i> 通知テスト</button>
+                
+                <button id="btn-profile-image" class="btn btn-menu"><i class="fas fa-user-circle"></i> プロフィールイメージ</button>
+                <a href="https://mearin0424-tech.github.io/personality-test/personality-test.html" class="btn-app-link" target="_blank" rel="noopener noreferrer">
+                    <img src="icons/icon-128x128.png" alt="診断アプリアイコン">
+                    <span>診断アプリへ</span>
+                </a>
             </div>
         </div>
     </div>
@@ -55,23 +61,46 @@
         <section class="notification-section"><div class="container"><h2>PWA通知テスト</h2><p>PWAとしてインストール後、通知許可をするとテストが可能です。</p><button id="notification-test-btn" class="btn btn-notification"><i class="fas fa-paper-plane"></i> 通知テスト (トークン取得)</button><textarea id="token-display-area" style="display: none;" rows="4" readonly></textarea><p id="token-info" style="display: none;">表示されたトークンを開発者に連携してください。<br>アプリを閉じて、通知を待ってね。</p></div></section>
     </div>
 
-    <div id="swipe-overlay">
-        
-        <button class="btn btn-back-to-menu" id="btn-swipe-close">
-            <i class="fas fa-arrow-left"></i> メニューに戻る
-        </button>
-        <div class="swiper">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide"><div class="card-content" id="card-1">ほげほげ<span class="profile-info">ここにプロフ情報がはいる</span></div></div>
-                <div class="swiper-slide"><div class="card-content" id="card-2">ふがふが<span class="profile-info">ここにプロフ情報がはいる</span></div></div>
-                <div class="swiper-slide"><div class="card-content" id="card-3">ぴよぴよ<span class="profile-info">ここにプロフ情報がはいる</span></div></div>
-                <div class="swiper-slide"><div class="card-content" id="card-4">おわり<span class="profile-info">ここにプロフ情報がはいる</span></div></div>
+    <div id="profile-screen" style="display: none;">
+        <button class="btn btn-back-to-menu"><i class="fas fa-arrow-left"></i> メニューに戻る</button>
+        <div class="profile-header">
+            <div class="profile-banner">
+                <img src="https://via.placeholder.com/600x200/99CCCC/FFFFFF?text=Banner+Image" alt="バナー画像">
+            </div>
+            <div class="profile-info-section">
+                <img src="https://via.placeholder.com/150/EEEEEE/888888?text=User" alt="プロフィール画像" class="profile-avatar">
+                <button class="btn profile-edit-btn">プロフィール編集</button>
+                <h1 class="profile-name">ミセチョク 太郎</h1>
+                <p class="profile-id">@misechoku_dev</p>
+                <p class="profile-bio">Webデザイナー見習い。UI/UXデザインに興味津々！趣味は新しいカフェ巡り☕️。<br>#Webデザイン #UI #UX</p>
+                <div class="profile-stats">
+                    <div><strong>123</strong> <span class="stats-label">フォロー</span></div>
+                    <div><strong>456</strong> <span class="stats-label">フォロワー</span></div>
+                </div>
             </div>
         </div>
-        <div class="swipe-guide">
-            <div class="arrow"></div>
-            <div>上へスワイプ</div>
+        <div class="profile-content">
+            <div class="profile-tabs">
+                <button class="tab-button active">投稿</button>
+                <button class="tab-button">いいね</button>
+                <button class="tab-button">ギャラリー</button>
+            </div>
+            <div class="profile-posts">
+                <div class="post-grid">
+                    <div class="post-item"><img src="https://via.placeholder.com/300/CCCCCC/666666?text=Post+1" alt="投稿1"></div>
+                    <div class="post-item"><img src="https://via.placeholder.com/300/DDDDDD/777777?text=Post+2" alt="投稿2"></div>
+                    <div class="post-item"><img src="https://via.placeholder.com/300/EEEEEE/888888?text=Post+3" alt="投稿3"></div>
+                    <div class="post-item"><img src="https://via.placeholder.com/300/F0F0F0/999999?text=Post+4" alt="投稿4"></div>
+                    <div class="post-item"><img src="https://via.placeholder.com/300/CCCCCC/666666?text=Post+5" alt="投稿5"></div>
+                    <div class="post-item"><img src="https://via.placeholder.com/300/DDDDDD/777777?text=Post+6" alt="投稿6"></div>
+                </div>
+            </div>
         </div>
+    </div>
+    <div id="swipe-overlay">
+        <button class="btn btn-back-to-menu" id="btn-swipe-close"><i class="fas fa-arrow-left"></i> メニューに戻る</button>
+        <div class="swiper"><div class="swiper-wrapper"><div class="swiper-slide"><div class="card-content" id="card-1">ほげほげ<span class="profile-info">ここにプロフ情報がはいる</span></div></div><div class="swiper-slide"><div class="card-content" id="card-2">ふがふが<span class="profile-info">ここにプロフ情報がはいる</span></div></div><div class="swiper-slide"><div class="card-content" id="card-3">ぴよぴよ<span class="profile-info">ここにプロフ情報がはいる</span></div></div><div class="swiper-slide"><div class="card-content" id="card-4">おわり<span class="profile-info">ここにプロフ情報がはいる</span></div></div></div></div>
+        <div class="swipe-guide"><div class="arrow"></div><div>上へスワイプ</div></div>
     </div>
 
     <a href="#" id="btn-back-to-top" class="btn-floating" title="トップに戻る" style="display: none;">

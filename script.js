@@ -8,22 +8,25 @@ document.addEventListener('DOMContentLoaded', () => {
     const backToTopBtn = document.getElementById('btn-back-to-top');
     const popupOverlay = document.getElementById('popup-overlay');
     const swiperContainer = document.querySelector('#swipe-overlay .swiper');
+    
+    // ▼▼▼ プロフィール画面を追加 ▼▼▼
+    const profileScreen = document.getElementById('profile-screen');
 
     // --- メインメニューのボタン ---
     const btnSwipeImage = document.getElementById('btn-swipe-image');
     const btnFormImage = document.getElementById('btn-form-image');
     const btnNotificationScreen = document.getElementById('btn-notification-screen');
     const btnPopupImage = document.getElementById('btn-popup-image');
+    
+    // ▼▼▼ プロフィールボタンを追加 ▼▼▼
+    const btnProfileImage = document.getElementById('btn-profile-image');
 
     // --- 各画面の「戻る」ボタン ---
     const backButtons = Array.from(document.querySelectorAll('.btn-back-to-menu'));
 
     // --- スワイプ関連 ---
     let swiper = null; 
-    
-    // ▼▼▼ IDを変更 ▼▼▼
     const closeSwipeBtn = document.getElementById('btn-swipe-close');
-    // ▲▲▲ 変更ここまで ▲▲▲
 
     // --- ポップアップ閉じるボタン ---
     const btnClosePopup = document.getElementById('btn-close-popup');
@@ -44,6 +47,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (mainMenu) mainMenu.style.display = 'none';
         if (formScreen) formScreen.style.display = 'none';
         if (notificationScreen) notificationScreen.style.display = 'none';
+        
+        // ▼▼▼ プロフィール画面を非表示リストに追加 ▼▼▼
+        if (profileScreen) profileScreen.style.display = 'none';
+        
         if (backToTopBtn) backToTopBtn.style.display = 'none';
 
         if (screenToShow) {
@@ -76,12 +83,11 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-    
-    // (スワイプを閉じるボタン)
     if (closeSwipeBtn) {
         closeSwipeBtn.addEventListener('click', () => {
             if (swipeOverlay) swipeOverlay.style.display = 'none';
             document.body.style.overflow = 'auto';
+            showScreen(mainMenu); 
         });
     }
 
@@ -101,8 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // 4. 「メニューに戻る」ボタン (全画面共通)
     backButtons.forEach(button => {
-        // スワイプの戻るボタンは別処理 (closeSwipeBtn) なので除外
-        if (button.id !== 'btn-swipe-close') {
+        if (button.id !== 'btn-swipe-close') { 
             button.addEventListener('click', () => {
                 showScreen(mainMenu);
             });
@@ -111,8 +116,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 5. スクロール検知 (トップに戻るボタン)
     window.onscroll = () => {
+        // ▼▼▼ プロフィール画面も対象に追加 ▼▼▼
         const isSubScreenVisible = (formScreen && formScreen.style.display === 'block') || 
-                                   (notificationScreen && notificationScreen.style.display === 'block');
+                                   (notificationScreen && notificationScreen.style.display === 'block') ||
+                                   (profileScreen && profileScreen.style.display === 'block');
+                                   
         if (backToTopBtn && isSubScreenVisible) {
             if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
                 backToTopBtn.style.display = 'block';
@@ -215,5 +223,12 @@ document.addEventListener('DOMContentLoaded', () => {
             activeTooltip = null;
         }
     });
+
+    // 9. ▼▼▼ プロフィールイメージボタンのリスナーを追加 ▼▼▼
+    if (btnProfileImage) {
+        btnProfileImage.addEventListener('click', () => {
+            showScreen(profileScreen);
+        });
+    }
 
 });

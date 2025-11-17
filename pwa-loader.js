@@ -1,9 +1,6 @@
 // --- 1. 定義 ---
-
-// ★修正★ GitHub Pagesのパスを /misechoku-mock/ に変更
 const REPO_PATH = '/misechoku-mock/';
 
-// Firebase設定 (personality-testのものを流用)
 const firebaseConfig = {
   apiKey: "AIzaSyAQnHBsjvhSKiJP6pq5Ac5317tweEU8Kk8",
   authDomain: "pwa-shindan-app.firebaseapp.com",
@@ -14,15 +11,12 @@ const firebaseConfig = {
   measurementId: "G-5Q243BKXZL"
 };
 
-// Firebaseを初期化
 firebase.initializeApp(firebaseConfig);
 const messaging = firebase.messaging();
 
-// サービスワーカーの「登録Promise」をグローバルに用意
 let swRegistrationPromise = null;
 
 if ('serviceWorker' in navigator) {
-    // ★修正★ sw.jsのパスとスコープを変更
     swRegistrationPromise = navigator.serviceWorker.register(REPO_PATH + 'sw.js', { scope: REPO_PATH })
         .then(registration => {
             console.log('ServiceWorker registration successful with scope: ', registration.scope);
@@ -36,61 +30,54 @@ if ('serviceWorker' in navigator) {
 
 // --- 2. 関数定義 ---
 
-// 通知の許可をリクエストする関数
-function requestNotificationPermission() {
+// ▼▼▼ 修正 ▼▼▼
+// requestNotificationPermission 関数を async/await 構文に
+async function requestNotificationPermission() {
     console.log('通知の許可をリクエストします...');
-    Notification.requestPermission() 
-        .then((permission) => {
-            if (permission === 'granted') {
-                console.log('通知の許可が得られました。');
-                // (許可が得られたら自動でトークン取得はせず、ボタン押下を待つ)
-            } else {
-                console.log('通知の許可が得られませんでした。');
-            }
-        })
-        .catch((err) => {
-            console.log('通知の許可リクエスト中にエラーが発生しました。', err);
-        });
+    try {
+        // Notification.requestPermission() は Promise を返す
+        const permission = await Notification.requestPermission(); 
+        
+        if (permission === 'granted') {
+            console.log('通知の許可が得られました。');
+        } else {
+            console.log('通知の許可が得られませんでした。');
+        }
+        return permission; // 許可状態 ('granted', 'denied', 'default') を返す
+    
+    } catch (err) {
+        console.log('通知の許可リクエスト中にエラーが発生しました。', err);
+        throw err; // エラーを呼び出し元に投げる
+    }
 }
+// ▲▲▲ 修正ここまで ▲▲▲
 
-// 宛先ID（トークン）を取得する関数 (非同期 'async' 関数)
+
 async function getFcmToken() {
-    // VAPIDキー (personality-testのものを流用)
     const VAPID_KEY = "BC3eV001Pt3fT11KqKJQVGo95jq5DAuU64mJUtcR4Xa-oRhT6gaExcA_eri4AMc9IWvYicPLVcImAF4fU4MCwhk";
-
     if (!swRegistrationPromise) {
         console.error("サービスワーカーがサポートされていないか、登録が開始されていません。");
         return;
     }
-
     try {
         const registration = await swRegistrationPromise; 
-
         if (!registration) {
             console.error('サービスワーカーの登録に失敗しているため、トークンを取得できません。');
             return;
         }
-
-        console.log('Service Worker 登録情報を取得:', registration);
-
         const currentToken = await messaging.getToken({ 
             vapidKey: VAPID_KEY,
             serviceWorkerRegistration: registration 
         });
-
         if (currentToken) {
             console.log('FCM 宛先ID (トークン): ', currentToken);
-            
-            // テキストエリアにトークンを表示
             const tokenArea = document.getElementById('token-display-area');
             const tokenInfo = document.getElementById('token-info');
-            
             if (tokenArea && tokenInfo) {
                 tokenArea.value = currentToken;
                 tokenArea.style.display = 'block';
                 tokenInfo.style.display = 'block';
             }
-
         } else {
             console.log('トークンが取得できませんでした。');
         }
@@ -103,16 +90,27 @@ async function getFcmToken() {
 
 document.addEventListener('DOMContentLoaded', () => {
     
-    // アプリ起動時に通知の許可を求める
-    requestNotificationPermission();
+    // (起動時の自動リクエストは行わない)
 
-    // 通知テストボタンのリスナー
     const testBtn = document.getElementById('notification-test-btn');
     if (testBtn) {
-        testBtn.addEventListener('click', () => {
-            // トークン取得を実行
-            getFcmToken();
-        });
-    }
+        // ▼▼▼ 修正 ▼▼▼ (ロジックは前回と同じだが、呼び出す関数(requestNotificationPermission)が堅牢になった)
+        testBtn.addEventListener('click', async () => {
+            try {
+                // 1. まず許可をリクエスト (ポップアップが出る)
+                const permission = await requestNotificationPermission();
 
+                // 2. 許可された場合のみ、トークン取得を実行
+                if (permission === 'granted') {
+                    console.log('許可が得られたため、トークンを取得します。');
+                    await getFcmToken(); 
+                } else {
+                    console.log('許可が得られなかったため、トークン取得を中止します。');
+                }
+            } catch (err) {
+                console.error('通知許可またはトークン取得プロセスでエラー:', err);
+            }
+        });
+        // ▲▲▲ 修正ここまで ▲▲▲
+    }
 });
