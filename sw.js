@@ -11,7 +11,7 @@ const urlsToCache = [
   REPO_PATH + 'script.js',
   REPO_PATH + 'pwa-loader.js',
   REPO_PATH + 'manifest.json',
-  REPO_PATH + 'icons/icon-128x128.png',
+  REPO_PATH + 'icons/piyoko-icon-128x128.png',
   REPO_PATH + 'icons/icon-192x192.png',
   REPO_PATH + 'icons/hai-icon-512x512.png',
   REPO_PATH + 'images/misechoku-yoko.png',
