@@ -6,7 +6,7 @@
     <title>ミセチョク - デザインモック</title>
     
     <link rel="manifest" href="manifest.json">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.npm/swiper@11/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.css" />
     
@@ -20,25 +20,13 @@
     <div id="main-menu">
         <div class="container">
             <img src="images/misechoku-yoko.png" alt="ミセチョク ロゴ" id="main-logo">
-            
             <p class="main-subtitle">デザインモックサイト</p>
-            
             <div class="menu-buttons">
-                <button id="btn-swipe-image" class="btn btn-menu">
-                    <i class="fas fa-arrows-alt-v"></i> スワイプイメージ
-                </button>
-                <button id="btn-form-image" class="btn btn-menu">
-                    <i class="fas fa-edit"></i> フォームイメージ
-                </button>
-                <button id="btn-popup-image" class="btn btn-menu">
-                    <i class="fas fa-window-maximize"></i> ポップアップイメージ
-                </button>
-                <a href="https://mearin0424-tech.github.io/personality-test/personality-test.html" class="btn btn-menu" target="_blank" rel="noopener noreferrer">
-                    <i class="fas fa-diagnoses"></i> 診断アプリ
-                </a>
-                <button id="btn-notification-screen" class="btn btn-menu">
-                    <i class="fas fa-bell"></i> 通知テスト
-                </button>
+                <button id="btn-swipe-image" class="btn btn-menu"><i class="fas fa-arrows-alt-v"></i> スワイプイメージ</button>
+                <button id="btn-form-image" class="btn btn-menu"><i class="fas fa-edit"></i> フォームイメージ</button>
+                <button id="btn-popup-image" class="btn btn-menu"><i class="fas fa-window-maximize"></i> ポップアップイメージ</button>
+                <a href="https://mearin0424-tech.github.io/personality-test/personality-test.html" class="btn btn-menu" target="_blank" rel="noopener noreferrer"><i class="fas fa-diagnoses"></i> 診断アプリ</a>
+                <button id="btn-notification-screen" class="btn btn-menu"><i class="fas fa-bell"></i> 通知テスト</button>
             </div>
         </div>
     </div>
@@ -49,39 +37,20 @@
             <div class="container">
                 <h2>フォームイメージ</h2>
                 <form action="#" method="POST">
-                    
                     <div class="form-group">
-                        <label for="name">
-                            <span class="label-text">テキスト</span>
-                            <span class="required-mark">*</span>
-                            <i class="fas fa-question-circle info-icon" data-tooltip="お名前をフルネームで入力してください。"></i>
-                        </label>
+                        <label for="name"><span class="label-text">テキスト</span><span class="required-mark">*</span><i class="fas fa-question-circle info-icon" data-tooltip="お名前をフルネームで入力してください。"></i></label>
                         <input type="text" id="name" name="name" placeholder="例：山田 太郎" required>
                     </div>
-                    
                     <div class="form-group">
-                        <label for="email">
-                            <span class="label-text">メール</span>
-                            <span class="required-mark">*</span>
-                            <i class="fas fa-question-circle info-icon" data-tooltip="確認用のメールアドレスを入力。"></i>
-                        </label>
+                        <label for="email"><span class="label-text">メール</span><span class="required-mark">*</span><i class="fas fa-question-circle info-icon" data-tooltip="確認用のメールアドレスを入力。"></i></label>
                         <input type="email" id="email" name="email" placeholder="例：hoge@example.com" required>
                     </div>
-
                     <div class="form-group">
-                        <label for="date">
-                            <span class="label-text">日付 (カレンダー)</span>
-                            <i class="fas fa-question-circle info-icon" data-tooltip="カレンダーから日付を選択します。"></i>
-                        </label>
+                        <label for="date"><span class="label-text">日付 (カレンダー)</span><i class="fas fa-question-circle info-icon" data-tooltip="カレンダーから日付を選択します。"></i></label>
                         <input type="date" id="date" name="date">
                     </div>
-
                     <div class="form-group">
-                        <label for="list-select">
-                            <span class="label-text">リスト</span>
-                            <span class="required-mark">*</span>
-                            <i class="fas fa-question-circle info-icon" data-tooltip="一覧から項目を1つ選択してください。"></i>
-                        </label>
+                        <label for="list-select"><span class="label-text">リスト</span><span class="required-mark">*</span><i class="fas fa-question-circle info-icon" data-tooltip="一覧から項目を1つ選択してください。"></i></label>
                         <select id="list-select" name="list-select" class="form-select" required>
                             <option value="" disabled selected>選択してください</option>
                             <option value="A">オプションA</option>
@@ -90,30 +59,18 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>
-                            <span class="label-text">ラジオボタン</span>
-                            <span class="required-mark">*</span>
-                            <i class="fas fa-question-circle info-icon" data-tooltip="どちらか1つを選択。"></i>
-                        </label>
+                        <label><span class="label-text">ラジオボタン</span><span class="required-mark">*</span><i class="fas fa-question-circle info-icon" data-tooltip="どちらか1つを選択。"></i></label>
                         <div class="radio-group">
                             <label><input type="radio" name="type" value="A" required> タイプA</label>
                             <label><input type="radio" name="type" value="B"> タイプB</label>
                         </div>
                     </div>
-
                     <div class="form-group">
-                        <label for="message">
-                            <span class="label-text">テキストエリア</span>
-                            <i class="fas fa-question-circle info-icon" data-tooltip="ご自由にどうぞ。"></i>
-                        </label>
+                        <label for="message"><span class="label-text">テキストエリア</span><i class="fas fa-question-circle info-icon" data-tooltip="ご自由にどうぞ。"></i></label>
                         <textarea id="message" name="message" rows="5" placeholder="ご自由に入力してください..."></textarea>
                     </div>
-                    
                     <div class="form-group">
-                        <label for="image-upload">
-                            <span class="label-text">画像アップロード (320x320)</span>
-                            <i class="fas fa-question-circle info-icon" data-tooltip="画像をアップロードし、ガイドに合わせて切り抜きます。"></i>
-                        </label>
+                        <label for="image-upload"><span class="label-text">画像アップロード (320x320)</span><i class="fas fa-question-circle info-icon" data-tooltip="画像をアップロードし、ガイドに合わせて切り抜きます。"></i></label>
                         <input type="file" id="image-upload-input" accept="image/*" class="form-file-input">
                         <div id="cropper-wrapper" style="display: none; margin-top: 15px;">
                             <p>ガイドに合わせて画像を切り抜いてください。</p>
@@ -125,11 +82,9 @@
                             <img id="crop-result-image" src="" class="crop-result-preview">
                         </div>
                     </div>
-                    
                     <div class="form-group text-center">
                         <button type="submit" class="btn btn-primary">送信する</button>
                     </div>
-                    
                 </form>
             </div>
         </section>
@@ -141,13 +96,9 @@
             <div class="container">
                 <h2>PWA通知テスト</h2>
                 <p>PWAとしてインストール後、通知許可をするとテストが可能です。</p>
-                <button id="notification-test-btn" class="btn btn-notification">
-                    <i class="fas fa-paper-plane"></i> 通知テスト (トークン取得)
-                </button>
+                <button id="notification-test-btn" class="btn btn-notification"><i class="fas fa-paper-plane"></i> 通知テスト (トークン取得)</button>
                 <textarea id="token-display-area" style="display: none;" rows="4" readonly></textarea>
-                <p id="token-info" style="display: none;">
-                    表示されたトークンを開発者に連携してください。<br>アプリを閉じて、通知を待ってね。
-                </p>
+                <p id="token-info" style="display: none;">表示されたトークンを開発者に連携してください。<br>アプリを閉じて、通知を待ってね。</p>
             </div>
         </section>
     </div>
@@ -158,25 +109,25 @@
             <div class="swiper-wrapper">
                 
                 <div class="swiper-slide">
-                    <div class="card-content" style="background-color: #fff352; color: #333;">
+                    <div class="card-content" id="card-1">
                         ほげほげ
                         <span class="profile-info">ここにプロフ情報がはいる</span>
                     </div>
                 </div>
                 <div class="swiper-slide">
-                    <div class="card-content" style="background-color: #274a78; color: white;">
+                    <div class="card-content" id="card-2">
                         ふがふが
                         <span class="profile-info">ここにプロフ情報がはいる</span>
                     </div>
                 </div>
                 <div class="swiper-slide">
-                    <div class="card-content" style="background-color: #006888; color: white;">
+                    <div class="card-content" id="card-3">
                         ぴよぴよ
                         <span class="profile-info">ここにプロフ情報がはいる</span>
                     </div>
                 </div>
                 <div class="swiper-slide">
-                    <div class="card-content" style="background-color: #19448e; color: white;">
+                    <div class="card-content" id="card-4">
                         おわり
                         <span class="profile-info">ここにプロフ情報がはいる</span>
                     </div>
@@ -188,7 +139,6 @@
             <div>上へスワイプ</div>
         </div>
     </div>
-
 
     <a href="#" id="btn-back-to-top" class="btn-floating" title="トップに戻る" style="display: none;">
         <i class="fas fa-arrow-up"></i>
@@ -207,13 +157,12 @@
                 <button id="btn-popup-cancel" class="btn btn-secondary">キャンセル</button>
                 <button id="btn-popup-ok" class="btn btn-primary">OK</button>
             </div>
-            </div>
+        </div>
     </div>
-
 
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-messaging-compat.js"></script>
-    <script src="https://cdn.jsdelivr.npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.js"></script>
     <script src="pwa-loader.js"></script>
     <script src="script.js"></script> 
