@@ -102,39 +102,50 @@ body {
     color: var(--color-primary); 
 }
 
-/* --- 診断アプリボタンのスタイル --- */
+/* ▼▼▼ 診断アプリボタンのスタイル (ミント・縦1.5倍) ▼▼▼ */
 .btn-app-link {
     display: flex; 
     align-items: center; 
     box-sizing: border-box; 
     width: 100%;
     max-width: 350px;
-    padding: 10px 25px; 
+    
+    /* 縦1.5倍 (15px * 1.5 = 22.5px) */
+    padding: 22px 25px; 
+    
     font-size: 1.1em;
     font-weight: 600;
     border-radius: 12px;
-    background: var(--color-card-bg); 
+    
+    /* ミントグリーン */
+    background: linear-gradient(135deg, #98FB98 0%, #32CD32 100%);
+    color: #333; /* 文字色を濃く */
+    text-shadow: 0 1px 1px rgba(255,255,255,0.5);
+    
     border: none; 
-    box-shadow: var(--shadow-light); 
-    color: var(--color-text-brown);
+    box-shadow: 0 5px 20px rgba(50, 205, 50, 0.3);
+    
     text-decoration: none;
     cursor: pointer;
     transition: all 0.2s ease;
 }
 .btn-app-link img {
-    width: 32px; 
-    height: 32px;
+    /* アイコンサイズを大きく */
+    width: 48px; 
+    height: 48px;
     margin-right: 15px; 
 }
 .btn-app-link:hover {
     transform: translateY(-3px);
-    box-shadow: var(--shadow-hover); 
+    box-shadow: 0 8px 25px rgba(50, 205, 50, 0.4);
 }
 .btn-app-link:active {
     transform: translateY(-1px) scale(0.98); 
-    background-color: #f5f5f5; 
+    background: linear-gradient(135deg, #80F080 0%, #28A428 100%);
     box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
 }
+/* ▲▲▲ 変更ここまで ▲▲▲ */
+
 
 /* ★★★ 画面共通 ★★★ */
 .btn {
@@ -213,11 +224,18 @@ body {
 #form-screen,
 #notification-screen,
 #profile-screen {
-    padding-top: 80px; 
+    /* ▼▼▼ プロフィール画面は上パディング不要 */
+    /* padding-top: 80px; */ 
     position: relative;
     box-sizing: border-box; 
     width: 100%;
 }
+/* フォームと通知のみパディングを適用 */
+#form-screen,
+#notification-screen {
+    padding-top: 80px;
+}
+
 
 /* --- フォームセクション --- */
 .form-section {
@@ -464,7 +482,10 @@ textarea {
     border-radius: 20px; 
     box-shadow: 0 10px 30px rgba(0,0,0,0.3); 
     box-sizing: border-box;
-    padding: 20px;
+    
+    /* ▼▼▼ padding: 0 に変更 (画像を表示するため) ▼▼▼ */
+    padding: 0; 
+    
     display: flex;
     justify-content: center;
     align-items: center;
@@ -474,6 +495,15 @@ textarea {
     position: relative; 
     overflow: hidden; 
 }
+/* ▼▼▼ カード内画像のスタイル ▼▼▼ */
+.card-content img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 画像をトリミングしてフィット */
+}
+/* ▲▲▲ 変更ここまで ▲▲▲ */
+
+
 .card-content::after {
     content: '';
     position: absolute;
@@ -494,10 +524,11 @@ textarea {
     text-shadow: 0 1px 3px rgba(0,0,0,0.5);
     z-index: 2; 
 }
-#card-1 { background-color: #fff352; color: #333; }
-#card-2 { background-color: #FFFFF0; color: #333; }
-#card-3 { background-color: #98FB98; color: #333; }
-#card-4 { background-color: #19448e; color: white; }
+
+/* ▼▼▼ カード色の指定 (削除) ▼▼▼ */
+/* #card-1, #card-2, #card-3, #card-4 ... */
+/* ▲▲▲ 削除 ▲▲▲ */
+
 
 /* --- スワイプガイド --- */
 #swipe-overlay .swipe-guide {
@@ -628,33 +659,29 @@ textarea {
     border-top: 1px solid var(--color-border);
 }
 
-/* ▼▼▼ プロフィール画面のスタイル ▼▼▼ */
+/* ▼▼▼ プロフィール画面のスタイル (画像なし版) ▼▼▼ */
 #profile-screen {
-    padding-top: 60px; /* 戻るボタンが固定なので80pxも不要 */
-    background-color: var(--color-card-bg);
+    padding-top: 60px; 
+    background-color: #f9f9f9; /* 背景色を薄いグレーに */
 }
 .profile-header {
     width: 100%;
 }
 .profile-banner {
     width: 100%;
-    height: 180px; /* バナーの高さ */
-    background: var(--color-primary);
-}
-.profile-banner img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    height: 180px; 
+    background: var(--color-primary); /* バナーは色だけ */
 }
 .profile-info-section {
     padding: 0 20px 20px 20px;
     background: var(--color-card-bg);
     border-bottom: 1px solid var(--color-border);
     position: relative;
-    margin-top: -60px; /* アバターをバナーに重ねる */
+    margin-top: -60px; 
 }
-.profile-avatar {
-    width: 120px; /* アバターサイズ */
+/* アバターをプレースホルダーに変更 */
+.profile-avatar-placeholder {
+    width: 120px; 
     height: 120px;
     border-radius: 50%;
     border: 4px solid var(--color-card-bg);
@@ -663,7 +690,7 @@ textarea {
 }
 .profile-edit-btn {
     position: absolute;
-    top: 80px; /* アバターの下あたり */
+    top: 80px; 
     right: 20px;
     background: var(--color-card-bg);
     border: 1px solid var(--color-border);
@@ -732,18 +759,21 @@ textarea {
 .post-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 3px; /* 投稿間の隙間 */
+    gap: 3px; 
 }
+/* 投稿アイテム (画像なし) */
 .post-item {
     width: 100%;
-    padding-bottom: 100%; /* 正方形を維持 */
+    padding-bottom: 100%; 
     position: relative;
-    background: #eee;
+    background: #e0e0e0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
-.post-item img {
+.post-item-text {
     position: absolute;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    color: #888;
+    font-size: 0.9em;
 }
 /* ▲▲▲ プロフィールスタイルここまで ▲▲▲ */
