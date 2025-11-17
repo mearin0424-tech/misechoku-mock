@@ -2,7 +2,10 @@
   "name": "ミセチョク - デザインモック",
   "short_name": "ミセチョク",
   "description": "各種UIデザインのモックアップ",
-  "start_url": "./test.html",
+  
+  "start_url": "/misechoku-mock/test.html",
+  "scope": "/misechoku-mock/",
+
   "display": "standalone",
   "background_color": "#f6fd86",
   "theme_color": "#99CCCC",

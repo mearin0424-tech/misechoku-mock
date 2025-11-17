@@ -1,4 +1,7 @@
 // --- 1. 定義 ---
+
+// ★重要★ GitHub Pages (https://.../misechoku-mock/...) で動かす場合、
+// このパスは '/misechoku-mock/' である必要があります。
 const REPO_PATH = '/misechoku-mock/';
 
 const firebaseConfig = {
@@ -14,90 +17,92 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const messaging = firebase.messaging();
 
-let swRegistrationPromise = null;
-
+// Service Workerの登録処理
 if ('serviceWorker' in navigator) {
-    swRegistrationPromise = navigator.serviceWorker.register(REPO_PATH + 'sw.js', { scope: REPO_PATH })
+    navigator.serviceWorker.register(REPO_PATH + 'sw.js', { scope: REPO_PATH })
         .then(registration => {
             console.log('ServiceWorker registration successful with scope: ', registration.scope);
-            return registration; 
         })
         .catch(err => {
             console.error('ServiceWorker registration failed: ', err);
-            return null; 
         });
 }
 
 // --- 2. 関数定義 ---
 
-// ▼▼▼ 修正 ▼▼▼
-// requestNotificationPermission 関数を async/await 構文に
+// 通知の許可をリクエストする関数
 async function requestNotificationPermission() {
     console.log('通知の許可をリクエストします...');
     try {
-        // Notification.requestPermission() は Promise を返す
         const permission = await Notification.requestPermission(); 
-        
         if (permission === 'granted') {
             console.log('通知の許可が得られました。');
         } else {
             console.log('通知の許可が得られませんでした。');
         }
-        return permission; // 許可状態 ('granted', 'denied', 'default') を返す
-    
+        return permission; 
     } catch (err) {
         console.log('通知の許可リクエスト中にエラーが発生しました。', err);
-        throw err; // エラーを呼び出し元に投げる
+        throw err; 
     }
 }
-// ▲▲▲ 修正ここまで ▲▲▲
 
 
+// ▼▼▼ 修正 ▼▼▼
+// 宛先ID（トークン）を取得する関数
 async function getFcmToken() {
     const VAPID_KEY = "BC3eV001Pt3fT11KqKJQVGo95jq5DAuU64mJUtcR4Xa-oRhT6gaExcA_eri4AMc9IWvYicPLVcImAF4fU4MCwhk";
-    if (!swRegistrationPromise) {
-        console.error("サービスワーカーがサポートされていないか、登録が開始されていません。");
+
+    // swRegistrationPromise ではなく、
+    // Service Worker がアクティブになるのを待つ navigator.serviceWorker.ready を使う
+    if (!('serviceWorker' in navigator)) {
+        console.error("サービスワーカーがサポートされていません。");
         return;
     }
+
     try {
-        const registration = await swRegistrationPromise; 
-        if (!registration) {
-            console.error('サービスワーカーの登録に失敗しているため、トークンを取得できません。');
-            return;
-        }
+        // .ready を待つことで、アクティブなService Worker登録を取得
+        const registration = await navigator.serviceWorker.ready; 
+
+        console.log('アクティブな Service Worker 登録情報を取得:', registration);
+
         const currentToken = await messaging.getToken({ 
             vapidKey: VAPID_KEY,
-            serviceWorkerRegistration: registration 
+            serviceWorkerRegistration: registration // .ready が返した registration を使う
         });
+
         if (currentToken) {
             console.log('FCM 宛先ID (トークン): ', currentToken);
+            
+            // テキストエリアにトークンを表示
             const tokenArea = document.getElementById('token-display-area');
             const tokenInfo = document.getElementById('token-info');
+            
             if (tokenArea && tokenInfo) {
                 tokenArea.value = currentToken;
                 tokenArea.style.display = 'block';
                 tokenInfo.style.display = 'block';
             }
+
         } else {
             console.log('トークンが取得できませんでした。');
         }
     } catch (err) {
+        // ここで AbortError が発生していた
         console.error('トークンの取得中にエラーが発生しました。詳細:', err);
     }
 }
+// ▲▲▲ 修正ここまで ▲▲▲
+
 
 // --- 3. 実行 ---
-
 document.addEventListener('DOMContentLoaded', () => {
     
-    // (起動時の自動リクエストは行わない)
-
     const testBtn = document.getElementById('notification-test-btn');
     if (testBtn) {
-        // ▼▼▼ 修正 ▼▼▼ (ロジックは前回と同じだが、呼び出す関数(requestNotificationPermission)が堅牢になった)
         testBtn.addEventListener('click', async () => {
             try {
-                // 1. まず許可をリクエスト (ポップアップが出る)
+                // 1. まず許可をリクエスト
                 const permission = await requestNotificationPermission();
 
                 // 2. 許可された場合のみ、トークン取得を実行
@@ -111,6 +116,5 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.error('通知許可またはトークン取得プロセスでエラー:', err);
             }
         });
-        // ▲▲▲ 修正ここまで ▲▲▲
     }
 });

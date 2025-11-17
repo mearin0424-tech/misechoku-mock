@@ -2,18 +2,23 @@ importScripts('https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js'
 importScripts('https://www.gstatic.com/firebasejs/9.22.0/firebase-messaging-compat.js');
 
 const CACHE_NAME = 'misechoku-mock-cache-v1';
-// ★修正★ REPO_PATH を変更
+
 const REPO_PATH = '/misechoku-mock/';
 
-// ★修正★ キャッシュするファイルを misechoku-mock のものに変更
 const urlsToCache = [
   REPO_PATH + 'test.html',
   REPO_PATH + 'style.css',
-  REPO_PATH + 'manifest.json',
+  REPO_PATH + 'script.js',
   REPO_PATH + 'pwa-loader.js',
+  REPO_PATH + 'manifest.json',
+  REPO_PATH + 'icons/icon-128x128.png',
   REPO_PATH + 'icons/icon-192x192.png',
-  REPO_PATH + 'icons/icon-512x512.png'
-  // (注意: 外部ライブラリ (Swiper, Firebase, FontAwesome) はキャッシュ対象外)
+  REPO_PATH + 'icons/hai-icon-512x512.png',
+  REPO_PATH + 'images/misechoku-yoko.png',
+  REPO_PATH + 'images/card-1.png',
+  REPO_PATH + 'images/card-2.png',
+  REPO_PATH + 'images/card-3.png',
+  REPO_PATH + 'images/card-4.png'
 ];
 
 // --- 1. インストール処理 ---
