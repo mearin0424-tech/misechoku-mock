@@ -1,0 +1,22 @@
+{
+  "name": "Misechoku Mock App",
+  "short_name": "Misechoku",
+  "description": "misechoku-mockのPWAです。",
+  "start_url": "/misechoku-mock/test.html",
+  "scope": "/misechoku-mock/",
+  "display": "standalone",
+  "background_color": "#FFFFF0",
+  "theme_color": "#FFD700",
+  "icons": [
+    {
+      "src": "icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
