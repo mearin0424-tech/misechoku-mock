@@ -3,11 +3,7 @@
 /* ★★★ カラーパレット ★★★ */
 :root {
     --color-bg-start: #f6fd86; 
-    
-    /* ▼▼▼ 背景グラデーションの終点を変更 ▼▼▼ */
     --color-bg-end: #afdece; 
-    /* ▲▲▲ 変更ここまで ▲▲▲ */
-    
     --color-primary: #99CCCC; 
     --color-primary-dark: #80B3B3; 
     --color-border: #CCCCCC; 
@@ -106,22 +102,48 @@ body {
     color: var(--color-primary); 
 }
 
-/* --- 診断アプリボタンのスタイル --- */
+/* ▼▼▼ 浮遊テキストのスタイル ▼▼▼ */
+.floating-promo-text {
+    font-family: 'Zen Maru Gothic', sans-serif;
+    font-size: 1.1em;
+    font-weight: 700;
+    color: var(--color-text-brown);
+    margin-bottom: -10px; /* ボタンとの間隔を詰める */
+    padding-top: 10px; /* 診断ボタンとの全体のギャップは維持 */
+    animation: float-text 3s ease-in-out infinite;
+    pointer-events: none; /* 下のボタンを押せるように */
+}
+
+@keyframes float-text {
+    0%   { transform: translateY(0); opacity: 1; }
+    50%  { transform: translateY(-8px); opacity: 0.8; }
+    100% { transform: translateY(0); opacity: 1; }
+}
+/* ▲▲▲ 追加ここまで ▲▲▲ */
+
+
+/* ▼▼▼ 診断アプリボタンのスタイル (単色に変更) ▼▼▼ */
 .btn-app-link {
     display: flex; 
     align-items: center; 
     box-sizing: border-box; 
     width: 100%;
     max-width: 350px;
-    padding: 22px 25px; 
+    padding: 22px 25px; /* 縦1.5倍 */
     font-size: 1.1em;
     font-weight: 600;
     border-radius: 12px;
-    background: linear-gradient(135deg, #deb887 0%, #87decf 100%);
-    color: #333; 
-    text-shadow: 0 1px 1px rgba(255,255,255,0.5);
+    
+    /* 単色に変更 */
+    background-color: #deb887;
+    color: var(--color-text-brown); 
+    text-shadow: none; 
+    
     border: none; 
-    box-shadow: 0 5px 20px rgba(135, 222, 207, 0.3);
+    
+    /* 影の色を調整 */
+    box-shadow: 0 5px 20px rgba(222, 184, 135, 0.4);
+    
     text-decoration: none;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -133,13 +155,15 @@ body {
 }
 .btn-app-link:hover {
     transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(135, 222, 207, 0.4); 
+    box-shadow: 0 8px 25px rgba(222, 184, 135, 0.5); 
 }
 .btn-app-link:active {
     transform: translateY(-1px) scale(0.98); 
-    background-color: #f5f5f5; 
+    background-color: #d1a970; /* 少し濃い色 */
     box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
 }
+/* ▲▲▲ 変更ここまで ▲▲▲ */
+
 
 /* ★★★ 画面共通 ★★★ */
 .btn {
@@ -331,7 +355,7 @@ textarea,
 }
 .form-select {
     appearance: none;
-    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%2Dxmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%2Dwidth%3D%22292.4%22%2Dheight%3D%22292.4%22%3E%3Cpath%2Dfill%3D%22%23999999%22%2Dd%3D%22M287%2D69.4a17.6%2D17.6%2D0%2D0%2D0-13-5.4H18.4c-5%2D0-9.3%2D1.8-12.9%2D5.4A17.6%2D17.6%2D0%2D0%2D0%2D0%2D82.2c0%2D5%2D1.8%2D9.3%2D5.4%2D12.9l128%2D127.9c3.6%2D3.6%2D7.8%2D5.4%2D12.8%2D5.4s9.2-1.8%2D12.8-5.4L287%2D95c3.6-3.6%2D5.4-7.8%2D5.4-12.8%2D0-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E');
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg xmlns="http://www.w3.org/2000/svg" width="292.4" height="292.4"%3E%3Cpath fill="%23999999" d="M287 69.4a17.6 17.6 0 0 0-13-5.4H18.4c-5 0-9.3 1.8-12.9 5.4A17.6 17.6 0 0 0 0 82.2c0 5 1.8 9.3 5.4 12.9l128 127.9c3.6 3.6 7.8 5.4 12.8 5.4s9.2-1.8 12.8-5.4L287 95c3.6-3.6 5.4-7.8 5.4-12.8 0-5-1.9-9.2-5.5-12.8z"/%3E%3C/svg%3E');
     background-repeat: no-repeat;
     background-position: right 15px center;
     background-size: 0.65em auto;
