@@ -7,10 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const swipeOverlay = document.getElementById('swipe-overlay');
     const backToTopBtn = document.getElementById('btn-back-to-top');
     const popupOverlay = document.getElementById('popup-overlay');
-    
-    // ▼▼▼ スワイプコンテナ要素をここで取得 ▼▼▼
     const swiperContainer = document.querySelector('#swipe-overlay .swiper');
-    // ▲▲▲
 
     // --- メインメニューのボタン ---
     const btnSwipeImage = document.getElementById('btn-swipe-image');
@@ -67,21 +64,15 @@ document.addEventListener('DOMContentLoaded', () => {
             if (swipeOverlay) swipeOverlay.style.display = 'block';
             document.body.style.overflow = 'hidden';
             
-            // ▼▼▼ 初期化方法を修正 ▼▼▼
-            // (初期化がまだで、コンテナ要素が見つかっていれば)
             if (!swiper && swiperContainer) { 
-                // セレクタ文字列ではなく、取得済みの「HTML要素オブジェクト」を渡す
                 swiper = new Swiper(swiperContainer, { 
                     direction: 'vertical',
                     mousewheel: true,
                     grabCursor: true,
                 });
             }
-            // ▲▲▲ 修正ここまで ▲▲▲
         });
     }
-    
-    // (スワイプを閉じるボタン)
     if (closeSwipeBtn) {
         closeSwipeBtn.addEventListener('click', () => {
             if (swipeOverlay) swipeOverlay.style.display = 'none';
@@ -137,7 +128,6 @@ document.addEventListener('DOMContentLoaded', () => {
             showPopup(true);
         });
     }
-    // (ポップアップを閉じるボタン群)
     if (btnClosePopup) btnClosePopup.addEventListener('click', () => showPopup(false));
     if (btnPopupCancel) btnPopupCancel.addEventListener('click', () => showPopup(false));
     if (btnPopupOk) btnPopupOk.addEventListener('click', () => showPopup(false));
@@ -149,59 +139,84 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     
-    // 7. 画像アップロード (Cropper.js)
+    // 7. 画像アップロード (Cropper.js) - (変更なし)
     if (imageUploadInput) {
         imageUploadInput.addEventListener('change', (e) => {
             const file = e.target.files[0];
             if (!file) return;
-
             const reader = new FileReader();
             reader.onload = (event) => {
-                if (cropper) {
-                    cropper.destroy();
-                }
-                
+                if (cropper) cropper.destroy();
                 imageToCrop.src = event.target.result;
                 cropperWrapper.style.display = 'block';
-                
                 cropper = new Cropper(imageToCrop, {
-                    aspectRatio: 1 / 1, 
-                    viewMode: 1, 
-                    autoCropArea: 0.8, 
-                    minCropBoxWidth: 320,
-                    minCropBoxHeight: 320,
-                    
+                    aspectRatio: 1 / 1, viewMode: 1, autoCropArea: 0.8, 
+                    minCropBoxWidth: 320, minCropBoxHeight: 320,
                     ready() {
-                        cropper.setCropBoxData({
-                            width: 320,
-                            height: 320
-                        });
+                        cropper.setCropBoxData({ width: 320, height: 320 });
                     }
                 });
-                
                 cropResultContainer.style.display = 'none'; 
             };
             reader.readAsDataURL(file);
         });
     }
-    
-    // (Cropper.js の切り抜き実行ボタン)
     if (btnCropImage) {
         btnCropImage.addEventListener('click', () => {
             if (!cropper) return;
-
             const croppedCanvas = cropper.getCroppedCanvas({
-                width: 320,
-                height: 320,
-                imageSmoothingEnabled: true,
-                imageSmoothingQuality: 'high',
+                width: 320, height: 320,
+                imageSmoothingEnabled: true, imageSmoothingQuality: 'high',
             });
-
             if (!croppedCanvas) return;
-
             cropResultImage.src = croppedCanvas.toDataURL('image/png');
             cropResultContainer.style.display = 'block';
         });
     }
+    
+    // 8. ★修正★ ツールチップ (ヒント) の表示ロジック (クリック専用)
+    const infoIcons = document.querySelectorAll('.info-icon');
+    let activeTooltip = null; // 現在開いているツールチップ
+
+    infoIcons.forEach(icon => {
+        // 吹き出し要素を動的に生成
+        const hintText = icon.getAttribute('data-tooltip') || "ヒントがここにでますよ";
+        const tooltip = document.createElement('span');
+        tooltip.className = 'tooltip-text';
+        tooltip.textContent = hintText;
+        icon.appendChild(tooltip); // CSSのためにDOM構造は維持
+
+        // クリック (タップ) での表示/非表示
+        icon.addEventListener('click', (e) => {
+            e.stopPropagation(); // 他のクリックイベント（特にdocument）の邪魔をしない
+            
+            // 既に開いているのが自分なら閉じる
+            if (icon.classList.contains('focused')) {
+                icon.classList.remove('focused');
+                activeTooltip = null;
+            } else {
+                // 他に開いているものがあれば閉じる
+                if (activeTooltip) {
+                    activeTooltip.classList.remove('focused');
+                }
+                // 自分を開く
+                icon.classList.add('focused');
+                activeTooltip = icon;
+            }
+        });
+
+        // ※ focus と blur のリスナーは競合するため削除しました
+    });
+
+    // (画面のどこかをクリックしたら、開いているヒントを閉じる)
+    document.addEventListener('click', (e) => {
+        // アイコン自身がクリックされた場合は、
+        // 上記の icon.addEventListener で e.stopPropagation() が呼ばれるため、
+        // このリスナーは実行されません。
+        if (activeTooltip) {
+            activeTooltip.classList.remove('focused');
+            activeTooltip = null;
+        }
+    });
 
 });
