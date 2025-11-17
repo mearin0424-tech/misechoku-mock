@@ -1,14 +1,23 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap');
 
-/* 基調デザイン (薄いライトイエロー) */
+/* ★★★ ご指定のカラーパレットに変更 ★★★ */
 :root {
-    --color-bg: #FFFFF0; /* 薄いライトイエロー */
-    --color-primary: #FFD700; /* アクセント (濃いイエロー) */
-    --color-primary-dark: #f0c000;
-    --color-text: #333;
+    /* 1. #FFFF66 (255.255.102) */
+    --color-bg: #FFFF66; /* メインの背景色 (黄) */
+    
+    /* 2. #99CCCC (153.204.204) */
+    --color-primary: #99CCCC; /* アクセントカラー (青緑) */
+    --color-primary-dark: #80B3B3; /* アクセントの濃色 (ホバー用) */
+    
+    /* 3. #CCCCCC (204.204.204) */
+    --color-border: #CCCCCC; /* 境界線・グレー */
+
+    /* 4. #FFFFFF (255.255.255) */
+    --color-card-bg: #FFFFFF; /* カードの背景 (白) */
+
+    /* その他 */
+    --color-text: #333; /* テキスト (黒) */
     --color-text-light: #555;
-    --color-card-bg: #FFFFFF;
-    --color-border: #EAEAEA;
     --shadow: 0 8px 25px rgba(0,0,0,0.05);
 }
 
@@ -17,7 +26,7 @@ body {
     font-family: 'Noto Sans JP', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: var(--color-bg);
+    background-color: var(--color-bg); /* ★変更★ */
     color: var(--color-text);
     line-height: 1.7;
 }
@@ -28,16 +37,60 @@ body {
     padding: 0 20px;
 }
 
-/* メニューバーのスタイル */
-.menu-bar {
-    background: var(--color-card-bg);
-    padding: 15px 0;
-    border-bottom: 1px solid var(--color-border);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+/* ★★★ メインメニューのスタイル ★★★ */
+#main-menu {
     text-align: center;
-    margin-bottom: 30px;
+    padding: 60px 20px;
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.main-title {
+    font-size: 3em; 
+    font-weight: 700;
+    color: var(--color-text);
+    margin: 0;
+}
+.main-subtitle {
+    font-size: 1.2em; 
+    color: var(--color-text-light);
+    margin: 5px 0 40px 0;
+}
+.menu-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+.btn-menu {
+    width: 100%;
+    max-width: 350px;
+    padding: 15px 25px;
+    font-size: 1.1em;
+    font-weight: 600;
+    border-radius: 12px;
+    background: var(--color-card-bg); /* ★変更★ (白) */
+    border: 1px solid var(--color-border); /* ★変更★ (グレー) */
+    box-shadow: var(--shadow);
+    color: var(--color-text);
+    text-align: left;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.btn-menu:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+}
+.btn-menu i {
+    margin-right: 15px;
+    width: 20px; 
+    text-align: center;
+    color: var(--color-primary); /* ★変更★ (青緑) */
 }
 
+/* ★★★ 画面共通 ★★★ */
 .btn {
     display: inline-block;
     padding: 10px 22px;
@@ -50,37 +103,71 @@ body {
     font-size: 0.95em;
     transition: all 0.3s ease;
 }
-.btn i {
-    margin-right: 8px;
-}
-
 .btn-secondary {
-    background: #f0f0f0;
+    /* 灰色ボタンは指定の #CCCCCC を使う */
+    background: #f0f0f0; /* グレーのボタン背景 */
     color: #444;
+    border: 1px solid var(--color-border); /* ★変更★ (グレー) */
 }
 .btn-secondary:hover {
     background: #e0e0e0;
     transform: translateY(-2px);
 }
-
 .btn-primary {
-    background-color: var(--color-primary);
+    /* プライマリボタンは #99CCCC を使う */
+    background-color: var(--color-primary); /* ★変更★ (青緑) */
     color: var(--color-text);
     font-size: 1.1em;
     padding: 12px 30px;
+    border: 1px solid var(--color-primary-dark);
 }
 .btn-primary:hover {
-    background-color: var(--color-primary-dark);
-    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+    background-color: var(--color-primary-dark); /* ★変更★ (濃い青緑) */
+    box-shadow: 0 4px 15px rgba(153, 204, 204, 0.4); /* ★変更★ (青緑の影) */
     transform: translateY(-2px);
 }
 
-/* --- フォームセクション (モダンデザイン化) --- */
+
+/* ★★★ 戻るボタン ★★★ */
+.btn-back-to-menu {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 10; 
+    background: rgba(255, 255, 255, 0.8); /* ★変更★ (白ベース) */
+    backdrop-filter: blur(5px);
+    border: 1px solid var(--color-border); /* ★変更★ (グレー) */
+    color: var(--color-text-light);
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 0.9em;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.btn-back-to-menu:hover {
+    background: var(--color-card-bg); /* ★変更★ (白) */
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+.btn-back-to-menu i {
+    margin-right: 5px;
+}
+
+/* ★★★ フォーム画面 / 通知画面 ★★★ */
+#form-screen,
+#notification-screen {
+    padding-top: 80px; 
+    position: relative;
+    box-sizing: border-box; 
+    width: 100%;
+}
+
+/* --- フォームセクション --- */
 .form-section {
-    background: var(--color-card-bg);
+    background: var(--color-card-bg); /* ★変更★ (白) */
     border-radius: 12px;
     box-shadow: var(--shadow);
-    border: 1px solid var(--color-border);
+    border: 1px solid var(--color-border); /* ★変更★ (グレー) */
     padding: 30px 40px;
     margin-bottom: 30px;
 }
@@ -93,15 +180,12 @@ body {
     margin-top: 0;
     margin-bottom: 30px;
     padding-bottom: 10px;
-    border-bottom: 3px solid var(--color-primary);
+    border-bottom: 3px solid var(--color-primary); /* ★変更★ (青緑) */
 }
 
 .form-group {
     margin-bottom: 25px;
 }
-
-/* ...（.form-group label の既存スタイル）... */
-/* 元のファイルからコピー */
 .form-group label {
     display: flex; 
     align-items: center;
@@ -109,24 +193,16 @@ body {
     font-weight: 700;
     color: var(--color-text); 
 }
-
-/* このスタイルを追加 */
-/* 元のファイルからコピー */
 .label-text {
-    flex-grow: 1; /* テキスト部分が残りの幅をすべて使う */
-    white-space: normal; /* 折り返しを許可 */
-    overflow: visible; /* ...を解除 */
-    text-overflow: clip; /* ...を解除 */
+    flex-grow: 1; 
+    white-space: normal; 
+    overflow: visible; 
+    text-overflow: clip; 
 }
-
-/* アイコンと必須マークが縮まないように設定 */
-/* 元のファイルからコピー */
 .required-mark, .info-icon {
     flex-shrink: 0; 
     margin-left: 8px;
 }
-
-/* (ヒントアイコン等のスタイル - 元ファイルになかったため追加) */
 .required-mark {
     color: #f44336;
     font-size: 0.9em;
@@ -136,16 +212,15 @@ body {
     cursor: help;
 }
 
-/* フォーム入力欄 */
 input[type="text"],
 input[type="email"],
 input[type="date"],
 textarea {
     width: 100%;
     padding: 12px 15px;
-    border: 1px solid var(--color-border);
+    border: 1px solid var(--color-border); /* ★変更★ (グレー) */
     border-radius: 8px;
-    box-sizing: border-box; /* 幅の計算を容易に */
+    box-sizing: border-box; 
     font-size: 1em;
     font-family: 'Noto Sans JP', sans-serif;
     transition: all 0.2s ease;
@@ -154,31 +229,28 @@ input[type="text"]:focus,
 input[type="email"]:focus,
 input[type="date"]:focus,
 textarea:focus {
-    border-color: var(--color-primary);
-    box-shadow: 0 0 8px rgba(255, 215, 0, 0.3);
+    border-color: var(--color-primary); /* ★変更★ (青緑) */
+    box-shadow: 0 0 8px rgba(153, 204, 204, 0.3); /* ★変更★ (青緑の影) */
     outline: none;
 }
-
 textarea {
     resize: vertical;
 }
-
 .radio-group label {
     display: inline-block;
     margin-right: 20px;
     font-weight: 400;
 }
-
 .text-center {
     text-align: center;
 }
 
-/* 通知セクションのスタイル */
+/* --- 通知セクション --- */
 .notification-section {
-    background: var(--color-card-bg);
+    background: var(--color-card-bg); /* ★変更★ (白) */
     border-radius: 12px;
     box-shadow: var(--shadow);
-    border: 1px solid var(--color-border);
+    border: 1px solid var(--color-border); /* ★変更★ (グレー) */
     padding: 30px 40px;
     margin-bottom: 30px;
     text-align: center;
@@ -196,8 +268,8 @@ textarea {
     margin-bottom: 20px;
 }
 
+/* (通知テストボタンはデモのため、あえて元の色を維持) */
 .btn-notification {
-    /* personality-test のスタイルを拝借 */
     background: linear-gradient(135deg, #f78bb8 0%, #9f85ff 100%);
     color: #fff;
     padding: 12px 30px;
@@ -220,7 +292,7 @@ textarea {
     margin-top: 20px;
     box-sizing: border-box;
     font-size: 12px;
-    border: 1px solid var(--color-border);
+    border: 1px solid var(--color-border); /* ★変更★ (グレー) */
     border-radius: 8px;
     padding: 10px;
     font-family: monospace;
@@ -235,7 +307,7 @@ textarea {
     line-height: 1.6;
 }
 
-/* スワイプオーバーレイのスタイル (swipe-mock/index.html からコピー・調整) */
+/* --- スワイプオーバーレイ (デモのため、元の色は維持) --- */
 #swipe-overlay {
     position: fixed;
     top: 0;
@@ -244,8 +316,8 @@ textarea {
     height: 100%;
     background: #333;
     z-index: 100;
-    display: none; /* JSで制御 */
-    overflow: hidden; /* ページ全体のスクロールを防ぐ */
+    display: none; 
+    overflow: hidden; 
 }
 
 #close-swipe-btn {
@@ -276,34 +348,27 @@ textarea {
     height: 100%;
 }
 #swipe-overlay .swiper-slide {
-    /* カード内の文字を中央揃え */
     display: flex;
     justify-content: center;
     align-items: center;
-    
-    /* カードの見た目 */
-    font-size: 3rem; /* 文字サイズ */
+    font-size: 3rem;
     font-weight: bold;
     color: white;
-    text-shadow: 0 2px 5px rgba(0,0,0,0.2); /* 文字に影 */
+    text-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
 #swipe-overlay .swipe-guide {
-    position: fixed; /* 画面下部に固定 */
+    position: fixed;
     bottom: 30px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 105;
-    
-    /* 見た目 */
     text-align: center;
     color: rgba(255, 255, 255, 0.85);
     text-shadow: 0 1px 3px rgba(0,0,0,0.3);
     font-weight: 600;
     font-size: 14px;
 }
-
-/* 矢印のアニメーション */
 #swipe-overlay .swipe-guide .arrow {
     width: 16px;
     height: 16px;
@@ -311,8 +376,6 @@ textarea {
     border-right: 3px solid white;
     transform: rotate(-45deg);
     margin: 0 auto 8px auto;
-    
-    /* 上にバウンドするアニメーション */
     animation: bounce 2s infinite;
 }
 
