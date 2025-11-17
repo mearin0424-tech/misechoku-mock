@@ -6,16 +6,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const notificationScreen = document.getElementById('notification-screen');
     const swipeOverlay = document.getElementById('swipe-overlay');
     const backToTopBtn = document.getElementById('btn-back-to-top');
-    
-    // ★追加★ ポップアップ要素
     const popupOverlay = document.getElementById('popup-overlay');
     
+    // ▼▼▼ スワイプコンテナ要素をここで取得 ▼▼▼
+    const swiperContainer = document.querySelector('#swipe-overlay .swiper');
+    // ▲▲▲
+
     // --- メインメニューのボタン ---
     const btnSwipeImage = document.getElementById('btn-swipe-image');
     const btnFormImage = document.getElementById('btn-form-image');
     const btnNotificationScreen = document.getElementById('btn-notification-screen');
-    
-    // ★追加★ ポップアップボタン
     const btnPopupImage = document.getElementById('btn-popup-image');
 
     // --- 各画面の「戻る」ボタン ---
@@ -25,19 +25,19 @@ document.addEventListener('DOMContentLoaded', () => {
     let swiper = null; 
     const closeSwipeBtn = document.getElementById('close-swipe-btn');
 
-    // ★追加★ ポップアップ閉じるボタン
+    // --- ポップアップ閉じるボタン ---
     const btnClosePopup = document.getElementById('btn-close-popup');
     const btnPopupCancel = document.getElementById('btn-popup-cancel');
     const btnPopupOk = document.getElementById('btn-popup-ok');
     
-    // ★追加★ Cropper (画像切り抜き) 関連
+    // --- Cropper (画像切り抜き) 関連 ---
     const imageUploadInput = document.getElementById('image-upload-input');
     const cropperWrapper = document.getElementById('cropper-wrapper');
     const imageToCrop = document.getElementById('image-to-crop');
     const btnCropImage = document.getElementById('btn-crop-image');
     const cropResultContainer = document.getElementById('crop-result-container');
     const cropResultImage = document.getElementById('crop-result-image');
-    let cropper = null; // Cropperのインスタンス
+    let cropper = null; 
 
     // --- 画面切り替え関数 ---
     function showScreen(screenToShow) {
@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     
-    // ★追加★ ポップアップ表示/非表示 関数
+    // --- ポップアップ表示/非表示 関数 ---
     function showPopup(show) {
         if (popupOverlay) {
             popupOverlay.style.display = show ? 'flex' : 'none';
@@ -67,15 +67,21 @@ document.addEventListener('DOMContentLoaded', () => {
             if (swipeOverlay) swipeOverlay.style.display = 'block';
             document.body.style.overflow = 'hidden';
             
-            if (!swiper) { 
-                swiper = new Swiper('#swipe-overlay .swiper', { 
+            // ▼▼▼ 初期化方法を修正 ▼▼▼
+            // (初期化がまだで、コンテナ要素が見つかっていれば)
+            if (!swiper && swiperContainer) { 
+                // セレクタ文字列ではなく、取得済みの「HTML要素オブジェクト」を渡す
+                swiper = new Swiper(swiperContainer, { 
                     direction: 'vertical',
                     mousewheel: true,
                     grabCursor: true,
                 });
             }
+            // ▲▲▲ 修正ここまで ▲▲▲
         });
     }
+    
+    // (スワイプを閉じるボタン)
     if (closeSwipeBtn) {
         closeSwipeBtn.addEventListener('click', () => {
             if (swipeOverlay) swipeOverlay.style.display = 'none';
@@ -125,7 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 6. ★追加★ 「ポップアップイメージ」ボタン
+    // 6. 「ポップアップイメージ」ボタン
     if (btnPopupImage) {
         btnPopupImage.addEventListener('click', () => {
             showPopup(true);
@@ -137,14 +143,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (btnPopupOk) btnPopupOk.addEventListener('click', () => showPopup(false));
     if (popupOverlay) {
         popupOverlay.addEventListener('click', (e) => {
-            // オーバーレイの背景クリックでも閉じる
             if (e.target === popupOverlay) {
                 showPopup(false);
             }
         });
     }
     
-    // 7. ★追加★ 画像アップロード (Cropper.js)
+    // 7. 画像アップロード (Cropper.js)
     if (imageUploadInput) {
         imageUploadInput.addEventListener('change', (e) => {
             const file = e.target.files[0];
@@ -152,27 +157,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const reader = new FileReader();
             reader.onload = (event) => {
-                // 既存のCropperインスタンスがあれば破棄
                 if (cropper) {
                     cropper.destroy();
                 }
                 
-                // 画像をセット
                 imageToCrop.src = event.target.result;
                 cropperWrapper.style.display = 'block';
                 
-                // Cropper.js を初期化
                 cropper = new Cropper(imageToCrop, {
-                    aspectRatio: 1 / 1, // 1:1 (正方形)
-                    viewMode: 1, // 0: 制限なし, 1: 画像内にクロップボックスを制限
-                    autoCropArea: 0.8, // 自動クロップエリアのサイズ
-                    
-                    // 320x320のガイド表示 (注: 最小サイズとして設定)
+                    aspectRatio: 1 / 1, 
+                    viewMode: 1, 
+                    autoCropArea: 0.8, 
                     minCropBoxWidth: 320,
                     minCropBoxHeight: 320,
                     
                     ready() {
-                        // 320x320のボックスを中央にセットしようと試みる
                         cropper.setCropBoxData({
                             width: 320,
                             height: 320
@@ -180,7 +179,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 });
                 
-                cropResultContainer.style.display = 'none'; // 結果を隠す
+                cropResultContainer.style.display = 'none'; 
             };
             reader.readAsDataURL(file);
         });
@@ -191,7 +190,6 @@ document.addEventListener('DOMContentLoaded', () => {
         btnCropImage.addEventListener('click', () => {
             if (!cropper) return;
 
-            // 320x320ピクセルでキャンバスを取得
             const croppedCanvas = cropper.getCroppedCanvas({
                 width: 320,
                 height: 320,
@@ -201,12 +199,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (!croppedCanvas) return;
 
-            // 結果をプレビュー用imgに設定
             cropResultImage.src = croppedCanvas.toDataURL('image/png');
             cropResultContainer.style.display = 'block';
-            
-            // Cropperを非表示にする (任意)
-            // cropperWrapper.style.display = 'none';
         });
     }
 

@@ -250,14 +250,14 @@ textarea {
     font-size: 1em;
 }
 #cropper-container {
-    max-height: 400px; /* Cropper.jsが縦に伸びすぎるのを防ぐ */
+    max-height: 400px; 
     width: 100%;
     overflow: hidden;
     background: #f0f0f0;
     border: 1px dashed var(--color-border);
 }
 #cropper-container img {
-    max-width: 100%; /* Cropper.jsが初期化するために必要 */
+    max-width: 100%; 
     display: block;
 }
 .crop-result-preview {
@@ -331,19 +331,17 @@ textarea {
 
 /* --- スワイプオーバーレイ --- */
 #swipe-overlay {
-    /* ... (変更なし) ... */
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: #333;
+    background: #333; /* カードUIの背景 */
     z-index: 100;
     display: none; 
     overflow: hidden; 
 }
 #close-swipe-btn {
-    /* ... (変更なし) ... */
     position: absolute;
     top: 20px;
     right: 20px;
@@ -369,17 +367,35 @@ textarea {
     width: 100%;
     height: 100%;
 }
+
+/* ▼▼▼ スライド（カード）のスタイル修正 ▼▼▼ */
 #swipe-overlay .swiper-slide {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 3rem;
+    background: transparent; /* スライド自体は透明に */
+}
+
+.card-content {
+    width: 90%; /* カード幅 */
+    height: 85%; /* カード高 */
+    border-radius: 20px; /* 角丸 */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3); /* 影 */
+    box-sizing: border-box;
+    padding: 20px;
+    
+    /* 中身を中央揃え */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.5rem;
     font-weight: bold;
-    color: white;
     text-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
+/* ▲▲▲ 修正ここまで ▲▲▲ */
+
+
 #swipe-overlay .swipe-guide {
-    /* ... (変更なし) ... */
     position: fixed;
     bottom: 30px;
     left: 50%;
@@ -413,7 +429,6 @@ textarea {
 
 /* ★★★ トップに戻るボタン ★★★ */
 .btn-floating {
-    /* ... (変更なし) ... */
     position: fixed;
     bottom: 25px;
     right: 25px;
@@ -439,7 +454,7 @@ textarea {
 }
 
 
-/* ▼▼▼ ポップアップ用スタイル ▼▼▼ */
+/* ★★★ ポップアップ用スタイル ★★★ */
 #popup-overlay {
     position: fixed;
     top: 0;

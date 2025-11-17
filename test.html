@@ -18,7 +18,7 @@
     <div id="main-menu">
         <div class="container">
             <img src="images/misechoku-yoko.png" alt="ミセチョク ロゴ" id="main-logo">
-            <h1 class="main-title">-</h1>
+            <h1 class="main-title">ミセチョク</h1>
             <p class="main-subtitle">デザインモックサイト</p>
             
             <div class="menu-buttons">
@@ -28,7 +28,6 @@
                 <button id="btn-form-image" class="btn btn-menu">
                     <i class="fas fa-edit"></i> フォームイメージ
                 </button>
-                
                 <button id="btn-popup-image" class="btn btn-menu">
                     <i class="fas fa-window-maximize"></i> ポップアップイメージ
                 </button>
@@ -48,67 +47,37 @@
             <div class="container">
                 <h2>フォームイメージ</h2>
                 <form action="#" method="POST">
-                    
                     <div class="form-group">
-                        <label for="name">
-                            <span class="label-text">テキスト</span>
-                            <span class="required-mark">*</span>
-                            <i class="fas fa-question-circle info-icon" data-tooltip="お名前を入力"></i>
-                        </label>
+                        <label for="name"><span class="label-text">テキスト</span><span class="required-mark">*</span><i class="fas fa-question-circle info-icon" data-tooltip="お名前を入力"></i></label>
                         <input type="text" id="name" name="name" placeholder="例：山田 太郎" required>
                     </div>
-                    
                     <div class="form-group">
-                        <label for="email">
-                            <span class="label-text">メール</span>
-                            <span class="required-mark">*</span>
-                            <i class="fas fa-question-circle info-icon" data-tooltip="連絡先メールアドレス"></i>
-                        </label>
+                        <label for="email"><span class="label-text">メール</span><span class="required-mark">*</span><i class="fas fa-question-circle info-icon" data-tooltip="連絡先メールアドレス"></i></label>
                         <input type="email" id="email" name="email" placeholder="例：hoge@example.com" required>
                     </div>
-
                     <div class="form-group">
-                        <label for="date">
-                            <span class="label-text">日付</span>
-                            <i class="fas fa-question-circle info-icon" data-tooltip="希望日を選択"></i>
-                        </label>
+                        <label for="date"><span class="label-text">日付</span><i class="fas fa-question-circle info-icon" data-tooltip="希望日を選択"></i></label>
                         <input type="date" id="date" name="date">
                     </div>
-
                     <div class="form-group">
-                        <label>
-                            <span class="label-text">ラジオボタン</span>
-                            <span class="required-mark">*</span>
-                        </label>
+                        <label><span class="label-text">ラジオボタン</span><span class="required-mark">*</span></label>
                         <div class="radio-group">
                             <label><input type="radio" name="type" value="A" required> タイプA</label>
                             <label><input type="radio" name="type" value="B"> タイプB</label>
                         </div>
                     </div>
-
                     <div class="form-group">
-                        <label for="message">
-                            <span class="label-text">テキストエリア</span>
-                            <span class="required-mark">*</span>
-                        </label>
+                        <label for="message"><span class="label-text">テキストエリア</span><span class="required-mark">*</span></label>
                         <textarea id="message" name="message" rows="5" placeholder="ご自由に入力してください..." required></textarea>
                     </div>
                     <div class="form-group">
-                        <label for="image-upload">
-                            <span class="label-text">画像アップロード (320x320)</span>
-                        </label>
+                        <label for="image-upload"><span class="label-text">画像アップロード (320x320)</span></label>
                         <input type="file" id="image-upload-input" accept="image/*" class="form-file-input">
-                        
                         <div id="cropper-wrapper" style="display: none; margin-top: 15px;">
                             <p>ガイドに合わせて画像を切り抜いてください。</p>
-                            <div id="cropper-container">
-                                <img id="image-to-crop" src="">
-                            </div>
-                            <button type="button" id="btn-crop-image" class="btn btn-secondary" style="margin-top: 15px;">
-                                <i class="fas fa-cut"></i> この画像に決定
-                            </button>
+                            <div id="cropper-container"><img id="image-to-crop" src=""></div>
+                            <button type="button" id="btn-crop-image" class="btn btn-secondary" style="margin-top: 15px;"><i class="fas fa-cut"></i> この画像に決定</button>
                         </div>
-                        
                         <div id="crop-result-container" style="display: none; margin-top: 15px;">
                             <label><span class="label-text">切り抜き結果</span></label>
                             <img id="crop-result-image" src="" class="crop-result-preview">
@@ -117,7 +86,6 @@
                     <div class="form-group text-center">
                         <button type="submit" class="btn btn-primary">送信する</button>
                     </div>
-                    
                 </form>
             </div>
         </section>
@@ -144,11 +112,28 @@
         <button id="close-swipe-btn" title="閉じる">&times;</button>
         <div class="swiper">
             <div class="swiper-wrapper">
-                <div class="swiper-slide" style="background-color: #845ec2;">ほげほげ</div>
-                <div class="swiper-slide" style="background-color: #d65db1;">ふがふが</div>
-                <div class="swiper-slide" style="background-color: #ff6f91;">ぴよぴよ</div>
-                <div class="swiper-slide" style="background-color: #ff9671;">さいごのカード</div>
-            </div>
+                
+                <div class="swiper-slide">
+                    <div class="card-content" style="background-color: #fff352; color: #333;">
+                        フレッシュイエロー
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="card-content" style="background-color: #274a78; color: white;">
+                        鮮やかなブルー
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="card-content" style="background-color: #006888; color: white;">
+                        マリンブルー
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="card-content" style="background-color: #19448e; color: white;">
+                        瑠璃紺 (るりこん)
+                    </div>
+                </div>
+                </div>
         </div>
         <div class="swipe-guide">
             <div class="arrow"></div>
@@ -172,10 +157,11 @@
             </div>
         </div>
     </div>
+
+
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-messaging-compat.js"></script>
-    <script src="https://cdn.jsdelivr.npm/swiper@11/swiper-bundle.min.js"></script>
-    
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.js"></script>
     <script src="pwa-loader.js"></script>
     <script src="script.js"></script> 
