@@ -5,6 +5,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const formScreen = document.getElementById('form-screen');
     const notificationScreen = document.getElementById('notification-screen');
     const swipeOverlay = document.getElementById('swipe-overlay');
+    
+    const backToTopBtn = document.getElementById('btn-back-to-top');
 
     // --- メインメニューのボタン ---
     const btnSwipeImage = document.getElementById('btn-swipe-image');
@@ -12,24 +14,26 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnNotificationScreen = document.getElementById('btn-notification-screen');
 
     // --- 各画面の「戻る」ボタン ---
-    // (NodeList.forEach を使えるように Array.from で配列化)
     const backButtons = Array.from(document.querySelectorAll('.btn-back-to-menu'));
 
-    // --- スワイプ関連 (既存のロジックを移植) ---
+    // --- スワイプ関連 ---
     let swiper = null; // Swiperインスタンス
     const closeSwipeBtn = document.getElementById('close-swipe-btn');
 
     // --- 画面切り替え関数 ---
     function showScreen(screenToShow) {
-        // すべて非表示 (メインメニュー, フォーム, 通知)
+        // すべて非表示
         if (mainMenu) mainMenu.style.display = 'none';
         if (formScreen) formScreen.style.display = 'none';
         if (notificationScreen) notificationScreen.style.display = 'none';
         
+        if (backToTopBtn) {
+            backToTopBtn.style.display = 'none';
+        }
+
         // 対象を表示
         if (screenToShow) {
             screenToShow.style.display = 'block';
-            // 画面の先頭にスクロール
             window.scrollTo(0, 0);
         }
     }
@@ -39,20 +43,21 @@ document.addEventListener('DOMContentLoaded', () => {
     // 1. 「スワイプイメージ」ボタン
     if (btnSwipeImage) {
         btnSwipeImage.addEventListener('click', () => {
-            // オーバーレイを表示
             if (swipeOverlay) {
                 swipeOverlay.style.display = 'block';
             }
             document.body.style.overflow = 'hidden';
             
-            // Swiperを初期化 (まだなら)
+            // ▼▼▼ ここを修正 ▼▼▼
+            // (初期化がまだの場合、セレクタを具体的に指定して初期化)
             if (!swiper) { 
-                swiper = new Swiper('.swiper', {
+                swiper = new Swiper('#swipe-overlay .swiper', { // '.swiper' から変更
                     direction: 'vertical',
                     mousewheel: true,
                     grabCursor: true,
                 });
             }
+            // ▲▲▲ 修正ここまで ▲▲▲
         });
     }
     
@@ -87,4 +92,30 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // 5. スクロール検知 (トップに戻るボタン)
+    window.onscroll = () => {
+        const isSubScreenVisible = (formScreen && formScreen.style.display === 'block') || 
+                                   (notificationScreen && notificationScreen.style.display === 'block');
+
+        if (backToTopBtn && isSubScreenVisible) {
+            if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+                backToTopBtn.style.display = 'block';
+            } else {
+                backToTopBtn.style.display = 'none';
+            }
+        } else if (backToTopBtn) {
+            backToTopBtn.style.display = 'none';
+        }
+    };
+
+    // 6. クリックでスムーズスクロール (トップに戻るボタン)
+    if (backToTopBtn) {
+        backToTopBtn.addEventListener('click', (e) => {
+            e.preventDefault(); 
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    }
 });
