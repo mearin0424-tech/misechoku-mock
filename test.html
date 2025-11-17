@@ -8,15 +8,17 @@
     <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="https://cdn.jsdelivr.npm/swiper@11/swiper-bundle.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.css" />
+    
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <div id="main-menu">
         <div class="container">
-            
             <img src="images/misechoku-yoko.png" alt="ミセチョク ロゴ" id="main-logo">
-            <h1 class="main-title">ミセチョク</h1>
+            <h1 class="main-title">-</h1>
             <p class="main-subtitle">デザインモックサイト</p>
             
             <div class="menu-buttons">
@@ -25,6 +27,10 @@
                 </button>
                 <button id="btn-form-image" class="btn btn-menu">
                     <i class="fas fa-edit"></i> フォームイメージ
+                </button>
+                
+                <button id="btn-popup-image" class="btn btn-menu">
+                    <i class="fas fa-window-maximize"></i> ポップアップイメージ
                 </button>
                 <a href="https://mearin0424-tech.github.io/personality-test/personality-test.html" class="btn btn-menu" target="_blank" rel="noopener noreferrer">
                     <i class="fas fa-diagnoses"></i> 診断アプリ
@@ -40,53 +46,78 @@
         <button class="btn btn-back-to-menu"><i class="fas fa-arrow-left"></i> メニューに戻る</button>
         <section class="form-section" data-aos="fade-up" data-aos-delay="200">
             <div class="container">
-                <h2>ほげほげフォーム</h2>
+                <h2>フォームイメージ</h2>
                 <form action="#" method="POST">
+                    
                     <div class="form-group">
                         <label for="name">
-                            <span class="label-text">ほげほげ（お名前）</span>
+                            <span class="label-text">テキスト</span>
                             <span class="required-mark">*</span>
-                            <i class="fas fa-question-circle info-icon" data-tooltip="ほげほげ（ヒント）"></i>
+                            <i class="fas fa-question-circle info-icon" data-tooltip="お名前を入力"></i>
                         </label>
-                        <input type="text" id="name" name="name" placeholder="例：山田 ほげ子" required>
+                        <input type="text" id="name" name="name" placeholder="例：山田 太郎" required>
                     </div>
+                    
                     <div class="form-group">
                         <label for="email">
-                            <span class="label-text">ほげほげ（メール）</span>
+                            <span class="label-text">メール</span>
                             <span class="required-mark">*</span>
-                            <i class="fas fa-question-circle info-icon" data-tooltip="ほげほげ（ヒント）"></i>
+                            <i class="fas fa-question-circle info-icon" data-tooltip="連絡先メールアドレス"></i>
                         </label>
                         <input type="email" id="email" name="email" placeholder="例：hoge@example.com" required>
                     </div>
+
                     <div class="form-group">
                         <label for="date">
-                            <span class="label-text">ほげほげ（日付）</span>
-                            <i class="fas fa-question-circle info-icon" data-tooltip="ほげほげ（ヒント）"></i>
+                            <span class="label-text">日付</span>
+                            <i class="fas fa-question-circle info-icon" data-tooltip="希望日を選択"></i>
                         </label>
                         <input type="date" id="date" name="date">
                     </div>
+
                     <div class="form-group">
                         <label>
-                            <span class="label-text">ほげほげ（種別）</span>
+                            <span class="label-text">ラジオボタン</span>
                             <span class="required-mark">*</span>
-                            <i class="fas fa-question-circle info-icon" data-tooltip="ほげほげ（ヒント）"></i>
                         </label>
                         <div class="radio-group">
                             <label><input type="radio" name="type" value="A" required> タイプA</label>
                             <label><input type="radio" name="type" value="B"> タイプB</label>
                         </div>
                     </div>
+
                     <div class="form-group">
                         <label for="message">
-                            <span class="label-text">ほげほげ（本文）</span>
+                            <span class="label-text">テキストエリア</span>
                             <span class="required-mark">*</span>
-                            <i class="fas fa-question-circle info-icon" data-tooltip="ほげほげ（ヒント）"></i>
                         </label>
-                        <textarea id="message" name="message" rows="5" placeholder="ほげほげ..." required></textarea>
+                        <textarea id="message" name="message" rows="5" placeholder="ご自由に入力してください..." required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="image-upload">
+                            <span class="label-text">画像アップロード (320x320)</span>
+                        </label>
+                        <input type="file" id="image-upload-input" accept="image/*" class="form-file-input">
+                        
+                        <div id="cropper-wrapper" style="display: none; margin-top: 15px;">
+                            <p>ガイドに合わせて画像を切り抜いてください。</p>
+                            <div id="cropper-container">
+                                <img id="image-to-crop" src="">
+                            </div>
+                            <button type="button" id="btn-crop-image" class="btn btn-secondary" style="margin-top: 15px;">
+                                <i class="fas fa-cut"></i> この画像に決定
+                            </button>
+                        </div>
+                        
+                        <div id="crop-result-container" style="display: none; margin-top: 15px;">
+                            <label><span class="label-text">切り抜き結果</span></label>
+                            <img id="crop-result-image" src="" class="crop-result-preview">
+                        </div>
                     </div>
                     <div class="form-group text-center">
-                        <button type="submit" class="btn btn-primary">ほげ（送信）</button>
+                        <button type="submit" class="btn btn-primary">送信する</button>
                     </div>
+                    
                 </form>
             </div>
         </section>
@@ -129,11 +160,23 @@
     <a href="#" id="btn-back-to-top" class="btn-floating" title="トップに戻る" style="display: none;">
         <i class="fas fa-arrow-up"></i>
     </a>
-
+    
+    <div id="popup-overlay" style="display: none;">
+        <div id="popup-box">
+            <button id="btn-close-popup" class="btn-close-popup" title="閉じる">&times;</button>
+            <h2>ポップアップイメージ</h2>
+            <p>ここにポップアップのコンテンツが入ります。確認ボタンやフォームなどを配置できます。</p>
+            <div class="popup-actions">
+                <button id="btn-popup-cancel" class="btn btn-secondary">キャンセル</button>
+                <button id="btn-popup-ok" class="btn btn-primary">OK</button>
+            </div>
+        </div>
+    </div>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-messaging-compat.js"></script>
     <script src="https://cdn.jsdelivr.npm/swiper@11/swiper-bundle.min.js"></script>
     
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.js"></script>
     <script src="pwa-loader.js"></script>
     <script src="script.js"></script> 
 

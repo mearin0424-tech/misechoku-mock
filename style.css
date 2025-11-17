@@ -36,17 +36,15 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center; /* ロゴを中央揃えにするため追加 */
+    align-items: center; 
 }
 
-/* ▼▼▼ ここに追加 ▼▼▼ */
 #main-logo {
-    max-width: 100%; /* コンテナ幅を超えないように */
-    width: 350px; /* ロゴの基本サイズを指定 */
-    height: auto; /* アスペクト比を維持 */
-    margin-bottom: 20px; /* タイトルとの間隔 */
+    max-width: 100%; 
+    width: 350px; 
+    height: auto; 
+    margin-bottom: 20px; 
 }
-/* ▲▲▲ 追加ここまで ▲▲▲ */
 
 .main-title {
     font-size: 3em; 
@@ -64,7 +62,7 @@ body {
     flex-direction: column;
     align-items: center;
     gap: 20px;
-    width: 100%; /* ボタンが親の幅に依存するように */
+    width: 100%; 
 }
 
 .btn-menu {
@@ -247,6 +245,31 @@ textarea {
     text-align: center;
 }
 
+/* ▼▼▼ 画像アップロード用スタイル ▼▼▼ */
+.form-file-input {
+    font-size: 1em;
+}
+#cropper-container {
+    max-height: 400px; /* Cropper.jsが縦に伸びすぎるのを防ぐ */
+    width: 100%;
+    overflow: hidden;
+    background: #f0f0f0;
+    border: 1px dashed var(--color-border);
+}
+#cropper-container img {
+    max-width: 100%; /* Cropper.jsが初期化するために必要 */
+    display: block;
+}
+.crop-result-preview {
+    width: 320px;
+    height: 320px;
+    border: 2px solid var(--color-primary);
+    padding: 5px;
+    background: #f9f9f9;
+}
+/* ▲▲▲ 追加ここまで ▲▲▲ */
+
+
 /* --- 通知セクション --- */
 .notification-section {
     background: var(--color-card-bg); 
@@ -270,7 +293,6 @@ textarea {
     margin-bottom: 20px;
 }
 .btn-notification {
-    /* (元の色を維持) */
     background: linear-gradient(135deg, #f78bb8 0%, #9f85ff 100%);
     color: #fff;
     padding: 12px 30px;
@@ -307,8 +329,9 @@ textarea {
     line-height: 1.6;
 }
 
-/* --- スワイプオーバーレイ (元の色は維持) --- */
+/* --- スワイプオーバーレイ --- */
 #swipe-overlay {
+    /* ... (変更なし) ... */
     position: fixed;
     top: 0;
     left: 0;
@@ -320,6 +343,7 @@ textarea {
     overflow: hidden; 
 }
 #close-swipe-btn {
+    /* ... (変更なし) ... */
     position: absolute;
     top: 20px;
     right: 20px;
@@ -355,6 +379,7 @@ textarea {
     text-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 #swipe-overlay .swipe-guide {
+    /* ... (変更なし) ... */
     position: fixed;
     bottom: 30px;
     left: 50%;
@@ -388,6 +413,7 @@ textarea {
 
 /* ★★★ トップに戻るボタン ★★★ */
 .btn-floating {
+    /* ... (変更なし) ... */
     position: fixed;
     bottom: 25px;
     right: 25px;
@@ -410,4 +436,63 @@ textarea {
     background-color: var(--color-primary-dark);
     transform: translateY(-3px);
     box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+}
+
+
+/* ▼▼▼ ポップアップ用スタイル ▼▼▼ */
+#popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 200;
+}
+#popup-box {
+    background: var(--color-card-bg);
+    padding: 25px 35px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    width: 90%;
+    max-width: 450px;
+    position: relative;
+    box-sizing: border-box;
+}
+#popup-box h2 {
+    margin-top: 0;
+    color: var(--color-text);
+}
+#popup-box p {
+    color: var(--color-text-light);
+    margin-bottom: 25px;
+}
+.btn-close-popup {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+    background: #f0f0f0;
+    border: 1px solid var(--color-border);
+    border-radius: 50%;
+    color: var(--color-text-light);
+    font-size: 1.2em;
+    line-height: 30px;
+    text-align: center;
+    padding: 0;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.btn-close-popup:hover {
+    background: #e0e0e0;
+    transform: rotate(90deg);
+}
+.popup-actions {
+    text-align: right;
+    margin-top: 20px;
 }
