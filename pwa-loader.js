@@ -44,8 +44,8 @@ async function requestNotificationPermission() {
 }
 
 
-// ▼▼▼ 修正: 引数で要素を受け取るように変更 ▼▼▼
-async function getFcmToken(tokenArea, tokenInfo) {
+// 宛先ID（トークン）を取得する関数
+async function getFcmToken(tokenArea, tokenInfo) { // 引数で要素を受け取る
     const VAPID_KEY = "BC3eV001Pt3fT11KqKJQVGo95jq5DAuU64mJUtcR4Xa-oRhT6gaExcA_eri4AMc9IWvYicPLVcImAF4fU4MCwhk";
 
     if (!('serviceWorker' in navigator)) {
@@ -65,7 +65,7 @@ async function getFcmToken(tokenArea, tokenInfo) {
         });
 
         if (currentToken) {
-            // ★リクエスト1: トークン表示
+            // ★トークン表示
             console.log('FCM 宛先ID (トークン): ', currentToken);
             if (tokenArea) {
                 tokenArea.value = currentToken; 
@@ -75,7 +75,7 @@ async function getFcmToken(tokenArea, tokenInfo) {
                 tokenInfo.style.display = 'block';
             }
         } else {
-            // ★リクエスト1: 失敗フィードバック
+            // ★失敗フィードバック
             console.log('トークンが取得できませんでした。');
             if (tokenArea) {
                 tokenArea.value = "トークンが取得できませんでした。ブラウザ設定を確認してください。";
@@ -85,7 +85,7 @@ async function getFcmToken(tokenArea, tokenInfo) {
             }
         }
     } catch (err) {
-        // ★リクエスト1: エラーフィードバック
+        // ★エラーフィードバック
         console.error('トークンの取得中にエラーが発生しました。詳細:', err);
         if (tokenArea) {
             tokenArea.value = "トークン取得エラー: " + err.message;
@@ -95,20 +95,23 @@ async function getFcmToken(tokenArea, tokenInfo) {
         }
     }
 }
-// ▲▲▲ 修正ここまで ▲▲▲
 
 
 // --- 3. 実行 ---
 document.addEventListener('DOMContentLoaded', () => {
     
-    // ▼▼▼ 修正:「トークン取得中...」のフィードバックを追加 ▼▼▼
+    // ▼▼▼ 修正: 要素取得をクリックリスナー内に移動 ▼▼▼
     const testBtn = document.getElementById('notification-test-btn');
-    const tokenArea = document.getElementById('token-display-area');
-    const tokenInfo = document.getElementById('token-info');
+    
+    // ★DOMContentLoaded時点ではボタンのみ取得
 
     if (testBtn) {
         testBtn.addEventListener('click', async () => {
             
+            // ★クリックされた瞬間に要素を探す
+            const tokenArea = document.getElementById('token-display-area');
+            const tokenInfo = document.getElementById('token-info');
+
             // ★リクエスト1: 先に表示して「取得中」をセット
             if (tokenArea) {
                 tokenArea.value = "トークン取得中...";
@@ -125,10 +128,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // 2. 許可された場合のみ、トークン取得を実行
                 if (permission === 'granted') {
-                    console.log('許可が得られたため、トークンを取得します。');
+                    console.log('許可が得られたため、トークンを取得します。'); // ← ここまでは表示されていた
                     if (tokenInfo) tokenInfo.textContent = "トークンを取得しています...";
                     
-                    // ★リクエスト1: 取得した要素を渡す
+                    // ★取得した要素を渡す
                     await getFcmToken(tokenArea, tokenInfo); 
                 } else {
                     console.log('許可が得られなかったため、トークン取得を中止します。');
