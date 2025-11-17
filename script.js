@@ -20,7 +20,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- スワイプ関連 ---
     let swiper = null; 
-    const closeSwipeBtn = document.getElementById('close-swipe-btn');
+    
+    // ▼▼▼ IDを変更 ▼▼▼
+    const closeSwipeBtn = document.getElementById('btn-swipe-close');
+    // ▲▲▲ 変更ここまで ▲▲▲
 
     // --- ポップアップ閉じるボタン ---
     const btnClosePopup = document.getElementById('btn-close-popup');
@@ -73,6 +76,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+    
+    // (スワイプを閉じるボタン)
     if (closeSwipeBtn) {
         closeSwipeBtn.addEventListener('click', () => {
             if (swipeOverlay) swipeOverlay.style.display = 'none';
@@ -96,9 +101,12 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // 4. 「メニューに戻る」ボタン (全画面共通)
     backButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            showScreen(mainMenu);
-        });
+        // スワイプの戻るボタンは別処理 (closeSwipeBtn) なので除外
+        if (button.id !== 'btn-swipe-close') {
+            button.addEventListener('click', () => {
+                showScreen(mainMenu);
+            });
+        }
     });
 
     // 5. スクロール検知 (トップに戻るボタン)
@@ -139,7 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     
-    // 7. 画像アップロード (Cropper.js) - (変更なし)
+    // 7. 画像アップロード (Cropper.js)
     if (imageUploadInput) {
         imageUploadInput.addEventListener('change', (e) => {
             const file = e.target.files[0];
@@ -174,45 +182,34 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     
-    // 8. ★修正★ ツールチップ (ヒント) の表示ロジック (クリック専用)
+    // 8. ツールチップ (ヒント) の表示ロジック
     const infoIcons = document.querySelectorAll('.info-icon');
-    let activeTooltip = null; // 現在開いているツールチップ
+    let activeTooltip = null; 
 
     infoIcons.forEach(icon => {
-        // 吹き出し要素を動的に生成
         const hintText = icon.getAttribute('data-tooltip') || "ヒントがここにでますよ";
         const tooltip = document.createElement('span');
         tooltip.className = 'tooltip-text';
         tooltip.textContent = hintText;
-        icon.appendChild(tooltip); // CSSのためにDOM構造は維持
+        icon.appendChild(tooltip); 
 
-        // クリック (タップ) での表示/非表示
         icon.addEventListener('click', (e) => {
-            e.stopPropagation(); // 他のクリックイベント（特にdocument）の邪魔をしない
+            e.stopPropagation(); 
             
-            // 既に開いているのが自分なら閉じる
             if (icon.classList.contains('focused')) {
                 icon.classList.remove('focused');
                 activeTooltip = null;
             } else {
-                // 他に開いているものがあれば閉じる
                 if (activeTooltip) {
                     activeTooltip.classList.remove('focused');
                 }
-                // 自分を開く
                 icon.classList.add('focused');
                 activeTooltip = icon;
             }
         });
-
-        // ※ focus と blur のリスナーは競合するため削除しました
     });
 
-    // (画面のどこかをクリックしたら、開いているヒントを閉じる)
     document.addEventListener('click', (e) => {
-        // アイコン自身がクリックされた場合は、
-        // 上記の icon.addEventListener で e.stopPropagation() が呼ばれるため、
-        // このリスナーは実行されません。
         if (activeTooltip) {
             activeTooltip.classList.remove('focused');
             activeTooltip = null;

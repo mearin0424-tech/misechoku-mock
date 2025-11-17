@@ -37,54 +37,14 @@
             <div class="container">
                 <h2>フォームイメージ</h2>
                 <form action="#" method="POST">
-                    <div class="form-group">
-                        <label for="name"><span class="label-text">テキスト</span><span class="required-mark">*</span><i class="fas fa-question-circle info-icon" data-tooltip="お名前をフルネームで入力してください。"></i></label>
-                        <input type="text" id="name" name="name" placeholder="例：山田 太郎" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="email"><span class="label-text">メール</span><span class="required-mark">*</span><i class="fas fa-question-circle info-icon" data-tooltip="確認用のメールアドレスを入力。"></i></label>
-                        <input type="email" id="email" name="email" placeholder="例：hoge@example.com" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="date"><span class="label-text">日付 (カレンダー)</span><i class="fas fa-question-circle info-icon" data-tooltip="カレンダーから日付を選択します。"></i></label>
-                        <input type="date" id="date" name="date">
-                    </div>
-                    <div class="form-group">
-                        <label for="list-select"><span class="label-text">リスト</span><span class="required-mark">*</span><i class="fas fa-question-circle info-icon" data-tooltip="一覧から項目を1つ選択してください。"></i></label>
-                        <select id="list-select" name="list-select" class="form-select" required>
-                            <option value="" disabled selected>選択してください</option>
-                            <option value="A">オプションA</option>
-                            <option value="B">オプションB</option>
-                            <option value="C">オプションC</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label><span class="label-text">ラジオボタン</span><span class="required-mark">*</span><i class="fas fa-question-circle info-icon" data-tooltip="どちらか1つを選択。"></i></label>
-                        <div class="radio-group">
-                            <label><input type="radio" name="type" value="A" required> タイプA</label>
-                            <label><input type="radio" name="type" value="B"> タイプB</label>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="message"><span class="label-text">テキストエリア</span><i class="fas fa-question-circle info-icon" data-tooltip="ご自由にどうぞ。"></i></label>
-                        <textarea id="message" name="message" rows="5" placeholder="ご自由に入力してください..."></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="image-upload"><span class="label-text">画像アップロード (320x320)</span><i class="fas fa-question-circle info-icon" data-tooltip="画像をアップロードし、ガイドに合わせて切り抜きます。"></i></label>
-                        <input type="file" id="image-upload-input" accept="image/*" class="form-file-input">
-                        <div id="cropper-wrapper" style="display: none; margin-top: 15px;">
-                            <p>ガイドに合わせて画像を切り抜いてください。</p>
-                            <div id="cropper-container"><img id="image-to-crop" src=""></div>
-                            <button type="button" id="btn-crop-image" class="btn btn-secondary" style="margin-top: 15px;"><i class="fas fa-cut"></i> この画像に決定</button>
-                        </div>
-                        <div id="crop-result-container" style="display: none; margin-top: 15px;">
-                            <label><span class="label-text">切り抜き結果</span></label>
-                            <img id="crop-result-image" src="" class="crop-result-preview">
-                        </div>
-                    </div>
-                    <div class="form-group text-center">
-                        <button type="submit" class="btn btn-primary">送信する</button>
-                    </div>
+                    <div class="form-group"><label for="name"><span class="label-text">テキスト</span><span class="required-mark">*</span><i class="fas fa-question-circle info-icon" data-tooltip="お名前をフルネームで入力してください。"></i></label><input type="text" id="name" name="name" placeholder="例：山田 太郎" required></div>
+                    <div class="form-group"><label for="email"><span class="label-text">メール</span><span class="required-mark">*</span><i class="fas fa-question-circle info-icon" data-tooltip="確認用のメールアドレスを入力。"></i></label><input type="email" id="email" name="email" placeholder="例：hoge@example.com" required></div>
+                    <div class="form-group"><label for="date"><span class="label-text">日付 (カレンダー)</span><i class="fas fa-question-circle info-icon" data-tooltip="カレンダーから日付を選択します。"></i></label><input type="date" id="date" name="date"></div>
+                    <div class="form-group"><label for="list-select"><span class="label-text">リスト</span><span class="required-mark">*</span><i class="fas fa-question-circle info-icon" data-tooltip="一覧から項目を1つ選択してください。"></i></label><select id="list-select" name="list-select" class="form-select" required><option value="" disabled selected>選択してください</option><option value="A">オプションA</option><option value="B">オプションB</option><option value="C">オプションC</option></select></div>
+                    <div class="form-group"><label><span class="label-text">ラジオボタン</span><span class="required-mark">*</span><i class="fas fa-question-circle info-icon" data-tooltip="どちらか1つを選択。"></i></label><div class="radio-group"><label><input type="radio" name="type" value="A" required> タイプA</label><label><input type="radio" name="type" value="B"> タイプB</label></div></div>
+                    <div class="form-group"><label for="message"><span class="label-text">テキストエリア</span><i class="fas fa-question-circle info-icon" data-tooltip="ご自由にどうぞ。"></i></label><textarea id="message" name="message" rows="5" placeholder="ご自由に入力してください..."></textarea></div>
+                    <div class="form-group"><label for="image-upload"><span class="label-text">画像アップロード (320x320)</span><i class="fas fa-question-circle info-icon" data-tooltip="画像をアップロードし、ガイドに合わせて切り抜きます。"></i></label><input type="file" id="image-upload-input" accept="image/*" class="form-file-input"><div id="cropper-wrapper" style="display: none; margin-top: 15px;"><p>ガイドに合わせて画像を切り抜いてください。</p><div id="cropper-container"><img id="image-to-crop" src=""></div><button type="button" id="btn-crop-image" class="btn btn-secondary" style="margin-top: 15px;"><i class="fas fa-cut"></i> この画像に決定</button></div><div id="crop-result-container" style="display: none; margin-top: 15px;"><label><span class="label-text">切り抜き結果</span></label><img id="crop-result-image" src="" class="crop-result-preview"></div></div>
+                    <div class="form-group text-center"><button type="submit" class="btn btn-primary">送信する</button></div>
                 </form>
             </div>
         </section>
@@ -92,47 +52,21 @@
 
     <div id="notification-screen" style="display: none;">
         <button class="btn btn-back-to-menu"><i class="fas fa-arrow-left"></i> メニューに戻る</button>
-        <section class="notification-section">
-            <div class="container">
-                <h2>PWA通知テスト</h2>
-                <p>PWAとしてインストール後、通知許可をするとテストが可能です。</p>
-                <button id="notification-test-btn" class="btn btn-notification"><i class="fas fa-paper-plane"></i> 通知テスト (トークン取得)</button>
-                <textarea id="token-display-area" style="display: none;" rows="4" readonly></textarea>
-                <p id="token-info" style="display: none;">表示されたトークンを開発者に連携してください。<br>アプリを閉じて、通知を待ってね。</p>
-            </div>
-        </section>
+        <section class="notification-section"><div class="container"><h2>PWA通知テスト</h2><p>PWAとしてインストール後、通知許可をするとテストが可能です。</p><button id="notification-test-btn" class="btn btn-notification"><i class="fas fa-paper-plane"></i> 通知テスト (トークン取得)</button><textarea id="token-display-area" style="display: none;" rows="4" readonly></textarea><p id="token-info" style="display: none;">表示されたトークンを開発者に連携してください。<br>アプリを閉じて、通知を待ってね。</p></div></section>
     </div>
 
     <div id="swipe-overlay">
-        <button id="close-swipe-btn" title="閉じる">&times;</button>
+        
+        <button class="btn btn-back-to-menu" id="btn-swipe-close">
+            <i class="fas fa-arrow-left"></i> メニューに戻る
+        </button>
         <div class="swiper">
             <div class="swiper-wrapper">
-                
-                <div class="swiper-slide">
-                    <div class="card-content" id="card-1">
-                        ほげほげ
-                        <span class="profile-info">ここにプロフ情報がはいる</span>
-                    </div>
-                </div>
-                <div class="swiper-slide">
-                    <div class="card-content" id="card-2">
-                        ふがふが
-                        <span class="profile-info">ここにプロフ情報がはいる</span>
-                    </div>
-                </div>
-                <div class="swiper-slide">
-                    <div class="card-content" id="card-3">
-                        ぴよぴよ
-                        <span class="profile-info">ここにプロフ情報がはいる</span>
-                    </div>
-                </div>
-                <div class="swiper-slide">
-                    <div class="card-content" id="card-4">
-                        おわり
-                        <span class="profile-info">ここにプロフ情報がはいる</span>
-                    </div>
-                </div>
-                </div>
+                <div class="swiper-slide"><div class="card-content" id="card-1">ほげほげ<span class="profile-info">ここにプロフ情報がはいる</span></div></div>
+                <div class="swiper-slide"><div class="card-content" id="card-2">ふがふが<span class="profile-info">ここにプロフ情報がはいる</span></div></div>
+                <div class="swiper-slide"><div class="card-content" id="card-3">ぴよぴよ<span class="profile-info">ここにプロフ情報がはいる</span></div></div>
+                <div class="swiper-slide"><div class="card-content" id="card-4">おわり<span class="profile-info">ここにプロフ情報がはいる</span></div></div>
+            </div>
         </div>
         <div class="swipe-guide">
             <div class="arrow"></div>
@@ -145,19 +79,7 @@
     </a>
     
     <div id="popup-overlay" style="display: none;">
-        <div id="popup-box">
-            <div class="popup-header">
-                <h2>ポップアップ</h2>
-                <button id="btn-close-popup" class="btn-close-popup" title="閉じる">&times;</button>
-            </div>
-            <div class="popup-body">
-                <p>ここにポップアップのコンテンツが入ります。確認ボタンやフォームなどを配置できます。</p>
-            </div>
-            <div class="popup-actions">
-                <button id="btn-popup-cancel" class="btn btn-secondary">キャンセル</button>
-                <button id="btn-popup-ok" class="btn btn-primary">OK</button>
-            </div>
-        </div>
+        <div id="popup-box"><div class="popup-header"><h2>ポップアップ</h2><button id="btn-close-popup" class="btn-close-popup" title="閉じる">&times;</button></div><div class="popup-body"><p>ここにポップアップのコンテンツが入ります。確認ボタンやフォームなどを配置できます。</p></div><div class="popup-actions"><button id="btn-popup-cancel" class="btn btn-secondary">キャンセル</button><button id="btn-popup-ok" class="btn btn-primary">OK</button></div></div>
     </div>
 
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
