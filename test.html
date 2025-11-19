@@ -19,23 +19,26 @@
 
     <div id="bg-layer"></div>
 
-    <div id="hamburger-container">
-        <span id="design-guide-text">Design Control <i class="fas fa-arrow-right"></i></span>
-        <button id="btn-hamburger">
-            <i class="fas fa-bars"></i>
-        </button>
-    </div>
+    <header id="global-header">
+        <div class="header-left">
+            </div>
+        <div class="header-right">
+            <button id="btn-header-notification" class="header-icon-btn">
+                <i class="fas fa-bell"></i>
+                <span class="badge" id="notification-badge" style="display:none;"></span>
+            </button>
+            <button id="btn-hamburger" class="header-icon-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
 
-    <div id="main-menu">
+    <div id="main-menu" class="screen active">
         <div class="container">
             <img src="images/misechoku-yoko.png" alt="ミセチョク ロゴ" id="main-logo">
             <p class="main-subtitle">デザインモックサイト</p>
             
             <div class="menu-buttons">
-                <button id="btn-notification-screen" class="btn btn-menu main-feature-btn">
-                    <i class="fas fa-bell"></i> 通知テスト
-                </button>
-
                 <div class="menu-group">
                     <h3 class="menu-group-title">イメージ表示</h3>
                     <div class="menu-group-content">
@@ -48,10 +51,7 @@
                         <button id="btn-popup-image" class="btn btn-menu-small">
                             <i class="fas fa-window-maximize"></i> ポップアップ
                         </button>
-                        <button id="btn-profile-image" class="btn btn-menu-small">
-                            <i class="fas fa-user-circle"></i> プロフィール
-                        </button>
-                    </div>
+                        </div>
                 </div>
 
                 <p class="floating-promo-text">接客タイプ診断はこちら！</p>
@@ -64,7 +64,7 @@
         </div>
     </div>
 
-    <div id="form-screen" style="display: none;">
+    <div id="form-screen" class="screen" style="display: none;">
         <div class="form-overlay-bg"></div>
         <div class="form-modal-container">
             <div class="form-modal-header">
@@ -86,8 +86,10 @@
         </div>
     </div>
 
-    <div id="notification-screen" style="display: none;">
-        <div class="screen-header"><h2>通知（お知らせ）</h2></div>
+    <div id="notification-screen" class="screen" style="display: none;">
+        <div class="screen-header">
+            <h2>通知</h2>
+        </div>
         <div class="container">
             <section class="notification-section">
                 <h2>PWA通知テスト</h2>
@@ -96,37 +98,80 @@
                 <textarea id="token-display-area" style="display: none;" rows="4" readonly></textarea>
                 <p id="token-info" style="display: none;">表示されたトークンを開発者に連携してください。<br>アプリを閉じて、通知を待ってね。</p>
             </section>
-            <div class="dummy-list">
-                <div class="list-item"><div class="list-icon" style="background:#FF9F9F"><i class="fas fa-heart"></i></div><div class="list-content"><h4>いいね！されました</h4><p>あなたの投稿に「いいね！」がつきました。</p></div><span class="list-time">2分前</span></div>
-                <div class="list-item"><div class="list-icon" style="background:#99CCCC"><i class="fas fa-info"></i></div><div class="list-content"><h4>運営からのお知らせ</h4><p>メンテナンスが完了しました。</p></div><span class="list-time">1日前</span></div>
-            </div>
         </div>
     </div>
     
-    <div id="search-screen" style="display: none;">
-        <div class="screen-header"><h2>検索・一覧</h2></div>
+    <div id="search-screen" class="screen" style="display: none;">
+        <div class="screen-header">
+            <h2>検索・一覧</h2>
+        </div>
         <div class="container">
-            <div class="search-bar-container"><input type="text" class="search-input" placeholder="キーワードで検索..."><button class="search-btn"><i class="fas fa-search"></i></button></div>
-            <div class="category-tags"><span class="tag active">すべて</span><span class="tag">新着</span><span class="tag">人気</span><span class="tag">おすすめ</span></div>
+            <div class="search-bar-container">
+                <input type="text" class="search-input" placeholder="キーワードで検索...">
+                <button class="search-btn"><i class="fas fa-search"></i></button>
+            </div>
+            <div class="category-tags">
+                <span class="tag active">すべて</span>
+                <span class="tag">新着</span>
+                <span class="tag">人気</span>
+                <span class="tag">おすすめ</span>
+            </div>
             <div class="dummy-list">
-                <div class="list-item"><div class="list-img-box" style="background:#e0e0e0"></div><div class="list-content"><h4>カフェ A</h4><p>おしゃれなカフェです。</p></div><i class="fas fa-chevron-right"></i></div>
-                <div class="list-item"><div class="list-img-box" style="background:#d0d0d0"></div><div class="list-content"><h4>レストラン B</h4><p>美味しいイタリアン。</p></div><i class="fas fa-chevron-right"></i></div>
-                <div class="list-item"><div class="list-img-box" style="background:#c0c0c0"></div><div class="list-content"><h4>バー C</h4><p>静かなバー。</p></div><i class="fas fa-chevron-right"></i></div>
+                <div class="list-item">
+                    <div class="list-img-box" style="background:#e0e0e0"></div>
+                    <div class="list-content">
+                        <h4>カフェ A</h4>
+                        <p>おしゃれなカフェです。</p>
+                    </div>
+                    <i class="fas fa-chevron-right arrow"></i>
+                </div>
+                <div class="list-item">
+                    <div class="list-img-box" style="background:#d0d0d0"></div>
+                    <div class="list-content">
+                        <h4>レストラン B</h4>
+                        <p>美味しいイタリアン。</p>
+                    </div>
+                    <i class="fas fa-chevron-right arrow"></i>
+                </div>
+                <div class="list-item">
+                    <div class="list-img-box" style="background:#c0c0c0"></div>
+                    <div class="list-content">
+                        <h4>バー C</h4>
+                        <p>静かなバー。</p>
+                    </div>
+                    <i class="fas fa-chevron-right arrow"></i>
+                </div>
             </div>
         </div>
     </div>
 
-    <div id="message-screen" style="display: none;">
-        <div class="screen-header"><h2>メッセージ</h2></div>
+    <div id="message-screen" class="screen" style="display: none;">
+        <div class="screen-header">
+            <h2>メッセージ</h2>
+        </div>
         <div class="container">
             <div class="dummy-list">
-                <div class="list-item"><div class="list-avatar" style="background:#ffcc80">A</div><div class="list-content"><h4>Alice</h4><p>こんにちは！昨日の件ですが...</p></div><span class="list-time">10:30</span></div>
-                <div class="list-item"><div class="list-avatar" style="background:#90caf9">B</div><div class="list-content"><h4>Bob</h4><p>ありがとうございます！</p></div><span class="list-time">昨日</span></div>
+                <div class="list-item">
+                    <div class="list-avatar" style="background:#ffcc80">A</div>
+                    <div class="list-content">
+                        <h4>Alice</h4>
+                        <p>こんにちは！昨日の件ですが...</p>
+                    </div>
+                    <span class="list-time">10:30</span>
+                </div>
+                <div class="list-item">
+                    <div class="list-avatar" style="background:#90caf9">B</div>
+                    <div class="list-content">
+                        <h4>Bob</h4>
+                        <p>ありがとうございます！</p>
+                    </div>
+                    <span class="list-time">昨日</span>
+                </div>
             </div>
         </div>
     </div>
 
-    <div id="mypage-screen" style="display: none;">
+    <div id="mypage-screen" class="screen" style="display: none;">
         <div class="profile-header">
             <div class="profile-banner"></div>
             <div class="profile-info-section">
@@ -134,22 +179,41 @@
                 <button class="btn profile-edit-btn">編集</button>
                 <h1 class="profile-name">ミセチョク 太郎</h1>
                 <p class="profile-id">@misechoku_dev</p>
-                <div class="profile-stats"><div><strong>123</strong> <span class="stats-label">フォロー</span></div><div><strong>456</strong> <span class="stats-label">フォロワー</span></div></div>
+                <div class="profile-stats">
+                    <div><strong>123</strong> <span class="stats-label">フォロー</span></div>
+                    <div><strong>456</strong> <span class="stats-label">フォロワー</span></div>
+                </div>
+                
                 <div class="task-section">
                     <h3><i class="fas fa-tasks"></i> 今日のタスク</h3>
                     <div class="task-list">
-                        <div class="task-item"><input type="checkbox" id="task1"><label for="task1">プロフィールの設定</label></div>
-                        <div class="task-item"><input type="checkbox" id="task2" checked><label for="task2">最初の投稿をする</label></div>
-                        <div class="task-item"><input type="checkbox" id="task3"><label for="task3">いいね！を5回する</label></div>
+                        <div class="task-item">
+                            <input type="checkbox" id="task1">
+                            <label for="task1">プロフィールの設定</label>
+                        </div>
+                        <div class="task-item">
+                            <input type="checkbox" id="task2" checked>
+                            <label for="task2">最初の投稿をする</label>
+                        </div>
+                        <div class="task-item">
+                            <input type="checkbox" id="task3">
+                            <label for="task3">いいね！を5回する</label>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="profile-content">
-            <div class="profile-tabs"><button class="tab-button active">投稿</button><button class="tab-button">いいね</button><button class="tab-button">保存</button></div>
+            <div class="profile-tabs">
+                <button class="tab-button active">投稿</button>
+                <button class="tab-button">いいね</button>
+                <button class="tab-button">保存</button>
+            </div>
             <div class="profile-posts">
                 <div class="post-grid">
-                    <div class="post-item"><span class="post-item-text">1</span></div><div class="post-item"><span class="post-item-text">2</span></div><div class="post-item"><span class="post-item-text">3</span></div>
+                    <div class="post-item"><span class="post-item-text">1</span></div>
+                    <div class="post-item"><span class="post-item-text">2</span></div>
+                    <div class="post-item"><span class="post-item-text">3</span></div>
                 </div>
             </div>
         </div>
@@ -161,7 +225,9 @@
         <div class="swipe-guide"><div class="arrow"></div><div>上へスワイプ</div></div>
     </div>
 
-    <a href="#" id="btn-back-to-top" class="btn-floating" title="トップに戻る" style="display: none;"><i class="fas fa-arrow-up"></i></a>
+    <a href="#" id="btn-back-to-top" class="btn-floating" title="トップに戻る" style="display: none;">
+        <i class="fas fa-arrow-up"></i>
+    </a>
     
     <div id="fab-container">
         <div id="fab-submenu" class="fab-submenu">
@@ -169,60 +235,67 @@
             <button class="fab-item" id="btn-find-girl"><i class="fas fa-female"></i> 女の子を探す</button>
             <button class="fab-item" id="btn-play-game"><i class="fas fa-gamepad"></i> ゲームをする</button>
         </div>
-        <button id="fab-main" class="btn-fab"><i class="fas fa-filter"></i></button>
+        <button id="fab-main" class="btn-fab">
+            <i class="fas fa-filter"></i>
+        </button>
     </div>
 
     <div id="popup-overlay" style="display: none;">
-        <div id="popup-box"><div class="popup-header"><h2>ポップアップ</h2><button id="btn-close-popup" class="btn-close-popup" title="閉じる">&times;</button></div><div class="popup-body"><p>ここにポップアップのコンテンツが入ります。</p></div><div class="popup-actions"><button id="btn-popup-cancel" class="btn btn-secondary">キャンセル</button><button id="btn-popup-ok" class="btn btn-primary">OK</button></div></div>
+        <div id="popup-box"><div class="popup-header"><h2>ポップアップ</h2><button id="btn-close-popup" class="btn-close-popup" title="閉じる">&times;</button></div><div class="popup-body"><p>ここにポップアップのコンテンツが入ります。確認ボタンやフォームなどを配置できます。</p></div><div class="popup-actions"><button id="btn-popup-cancel" class="btn btn-secondary">キャンセル</button><button id="btn-popup-ok" class="btn btn-primary">OK</button></div></div>
     </div>
 
-    <div id="side-menu-overlay" style="display: none;"></div>
+    <div id="side-menu-overlay"></div>
     <div id="side-menu">
-        <div class="side-menu-header"><h3>Design Control</h3><button id="btn-close-side-menu">&times;</button></div>
+        <div class="side-menu-header">
+            <h3>Design Control</h3>
+            <button id="btn-close-side-menu">&times;</button>
+        </div>
         <div class="side-menu-content">
-            <details class="design-category" open><summary>カラーテーマ</summary>
-                <div class="option-list">
-                    <button class="btn-option theme-btn" data-theme="lemon">フレッシュレモン！</button>
-                    <button class="btn-option theme-btn" data-theme="lime">ライムグリーン！</button>
-                    <button class="btn-option theme-btn" data-theme="mint">ミントグリーン！</button>
-                    <button class="btn-option theme-btn" data-theme="navy">ネイビーブルー！</button>
-                    <button class="btn-option theme-btn" data-theme="lavender">ラベンダー！</button>
-                    <button class="btn-option theme-btn" data-theme="salmon">サーモンピンク！</button>
-                    <button class="btn-option theme-btn" data-theme="beige">ベージュ！</button>
-                </div>
-            </details>
-            <details class="design-category"><summary>アクセントカラー</summary>
-                <div class="option-list">
-                    <button class="btn-option accent-btn" data-accent="space-navy">宇宙のネイビー⋯</button>
-                    <button class="btn-option accent-btn" data-accent="deep-green">深淵のグリーン⋯</button>
-                    <button class="btn-option accent-btn" data-accent="blood-red">鮮血のレッド⋯</button>
-                    <button class="btn-option accent-btn" data-accent="grandpa-brown">おじいちゃんブラウン⋯</button>
-                    <button class="btn-option accent-btn" data-accent="jet-black">漆黒のブラック⋯</button>
-                </div>
-            </details>
-            <details class="design-category"><summary>デザイン</summary>
-                <div class="option-list">
-                    <button class="btn-option style-btn" data-style="gradient">グラデーション</button>
-                    <button class="btn-option style-btn" data-style="flat">のっぺり</button>
-                    <button class="btn-option style-btn" data-style="super-3d">超立体</button>
-                </div>
-            </details>
-            <div class="design-category"><h4>濃淡調整</h4>
-                <div class="brightness-controls">
-                    <button id="btn-lighten" class="btn-brightness" title="薄く"><i class="fas fa-arrow-up"></i></button>
-                    <button id="btn-reset-brightness" class="btn-brightness-reset" title="リセット"><i class="fas fa-undo"></i></button>
-                    <button id="btn-darken" class="btn-brightness" title="濃く"><i class="fas fa-arrow-down"></i></button>
-                </div>
+            
+            <div class="design-block">
+                <h4>▼ デザイン</h4>
+                <label class="radio-label"><input type="radio" name="design-style" value="gradient" checked> グラデーション</label>
+                <label class="radio-label"><input type="radio" name="design-style" value="flat"> のっぺり（単色）</label>
             </div>
+
+            <div class="design-block">
+                <h4>▼ メインカラー</h4>
+                <p class="small-desc">ベースとなる色（薄め推奨）</p>
+                <input type="color" id="color-main-picker" value="#f6fd86">
+            </div>
+
+            <div class="design-block">
+                <h4>▼ サブカラー</h4>
+                <p class="small-desc">グラデーションの終点（白に近い色推奨）</p>
+                <input type="color" id="color-sub-picker" value="#afdece">
+            </div>
+
+            <div class="design-block">
+                <h4>▼ アクセントカラー</h4>
+                <p class="small-desc">文字やボタンの色（濃い色推奨）</p>
+                <input type="color" id="color-accent-picker" value="#8B4513">
+            </div>
+
         </div>
     </div>
 
     <nav id="bottom-nav">
-        <button class="nav-item" data-target="search-screen"><i class="fas fa-search"></i><span>検索・一覧</span></button>
-        <button class="nav-item" data-target="notification-screen"><i class="fas fa-bell"></i><span>通知</span></button>
-        <button class="nav-item active" data-target="main-menu"><i class="fas fa-home"></i><span>ホーム</span></button>
-        <button class="nav-item" data-target="message-screen"><i class="fas fa-comment-dots"></i><span>メッセージ</span></button>
-        <button class="nav-item" data-target="mypage-screen"><i class="fas fa-user"></i><span>マイページ</span></button>
+        <button class="nav-item" data-target="search-screen">
+            <i class="fas fa-search"></i>
+            <span>検索・一覧</span>
+        </button>
+        <button class="nav-item active" data-target="main-menu">
+            <i class="fas fa-home"></i>
+            <span>ホーム</span>
+        </button>
+        <button class="nav-item" data-target="message-screen">
+            <i class="fas fa-comment-dots"></i>
+            <span>メッセージ</span>
+        </button>
+        <button class="nav-item" data-target="mypage-screen">
+            <i class="fas fa-user"></i>
+            <span>マイページ</span>
+        </button>
     </nav>
 
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
