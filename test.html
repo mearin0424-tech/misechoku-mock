@@ -27,11 +27,34 @@
                 <i class="fas fa-bell"></i>
                 <span class="badge" id="notification-badge" style="display:none;"></span>
             </button>
+            
+            <button id="btn-header-task" class="header-icon-btn">
+                <i class="fas fa-check-circle"></i>
+                <span class="badge" id="task-badge">1</span>
+            </button>
+            
             <button id="btn-hamburger" class="header-icon-btn">
                 <i class="fas fa-bars"></i>
             </button>
         </div>
     </header>
+
+    <div id="header-task-popup">
+        <div class="task-popup-header">
+            <h4>やることリスト</h4>
+            <button class="btn-close-task-popup">&times;</button>
+        </div>
+        <div class="task-popup-content">
+            <div class="mini-task-item">
+                <i class="fas fa-comment-dots" style="color: #eb6b6b;"></i>
+                <span>〇〇店との面談日程を決めよう！</span>
+            </div>
+            <div class="mini-task-item">
+                <i class="fas fa-user-edit" style="color: #6babe8;"></i>
+                <span>プロフィールを完成させよう</span>
+            </div>
+        </div>
+    </div>
 
     <div id="design-guide-text">Design Control <i class="fas fa-arrow-up" style="transform: rotate(45deg);"></i></div>
 
@@ -43,6 +66,10 @@
             
             <div class="menu-buttons">
                 
+                <button id="btn-notification-screen" class="btn btn-menu main-feature-btn">
+                    <i class="fas fa-bell"></i> 通知テスト
+                </button>
+
                 <div class="menu-group">
                     <h3 class="menu-group-title">イメージ表示</h3>
                     <div class="menu-group-content">
@@ -59,7 +86,6 @@
                 </div>
 
                 <p class="floating-promo-text">接客タイプ診断はこちら！</p>
-                
                 <a href="https://mearin0424-tech.github.io/personality-test/personality-test.html" class="btn-app-link" target="_blank" rel="noopener noreferrer">
                     <img src="icons/piyoko-icon-128x128.png" alt="診断アプリアイコン">
                     <span>接客タイプ診断</span>
@@ -69,8 +95,7 @@
                 <button id="btn-real-site" class="btn-real-link">
                     <img src="images/misechoku-yoko.png" alt="ミセチョク公式サイト">
                 </button>
-
-            </div>
+                </div>
         </div>
     </div>
 
@@ -89,8 +114,23 @@
                     <div class="form-group"><label for="list-select"><span class="label-text">リスト</span><span class="required-mark">*</span><i class="fas fa-question-circle info-icon" data-tooltip="一覧から項目を1つ選択してください。"></i></label><select id="list-select" name="list-select" class="form-select" required><option value="" disabled selected>選択してください</option><option value="A">オプションA</option><option value="B">オプションB</option><option value="C">オプションC</option></select></div>
                     <div class="form-group"><label><span class="label-text">ラジオボタン</span><span class="required-mark">*</span><i class="fas fa-question-circle info-icon" data-tooltip="どちらか1つを選択。"></i></label><div class="radio-group"><label><input type="radio" name="type" value="A" required> タイプA</label><label><input type="radio" name="type" value="B"> タイプB</label></div></div>
                     <div class="form-group"><label for="message"><span class="label-text">テキストエリア</span><i class="fas fa-question-circle info-icon" data-tooltip="ご自由にどうぞ。"></i></label><textarea id="message" name="message" rows="5" placeholder="ご自由に入力してください..."></textarea></div>
-                    <div class="form-group"><label for="image-upload"><span class="label-text">画像アップロード (320x320)</span><i class="fas fa-question-circle info-icon" data-tooltip="画像をアップロードし、ガイドに合わせて切り抜きます。"></i></label><input type="file" id="image-upload-input" accept="image/*" class="form-file-input"><div id="cropper-wrapper" style="display: none; margin-top: 15px;"><p>ガイドに合わせて画像を切り抜いてください。</p><div id="cropper-container"><img id="image-to-crop" src=""></div><button type="button" id="btn-crop-image" class="btn btn-secondary" style="margin-top: 15px;"><i class="fas fa-cut"></i> この画像に決定</button></div><div id="crop-result-container" style="display: none; margin-top: 15px;"><label><span class="label-text">切り抜き結果</span></label><img id="crop-result-image" src="" class="crop-result-preview"></div></div>
-                    <div class="form-group text-center"><button type="submit" class="btn btn-primary">送信する</button></div>
+                    
+                    <div class="form-group">
+                        <label for="image-upload"><span class="label-text">画像アップロード (320x320)</span><i class="fas fa-question-circle info-icon" data-tooltip="画像をアップロードし、ガイドに合わせて切り抜きます。"></i></label>
+                        <div class="file-input-wrapper">
+                            <input type="file" id="image-upload-input" accept="image/*" class="form-file-input">
+                        </div>
+                        <div id="cropper-wrapper" style="display: none; margin-top: 15px;">
+                            <p>ガイドに合わせて画像を切り抜いてください。</p>
+                            <div id="cropper-container"><img id="image-to-crop" src=""></div>
+                            <button type="button" id="btn-crop-image" class="btn btn-secondary" style="margin-top: 15px; width:100%;"><i class="fas fa-cut"></i> 切り抜く</button>
+                        </div>
+                        <div id="crop-result-container" style="display: none; margin-top: 15px; text-align:center;">
+                            <label><span class="label-text">切り抜き結果</span></label>
+                            <img id="crop-result-image" src="" class="crop-result-preview">
+                        </div>
+                    </div>
+                    <div class="form-group text-center"><button type="submit" class="btn btn-primary" style="width:100%;">送信する</button></div>
                 </form>
             </div>
         </div>
@@ -113,7 +153,7 @@
     
     <div id="search-screen" class="screen" style="display: none;">
         <div class="screen-header">
-            <h2>検索・一覧</h2>
+            <h2>一覧</h2>
         </div>
         <div class="container">
             <div class="search-bar-container">
@@ -121,13 +161,43 @@
                 <button class="search-btn"><i class="fas fa-search"></i></button>
             </div>
             <div class="category-tags">
-                <span class="tag active">すべて</span><span class="tag">新着</span><span class="tag">人気</span><span class="tag">おすすめ</span>
+                <span class="tag active">すべて</span>
+                <span class="tag">新着</span>
+                <span class="tag">人気</span>
+                <span class="tag">おすすめ</span>
             </div>
-            <div class="dummy-list">
-                <div class="list-item"><div class="list-img-box" style="background:#e0e0e0"></div><div class="list-content"><h4>カフェ A</h4><p>おしゃれなカフェです。</p></div><i class="fas fa-chevron-right arrow"></i></div>
-                <div class="list-item"><div class="list-img-box" style="background:#d0d0d0"></div><div class="list-content"><h4>レストラン B</h4><p>美味しいイタリアン。</p></div><i class="fas fa-chevron-right arrow"></i></div>
-                <div class="list-item"><div class="list-img-box" style="background:#c0c0c0"></div><div class="list-content"><h4>バー C</h4><p>静かなバー。</p></div><i class="fas fa-chevron-right arrow"></i></div>
+            <div class="thumbnail-list">
+                <div class="thumbnail-card">
+                    <div class="thumb-img" style="background-image: url('images/card-1.png');"></div>
+                    <div class="thumb-info">
+                        <h4>ほげほげカフェ</h4>
+                        <p class="thumb-tag">#おしゃれ #電源あり</p>
+                    </div>
+                </div>
+                <div class="thumbnail-card">
+                    <div class="thumb-img" style="background-image: url('images/card-2.png');"></div>
+                    <div class="thumb-info">
+                        <h4>ふがふがレストラン</h4>
+                        <p class="thumb-tag">#イタリアン #個室</p>
+                    </div>
+                </div>
+                <div class="thumbnail-card">
+                    <div class="thumb-img" style="background-image: url('images/card-3.png');"></div>
+                    <div class="thumb-info">
+                        <h4>ぴよぴよバー</h4>
+                        <p class="thumb-tag">#静か #カクテル</p>
+                    </div>
+                </div>
             </div>
+        </div>
+    </div>
+
+    <div id="favorite-screen" class="screen" style="display: none;">
+        <div class="screen-header">
+            <h2>お気に入り</h2>
+        </div>
+        <div class="container">
+            <p style="text-align:center; color:#888; margin-top:50px;">まだお気に入りがありません。</p>
         </div>
     </div>
 
@@ -144,70 +214,67 @@
     </div>
 
     <div id="mypage-screen" class="screen" style="display: none;">
-        <div class="profile-header">
-            <div class="profile-banner"></div>
-            <div class="profile-info-section">
-                <div class="profile-avatar-placeholder"></div>
-                <button class="btn profile-edit-btn">編集</button>
-                <h1 class="profile-name">ミセチョク 太郎</h1>
-                <p class="profile-id">@misechoku_dev</p>
-                <div class="profile-stats">
-                    <div><strong>123</strong> <span class="stats-label">フォロー</span></div>
-                    <div><strong>456</strong> <span class="stats-label">フォロワー</span></div>
+        <div class="profile-header-simple">
+            <div class="container profile-flex">
+                <div class="profile-icon-left">
+                    <div class="profile-avatar-simple"></div>
                 </div>
-                
-                <div class="task-section">
-                    <h3><i class="fas fa-tasks"></i> 今日のタスク</h3>
-                    <div class="task-list">
-                        <div class="task-item">
-                            <input type="checkbox" id="task1">
-                            <label for="task1">プロフィールの設定</label>
+                <div class="profile-info-right">
+                    <h1 class="profile-name-simple">ミセチョク 太郎</h1>
+                    <p class="profile-id-simple">@misechoku_dev</p>
+                    <button class="btn-profile-edit-stylish">
+                        <i class="fas fa-pencil-alt"></i> 編集
+                    </button>
+                </div>
+            </div>
+            <div class="container">
+                 <p class="profile-bio-simple">Webデザイナー見習い。UI/UXデザインに興味津々！趣味は新しいカフェ巡り☕️。<br>#Webデザイン #UI #UX</p>
+            </div>
+        </div>
+        </div>
+    
+    <div id="swipe-overlay" style="display: none;">
+        <button class="btn btn-back-to-menu" id="btn-swipe-close"><i class="fas fa-arrow-left"></i> メニューに戻る</button>
+        <div class="swiper">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <div class="card-content" id="card-1" data-link="profile">
+                        <img src="images/card-1.png" alt="カード1">
+                        <div class="card-side-actions">
+                            <div class="side-action-btn"><i class="fas fa-heart"></i><span>12.5k</span></div>
+                            <div class="side-action-btn"><i class="fas fa-star"></i><span>お気に入り</span></div>
+                            <div class="side-action-btn"><i class="fas fa-share"></i><span>シェア</span></div>
                         </div>
-                        <div class="task-item">
-                            <input type="checkbox" id="task2" checked>
-                            <label for="task2">最初の投稿をする</label>
-                        </div>
-                        <div class="task-item">
-                            <input type="checkbox" id="task3">
-                            <label for="task3">いいね！を5回する</label>
+                        <div class="profile-info-box">
+                            <div class="info-name">ミセチョク花子 (24)</div>
+                            <div class="info-tags">#カフェ巡り #歌が好き</div>
+                            <div class="info-msg">はじめまして！よろしくお願いします♪</div>
                         </div>
                     </div>
                 </div>
+                <div class="swiper-slide"><div class="card-content" id="card-2" data-link="profile"><img src="images/card-2.png" alt="カード2"><div class="card-side-actions"><div class="side-action-btn"><i class="fas fa-heart"></i><span>8k</span></div><div class="side-action-btn"><i class="fas fa-star"></i><span>お気に入り</span></div></div><div class="profile-info-box"><div class="info-name">ふがふが子 (22)</div><div class="info-tags">#アニメ #ゲーム</div><div class="info-msg">仲良くしてください！</div></div></div></div>
+                <div class="swiper-slide"><div class="card-content" id="card-3" data-link="profile"><img src="images/card-3.png" alt="カード3"><div class="card-side-actions"><div class="side-action-btn"><i class="fas fa-heart"></i><span>5k</span></div><div class="side-action-btn"><i class="fas fa-star"></i><span>お気に入り</span></div></div><div class="profile-info-box"><div class="info-name">ぴよぴよ (20)</div><div class="info-tags">#初心者 #勉強中</div><div class="info-msg">頑張ります！</div></div></div></div>
+                <div class="swiper-slide"><div class="card-content" id="card-4" data-link="profile"><img src="images/card-4.png" alt="カード4"><div class="card-side-actions"><div class="side-action-btn"><i class="fas fa-heart"></i><span>999</span></div><div class="side-action-btn"><i class="fas fa-star"></i><span>お気に入り</span></div></div><div class="profile-info-box"><div class="info-name">おわり美 (28)</div><div class="info-tags">#プロ #ベテラン</div><div class="info-msg">なんでも聞いてください。</div></div></div></div>
             </div>
         </div>
-        <div class="profile-content">
-            <div class="profile-tabs">
-                <button class="tab-button active">投稿</button>
-                <button class="tab-button">いいね</button>
-                <button class="tab-button">保存</button>
-            </div>
-            <div class="profile-posts">
-                <div class="post-grid">
-                    <div class="post-item"><span class="post-item-text">1</span></div><div class="post-item"><span class="post-item-text">2</span></div><div class="post-item"><span class="post-item-text">3</span></div>
-                </div>
-            </div>
+        <div class="swipe-guide-animated">
+            <i class="fas fa-arrow-up"></i>
+            <span>上へスワイプ</span>
         </div>
     </div>
-    
+
     <div id="error-screen" class="screen" style="display: none;">
         <div class="container error-container">
             <div class="error-content">
                 <div class="error-icon"><i class="fas fa-exclamation-circle"></i></div>
                 <h2>システムエラーが発生しました</h2>
-                <p>申し訳ありません。<br>予期せぬエラーが発生しました。<br>しばらく経ってから再度お試しください。</p>
+                <p>申し訳ありません。<br>予期せぬエラーが発生しました。</p>
                 <div class="error-actions">
                     <button class="btn btn-primary" onclick="location.reload()">再読み込み</button>
                     <button class="btn btn-secondary btn-back-home">ホームへ戻る</button>
                 </div>
-                <div class="error-code">Error Code: 500 Internal Server Error</div>
             </div>
         </div>
-    </div>
-
-    <div id="swipe-overlay" style="display: none;">
-        <button class="btn btn-back-to-menu" id="btn-swipe-close"><i class="fas fa-arrow-left"></i> メニューに戻る</button>
-        <div class="swiper"><div class="swiper-wrapper"><div class="swiper-slide"><div class="card-content" id="card-1"><img src="images/card-1.png" alt="カード1"><span class="profile-info">ここにプロフ情報がはいる</span></div></div><div class="swiper-slide"><div class="card-content" id="card-2"><img src="images/card-2.png" alt="カード2"><span class="profile-info">ここにプロフ情報がはいる</span></div></div><div class="swiper-slide"><div class="card-content" id="card-3"><img src="images/card-3.png" alt="カード3"><span class="profile-info">ここにプロフ情報がはいる</span></div></div><div class="swiper-slide"><div class="card-content" id="card-4"><img src="images/card-4.png" alt="カード4"><span class="profile-info">ここにプロフ情報がはいる</span></div></div></div></div>
-        <div class="swipe-guide"><div class="arrow"></div><div>上へスワイプ</div></div>
     </div>
 
     <a href="#" id="btn-back-to-top" class="btn-floating" title="トップに戻る" style="display: none;"><i class="fas fa-arrow-up"></i></a>
@@ -223,7 +290,7 @@
     </div>
 
     <div id="popup-overlay" style="display: none;">
-        <div id="popup-box"><div class="popup-header"><h2>ポップアップ</h2><button id="btn-close-popup" class="btn-close-popup" title="閉じる">&times;</button></div><div class="popup-body"><p>ここにポップアップのコンテンツが入ります。</p></div><div class="popup-actions"><button id="btn-popup-cancel" class="btn btn-secondary">キャンセル</button><button id="btn-popup-ok" class="btn btn-primary">OK</button></div></div>
+        <div id="popup-box"><div class="popup-header"><h2>ポップアップ</h2><button id="btn-close-popup" class="btn-close-popup" title="閉じる">&times;</button></div><div class="popup-body"><div class="form-group"><label>サンプル入力</label><input type="text" placeholder="入力してください"></div><button class="btn btn-primary" style="width:100%; margin-top:10px;">送信</button></div></div>
     </div>
 
     <div id="popup-real-site-overlay" style="display: none;">
@@ -255,37 +322,19 @@
             <button id="btn-close-side-menu">&times;</button>
         </div>
         <div class="side-menu-content">
-            <details class="design-category" open><summary>デザイン</summary>
-                <div class="option-list">
-                    <label class="radio-label"><input type="radio" name="design-style" value="gradient" checked> グラデーション</label>
-                    <label class="radio-label"><input type="radio" name="design-style" value="flat"> のっぺり（単色）</label>
-                </div>
-            </details>
-            <details class="design-category" open><summary>メインカラー</summary>
-                <div class="option-list">
-                    <p class="small-desc">ベースとなる色（薄め推奨）</p>
-                    <input type="color" id="color-main-picker" value="#f6fd86">
-                </div>
-            </details>
-            <details class="design-category"><summary>サブカラー</summary>
-                <div class="option-list">
-                    <p class="small-desc">グラデーションの終点</p>
-                    <input type="color" id="color-sub-picker" value="#afdece">
-                </div>
-            </details>
-            <details class="design-category"><summary>アクセントカラー</summary>
-                <div class="option-list">
-                    <p class="small-desc">文字やボタンの色</p>
-                    <input type="color" id="color-accent-picker" value="#8B4513">
-                </div>
-            </details>
+            <details class="design-category" open><summary>デザイン</summary><div class="option-list"><label class="radio-label"><input type="radio" name="design-style" value="gradient" checked> グラデーション</label><label class="radio-label"><input type="radio" name="design-style" value="flat"> のっぺり（単色）</label></div></details>
+            <details class="design-category" open><summary>メインカラー</summary><div class="option-list"><p class="small-desc">ベースとなる色（薄め推奨）</p><input type="color" id="color-main-picker" value="#f6fd86"></div></details>
+            <details class="design-category"><summary>サブカラー</summary><div class="option-list"><p class="small-desc">グラデーションの終点</p><input type="color" id="color-sub-picker" value="#afdece"></div></details>
+            <details class="design-category"><summary>アクセントカラー</summary><div class="option-list"><p class="small-desc">文字やボタンの色</p><input type="color" id="color-accent-picker" value="#8B4513"></div></details>
         </div>
     </div>
 
     <nav id="bottom-nav">
         <button class="nav-item" data-target="search-screen">
-            <i class="fas fa-search"></i>
-            <span>検索・一覧</span>
+            <i class="fas fa-list"></i> <span>一覧</span> </button>
+        <button class="nav-item" data-target="favorite-screen">
+            <i class="fas fa-heart"></i>
+            <span>お気に入り</span>
         </button>
         <button class="nav-item active" data-target="main-menu">
             <i class="fas fa-home"></i>
