@@ -117,8 +117,146 @@ body.flat-mode .btn-menu, body.flat-mode .btn-menu-small { background: var(--col
 /* サイドメニュー (左) */
 #side-menu-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 600; display: none; }
 #side-menu-overlay.active { display: block; }
-#side-menu { position: fixed; top: 0; left: -320px; width: 280px; height: 100%; background: #FFF; z-index: 610; transition: left 0.3s ease; box-shadow: 5px 0 20px rgba(0,0,0,0.1); display: flex; flex-direction: column; }
-#side-menu.active { left: 0; }
+#side-menu {
+    position: fixed;
+    top: 0;
+    right: -320px; /* leftではなくrightで制御 */
+    left: auto;    /* left設定を打ち消し */
+    width: 280px;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    z-index: 610;
+    transition: right 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* スムーズな動き */
+    box-shadow: -5px 0 20px rgba(0,0,0,0.1); /* 影の向きを左へ */
+    display: flex;
+    flex-direction: column;
+}
+#side-menu.active {
+    left: auto;
+    right: 0;
+}
+
+/* タイトルフォント修正 */
+.design-title-stylish {
+    font-family: 'Zen Maru Gothic', sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem; /* 小さめ */
+    color: #666;
+    margin-bottom: 12px;
+    letter-spacing: 0.05em;
+}
+
+/* --- スイッチコンポーネント --- */
+.style-switch-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 5px 0;
+}
+.switch-label {
+    font-size: 0.85rem;
+    color: #555;
+    font-weight: 600;
+}
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 26px;
+}
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 34px;
+}
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+input:checked + .slider {
+    background-color: var(--color-text-current); /* アクセントカラー連動 */
+}
+input:checked + .slider:before {
+    transform: translateX(24px);
+}
+
+/* --- 3D丸形カラーピッカー --- */
+.color-picker-3d-wrapper {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    box-shadow: 
+        inset -3px -3px 8px rgba(0,0,0,0.1),
+        inset 3px 3px 8px rgba(255,255,255,0.8),
+        3px 3px 10px rgba(0,0,0,0.15);
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.1s;
+}
+.color-picker-3d-wrapper:hover {
+    transform: scale(1.05);
+}
+.color-picker-3d {
+    width: 150%;
+    height: 150%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: none;
+    padding: 0;
+    background: none;
+    cursor: pointer;
+}
+
+/* --- スタイリッシュな円形ボタン (濃淡調整) --- */
+.brightness-controls {
+    display: flex;
+    justify-content: flex-start;
+    gap: 15px;
+}
+.btn-round-stylish {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    border: none;
+    background: #f0f0f0;
+    color: #555;
+    box-shadow: 5px 5px 10px #d1d1d1, -5px -5px 10px #ffffff; /* ニューモーフィズム風 */
+    font-size: 1.1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.btn-round-stylish:active {
+    box-shadow: inset 5px 5px 10px #d1d1d1, inset -5px -5px 10px #ffffff;
+    transform: scale(0.95);
+}
+.btn-round-stylish.reset {
+    color: var(--color-text-current);
+}
+
+/* サイドメニュー旧デザイン
 .side-menu-header { padding: 20px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
 .side-menu-header h3 { margin: 0; color: var(--color-text-current); font-size: 1.1rem; }
 #btn-close-side-menu { background: none; border: none; font-size: 1.5rem; cursor: pointer; }
@@ -129,6 +267,7 @@ body.flat-mode .btn-menu, body.flat-mode .btn-menu-small { background: var(--col
 .option-list-row { display: flex; gap: 15px; }
 input[type="color"] { width: 100%; height: 40px; border: none; cursor: pointer; background: none; padding: 0; }
 .radio-label { display: block; font-size: 0.9rem; cursor: pointer; color: #555; }
+*/
 
 /* タスクバー */
 #bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; height: 70px; background: rgba(255,255,255,0.95); border-top: 1px solid #eee; display: flex; justify-content: space-around; align-items: center; z-index: 400; }
