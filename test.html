@@ -206,14 +206,83 @@
         </div>
     </div>
     
-    <div id="swipe-overlay" style="display: none;">
+<div id="swipe-overlay" style="display: none;">
         <button class="btn btn-back-to-menu" id="btn-swipe-close"><i class="fas fa-arrow-left"></i> メニューに戻る</button>
-        <div class="swiper"><div class="swiper-wrapper">
-            <div class="swiper-slide"><div class="card-content" id="card-1"><img src="images/card-1.png" alt="1"><div class="card-side-actions"><div class="side-action-btn"><i class="fas fa-heart"></i></div><div class="side-action-btn"><i class="fas fa-star"></i></div></div><div class="profile-info-box"><div class="info-name">ミセチョク花子 (24)</div><div class="info-tags">#カフェ巡り</div><div class="info-msg">よろしくお願いします♪</div></div></div></div>
-            <div class="swiper-slide"><div class="card-content" id="card-2"><img src="images/card-2.png" alt="2"><div class="card-side-actions"><div class="side-action-btn"><i class="fas fa-heart"></i></div><div class="side-action-btn"><i class="fas fa-star"></i></div></div><div class="profile-info-box"><div class="info-name">ふがふが子 (22)</div><div class="info-tags">#ゲーム</div><div class="info-msg">仲良くしてください！</div></div></div></div>
-            <div class="swiper-slide"><div class="card-content" id="card-3"><img src="images/card-3.png" alt="3"><div class="card-side-actions"><div class="side-action-btn"><i class="fas fa-heart"></i></div><div class="side-action-btn"><i class="fas fa-star"></i></div></div><div class="profile-info-box"><div class="info-name">ぴよぴよ (20)</div><div class="info-tags">#勉強中</div><div class="info-msg">頑張ります！</div></div></div></div>
-        </div></div>
-        <div class="swipe-guide-animated"><i class="fas fa-arrow-up"></i><span>上へスワイプ</span></div>
+        
+        <div class="swiper">
+            <div class="swiper-wrapper">
+                
+                <div class="swiper-slide">
+                    <div class="card-content" id="card-1">
+                        <img src="images/card-1.png" alt="User Profile" class="profile-image">
+                        <div class="overlay"></div>
+
+                        <div class="action-bar">
+                            <div class="action-item side-action-btn">
+                                <i class="fas fa-heart icon-circle"></i>
+                                <span class="action-label">いいね</span>
+                            </div>
+                            <div class="action-item side-action-btn">
+                                <i class="fas fa-bookmark icon-circle"></i>
+                                <span class="action-label">保存</span>
+                            </div>
+                            <div class="action-item side-action-btn">
+                                <i class="fas fa-share-alt icon-circle"></i>
+                                <span class="action-label">シェア</span>
+                            </div>
+                        </div>
+
+                        <div class="profile-info-new">
+                            <div class="user-name">ミセチョク花子 (24)</div>
+                            <div class="user-tags">#カフェ巡り #旅行好き #カメラ女子</div>
+                            <div class="user-intro">よろしくお願いします♪</div>
+                        </div>
+
+                        <div class="swipe-indicator">
+                            <i class="fas fa-chevron-up swipe-icon"></i>
+                            <span class="swipe-text">SWIPE</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="swiper-slide">
+                    <div class="card-content" id="card-2">
+                        <img src="images/card-2.png" alt="User Profile" class="profile-image">
+                        <div class="overlay"></div>
+                        <div class="action-bar">
+                            <div class="action-item side-action-btn"><i class="fas fa-heart icon-circle"></i><span class="action-label">2.5k</span></div>
+                            <div class="action-item side-action-btn"><i class="fas fa-bookmark icon-circle"></i><span class="action-label">保存</span></div>
+                            <div class="action-item side-action-btn"><i class="fas fa-share-alt icon-circle"></i><span class="action-label">シェア</span></div>
+                        </div>
+                        <div class="profile-info-new">
+                            <div class="user-name">ふがふが子 (22)</div>
+                            <div class="user-tags">#ゲーム #インドア #イタリアン</div>
+                            <div class="user-intro">仲良くしてください！</div>
+                        </div>
+                        <div class="swipe-indicator"><i class="fas fa-chevron-up swipe-icon"></i><span class="swipe-text">SWIPE</span></div>
+                    </div>
+                </div>
+
+                <div class="swiper-slide">
+                    <div class="card-content" id="card-3">
+                        <img src="images/card-3.png" alt="User Profile" class="profile-image">
+                        <div class="overlay"></div>
+                        <div class="action-bar">
+                            <div class="action-item side-action-btn"><i class="fas fa-heart icon-circle"></i><span class="action-label">10k</span></div>
+                            <div class="action-item side-action-btn"><i class="fas fa-bookmark icon-circle"></i><span class="action-label">保存</span></div>
+                            <div class="action-item side-action-btn"><i class="fas fa-share-alt icon-circle"></i><span class="action-label">シェア</span></div>
+                        </div>
+                        <div class="profile-info-new">
+                            <div class="user-name">ぴよぴよ (20)</div>
+                            <div class="user-tags">#勉強中 #プログラミング #初心者</div>
+                            <div class="user-intro">頑張ります！</div>
+                        </div>
+                        <div class="swipe-indicator"><i class="fas fa-chevron-up swipe-icon"></i><span class="swipe-text">SWIPE</span></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
     </div>
 
     <div id="error-screen" class="screen" style="display: none;">
