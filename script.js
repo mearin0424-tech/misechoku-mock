@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     
-    // --- 画面要素の取得 ---
+    // --- 画面要素 ---
     const mainMenu = document.getElementById('main-menu');
     const formScreen = document.getElementById('form-screen');
     const notificationScreen = document.getElementById('notification-screen');
@@ -13,9 +13,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- サイドメニュー要素 ---
     const sideMenu = document.getElementById('side-menu');
     const sideMenuOverlay = document.getElementById('side-menu-overlay');
-    const btnDesignControl = document.getElementById('btn-design-control');
+    const btnHamburger = document.getElementById('btn-hamburger'); // ID変更
     const btnCloseSideMenu = document.getElementById('btn-close-side-menu');
-    const root = document.documentElement; // CSS変数を操作するため
+    const root = document.documentElement; 
+    
+    // 背景レイヤー
+    const bgLayer = document.getElementById('bg-layer');
 
     // --- メインメニューのボタン ---
     const btnSwipeImage = document.getElementById('btn-swipe-image');
@@ -24,14 +27,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnPopupImage = document.getElementById('btn-popup-image');
     const btnProfileImage = document.getElementById('btn-profile-image');
 
-    // --- 各画面の「戻る」ボタン ---
+    // --- 戻るボタン群 ---
     const backButtons = Array.from(document.querySelectorAll('.btn-back-to-menu'));
 
     // --- スワイプ関連 ---
     let swiper = null; 
     const closeSwipeBtn = document.getElementById('btn-swipe-close');
 
-    // --- ポップアップ閉じるボタン ---
+    // --- ポップアップ関連 ---
     const btnClosePopup = document.getElementById('btn-close-popup');
     const btnPopupCancel = document.getElementById('btn-popup-cancel');
     const btnPopupOk = document.getElementById('btn-popup-ok');
@@ -59,14 +62,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     
-    // --- ポップアップ関数 ---
     function showPopup(show) {
         if (popupOverlay) {
             popupOverlay.style.display = show ? 'flex' : 'none';
         }
     }
 
-    // --- サイドメニュー関数 ---
     function toggleSideMenu(show) {
         if (show) {
             sideMenuOverlay.classList.add('active');
@@ -78,12 +79,28 @@ document.addEventListener('DOMContentLoaded', () => {
             document.body.style.overflow = 'auto';
         }
     }
+    
+    // ヘルパー関数: Hex色コードを薄くする (RGBA変換)
+    function hexToLightRgba(hex, alpha) {
+        let r = 0, g = 0, b = 0;
+        if (hex.length === 4) {
+            r = parseInt(hex[1] + hex[1], 16);
+            g = parseInt(hex[2] + hex[2], 16);
+            b = parseInt(hex[3] + hex[3], 16);
+        } else if (hex.length === 7) {
+            r = parseInt(hex.substring(1, 3), 16);
+            g = parseInt(hex.substring(3, 5), 16);
+            b = parseInt(hex.substring(5, 7), 16);
+        }
+        return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+    }
+
 
     // --- イベントリスナー ---
 
-    // Design Control ボタン
-    if (btnDesignControl) {
-        btnDesignControl.addEventListener('click', () => toggleSideMenu(true));
+    // ハンバーガーメニュー
+    if (btnHamburger) {
+        btnHamburger.addEventListener('click', () => toggleSideMenu(true));
     }
     if (btnCloseSideMenu) {
         btnCloseSideMenu.addEventListener('click', () => toggleSideMenu(false));
@@ -92,17 +109,17 @@ document.addEventListener('DOMContentLoaded', () => {
         sideMenuOverlay.addEventListener('click', () => toggleSideMenu(false));
     }
 
-    // カラーテーマ変更
+    // カラーテーマ
     document.querySelectorAll('.theme-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
             const theme = e.target.getAttribute('data-theme');
             let startColor, endColor;
             
             switch(theme) {
-                case 'lemon': startColor = '#f6fd86'; endColor = '#afdece'; break; // デフォルト
+                case 'lemon': startColor = '#f6fd86'; endColor = '#afdece'; break; 
                 case 'lime': startColor = '#c6ff00'; endColor = '#f0f8ff'; break;
                 case 'mint': startColor = '#98fb98'; endColor = '#e0ffff'; break;
-                case 'navy': startColor = '#000080'; endColor = '#191970'; break; // 暗いテーマ
+                case 'navy': startColor = '#000080'; endColor = '#191970'; break; 
                 case 'lavender': startColor = '#e6e6fa'; endColor = '#fff0f5'; break;
                 case 'salmon': startColor = '#fa8072'; endColor = '#ffe4e1'; break;
                 case 'beige': startColor = '#f5f5dc'; endColor = '#faf0e6'; break;
@@ -112,10 +129,9 @@ document.addEventListener('DOMContentLoaded', () => {
             root.style.setProperty('--color-bg-start', startColor);
             root.style.setProperty('--color-bg-end', endColor);
             
-            // ネイビーなど暗い色の場合は文字色を白にする簡易ロジック
             if (theme === 'navy') {
                 root.style.setProperty('--color-text', '#ffffff');
-                root.style.setProperty('--color-text-brown', '#ffebcd'); // 薄い色に
+                root.style.setProperty('--color-text-brown', '#ffebcd');
             } else {
                 root.style.setProperty('--color-text', '#333');
                 root.style.setProperty('--color-text-brown', '#8B4513');
@@ -123,7 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // アクセントカラー変更
+    // アクセントカラー (ボタン背景も変更)
     document.querySelectorAll('.accent-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
             const accent = e.target.getAttribute('data-accent');
@@ -140,50 +156,45 @@ document.addEventListener('DOMContentLoaded', () => {
 
             root.style.setProperty('--color-primary', primary);
             root.style.setProperty('--color-primary-dark', dark);
-            // テキストカラーも合わせる
             root.style.setProperty('--color-text-brown', primary);
+            
+            // ▼▼▼ ボタンの背景色を薄い色に変更 ▼▼▼
+            // 透過度 0.05 (5%) の薄い色を生成
+            const lightBg = hexToLightRgba(primary, 0.05);
+            root.style.setProperty('--color-btn-bg', lightBg);
+            // ▲▲▲ 追加 ▲▲▲
         });
     });
 
-    // デザインスタイル変更
+    // デザイン
     document.querySelectorAll('.style-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
             const style = e.target.getAttribute('data-style');
             document.body.classList.remove('flat-design', 'super-3d');
-            
-            if (style === 'flat') {
-                document.body.classList.add('flat-design');
-            } else if (style === 'super-3d') {
-                document.body.classList.add('super-3d');
-            }
+            if (style === 'flat') document.body.classList.add('flat-design');
+            else if (style === 'super-3d') document.body.classList.add('super-3d');
         });
     });
 
-    // 濃淡調整 (簡易的なフィルタ)
-    // CSS filterを使うと子要素すべてに影響するため、背景色の透明度や明るさを操作するのが理想だが、
-    // ここでは簡易的に body の背景色ブレンドモード等は使わず、オーバーレイで表現するアプローチ等は複雑になるため、
-    // 明るさ調整用変数を導入するアプローチが一番綺麗だが、今回はコンソールログのみとする（実装難易度調整）
-    // あるいは、HSL変換ロジックを入れる。
-    // 今回はご要望の「機能を入れたい」に応えるため、ボタンイベントだけ設定しておく。
-    
+    // 濃淡調整 (背景レイヤーのみに適用)
     const adjustBrightness = (amount) => {
-        // ここで真面目に色計算するのはコード量が膨大になるため、
-        // 簡易的にフィルタで body 全体の明るさを変える（荒技だが動く）
-        let currentFilter = document.body.style.filter || 'brightness(100%)';
-        let currentVal = parseInt(currentFilter.match(/\d+/)[0]);
+        // #bg-layer から現在のフィルタ値を取得
+        let currentFilter = bgLayer.style.filter || 'brightness(100%)';
+        // 正規表現で数値部分だけ取り出す
+        let match = currentFilter.match(/brightness\((\d+)%\)/);
+        let currentVal = match ? parseInt(match[1]) : 100;
         
         let newVal = currentVal + amount;
         if (newVal < 50) newVal = 50;
         if (newVal > 150) newVal = 150;
         
-        document.body.style.filter = `brightness(${newVal}%)`;
+        bgLayer.style.filter = `brightness(${newVal}%)`;
     };
-
     document.getElementById('btn-lighten').addEventListener('click', () => adjustBrightness(10));
     document.getElementById('btn-darken').addEventListener('click', () => adjustBrightness(-10));
 
 
-    // --- 既存のイベントリスナー ---
+    // --- 既存イベントリスナー ---
     if (btnSwipeImage) btnSwipeImage.addEventListener('click', () => {
         if (swipeOverlay) swipeOverlay.style.display = 'block';
         document.body.style.overflow = 'hidden';
@@ -248,11 +259,10 @@ document.addEventListener('DOMContentLoaded', () => {
         cropResultContainer.style.display = 'block';
     });
     
-    // ツールチップ
     const infoIcons = document.querySelectorAll('.info-icon');
     let activeTooltip = null; 
     infoIcons.forEach(icon => {
-        const hintText = icon.getAttribute('data-tooltip') || "ヒントがここにでますよ";
+        const hintText = icon.getAttribute('data-tooltip') || "ヒント";
         const tooltip = document.createElement('span');
         tooltip.className = 'tooltip-text';
         tooltip.textContent = hintText;
