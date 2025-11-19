@@ -4,10 +4,16 @@
 :root {
     --color-bg-start: #f6fd86; 
     --color-bg-end: #afdece; 
+    
     --color-primary: #99CCCC; 
     --color-primary-dark: #80B3B3; 
     --color-border: #CCCCCC; 
     --color-card-bg: #FFFFFF; 
+    
+    /* ▼▼▼ ボタン背景用の変数を追加 ▼▼▼ */
+    --color-btn-bg: #FFFFFF;
+    /* ▲▲▲ 追加 ▲▲▲ */
+    
     --color-text: #333; 
     --color-text-light: #555;
     --color-subtitle: #b0b0b0; 
@@ -21,18 +27,82 @@ body {
     font-family: 'Noto Sans JP', sans-serif;
     margin: 0;
     padding: 0;
-    background: linear-gradient(135deg, var(--color-bg-start) 0%, var(--color-bg-end) 100%);
-    background-attachment: fixed; 
     color: var(--color-text);
     line-height: 1.7;
-    transition: background 0.3s ease; /* 色変更時のアニメーション */
+    /* 背景色は #bg-layer に移動したため削除 */
+    background: transparent;
 }
+
+/* ▼▼▼ 背景専用レイヤー (濃淡調整バグ回避用) ▼▼▼ */
+#bg-layer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* コンテンツの下 */
+    background: linear-gradient(135deg, var(--color-bg-start) 0%, var(--color-bg-end) 100%);
+    transition: background 0.3s ease, filter 0.3s ease;
+}
+/* ▲▲▲ 追加 ▲▲▲ */
 
 .container {
     max-width: 800px;
     margin: 0 auto;
     padding: 0 20px;
 }
+
+/* ▼▼▼ ハンバーガーメニューと誘導テキスト ▼▼▼ */
+#hamburger-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 205; /* サイドメニューより下、コンテンツより上 */
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+#btn-hamburger {
+    background: var(--color-card-bg);
+    border: none;
+    box-shadow: var(--shadow-light);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    font-size: 1.4rem;
+    color: var(--color-text-brown);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#btn-hamburger:hover {
+    transform: scale(1.05);
+    box-shadow: var(--shadow-hover);
+}
+#btn-hamburger:active {
+    transform: scale(0.95);
+}
+
+/* Design Control への誘導テキスト */
+#design-guide-text {
+    font-family: 'Zen Maru Gothic', sans-serif;
+    font-weight: 700;
+    color: var(--color-text-brown);
+    background: rgba(255, 255, 255, 0.8);
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    animation: float-guide 3s ease-in-out infinite;
+}
+@keyframes float-guide {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(-5px); }
+}
+/* ▲▲▲ 追加 ▲▲▲ */
+
 
 /* ★★★ メインメニューのスタイル ★★★ */
 #main-menu {
@@ -78,7 +148,11 @@ body {
     font-size: 1.1em;
     font-weight: 600;
     border-radius: 12px;
-    background: var(--color-card-bg); 
+    
+    /* ▼▼▼ 変数に変更 (アクセントカラー連動のため) ▼▼▼ */
+    background: var(--color-btn-bg); 
+    /* ▲▲▲ 変更 ▲▲▲ */
+    
     border: none; 
     box-shadow: var(--shadow-light); 
     color: var(--color-text-brown);
@@ -93,7 +167,7 @@ body {
 }
 .btn-menu:active {
     transform: translateY(-1px) scale(0.98); 
-    background-color: #f5f5f5; 
+    background-color: #f5f5f5; /* ここはデフォルトのままでOK */
     box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
 }
 .btn-menu i {
@@ -114,15 +188,13 @@ body {
     animation: float-text 3s ease-in-out infinite;
     pointer-events: none; 
 }
-
 @keyframes float-text {
     0%   { transform: translateY(0); opacity: 1; }
     50%  { transform: translateY(-8px); opacity: 0.8; }
     100% { transform: translateY(0); opacity: 1; }
 }
 
-
-/* ▼▼▼ 診断アプリボタンのスタイル (単色に変更) ▼▼▼ */
+/* ▼▼▼ 診断アプリボタンのスタイル ▼▼▼ */
 .btn-app-link {
     display: flex; 
     align-items: center; 
@@ -156,7 +228,6 @@ body {
     background-color: #d1a970; 
     box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
 }
-
 
 /* ★★★ 画面共通 ★★★ */
 .btn {
@@ -797,14 +868,14 @@ textarea {
 #side-menu {
     position: fixed;
     top: 0;
-    right: -320px; /* 初期位置は画面外 */
+    right: -320px; 
     width: 300px;
     height: 100%;
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(10px);
     box-shadow: -5px 0 15px rgba(0,0,0,0.1);
     z-index: 210;
-    transition: right 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* スムーズなアニメーション */
+    transition: right 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); 
     overflow-y: auto;
     display: flex;
     flex-direction: column;
@@ -866,12 +937,6 @@ textarea {
     background: #f0f0f0;
     transform: translateX(3px);
 }
-/* 選択中のスタイル (任意) */
-.btn-option.active {
-    background: var(--color-primary);
-    color: white;
-    border-color: var(--color-primary-dark);
-}
 
 .option-buttons-row {
     display: flex;
@@ -882,7 +947,10 @@ textarea {
 }
 
 /* デザインバリエーション用クラス */
-/* のっぺり (フラット) */
+/* のっぺり (背景を単色に) */
+body.flat-design #bg-layer {
+    background: var(--color-bg-start); /* グラデーションの開始色をベタ塗りに */
+}
 body.flat-design .btn-menu,
 body.flat-design .btn,
 body.flat-design .form-section,
@@ -891,7 +959,8 @@ body.flat-design .card-content {
     box-shadow: none !important;
     border: 2px solid var(--color-border);
 }
-/* 超立体 (ニューモーフィズム風/ハードシャドウ) */
+
+/* 超立体 */
 body.super-3d .btn-menu,
 body.super-3d .btn,
 body.super-3d .form-section,
@@ -899,6 +968,5 @@ body.super-3d .notification-section,
 body.super-3d .card-content {
     box-shadow: 6px 6px 0px rgba(0,0,0,0.2), inset 2px 2px 5px rgba(255,255,255,0.5) !important;
     border: 1px solid rgba(0,0,0,0.1);
-    transform: translate(-2px, -2px); /* 浮き上がり表現 */
+    transform: translate(-2px, -2px); 
 }
-/* ▲▲▲ 追加ここまで ▲▲▲ */
