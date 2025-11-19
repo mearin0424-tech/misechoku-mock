@@ -49,8 +49,42 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeSwipeBtn = document.getElementById('btn-swipe-close');
     const btnCloseForm = document.querySelector('.btn-close-form');
     const formOverlayBg = document.querySelector('.form-overlay-bg');
-
     const designToggle = document.getElementById('design-mode-toggle');
+    const btnRandom = document.getElementById('btn-random-color');
+    
+    if(btnRandom) {
+        btnRandom.addEventListener('click', () => {
+            // ランダムなHEX色を生成する関数
+            const getRandomHex = () => {
+                const letters = '0123456789ABCDEF';
+                let color = '#';
+                for (let i = 0; i < 6; i++) {
+                    color += letters[Math.floor(Math.random() * 16)];
+                }
+                return color;
+            };
+
+            // 3色生成
+            const mainColor = getRandomHex();
+            const subColor = getRandomHex();
+            const accentColor = getRandomHex();
+
+            // ピッカーの値を変えて、inputイベントを発火（既存の更新処理を動かす）
+            if(pickerMain) {
+                pickerMain.value = mainColor;
+                pickerMain.dispatchEvent(new Event('input'));
+            }
+            if(pickerSub) {
+                pickerSub.value = subColor;
+                pickerSub.dispatchEvent(new Event('input'));
+            }
+            if(pickerAccent) {
+                pickerAccent.value = accentColor;
+                pickerAccent.dispatchEvent(new Event('input'));
+            }
+        });
+    }
+    
     if(designToggle) {
         // 初期状態チェック (HTML側でchecked属性があれば適用)
         if(document.body.classList.contains('flat-mode')) {
