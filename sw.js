@@ -2,7 +2,7 @@ importScripts('https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js'
 importScripts('https://www.gstatic.com/firebasejs/9.22.0/firebase-messaging-compat.js');
 
 const CACHE_NAME = 'misechoku-mock-cache-v4'; // バージョン更新
-const REPO_PATH = '/misechoku-mock/';
+const REPO_PATH = '/';
 
 // ▼▼▼ 修正: アイコン画像のキャッシュを削除（ファイル名不一致によるエラー回避） ▼▼▼
 const urlsToCache = [
