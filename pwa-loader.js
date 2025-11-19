@@ -1,5 +1,5 @@
 // --- 1. 定義 ---
-const REPO_PATH = '/';
+const REPO_PATH = '/misechoku-mock/';
 
 const firebaseConfig = {
   apiKey: "AIzaSyAQnHBsjvhSKiJP6pq5Ac5317tweEU8Kk8",
