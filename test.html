@@ -20,8 +20,7 @@
     <div id="bg-layer"></div>
 
     <header id="global-header">
-        <div class="header-left">
-            </div>
+        <div class="header-left"></div>
         <div class="header-right">
             <button id="btn-header-notification" class="header-icon-btn">
                 <i class="fas fa-bell"></i>
@@ -45,19 +44,12 @@
             <button class="btn-close-task-popup">&times;</button>
         </div>
         <div class="task-popup-content">
-            <div class="mini-task-item">
-                <i class="fas fa-comment-dots" style="color: #eb6b6b;"></i>
-                <span>〇〇店との面談日程を決めよう！</span>
-            </div>
-            <div class="mini-task-item">
-                <i class="fas fa-user-edit" style="color: #6babe8;"></i>
-                <span>プロフィールを完成させよう</span>
-            </div>
+            <div class="mini-task-item"><i class="fas fa-comment-dots" style="color: #eb6b6b;"></i><span>〇〇店との面談日程を決めよう！</span></div>
+            <div class="mini-task-item"><i class="fas fa-user-edit" style="color: #6babe8;"></i><span>プロフィールを完成させよう</span></div>
         </div>
     </div>
 
     <div id="design-guide-text">Design Control <i class="fas fa-arrow-up" style="transform: rotate(45deg);"></i></div>
-
 
     <div id="main-menu" class="screen active">
         <div class="container">
@@ -65,7 +57,6 @@
             <p class="main-subtitle">デザインモックサイト</p>
             
             <div class="menu-buttons">
-                
                 <button id="btn-notification-screen" class="btn btn-menu main-feature-btn">
                     <i class="fas fa-bell"></i> 通知テスト
                 </button>
@@ -73,15 +64,9 @@
                 <div class="menu-group">
                     <h3 class="menu-group-title">イメージ表示</h3>
                     <div class="menu-group-content">
-                        <button id="btn-swipe-image" class="btn btn-menu-small">
-                            <i class="fas fa-arrows-alt-v"></i> スワイプ
-                        </button>
-                        <button id="btn-popup-image" class="btn btn-menu-small">
-                            <i class="fas fa-window-maximize"></i> ポップアップ
-                        </button>
-                        <button id="btn-error-image" class="btn btn-menu-small">
-                            <i class="fas fa-exclamation-triangle"></i> エラー処理
-                        </button>
+                        <button id="btn-swipe-image" class="btn btn-menu-small"><i class="fas fa-arrows-alt-v"></i> スワイプ</button>
+                        <button id="btn-popup-image" class="btn btn-menu-small"><i class="fas fa-window-maximize"></i> ポップアップ</button>
+                        <button id="btn-error-image" class="btn btn-menu-small"><i class="fas fa-exclamation-triangle"></i> エラー処理</button>
                     </div>
                 </div>
 
@@ -95,7 +80,7 @@
                 <button id="btn-real-site" class="btn-real-link">
                     <img src="images/misechoku-yoko.png" alt="ミセチョク公式サイト">
                 </button>
-                </div>
+            </div>
         </div>
     </div>
 
@@ -107,7 +92,7 @@
                 <button class="btn-close-form" title="閉じる">&times;</button>
             </div>
             <div class="form-modal-body">
-                <form action="#" method="POST">
+                <form action="#" method="POST" onsubmit="event.preventDefault();">
                     <div class="form-group"><label for="name"><span class="label-text">テキスト</span><span class="required-mark">*</span><i class="fas fa-question-circle info-icon" data-tooltip="お名前をフルネームで入力してください。"></i></label><input type="text" id="name" name="name" placeholder="例：山田 太郎" required></div>
                     <div class="form-group"><label for="email"><span class="label-text">メール</span><span class="required-mark">*</span><i class="fas fa-question-circle info-icon" data-tooltip="確認用のメールアドレスを入力。"></i></label><input type="email" id="email" name="email" placeholder="例：hoge@example.com" required></div>
                     <div class="form-group"><label for="date"><span class="label-text">日付 (カレンダー)</span><i class="fas fa-question-circle info-icon" data-tooltip="カレンダーから日付を選択します。"></i></label><input type="date" id="date" name="date"></div>
@@ -116,12 +101,18 @@
                     <div class="form-group"><label for="message"><span class="label-text">テキストエリア</span><i class="fas fa-question-circle info-icon" data-tooltip="ご自由にどうぞ。"></i></label><textarea id="message" name="message" rows="5" placeholder="ご自由に入力してください..."></textarea></div>
                     
                     <div class="form-group">
-                        <label for="image-upload"><span class="label-text">画像アップロード (320x320)</span><i class="fas fa-question-circle info-icon" data-tooltip="画像をアップロードし、ガイドに合わせて切り抜きます。"></i></label>
-                        <div class="file-input-wrapper">
-                            <input type="file" id="image-upload-input" accept="image/*" class="form-file-input">
+                        <label><span class="label-text">画像アップロード (320x320)</span><i class="fas fa-question-circle info-icon" data-tooltip="画像をアップロードし、ガイドに合わせて切り抜きます。"></i></label>
+                        
+                        <div class="custom-file-upload">
+                            <input type="file" id="image-upload-input" accept="image/*">
+                            <label for="image-upload-input" class="btn-file-select">
+                                <i class="fas fa-cloud-upload-alt"></i> 画像を選択
+                            </label>
+                            <span id="file-name-display">選択されていません</span>
                         </div>
+
                         <div id="cropper-wrapper" style="display: none; margin-top: 15px;">
-                            <p>ガイドに合わせて画像を切り抜いてください。</p>
+                            <p style="font-size:0.85rem; color:#666; margin-bottom:5px;">ガイドに合わせて画像を切り抜いてください</p>
                             <div id="cropper-container"><img id="image-to-crop" src=""></div>
                             <button type="button" id="btn-crop-image" class="btn btn-secondary" style="margin-top: 15px; width:100%;"><i class="fas fa-cut"></i> 切り抜く</button>
                         </div>
@@ -130,21 +121,23 @@
                             <img id="crop-result-image" src="" class="crop-result-preview">
                         </div>
                     </div>
-                    <div class="form-group text-center"><button type="submit" class="btn btn-primary" style="width:100%;">送信する</button></div>
+                    <div class="form-group text-center">
+                        <button type="submit" class="btn btn-primary btn-submit-stylish">送信する</button>
+                    </div>
                 </form>
             </div>
         </div>
     </div>
 
     <div id="notification-screen" class="screen" style="display: none;">
-        <div class="screen-header">
-            <h2>通知</h2>
-        </div>
+        <div class="screen-header"><h2>通知</h2></div>
         <div class="container">
             <section class="notification-section">
                 <h2>PWA通知テスト</h2>
                 <p>PWAとしてインストール後、通知許可をするとテストが可能です。</p>
-                <button id="notification-test-btn" class="btn btn-notification"><i class="fas fa-paper-plane"></i> 通知テスト (トークン取得)</button>
+                <button id="notification-test-btn" class="btn btn-notification-stylish">
+                    <i class="fas fa-paper-plane"></i> 通知テスト (トークン取得)
+                </button>
                 <textarea id="token-display-area" style="display: none;" rows="4" readonly></textarea>
                 <p id="token-info" style="display: none;">表示されたトークンを開発者に連携してください。<br>アプリを閉じて、通知を待ってね。</p>
             </section>
@@ -152,59 +145,25 @@
     </div>
     
     <div id="search-screen" class="screen" style="display: none;">
-        <div class="screen-header">
-            <h2>一覧</h2>
-        </div>
+        <div class="screen-header"><h2>一覧</h2></div>
         <div class="container">
-            <div class="search-bar-container">
-                <input type="text" class="search-input" placeholder="キーワードで検索...">
-                <button class="search-btn"><i class="fas fa-search"></i></button>
-            </div>
-            <div class="category-tags">
-                <span class="tag active">すべて</span>
-                <span class="tag">新着</span>
-                <span class="tag">人気</span>
-                <span class="tag">おすすめ</span>
-            </div>
+            <div class="search-bar-container"><input type="text" class="search-input" placeholder="キーワードで検索..."><button class="search-btn"><i class="fas fa-search"></i></button></div>
+            <div class="category-tags"><span class="tag active">すべて</span><span class="tag">新着</span><span class="tag">人気</span><span class="tag">おすすめ</span></div>
             <div class="thumbnail-list">
-                <div class="thumbnail-card">
-                    <div class="thumb-img" style="background-image: url('images/card-1.png');"></div>
-                    <div class="thumb-info">
-                        <h4>ほげほげカフェ</h4>
-                        <p class="thumb-tag">#おしゃれ #電源あり</p>
-                    </div>
-                </div>
-                <div class="thumbnail-card">
-                    <div class="thumb-img" style="background-image: url('images/card-2.png');"></div>
-                    <div class="thumb-info">
-                        <h4>ふがふがレストラン</h4>
-                        <p class="thumb-tag">#イタリアン #個室</p>
-                    </div>
-                </div>
-                <div class="thumbnail-card">
-                    <div class="thumb-img" style="background-image: url('images/card-3.png');"></div>
-                    <div class="thumb-info">
-                        <h4>ぴよぴよバー</h4>
-                        <p class="thumb-tag">#静か #カクテル</p>
-                    </div>
-                </div>
+                <div class="thumbnail-card"><div class="thumb-img" style="background-image: url('images/card-1.png');"></div><div class="thumb-info"><h4>ほげほげカフェ</h4><p class="thumb-tag">#おしゃれ #電源あり</p></div></div>
+                <div class="thumbnail-card"><div class="thumb-img" style="background-image: url('images/card-2.png');"></div><div class="thumb-info"><h4>ふがふがレストラン</h4><p class="thumb-tag">#イタリアン #個室</p></div></div>
+                <div class="thumbnail-card"><div class="thumb-img" style="background-image: url('images/card-3.png');"></div><div class="thumb-info"><h4>ぴよぴよバー</h4><p class="thumb-tag">#静か #カクテル</p></div></div>
             </div>
         </div>
     </div>
 
     <div id="favorite-screen" class="screen" style="display: none;">
-        <div class="screen-header">
-            <h2>お気に入り</h2>
-        </div>
-        <div class="container">
-            <p style="text-align:center; color:#888; margin-top:50px;">まだお気に入りがありません。</p>
-        </div>
+        <div class="screen-header"><h2>お気に入り</h2></div>
+        <div class="container"><p style="text-align:center; color:#888; margin-top:50px;">まだお気に入りがありません。</p></div>
     </div>
 
     <div id="message-screen" class="screen" style="display: none;">
-        <div class="screen-header">
-            <h2>メッセージ</h2>
-        </div>
+        <div class="screen-header"><h2>メッセージ</h2></div>
         <div class="container">
             <div class="dummy-list">
                 <div class="list-item"><div class="list-avatar" style="background:#ffcc80">A</div><div class="list-content"><h4>Alice</h4><p>こんにちは！昨日の件ですが...</p></div><span class="list-time">10:30</span></div>
@@ -216,51 +175,28 @@
     <div id="mypage-screen" class="screen" style="display: none;">
         <div class="profile-header-simple">
             <div class="container profile-flex">
-                <div class="profile-icon-left">
-                    <div class="profile-avatar-simple"></div>
-                </div>
+                <div class="profile-icon-left"><div class="profile-avatar-simple"></div></div>
                 <div class="profile-info-right">
                     <h1 class="profile-name-simple">ミセチョク 太郎</h1>
                     <p class="profile-id-simple">@misechoku_dev</p>
-                    <button class="btn-profile-edit-stylish">
-                        <i class="fas fa-pencil-alt"></i> 編集
-                    </button>
+                    <button class="btn-profile-edit-stylish"><i class="fas fa-pencil-alt"></i> 編集</button>
                 </div>
             </div>
-            <div class="container">
-                 <p class="profile-bio-simple">Webデザイナー見習い。UI/UXデザインに興味津々！趣味は新しいカフェ巡り☕️。<br>#Webデザイン #UI #UX</p>
-            </div>
+            <div class="container"><p class="profile-bio-simple">Webデザイナー見習い。UI/UXデザインに興味津々！趣味は新しいカフェ巡り☕️。<br>#Webデザイン #UI #UX</p></div>
         </div>
-        </div>
+    </div>
     
     <div id="swipe-overlay" style="display: none;">
         <button class="btn btn-back-to-menu" id="btn-swipe-close"><i class="fas fa-arrow-left"></i> メニューに戻る</button>
         <div class="swiper">
             <div class="swiper-wrapper">
-                <div class="swiper-slide">
-                    <div class="card-content" id="card-1" data-link="profile">
-                        <img src="images/card-1.png" alt="カード1">
-                        <div class="card-side-actions">
-                            <div class="side-action-btn"><i class="fas fa-heart"></i><span>12.5k</span></div>
-                            <div class="side-action-btn"><i class="fas fa-star"></i><span>お気に入り</span></div>
-                            <div class="side-action-btn"><i class="fas fa-share"></i><span>シェア</span></div>
-                        </div>
-                        <div class="profile-info-box">
-                            <div class="info-name">ミセチョク花子 (24)</div>
-                            <div class="info-tags">#カフェ巡り #歌が好き</div>
-                            <div class="info-msg">はじめまして！よろしくお願いします♪</div>
-                        </div>
-                    </div>
-                </div>
+                <div class="swiper-slide"><div class="card-content" id="card-1" data-link="profile"><img src="images/card-1.png" alt="カード1"><div class="card-side-actions"><div class="side-action-btn"><i class="fas fa-heart"></i><span>12.5k</span></div><div class="side-action-btn"><i class="fas fa-star"></i><span>お気に入り</span></div></div><div class="profile-info-box"><div class="info-name">ミセチョク花子 (24)</div><div class="info-tags">#カフェ巡り #歌が好き</div><div class="info-msg">はじめまして！よろしくお願いします♪</div></div></div></div>
                 <div class="swiper-slide"><div class="card-content" id="card-2" data-link="profile"><img src="images/card-2.png" alt="カード2"><div class="card-side-actions"><div class="side-action-btn"><i class="fas fa-heart"></i><span>8k</span></div><div class="side-action-btn"><i class="fas fa-star"></i><span>お気に入り</span></div></div><div class="profile-info-box"><div class="info-name">ふがふが子 (22)</div><div class="info-tags">#アニメ #ゲーム</div><div class="info-msg">仲良くしてください！</div></div></div></div>
                 <div class="swiper-slide"><div class="card-content" id="card-3" data-link="profile"><img src="images/card-3.png" alt="カード3"><div class="card-side-actions"><div class="side-action-btn"><i class="fas fa-heart"></i><span>5k</span></div><div class="side-action-btn"><i class="fas fa-star"></i><span>お気に入り</span></div></div><div class="profile-info-box"><div class="info-name">ぴよぴよ (20)</div><div class="info-tags">#初心者 #勉強中</div><div class="info-msg">頑張ります！</div></div></div></div>
                 <div class="swiper-slide"><div class="card-content" id="card-4" data-link="profile"><img src="images/card-4.png" alt="カード4"><div class="card-side-actions"><div class="side-action-btn"><i class="fas fa-heart"></i><span>999</span></div><div class="side-action-btn"><i class="fas fa-star"></i><span>お気に入り</span></div></div><div class="profile-info-box"><div class="info-name">おわり美 (28)</div><div class="info-tags">#プロ #ベテラン</div><div class="info-msg">なんでも聞いてください。</div></div></div></div>
             </div>
         </div>
-        <div class="swipe-guide-animated">
-            <i class="fas fa-arrow-up"></i>
-            <span>上へスワイプ</span>
-        </div>
+        <div class="swipe-guide-animated"><i class="fas fa-arrow-up"></i><span>上へスワイプ</span></div>
     </div>
 
     <div id="error-screen" class="screen" style="display: none;">
@@ -269,10 +205,7 @@
                 <div class="error-icon"><i class="fas fa-exclamation-circle"></i></div>
                 <h2>システムエラーが発生しました</h2>
                 <p>申し訳ありません。<br>予期せぬエラーが発生しました。</p>
-                <div class="error-actions">
-                    <button class="btn btn-primary" onclick="location.reload()">再読み込み</button>
-                    <button class="btn btn-secondary btn-back-home">ホームへ戻る</button>
-                </div>
+                <div class="error-actions"><button class="btn btn-primary" onclick="location.reload()">再読み込み</button><button class="btn btn-secondary btn-back-home">ホームへ戻る</button></div>
             </div>
         </div>
     </div>
@@ -284,35 +217,14 @@
             <button class="fab-item" id="btn-fab-search"><i class="fas fa-search"></i> 検索</button>
             <button class="fab-item" id="btn-fab-post"><i class="fas fa-edit"></i> 記事投稿</button>
         </div>
-        <button id="fab-main" class="btn-fab">
-            <i class="fas fa-plus"></i>
-        </button>
+        <button id="fab-main" class="btn-fab"><i class="fas fa-plus"></i></button>
     </div>
 
     <div id="popup-overlay" style="display: none;">
         <div id="popup-box"><div class="popup-header"><h2>ポップアップ</h2><button id="btn-close-popup" class="btn-close-popup" title="閉じる">&times;</button></div><div class="popup-body"><div class="form-group"><label>サンプル入力</label><input type="text" placeholder="入力してください"></div><button class="btn btn-primary" style="width:100%; margin-top:10px;">送信</button></div></div>
     </div>
-
     <div id="popup-real-site-overlay" style="display: none;">
-        <div class="popup-box">
-            <div class="popup-header">
-                <h2>公式サイトへ移動</h2>
-                <button class="btn-close-popup" id="btn-close-real-popup" title="閉じる">&times;</button>
-            </div>
-            <div class="popup-body">
-                <div class="menu-buttons" style="gap: 10px;">
-                    <a href="https://misechoku.jp/" target="_blank" class="btn-menu">
-                        <i class="fas fa-users"></i> キャスト (misechoku.jp)
-                    </a>
-                    <a href="https://misechoku.jp/" target="_blank" class="btn-menu">
-                        <i class="fas fa-store"></i> お店 (misechoku.jp)
-                    </a>
-                    <a href="https://misechoku.jp/admin" target="_blank" class="btn-menu" style="background: #f0f0f0; color: #333; border-color:#ccc;">
-                        <i class="fas fa-cog"></i> 管理者 (admin)
-                    </a>
-                </div>
-            </div>
-        </div>
+        <div class="popup-box"><div class="popup-header"><h2>公式サイトへ移動</h2><button class="btn-close-popup" id="btn-close-real-popup" title="閉じる">&times;</button></div><div class="popup-body"><div class="menu-buttons" style="gap: 10px;"><a href="https://misechoku.jp/" target="_blank" class="btn-menu"><i class="fas fa-users"></i> キャスト (misechoku.jp)</a><a href="https://misechoku.jp/" target="_blank" class="btn-menu"><i class="fas fa-store"></i> お店 (misechoku.jp)</a><a href="https://misechoku.jp/admin" target="_blank" class="btn-menu" style="background: #f0f0f0; color: #333; border-color:#ccc;"><i class="fas fa-cog"></i> 管理者 (admin)</a></div></div></div>
     </div>
 
     <div id="side-menu-overlay"></div>
@@ -322,32 +234,52 @@
             <button id="btn-close-side-menu">&times;</button>
         </div>
         <div class="side-menu-content">
-            <details class="design-category" open><summary>デザイン</summary><div class="option-list"><label class="radio-label"><input type="radio" name="design-style" value="gradient" checked> グラデーション</label><label class="radio-label"><input type="radio" name="design-style" value="flat"> のっぺり（単色）</label></div></details>
-            <details class="design-category" open><summary>メインカラー</summary><div class="option-list"><p class="small-desc">ベースとなる色（薄め推奨）</p><input type="color" id="color-main-picker" value="#f6fd86"></div></details>
-            <details class="design-category"><summary>サブカラー</summary><div class="option-list"><p class="small-desc">グラデーションの終点</p><input type="color" id="color-sub-picker" value="#afdece"></div></details>
-            <details class="design-category"><summary>アクセントカラー</summary><div class="option-list"><p class="small-desc">文字やボタンの色</p><input type="color" id="color-accent-picker" value="#8B4513"></div></details>
+            <div class="design-card">
+                <div class="design-title">デザイン <i class="fas fa-question-circle info-icon" data-tooltip="全体の雰囲気を切り替えます"></i></div>
+                <div class="option-list">
+                    <label class="radio-label"><input type="radio" name="design-style" value="gradient" checked> グラデーション</label>
+                    <label class="radio-label"><input type="radio" name="design-style" value="flat"> のっぺり（単色）</label>
+                </div>
+            </div>
+
+            <div class="design-card">
+                <div class="design-title">メインカラー <i class="fas fa-question-circle info-icon" data-tooltip="背景のベースとなる色"></i></div>
+                <div class="color-picker-wrapper">
+                    <input type="color" id="color-main-picker" value="#f6fd86">
+                </div>
+            </div>
+
+            <div class="design-card">
+                <div class="design-title">サブカラー <i class="fas fa-question-circle info-icon" data-tooltip="グラデーションの終点色"></i></div>
+                <div class="color-picker-wrapper">
+                    <input type="color" id="color-sub-picker" value="#afdece">
+                </div>
+            </div>
+
+            <div class="design-card">
+                <div class="design-title">アクセントカラー <i class="fas fa-question-circle info-icon" data-tooltip="ボタンや文字の強調色"></i></div>
+                <div class="color-picker-wrapper">
+                    <input type="color" id="color-accent-picker" value="#8B4513">
+                </div>
+            </div>
+
+            <div class="design-card">
+                <div class="design-title">濃淡調整</div>
+                <div class="brightness-controls">
+                    <button id="btn-lighten" class="btn-brightness" title="薄く"><i class="fas fa-arrow-up"></i></button>
+                    <button id="btn-reset-brightness" class="btn-brightness-reset" title="リセット"><i class="fas fa-undo"></i></button>
+                    <button id="btn-darken" class="btn-brightness" title="濃く"><i class="fas fa-arrow-down"></i></button>
+                </div>
+            </div>
         </div>
     </div>
 
     <nav id="bottom-nav">
-        <button class="nav-item" data-target="search-screen">
-            <i class="fas fa-list"></i> <span>一覧</span> </button>
-        <button class="nav-item" data-target="favorite-screen">
-            <i class="fas fa-heart"></i>
-            <span>お気に入り</span>
-        </button>
-        <button class="nav-item active" data-target="main-menu">
-            <i class="fas fa-home"></i>
-            <span>ホーム</span>
-        </button>
-        <button class="nav-item" data-target="message-screen">
-            <i class="fas fa-comment-dots"></i>
-            <span>メッセージ</span>
-        </button>
-        <button class="nav-item" data-target="mypage-screen">
-            <i class="fas fa-user"></i>
-            <span>マイページ</span>
-        </button>
+        <button class="nav-item" data-target="search-screen"><i class="fas fa-list"></i><span>一覧</span></button>
+        <button class="nav-item" data-target="favorite-screen"><i class="fas fa-heart"></i><span>お気に入り</span></button>
+        <button class="nav-item active" data-target="main-menu"><i class="fas fa-home"></i><span>ホーム</span></button>
+        <button class="nav-item" data-target="message-screen"><i class="fas fa-comment-dots"></i><span>メッセージ</span></button>
+        <button class="nav-item" data-target="mypage-screen"><i class="fas fa-user"></i><span>マイページ</span></button>
     </nav>
 
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
