@@ -4,25 +4,26 @@ document.addEventListener('DOMContentLoaded', () => {
     const screens = {
         home: document.getElementById('main-menu'),
         search: document.getElementById('search-screen'),
-        notification: document.getElementById('notification-screen'),
+        favorite: document.getElementById('favorite-screen'), // 新規
         message: document.getElementById('message-screen'),
         mypage: document.getElementById('mypage-screen'),
         form: document.getElementById('form-screen'), 
         swipe: document.getElementById('swipe-overlay'),
-        error: document.getElementById('error-screen')
+        error: document.getElementById('error-screen'),
+        notification: document.getElementById('notification-screen')
     };
     
     const navItems = document.querySelectorAll('.nav-item');
     const backToTopBtn = document.getElementById('btn-back-to-top');
-    
-    // ポップアップ
     const popupOverlay = document.getElementById('popup-overlay');
     const popupRealOverlay = document.getElementById('popup-real-site-overlay');
+    const headerTaskPopup = document.getElementById('header-task-popup');
     
     // FAB
     const btnFab = document.getElementById('fab-main'); 
     const fabSubmenu = document.getElementById('fab-submenu');
     const btnFindShop = document.getElementById('btn-find-shop');
+    const btnFindGirl = document.getElementById('btn-find-girl');
     const btnFabPost = document.getElementById('btn-fab-post'); 
     
     // サイドメニュー
@@ -32,8 +33,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnCloseSideMenu = document.getElementById('btn-close-side-menu');
     const root = document.documentElement;
 
-    // ヘッダー通知ボタン
+    // ヘッダーボタン
     const btnHeaderNotification = document.getElementById('btn-header-notification');
+    const btnHeaderTask = document.getElementById('btn-header-task');
+    const btnCloseTaskPopup = document.querySelector('.btn-close-task-popup');
 
     // デザインコントロール
     const pickerMain = document.getElementById('color-main-picker');
@@ -43,12 +46,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // メニューボタン
     const btnSwipeImage = document.getElementById('btn-swipe-image');
-    const btnFormImage = document.getElementById('btn-form-image');
     const btnPopupImage = document.getElementById('btn-popup-image');
     const btnNotificationScreen = document.getElementById('btn-notification-screen');
     const btnErrorImage = document.getElementById('btn-error-image');
-    
-    // ホンモノサイト
     const btnRealSite = document.getElementById('btn-real-site');
 
     const backButtons = Array.from(document.querySelectorAll('.btn-back-to-menu'));
@@ -64,6 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function switchScreen(targetId) {
         if(fabSubmenu) fabSubmenu.classList.remove('active');
         if(btnFab) btnFab.classList.remove('active');
+        if(headerTaskPopup) headerTaskPopup.classList.remove('active'); // タスク窓も閉じる
 
         Object.values(screens).forEach(el => {
             if(el) el.style.display = 'none';
@@ -93,22 +94,19 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function showPopup(show) {
-        popupOverlay.style.display = show ? 'flex' : 'none';
-    }
-    function showRealPopup(show) {
-        popupRealOverlay.style.display = show ? 'flex' : 'none';
-    }
+    function showPopup(show) { popupOverlay.style.display = show ? 'flex' : 'none'; }
+    function showRealPopup(show) { popupRealOverlay.style.display = show ? 'flex' : 'none'; }
 
-    function toggleSideMenu(show) {
-        if (show) {
-            sideMenuOverlay.style.display = 'block';
-            sideMenu.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        } else {
+    function toggleSideMenu() {
+        const isActive = sideMenu.classList.contains('active');
+        if (isActive) {
             sideMenuOverlay.style.display = 'none';
             sideMenu.classList.remove('active');
             document.body.style.overflow = 'auto';
+        } else {
+            sideMenuOverlay.style.display = 'block';
+            sideMenu.classList.add('active');
+            document.body.style.overflow = 'hidden';
         }
     }
 
@@ -123,6 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- イベントリスナー ---
 
+    // タスクバー
     navItems.forEach(item => {
         item.addEventListener('click', () => switchScreen(item.getAttribute('data-target')));
     });
@@ -131,8 +130,16 @@ document.addEventListener('DOMContentLoaded', () => {
     if (btnHeaderNotification) {
         btnHeaderNotification.addEventListener('click', () => switchScreen('notification-screen'));
     }
+    if (btnHeaderTask) {
+        btnHeaderTask.addEventListener('click', () => {
+            headerTaskPopup.classList.toggle('active');
+        });
+    }
+    if (btnCloseTaskPopup) {
+        btnCloseTaskPopup.addEventListener('click', () => headerTaskPopup.classList.remove('active'));
+    }
     if (btnHamburger) {
-        btnHamburger.addEventListener('click', () => toggleSideMenu(true));
+        btnHamburger.addEventListener('click', () => toggleSideMenu());
     }
 
     // FAB
@@ -143,28 +150,25 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     if(btnFindShop) btnFindShop.addEventListener('click', () => switchScreen('search-screen'));
+    if(btnFindGirl) btnFindGirl.addEventListener('click', () => switchScreen('search-screen')); 
     if(btnFabPost) btnFabPost.addEventListener('click', () => toggleFormModal(true));
 
-
-    // メインメニュー
+    // メインメニューボタン
     if(btnNotificationScreen) btnNotificationScreen.addEventListener('click', () => switchScreen('notification-screen'));
-    if(btnFormImage) btnFormImage.addEventListener('click', () => toggleFormModal(true));
     if(btnPopupImage) btnPopupImage.addEventListener('click', () => showPopup(true));
     if(btnErrorImage) btnErrorImage.addEventListener('click', () => switchScreen('error-screen'));
-    if(btnBackHome) btnBackHome.addEventListener('click', () => switchScreen('main-menu'));
+    if(btnRealSite) btnRealSite.addEventListener('click', () => showRealPopup(true));
 
-    // ホンモノサイトボタン
-    if (btnRealSite) {
-        btnRealSite.addEventListener('click', () => showRealPopup(true));
-    }
+    // ポップアップ閉じる系
+    if(btnCloseForm) btnCloseForm.addEventListener('click', () => toggleFormModal(false));
+    if(formOverlayBg) formOverlayBg.addEventListener('click', () => toggleFormModal(false));
+    document.getElementById('btn-close-popup').addEventListener('click', () => showPopup(false));
+    document.getElementById('btn-popup-cancel').addEventListener('click', () => showPopup(false));
+    document.getElementById('btn-popup-ok').addEventListener('click', () => showPopup(false));
+    if (popupOverlay) popupOverlay.addEventListener('click', (e) => { if(e.target===popupOverlay) showPopup(false); });
     const btnCloseRealPopup = document.getElementById('btn-close-real-popup');
     if(btnCloseRealPopup) btnCloseRealPopup.addEventListener('click', () => showRealPopup(false));
     if(popupRealOverlay) popupRealOverlay.addEventListener('click', (e) => { if(e.target === popupRealOverlay) showRealPopup(false); });
-
-
-    // フォーム閉じる
-    if(btnCloseForm) btnCloseForm.addEventListener('click', () => toggleFormModal(false));
-    if(formOverlayBg) formOverlayBg.addEventListener('click', () => toggleFormModal(false));
 
     // スワイプ画面
     if(btnSwipeImage) {
@@ -186,23 +190,31 @@ document.addEventListener('DOMContentLoaded', () => {
             switchScreen('main-menu');
         });
     }
+    // スワイプ画像クリック -> プロフィール(マイページ)へ
+    // 動的に生成される要素ではないので、直接イベントを付与
+    document.querySelectorAll('.card-content').forEach(card => {
+        card.addEventListener('click', (e) => {
+            // サイドボタンなどを押したときは遷移しないように制御
+            if(!e.target.closest('.side-action-btn')) {
+                screens.swipe.style.display = 'none';
+                document.body.style.overflow = 'auto';
+                switchScreen('mypage-screen');
+            }
+        });
+    });
 
-    document.getElementById('btn-close-popup').addEventListener('click', () => showPopup(false));
-    document.getElementById('btn-popup-cancel').addEventListener('click', () => showPopup(false));
-    document.getElementById('btn-popup-ok').addEventListener('click', () => showPopup(false));
-    if (popupOverlay) popupOverlay.addEventListener('click', (e) => { if(e.target === popupOverlay) showPopup(false); });
 
     backButtons.forEach(btn => {
         if (btn.id !== 'btn-swipe-close') {
             btn.addEventListener('click', () => switchScreen('main-menu'));
         }
     });
+    if(btnBackHome) btnBackHome.addEventListener('click', () => switchScreen('main-menu'));
 
-    if (btnCloseSideMenu) btnCloseSideMenu.addEventListener('click', () => toggleSideMenu(false));
-    if (sideMenuOverlay) sideMenuOverlay.addEventListener('click', () => toggleSideMenu(false));
+    if(btnCloseSideMenu) btnCloseSideMenu.addEventListener('click', () => toggleSideMenu());
+    if(sideMenuOverlay) sideMenuOverlay.addEventListener('click', () => toggleSideMenu());
 
     // --- Design Control ---
-    
     const updateColor = (varName, value) => {
         root.style.setProperty(varName, value);
         if (varName === '--color-accent') {
@@ -210,7 +222,6 @@ document.addEventListener('DOMContentLoaded', () => {
             root.style.setProperty('--color-btn-bg', hexToLightRgba(value, 0.05));
         }
     };
-    
     if(pickerMain) pickerMain.addEventListener('input', (e) => updateColor('--color-main', e.target.value));
     if(pickerSub) pickerSub.addEventListener('input', (e) => updateColor('--color-sub', e.target.value));
     if(pickerAccent) pickerAccent.addEventListener('input', (e) => {
@@ -219,24 +230,53 @@ document.addEventListener('DOMContentLoaded', () => {
         updateColor('--color-text-current', val);
         root.style.setProperty('--color-btn-bg', hexToLightRgba(val, 0.05));
     });
-
     Array.from(designRadios).forEach(radio => {
         radio.addEventListener('change', (e) => {
-            if(e.target.value === 'flat') {
-                document.body.classList.add('flat-mode');
-            } else {
-                document.body.classList.remove('flat-mode');
-            }
+            if(e.target.value === 'flat') document.body.classList.add('flat-mode');
+            else document.body.classList.remove('flat-mode');
         });
     });
 
+    // Scroll top
     window.onscroll = () => {
         if (backToTopBtn) backToTopBtn.style.display = (window.scrollY > 100) ? 'block' : 'none';
     };
     if (backToTopBtn) backToTopBtn.addEventListener('click', (e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); });
     
-    if(document.getElementById('image-upload-input')) { /* Cropper省略 */ }
+    // Cropper
+    const imageUploadInput = document.getElementById('image-upload-input');
+    const cropperWrapper = document.getElementById('cropper-wrapper');
+    const imageToCrop = document.getElementById('image-to-crop');
+    const btnCropImage = document.getElementById('btn-crop-image');
+    const cropResultContainer = document.getElementById('crop-result-container');
+    const cropResultImage = document.getElementById('crop-result-image');
+    let cropper = null;
+
+    if(imageUploadInput) {
+        imageUploadInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                if (cropper) cropper.destroy();
+                imageToCrop.src = event.target.result;
+                cropperWrapper.style.display = 'block';
+                cropper = new Cropper(imageToCrop, { aspectRatio: 1, viewMode: 1, autoCropArea: 0.8, minCropBoxWidth: 320, minCropBoxHeight: 320, ready() { cropper.setCropBoxData({ width: 320, height: 320 }); } });
+                cropResultContainer.style.display = 'none'; 
+            };
+            reader.readAsDataURL(file);
+        });
+        btnCropImage.addEventListener('click', () => {
+            if (!cropper) return;
+            const canvas = cropper.getCroppedCanvas({ width: 320, height: 320, imageSmoothingEnabled: true, imageSmoothingQuality: 'high' });
+            if (canvas) {
+                cropResultImage.src = canvas.toDataURL('image/png');
+                cropResultContainer.style.display = 'block';
+            }
+        });
+    }
     
+    // Tooltip
     document.querySelectorAll('.info-icon').forEach(icon => {
         const text = icon.getAttribute('data-tooltip') || "ヒント";
         const tip = document.createElement('span');
