@@ -7,13 +7,12 @@ document.addEventListener('DOMContentLoaded', () => {
         notification: document.getElementById('notification-screen'),
         message: document.getElementById('message-screen'),
         mypage: document.getElementById('mypage-screen'),
-        profile: document.getElementById('profile-screen'),
+        // profile は削除
         form: document.getElementById('form-screen'), 
         swipe: document.getElementById('swipe-overlay'),
-        error: document.getElementById('error-screen') // エラー画面追加
+        error: document.getElementById('error-screen')
     };
     
-    const root = document.documentElement;
     const navItems = document.querySelectorAll('.nav-item');
     const backToTopBtn = document.getElementById('btn-back-to-top');
     const popupOverlay = document.getElementById('popup-overlay');
@@ -22,13 +21,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnFab = document.getElementById('fab-main'); 
     const fabSubmenu = document.getElementById('fab-submenu');
     const btnFindShop = document.getElementById('btn-find-shop');
-    const btnFabPost = document.getElementById('btn-fab-post'); // 記事投稿
+    const btnFabPost = document.getElementById('btn-fab-post'); 
     
     // サイドメニュー
     const sideMenu = document.getElementById('side-menu');
     const sideMenuOverlay = document.getElementById('side-menu-overlay');
     const btnHamburger = document.getElementById('btn-hamburger'); 
     const btnCloseSideMenu = document.getElementById('btn-close-side-menu');
+    const root = document.documentElement;
 
     // ヘッダー通知ボタン
     const btnHeaderNotification = document.getElementById('btn-header-notification');
@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnErrorImage = document.getElementById('btn-error-image');
 
     const backButtons = Array.from(document.querySelectorAll('.btn-back-to-menu'));
-    const btnBackHome = document.querySelector('.btn-back-home'); // エラー画面からの戻る
+    const btnBackHome = document.querySelector('.btn-back-home');
 
     const closeSwipeBtn = document.getElementById('btn-swipe-close');
     const btnCloseForm = document.querySelector('.btn-close-form');
@@ -93,17 +93,16 @@ document.addEventListener('DOMContentLoaded', () => {
         popupOverlay.style.display = show ? 'flex' : 'none';
     }
 
-    function toggleSideMenu(forceShow) {
-        const isShow = (typeof forceShow === 'boolean') ? forceShow : !sideMenu.classList.contains('active');
-        
-        if (isShow) {
-            sideMenuOverlay.style.display = 'block';
-            sideMenu.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        } else {
+    function toggleSideMenu() {
+        const isActive = sideMenu.classList.contains('active');
+        if (isActive) {
             sideMenuOverlay.style.display = 'none';
             sideMenu.classList.remove('active');
             document.body.style.overflow = 'auto';
+        } else {
+            sideMenuOverlay.style.display = 'block';
+            sideMenu.classList.add('active');
+            document.body.style.overflow = 'hidden';
         }
     }
 
@@ -127,7 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
         btnHeaderNotification.addEventListener('click', () => switchScreen('notification-screen'));
     }
     if (btnHamburger) {
-        btnHamburger.addEventListener('click', () => toggleSideMenu()); // 引数なしでトグル
+        btnHamburger.addEventListener('click', () => toggleSideMenu());
     }
 
     // FAB
@@ -144,15 +143,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if(btnNotificationScreen) btnNotificationScreen.addEventListener('click', () => switchScreen('notification-screen'));
     if(btnFormImage) btnFormImage.addEventListener('click', () => toggleFormModal(true));
     if(btnPopupImage) btnPopupImage.addEventListener('click', () => showPopup(true));
-    
-    // エラー処理ボタン
-    if(btnErrorImage) {
-        btnErrorImage.addEventListener('click', () => switchScreen('error-screen'));
-    }
-    if(btnBackHome) {
-        btnBackHome.addEventListener('click', () => switchScreen('main-menu'));
-    }
+    if(btnErrorImage) btnErrorImage.addEventListener('click', () => switchScreen('error-screen'));
 
+    if(btnBackHome) btnBackHome.addEventListener('click', () => switchScreen('main-menu'));
 
     // フォーム閉じる
     if(btnCloseForm) btnCloseForm.addEventListener('click', () => toggleFormModal(false));
@@ -193,8 +186,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // サイドメニュー
-    if(btnCloseSideMenu) btnCloseSideMenu.addEventListener('click', () => toggleSideMenu(false));
-    if(sideMenuOverlay) sideMenuOverlay.addEventListener('click', () => toggleSideMenu(false));
+    if(btnCloseSideMenu) btnCloseSideMenu.addEventListener('click', () => toggleSideMenu());
+    if(sideMenuOverlay) sideMenuOverlay.addEventListener('click', () => toggleSideMenu());
 
 
     // --- Design Control (カラーピッカー) ---
@@ -209,7 +202,12 @@ document.addEventListener('DOMContentLoaded', () => {
     
     if(pickerMain) pickerMain.addEventListener('input', (e) => updateColor('--color-main', e.target.value));
     if(pickerSub) pickerSub.addEventListener('input', (e) => updateColor('--color-sub', e.target.value));
-    if(pickerAccent) pickerAccent.addEventListener('input', (e) => updateColor('--color-accent', e.target.value));
+    if(pickerAccent) pickerAccent.addEventListener('input', (e) => {
+        const val = e.target.value;
+        updateColor('--color-accent', val);
+        updateColor('--color-text-current', val);
+        root.style.setProperty('--color-btn-bg', hexToLightRgba(val, 0.05));
+    });
 
     Array.from(designRadios).forEach(radio => {
         radio.addEventListener('change', (e) => {
@@ -235,8 +233,5 @@ document.addEventListener('DOMContentLoaded', () => {
     // Tooltip
     document.querySelectorAll('.info-icon').forEach(icon => {
         // ... (Tooltip logic is same as before) ...
-    });
-    document.addEventListener('click', () => {
-        document.querySelectorAll('.info-icon.focused').forEach(el => el.classList.remove('focused'));
     });
 });

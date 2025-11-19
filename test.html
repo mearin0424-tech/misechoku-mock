@@ -19,12 +19,21 @@
 
     <div id="bg-layer"></div>
 
-    <div id="hamburger-container">
-        <span id="design-guide-text">Design Control <i class="fas fa-arrow-right"></i></span>
-        <button id="btn-hamburger">
-            <i class="fas fa-bars"></i>
-        </button>
-    </div>
+    <div id="design-guide-text">Design Control <i class="fas fa-arrow-up" style="transform: rotate(45deg);"></i></div>
+
+    <header id="global-header">
+        <div class="header-left">
+            </div>
+        <div class="header-right">
+            <button id="btn-header-notification" class="header-icon-btn">
+                <i class="fas fa-bell"></i>
+                <span class="badge" id="notification-badge" style="display:none;"></span>
+            </button>
+            <button id="btn-hamburger" class="header-icon-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
 
     <div id="main-menu" class="screen active">
         <div class="container">
@@ -32,11 +41,6 @@
             <p class="main-subtitle">デザインモックサイト</p>
             
             <div class="menu-buttons">
-                
-                <button id="btn-notification-screen" class="btn btn-menu main-feature-btn">
-                    <i class="fas fa-bell"></i> 通知テスト
-                </button>
-
                 <div class="menu-group">
                     <h3 class="menu-group-title">イメージ表示</h3>
                     <div class="menu-group-content">
@@ -49,11 +53,10 @@
                         <button id="btn-popup-image" class="btn btn-menu-small">
                             <i class="fas fa-window-maximize"></i> ポップアップ
                         </button>
-                        
                         <button id="btn-error-image" class="btn btn-menu-small">
                             <i class="fas fa-exclamation-triangle"></i> エラー処理
                         </button>
-                        </div>
+                    </div>
                 </div>
 
                 <p class="floating-promo-text">接客タイプ診断はこちら！</p>
@@ -66,22 +69,6 @@
         </div>
     </div>
 
-    <div id="error-screen" class="screen" style="display: none;">
-        <div class="container error-container">
-            <div class="error-content">
-                <div class="error-icon">
-                    <i class="fas fa-exclamation-circle"></i>
-                </div>
-                <h2>システムエラーが発生しました</h2>
-                <p>申し訳ありません。<br>予期せぬエラーが発生しました。<br>しばらく経ってから再度お試しください。</p>
-                <div class="error-actions">
-                    <button class="btn btn-primary" onclick="location.reload()">再読み込み</button>
-                    <button class="btn btn-secondary btn-back-home">ホームへ戻る</button>
-                </div>
-                <div class="error-code">Error Code: 500 Internal Server Error</div>
-            </div>
-        </div>
-    </div>
     <div id="form-screen" class="screen" style="display: none;">
         <div class="form-overlay-bg"></div>
         <div class="form-modal-container">
@@ -129,10 +116,7 @@
                 <button class="search-btn"><i class="fas fa-search"></i></button>
             </div>
             <div class="category-tags">
-                <span class="tag active">すべて</span>
-                <span class="tag">新着</span>
-                <span class="tag">人気</span>
-                <span class="tag">おすすめ</span>
+                <span class="tag active">すべて</span><span class="tag">新着</span><span class="tag">人気</span><span class="tag">おすすめ</span>
             </div>
             <div class="dummy-list">
                 <div class="list-item"><div class="list-img-box" style="background:#e0e0e0"></div><div class="list-content"><h4>カフェ A</h4><p>おしゃれなカフェです。</p></div><i class="fas fa-chevron-right arrow"></i></div>
@@ -186,6 +170,23 @@
                 <div class="post-grid">
                     <div class="post-item"><span class="post-item-text">1</span></div><div class="post-item"><span class="post-item-text">2</span></div><div class="post-item"><span class="post-item-text">3</span></div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="error-screen" class="screen" style="display: none;">
+        <div class="container error-container">
+            <div class="error-content">
+                <div class="error-icon">
+                    <i class="fas fa-exclamation-circle"></i>
+                </div>
+                <h2>システムエラーが発生しました</h2>
+                <p>申し訳ありません。<br>予期せぬエラーが発生しました。<br>しばらく経ってから再度お試しください。</p>
+                <div class="error-actions">
+                    <button class="btn btn-primary" onclick="location.reload()">再読み込み</button>
+                    <button class="btn btn-secondary btn-back-home">ホームへ戻る</button>
+                </div>
+                <div class="error-code">Error Code: 500 Internal Server Error</div>
             </div>
         </div>
     </div>
@@ -247,7 +248,6 @@
 
         </div>
     </div>
-
     <nav id="bottom-nav">
         <button class="nav-item" data-target="search-screen">
             <i class="fas fa-search"></i>
