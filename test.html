@@ -19,19 +19,12 @@
 
     <div id="bg-layer"></div>
 
-    <header id="global-header">
-        <div class="header-left">
-            </div>
-        <div class="header-right">
-            <button id="btn-header-notification" class="header-icon-btn">
-                <i class="fas fa-bell"></i>
-                <span class="badge" id="notification-badge" style="display:none;"></span>
-            </button>
-            <button id="btn-hamburger" class="header-icon-btn">
-                <i class="fas fa-bars"></i>
-            </button>
-        </div>
-    </header>
+    <div id="hamburger-container">
+        <span id="design-guide-text">Design Control <i class="fas fa-arrow-right"></i></span>
+        <button id="btn-hamburger">
+            <i class="fas fa-bars"></i>
+        </button>
+    </div>
 
     <div id="main-menu" class="screen active">
         <div class="container">
@@ -39,6 +32,11 @@
             <p class="main-subtitle">デザインモックサイト</p>
             
             <div class="menu-buttons">
+                
+                <button id="btn-notification-screen" class="btn btn-menu main-feature-btn">
+                    <i class="fas fa-bell"></i> 通知テスト
+                </button>
+
                 <div class="menu-group">
                     <h3 class="menu-group-title">イメージ表示</h3>
                     <div class="menu-group-content">
@@ -50,6 +48,10 @@
                         </button>
                         <button id="btn-popup-image" class="btn btn-menu-small">
                             <i class="fas fa-window-maximize"></i> ポップアップ
+                        </button>
+                        
+                        <button id="btn-error-image" class="btn btn-menu-small">
+                            <i class="fas fa-exclamation-triangle"></i> エラー処理
                         </button>
                         </div>
                 </div>
@@ -64,6 +66,22 @@
         </div>
     </div>
 
+    <div id="error-screen" class="screen" style="display: none;">
+        <div class="container error-container">
+            <div class="error-content">
+                <div class="error-icon">
+                    <i class="fas fa-exclamation-circle"></i>
+                </div>
+                <h2>システムエラーが発生しました</h2>
+                <p>申し訳ありません。<br>予期せぬエラーが発生しました。<br>しばらく経ってから再度お試しください。</p>
+                <div class="error-actions">
+                    <button class="btn btn-primary" onclick="location.reload()">再読み込み</button>
+                    <button class="btn btn-secondary btn-back-home">ホームへ戻る</button>
+                </div>
+                <div class="error-code">Error Code: 500 Internal Server Error</div>
+            </div>
+        </div>
+    </div>
     <div id="form-screen" class="screen" style="display: none;">
         <div class="form-overlay-bg"></div>
         <div class="form-modal-container">
@@ -117,30 +135,9 @@
                 <span class="tag">おすすめ</span>
             </div>
             <div class="dummy-list">
-                <div class="list-item">
-                    <div class="list-img-box" style="background:#e0e0e0"></div>
-                    <div class="list-content">
-                        <h4>カフェ A</h4>
-                        <p>おしゃれなカフェです。</p>
-                    </div>
-                    <i class="fas fa-chevron-right arrow"></i>
-                </div>
-                <div class="list-item">
-                    <div class="list-img-box" style="background:#d0d0d0"></div>
-                    <div class="list-content">
-                        <h4>レストラン B</h4>
-                        <p>美味しいイタリアン。</p>
-                    </div>
-                    <i class="fas fa-chevron-right arrow"></i>
-                </div>
-                <div class="list-item">
-                    <div class="list-img-box" style="background:#c0c0c0"></div>
-                    <div class="list-content">
-                        <h4>バー C</h4>
-                        <p>静かなバー。</p>
-                    </div>
-                    <i class="fas fa-chevron-right arrow"></i>
-                </div>
+                <div class="list-item"><div class="list-img-box" style="background:#e0e0e0"></div><div class="list-content"><h4>カフェ A</h4><p>おしゃれなカフェです。</p></div><i class="fas fa-chevron-right arrow"></i></div>
+                <div class="list-item"><div class="list-img-box" style="background:#d0d0d0"></div><div class="list-content"><h4>レストラン B</h4><p>美味しいイタリアン。</p></div><i class="fas fa-chevron-right arrow"></i></div>
+                <div class="list-item"><div class="list-img-box" style="background:#c0c0c0"></div><div class="list-content"><h4>バー C</h4><p>静かなバー。</p></div><i class="fas fa-chevron-right arrow"></i></div>
             </div>
         </div>
     </div>
@@ -151,22 +148,8 @@
         </div>
         <div class="container">
             <div class="dummy-list">
-                <div class="list-item">
-                    <div class="list-avatar" style="background:#ffcc80">A</div>
-                    <div class="list-content">
-                        <h4>Alice</h4>
-                        <p>こんにちは！昨日の件ですが...</p>
-                    </div>
-                    <span class="list-time">10:30</span>
-                </div>
-                <div class="list-item">
-                    <div class="list-avatar" style="background:#90caf9">B</div>
-                    <div class="list-content">
-                        <h4>Bob</h4>
-                        <p>ありがとうございます！</p>
-                    </div>
-                    <span class="list-time">昨日</span>
-                </div>
+                <div class="list-item"><div class="list-avatar" style="background:#ffcc80">A</div><div class="list-content"><h4>Alice</h4><p>こんにちは！昨日の件ですが...</p></div><span class="list-time">10:30</span></div>
+                <div class="list-item"><div class="list-avatar" style="background:#90caf9">B</div><div class="list-content"><h4>Bob</h4><p>ありがとうございます！</p></div><span class="list-time">昨日</span></div>
             </div>
         </div>
     </div>
@@ -183,22 +166,12 @@
                     <div><strong>123</strong> <span class="stats-label">フォロー</span></div>
                     <div><strong>456</strong> <span class="stats-label">フォロワー</span></div>
                 </div>
-                
                 <div class="task-section">
                     <h3><i class="fas fa-tasks"></i> 今日のタスク</h3>
                     <div class="task-list">
-                        <div class="task-item">
-                            <input type="checkbox" id="task1">
-                            <label for="task1">プロフィールの設定</label>
-                        </div>
-                        <div class="task-item">
-                            <input type="checkbox" id="task2" checked>
-                            <label for="task2">最初の投稿をする</label>
-                        </div>
-                        <div class="task-item">
-                            <input type="checkbox" id="task3">
-                            <label for="task3">いいね！を5回する</label>
-                        </div>
+                        <div class="task-item"><input type="checkbox" id="task1"><label for="task1">プロフィールの設定</label></div>
+                        <div class="task-item"><input type="checkbox" id="task2" checked><label for="task2">最初の投稿をする</label></div>
+                        <div class="task-item"><input type="checkbox" id="task3"><label for="task3">いいね！を5回する</label></div>
                     </div>
                 </div>
             </div>
@@ -211,9 +184,7 @@
             </div>
             <div class="profile-posts">
                 <div class="post-grid">
-                    <div class="post-item"><span class="post-item-text">1</span></div>
-                    <div class="post-item"><span class="post-item-text">2</span></div>
-                    <div class="post-item"><span class="post-item-text">3</span></div>
+                    <div class="post-item"><span class="post-item-text">1</span></div><div class="post-item"><span class="post-item-text">2</span></div><div class="post-item"><span class="post-item-text">3</span></div>
                 </div>
             </div>
         </div>
@@ -225,9 +196,7 @@
         <div class="swipe-guide"><div class="arrow"></div><div>上へスワイプ</div></div>
     </div>
 
-    <a href="#" id="btn-back-to-top" class="btn-floating" title="トップに戻る" style="display: none;">
-        <i class="fas fa-arrow-up"></i>
-    </a>
+    <a href="#" id="btn-back-to-top" class="btn-floating" title="トップに戻る" style="display: none;"><i class="fas fa-arrow-up"></i></a>
     
     <div id="fab-container">
         <div id="fab-submenu" class="fab-submenu">
@@ -236,12 +205,12 @@
             <button class="fab-item" id="btn-play-game"><i class="fas fa-gamepad"></i> ゲームをする</button>
         </div>
         <button id="fab-main" class="btn-fab">
-            <i class="fas fa-filter"></i>
+            <i class="fas fa-plus"></i>
         </button>
     </div>
 
     <div id="popup-overlay" style="display: none;">
-        <div id="popup-box"><div class="popup-header"><h2>ポップアップ</h2><button id="btn-close-popup" class="btn-close-popup" title="閉じる">&times;</button></div><div class="popup-body"><p>ここにポップアップのコンテンツが入ります。確認ボタンやフォームなどを配置できます。</p></div><div class="popup-actions"><button id="btn-popup-cancel" class="btn btn-secondary">キャンセル</button><button id="btn-popup-ok" class="btn btn-primary">OK</button></div></div>
+        <div id="popup-box"><div class="popup-header"><h2>ポップアップ</h2><button id="btn-close-popup" class="btn-close-popup" title="閉じる">&times;</button></div><div class="popup-body"><p>ここにポップアップのコンテンツが入ります。</p></div><div class="popup-actions"><button id="btn-popup-cancel" class="btn btn-secondary">キャンセル</button><button id="btn-popup-ok" class="btn btn-primary">OK</button></div></div>
     </div>
 
     <div id="side-menu-overlay"></div>
