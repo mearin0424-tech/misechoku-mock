@@ -117,24 +117,137 @@ body.flat-mode .btn-menu, body.flat-mode .btn-menu-small { background: var(--col
 /* サイドメニュー (左) */
 #side-menu-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 600; display: none; }
 #side-menu-overlay.active { display: block; }
+/* --- サイドメニュー本体 --- */
 #side-menu {
     position: fixed;
     top: 0;
-    right: -320px; /* leftではなくrightで制御 */
-    left: auto;    /* left設定を打ち消し */
+    right: -320px;
     width: 280px;
     height: 100%;
-    background: rgba(255, 255, 255, 0.95);
+    background: rgba(255, 255, 255, 0.98); /* 少し不透明度を上げる */
     backdrop-filter: blur(10px);
     z-index: 610;
-    transition: right 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* スムーズな動き */
-    box-shadow: -5px 0 20px rgba(0,0,0,0.1); /* 影の向きを左へ */
+    transition: right 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    box-shadow: -5px 0 20px rgba(0,0,0,0.1);
     display: flex;
     flex-direction: column;
 }
-#side-menu.active {
-    left: auto;
-    right: 0;
+#side-menu.active { right: 0; }
+
+/* --- ヘッダー (閉じるボタン修正) --- */
+.side-menu-header {
+    padding: 15px 20px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between; /* タイトル左、ボタン右 */
+    align-items: center;
+}
+.side-menu-header h3 {
+    margin: 0;
+    color: var(--color-text-current);
+    font-size: 1.1rem;
+    font-family: 'Zen Maru Gothic', sans-serif;
+}
+#btn-close-side-menu {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    color: #666;
+    cursor: pointer;
+    padding: 6px 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s;
+}
+#btn-close-side-menu:hover {
+    background: #f0f0f0;
+    color: #333;
+    border-color: #ccc;
+}
+
+/* --- コンテンツ (中央寄せ) --- */
+.side-menu-content {
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* 子要素を中央揃え */
+}
+
+/* --- カテゴリ区切り --- */
+.design-category {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* ラベルや中身を中央へ */
+    padding-bottom: 25px;
+    margin-bottom: 25px;
+    border-bottom: 1px solid rgba(0,0,0,0.05); /* 薄い線 */
+    box-shadow: 0 1px 0 rgba(255,255,255,0.8); /* ハイライトで立体感 */
+}
+.design-category.no-border {
+    border: none;
+    box-shadow: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+/* タイトル */
+.design-title-stylish {
+    font-family: 'Zen Maru Gothic', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: #888;
+    margin-bottom: 15px;
+    letter-spacing: 0.05em;
+    text-align: center;
+}
+
+/* --- カラーピッカー (横並び) --- */
+.color-pickers-row {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+}
+.color-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+.color-label {
+    font-size: 0.75rem;
+    color: #aaa;
+    font-family: sans-serif;
+    font-weight: bold;
+}
+
+/* --- ランダムボタン --- */
+.btn-random-stylish {
+    background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
+    border: none;
+    color: white;
+    padding: 12px 30px;
+    border-radius: 30px;
+    font-size: 0.95rem;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(161, 140, 209, 0.4);
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Zen Maru Gothic', sans-serif;
+}
+.btn-random-stylish:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(161, 140, 209, 0.6);
+}
+.btn-random-stylish:active {
+    transform: translateY(0);
 }
 
 /* タイトルフォント修正 */
