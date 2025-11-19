@@ -21,12 +21,12 @@ document.addEventListener('DOMContentLoaded', () => {
     
     const btnFab = document.getElementById('fab-main'); 
     const fabSubmenu = document.getElementById('fab-submenu');
-    const btnFabSearch = document.getElementById('btn-fab-search');
-    const btnFabPost = document.getElementById('btn-fab-post');
+    const btnFindShop = document.getElementById('btn-find-shop');
+    const btnFabPost = document.getElementById('btn-fab-post'); 
     
     const sideMenu = document.getElementById('side-menu');
     const sideMenuOverlay = document.getElementById('side-menu-overlay');
-    const btnPalette = document.getElementById('btn-palette'); // ID変更
+    const btnPalette = document.getElementById('btn-palette');
     const btnCloseSideMenu = document.getElementById('btn-close-side-menu');
 
     const btnHeaderNotification = document.getElementById('btn-header-notification');
@@ -67,7 +67,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (item.getAttribute('data-target') === targetId) item.classList.add('active');
             else item.classList.remove('active');
         });
-        
         if (backToTopBtn) backToTopBtn.style.display = 'none';
     }
 
@@ -86,16 +85,16 @@ document.addEventListener('DOMContentLoaded', () => {
     function showPopup(show) { if(popupOverlay) popupOverlay.style.display = show ? 'flex' : 'none'; }
     function showRealPopup(show) { if(popupRealOverlay) popupRealOverlay.style.display = show ? 'flex' : 'none'; }
 
-    function toggleSideMenu() {
-        const isActive = sideMenu.classList.contains('active');
-        if (isActive) {
-            sideMenuOverlay.style.display = 'none';
-            sideMenu.classList.remove('active');
-            document.body.style.overflow = 'auto';
-        } else {
+    function toggleSideMenu(show) {
+        const isShow = (typeof show === 'boolean') ? show : !sideMenu.classList.contains('active');
+        if (isShow) {
             sideMenuOverlay.style.display = 'block';
             sideMenu.classList.add('active');
             document.body.style.overflow = 'hidden';
+        } else {
+            sideMenuOverlay.style.display = 'none';
+            sideMenu.classList.remove('active');
+            document.body.style.overflow = 'auto';
         }
     }
 
@@ -107,6 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return `rgba(${r},${g},${b},${alpha})`;
     }
 
+    // Event Listeners
     navItems.forEach(item => {
         item.addEventListener('click', () => switchScreen(item.getAttribute('data-target')));
     });
@@ -114,10 +114,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (btnHeaderNotification) btnHeaderNotification.addEventListener('click', () => switchScreen('notification-screen'));
     if (btnHeaderTask) btnHeaderTask.addEventListener('click', () => headerTaskPopup.classList.toggle('active'));
     if (btnCloseTaskPopup) btnCloseTaskPopup.addEventListener('click', () => headerTaskPopup.classList.remove('active'));
-    if (btnPalette) btnPalette.addEventListener('click', () => toggleSideMenu()); // パレットボタン
+    if (btnPalette) btnPalette.addEventListener('click', () => toggleSideMenu());
 
     if (btnFab) btnFab.addEventListener('click', () => { btnFab.classList.toggle('active'); fabSubmenu.classList.toggle('active'); });
-    if (btnFabSearch) btnFabSearch.addEventListener('click', () => switchScreen('search-screen'));
+    if (btnFindShop) btnFindShop.addEventListener('click', () => switchScreen('search-screen'));
     if (btnFabPost) btnFabPost.addEventListener('click', () => toggleFormModal(true));
 
     if(btnNotificationScreen) btnNotificationScreen.addEventListener('click', () => switchScreen('notification-screen'));
@@ -131,7 +131,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnClosePopup = document.getElementById('btn-close-popup');
     if(btnClosePopup) btnClosePopup.addEventListener('click', () => showPopup(false));
     if(popupOverlay) popupOverlay.addEventListener('click', (e) => { if(e.target===popupOverlay) showPopup(false); });
-    
     const btnCloseRealPopup = document.getElementById('btn-close-real-popup');
     if(btnCloseRealPopup) btnCloseRealPopup.addEventListener('click', () => showRealPopup(false));
     if(popupRealOverlay) popupRealOverlay.addEventListener('click', (e) => { if(e.target===popupRealOverlay) showRealPopup(false); });
@@ -170,8 +169,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     if(btnBackHome) btnBackHome.addEventListener('click', () => switchScreen('main-menu'));
 
-    if(btnCloseSideMenu) btnCloseSideMenu.addEventListener('click', () => toggleSideMenu());
-    if(sideMenuOverlay) sideMenuOverlay.addEventListener('click', () => toggleSideMenu());
+    if(btnCloseSideMenu) btnCloseSideMenu.addEventListener('click', () => toggleSideMenu(false));
+    if(sideMenuOverlay) sideMenuOverlay.addEventListener('click', () => toggleSideMenu(false));
 
     const updateColor = (varName, value) => {
         root.style.setProperty(varName, value);
