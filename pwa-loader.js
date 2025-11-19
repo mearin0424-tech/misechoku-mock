@@ -17,22 +17,24 @@ const messaging = firebase.messaging();
 if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register(REPO_PATH + 'sw.js', { scope: REPO_PATH })
         .then(registration => {
-            console.log('ServiceWorker registration successful with scope: ', registration.scope);
+            console.log('ServiceWorker registration successful');
         })
         .catch(err => {
             console.error('ServiceWorker registration failed: ', err);
+            // ▼登録失敗時にアラートを出す（デバッグ用）
+            // alert('SW登録エラー: ' + err.message); 
         });
 }
 
 // --- 2. 関数定義 ---
 
 async function requestNotificationPermission() {
-    console.log('通知の許可をリクエストします...');
     try {
         const permission = await Notification.requestPermission(); 
         return permission; 
     } catch (err) {
-        console.error('通知許可リクエストエラー:', err);
+        console.error('通知許可エラー:', err);
+        alert('通知許可のリクエスト中にエラーが発生しました。\n' + err.message);
         throw err; 
     }
 }
@@ -41,24 +43,22 @@ async function getFcmToken(tokenArea, tokenInfo) {
     const VAPID_KEY = "BC3eV001Pt3fT11KqKJQVGo95jq5DAuU64mJUtcR4Xa-oRhT6gaExcA_eri4AMc9IWvYicPLVcImAF4fU4MCwhk";
 
     if (!('serviceWorker' in navigator)) {
-        console.error("Service Worker非対応");
+        alert("お使いのブラウザはService Workerに対応していません。");
         return;
     }
 
     try {
-        // Service Worker がアクティブになるのを待つ
+        // Service Worker が準備完了になるのを待つ
+        // ※ここが一番止まりやすいポイントです
         const registration = await navigator.serviceWorker.ready; 
         
-        // トークン取得
         const currentToken = await messaging.getToken({ 
             vapidKey: VAPID_KEY,
             serviceWorkerRegistration: registration 
         });
 
         if (currentToken) {
-            console.log('FCM Token:', currentToken);
-            
-            // ★ここで初めて表示する
+            // ★成功時のみエリアを表示
             if (tokenArea) {
                 tokenArea.value = currentToken; 
                 tokenArea.style.display = 'block';
@@ -68,11 +68,17 @@ async function getFcmToken(tokenArea, tokenInfo) {
                 tokenInfo.style.display = 'block';
             }
         } else {
-            console.warn('トークンが取得できませんでした(null)');
+            alert('トークンを取得できませんでした（空のトークンが返されました）。');
         }
     } catch (err) {
         console.error('トークン取得エラー:', err);
-        // エラー時はアラートを出すなどしても良いですが、今回はコンソールのみにします
+        // ▼エラー内容をアラートで表示
+        alert('トークン取得エラー:\n' + err.message);
+        
+        if (tokenArea) {
+            tokenArea.value = "エラー詳細: " + err.message;
+            tokenArea.style.display = 'block';
+        }
     }
 }
 
@@ -86,19 +92,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (testBtn) {
         testBtn.addEventListener('click', async () => {
-            // ★クリック時はまず非表示にする（リトライ時などのため）
+            // 初期化：エリアを隠す
             if (tokenArea) tokenArea.style.display = 'none';
             if (tokenInfo) tokenInfo.style.display = 'none';
 
             try {
                 const permission = await requestNotificationPermission();
+                
                 if (permission === 'granted') {
                     await getFcmToken(tokenArea, tokenInfo); 
                 } else {
-                    console.warn("通知が許可されませんでした。");
+                    alert('通知が許可されませんでした。\nブラウザの設定から通知を許可してください。');
                 }
             } catch (err) {
-                console.error(err);
+                alert('予期せぬエラー:\n' + err.message);
             }
         });
     }
