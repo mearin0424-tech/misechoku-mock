@@ -25,6 +25,7 @@ body {
     background-attachment: fixed; 
     color: var(--color-text);
     line-height: 1.7;
+    transition: background 0.3s ease; /* 色変更時のアニメーション */
 }
 
 .container {
@@ -108,10 +109,10 @@ body {
     font-size: 1.1em;
     font-weight: 700;
     color: var(--color-text-brown);
-    margin-bottom: -10px; /* ボタンとの間隔を詰める */
-    padding-top: 10px; /* 診断ボタンとの全体のギャップは維持 */
+    margin-bottom: -10px; 
+    padding-top: 10px; 
     animation: float-text 3s ease-in-out infinite;
-    pointer-events: none; /* 下のボタンを押せるように */
+    pointer-events: none; 
 }
 
 @keyframes float-text {
@@ -119,7 +120,6 @@ body {
     50%  { transform: translateY(-8px); opacity: 0.8; }
     100% { transform: translateY(0); opacity: 1; }
 }
-/* ▲▲▲ 追加ここまで ▲▲▲ */
 
 
 /* ▼▼▼ 診断アプリボタンのスタイル (単色に変更) ▼▼▼ */
@@ -129,21 +129,15 @@ body {
     box-sizing: border-box; 
     width: 100%;
     max-width: 350px;
-    padding: 22px 25px; /* 縦1.5倍 */
+    padding: 22px 25px; 
     font-size: 1.1em;
     font-weight: 600;
     border-radius: 12px;
-    
-    /* 単色に変更 */
     background-color: #deb887;
     color: var(--color-text-brown); 
     text-shadow: none; 
-    
     border: none; 
-    
-    /* 影の色を調整 */
     box-shadow: 0 5px 20px rgba(222, 184, 135, 0.4);
-    
     text-decoration: none;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -159,10 +153,9 @@ body {
 }
 .btn-app-link:active {
     transform: translateY(-1px) scale(0.98); 
-    background-color: #d1a970; /* 少し濃い色 */
+    background-color: #d1a970; 
     box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
 }
-/* ▲▲▲ 変更ここまで ▲▲▲ */
 
 
 /* ★★★ 画面共通 ★★★ */
@@ -355,7 +348,6 @@ textarea,
 }
 .form-select {
     appearance: none;
-    /* ▼▼▼ 構文エラー防止のため再ペースト ▼▼▼ */
     background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg xmlns="http://www.w3.org/2000/svg" width="292.4" height="292.4"%3E%3Cpath fill="%23999999" d="M287 69.4a17.6 17.6 0 0 0-13-5.4H18.4c-5 0-9.3 1.8-12.9 5.4A17.6 17.6 0 0 0 0 82.2c0 5 1.8 9.3 5.4 12.9l128 127.9c3.6 3.6 7.8 5.4 12.8 5.4s9.2-1.8 12.8-5.4L287 95c3.6-3.6 5.4-7.8 5.4-12.8 0-5-1.9-9.2-5.5-12.8z"/%3E%3C/svg%3E');
     background-repeat: no-repeat;
     background-position: right 15px center;
@@ -537,7 +529,6 @@ textarea {
     text-shadow: 0 1px 3px rgba(0,0,0,0.5);
     z-index: 2; 
 }
-/* (カードの個別色指定は削除) */
 
 
 /* --- スワイプガイド --- */
@@ -784,3 +775,130 @@ textarea {
     color: #888;
     font-size: 0.9em;
 }
+
+/* ▼▼▼ サイドメニュー (Design Control) のスタイル ▼▼▼ */
+#side-menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 200;
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+#side-menu-overlay.active {
+    display: block;
+    opacity: 1;
+}
+
+#side-menu {
+    position: fixed;
+    top: 0;
+    right: -320px; /* 初期位置は画面外 */
+    width: 300px;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+    z-index: 210;
+    transition: right 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* スムーズなアニメーション */
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+#side-menu.active {
+    right: 0;
+}
+
+.side-menu-header {
+    padding: 20px;
+    border-bottom: 1px solid var(--color-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.side-menu-header h3 {
+    margin: 0;
+    color: var(--color-text-brown);
+    font-family: 'Zen Maru Gothic', sans-serif;
+}
+#btn-close-side-menu {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--color-text-light);
+    cursor: pointer;
+}
+
+.side-menu-content {
+    padding: 20px;
+}
+.design-category {
+    margin-bottom: 30px;
+}
+.design-category h4 {
+    font-size: 0.9rem;
+    color: var(--color-text-light);
+    border-bottom: 1px dashed var(--color-border);
+    padding-bottom: 5px;
+    margin-bottom: 15px;
+}
+.option-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.btn-option {
+    padding: 10px;
+    text-align: left;
+    background: #f9f9f9;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    color: var(--color-text);
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+}
+.btn-option:hover {
+    background: #f0f0f0;
+    transform: translateX(3px);
+}
+/* 選択中のスタイル (任意) */
+.btn-option.active {
+    background: var(--color-primary);
+    color: white;
+    border-color: var(--color-primary-dark);
+}
+
+.option-buttons-row {
+    display: flex;
+    gap: 10px;
+}
+.option-buttons-row button {
+    flex: 1;
+}
+
+/* デザインバリエーション用クラス */
+/* のっぺり (フラット) */
+body.flat-design .btn-menu,
+body.flat-design .btn,
+body.flat-design .form-section,
+body.flat-design .notification-section,
+body.flat-design .card-content {
+    box-shadow: none !important;
+    border: 2px solid var(--color-border);
+}
+/* 超立体 (ニューモーフィズム風/ハードシャドウ) */
+body.super-3d .btn-menu,
+body.super-3d .btn,
+body.super-3d .form-section,
+body.super-3d .notification-section,
+body.super-3d .card-content {
+    box-shadow: 6px 6px 0px rgba(0,0,0,0.2), inset 2px 2px 5px rgba(255,255,255,0.5) !important;
+    border: 1px solid rgba(0,0,0,0.1);
+    transform: translate(-2px, -2px); /* 浮き上がり表現 */
+}
+/* ▲▲▲ 追加ここまで ▲▲▲ */
