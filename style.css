@@ -118,16 +118,152 @@ input[type="color"] { width: 100%; height: 40px; border: none; cursor: pointer; 
 /* 戻るボタン */
 .btn-back-to-menu { position: absolute; top: 15px; left: 15px; z-index: 50; background: rgba(255,255,255,0.9); border: none; box-shadow: 0 2px 8px rgba(0,0,0,0.1); padding: 8px 15px; border-radius: 20px; color: var(--color-text-current); font-weight: bold; cursor: pointer; }
 
-/* スワイプ画面 */
-#swipe-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 1000; display: none; }
+/* =========================================
+   スワイプ画面 (新デザイン統合版)
+   ========================================= */
+#swipe-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 1000; display: none; }
 #btn-swipe-close { z-index: 1010; }
 .swiper { width: 100%; height: 100%; }
 .swiper-slide { display: flex; justify-content: center; align-items: center; }
-.card-content { width: 90%; height: 80%; position: relative; border-radius: 20px; overflow: hidden; background: #000; }
-.card-content img { width: 100%; height: 100%; object-fit: cover; }
-.card-content::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 30%; background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 100%); pointer-events: none; }
-.profile-info { position: absolute; bottom: 20px; left: 20px; color: white; font-size: 1.2rem; font-weight: bold; text-shadow: 0 2px 5px rgba(0,0,0,0.8); z-index: 2; }
-#swipe-overlay .swipe-guide { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); z-index: 105; text-align: center; color: #fff; }
+
+/* カードコンテナ（スマホ画面に見立てる） */
+.card-content { 
+    width: 100%; 
+    height: 100%; 
+    max-width: 450px; /* PC表示時の最大幅 */
+    max-height: 90vh; /* 上下の余白確保 */
+    position: relative; 
+    border-radius: 20px; 
+    overflow: hidden; 
+    background: #000; 
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+}
+
+/* 背景画像 */
+.profile-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+/* グラデーションオーバーレイ */
+.overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 60%;
+    background: linear-gradient(to top, rgba(0,0,0,0.85), transparent);
+    z-index: 2;
+    pointer-events: none;
+}
+
+/* --- 右側のアイコン群 --- */
+.action-bar {
+    position: absolute;
+    right: 15px;
+    bottom: 100px;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 25px;
+}
+.action-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    cursor: pointer;
+    color: #fff;
+    transition: transform 0.1s;
+}
+.action-item:active { transform: scale(0.9); }
+.icon-circle {
+    font-size: 32px;
+    margin-bottom: 5px;
+    text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+    /* FontAwesomeのハートなどを白くする */
+    color: #fff; 
+}
+.action-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+}
+
+/* --- 左下のプロフィール情報 (新クラス) --- */
+.profile-info-new {
+    position: absolute;
+    bottom: 80px;
+    left: 20px;
+    right: 80px; /* アイコンと被らないように */
+    z-index: 10;
+    color: #fff;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+    text-align: left;
+}
+.user-name {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 8px;
+    line-height: 1.2;
+}
+.user-tags {
+    font-size: 13px;
+    font-weight: normal;
+    margin-bottom: 10px;
+    opacity: 0.9;
+    line-height: 1.4;
+    color: #eee;
+}
+.user-intro {
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.5;
+}
+
+/* --- 画面下のスワイプ誘導 (浮遊アニメーション) --- */
+.swipe-indicator {
+    position: absolute;
+    bottom: 25px;
+    left: 0;
+    width: 100%;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    animation: floatUp 1.5s ease-in-out infinite;
+    pointer-events: none;
+}
+.swipe-icon {
+    font-size: 20px;
+    margin-bottom: 5px;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+}
+.swipe-text {
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+    text-transform: uppercase;
+}
+
+@keyframes floatUp {
+    0% { transform: translateY(0); opacity: 0.7; }
+    50% { transform: translateY(-8px); opacity: 1; }
+    100% { transform: translateY(0); opacity: 0.7; }
+}
+/* =========================================
+   スワイプ画面 制御ここまで
+   ========================================= */
+
 
 /* フォーム、通知、一覧(サムネイル)、エラー、ポップアップ等 */
 #form-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 300; }
