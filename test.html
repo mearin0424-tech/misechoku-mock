@@ -318,11 +318,12 @@
     <div id="side-menu">
         <div class="side-menu-header">
             <h3>Design Control</h3>
-            <button id="btn-close-side-menu">&times;</button>
+            <button id="btn-close-side-menu">閉じる <i class="fas fa-times"></i></button>
         </div>
+        
         <div class="side-menu-content">
-            <div class="design-section">
-                <div class="design-title-stylish">デザインスタイル</div>
+            <div class="design-category">
+                <div class="design-title-stylish">スタイル</div>
                 <div class="style-switch-container">
                     <span class="switch-label">グラデ</span>
                     <label class="toggle-switch">
@@ -333,26 +334,31 @@
                 </div>
             </div>
 
-            <div class="design-section">
-                <div class="design-title-stylish">メインカラー</div>
-                <div class="color-picker-3d-wrapper">
-                    <input type="color" id="color-main-picker" value="#f6fd86" class="color-picker-3d">
-                </div>
-            </div>
-            <div class="design-section">
-                <div class="design-title-stylish">サブカラー</div>
-                <div class="color-picker-3d-wrapper">
-                    <input type="color" id="color-sub-picker" value="#afdece" class="color-picker-3d">
-                </div>
-            </div>
-            <div class="design-section">
-                <div class="design-title-stylish">アクセントカラー</div>
-                <div class="color-picker-3d-wrapper">
-                    <input type="color" id="color-accent-picker" value="#8B4513" class="color-picker-3d">
+            <div class="design-category">
+                <div class="design-title-stylish">カラーパレット</div>
+                <div class="color-pickers-row">
+                    <div class="color-item">
+                        <span class="color-label">Main</span>
+                        <div class="color-picker-3d-wrapper">
+                            <input type="color" id="color-main-picker" value="#f6fd86" class="color-picker-3d">
+                        </div>
+                    </div>
+                    <div class="color-item">
+                        <span class="color-label">Sub</span>
+                        <div class="color-picker-3d-wrapper">
+                            <input type="color" id="color-sub-picker" value="#afdece" class="color-picker-3d">
+                        </div>
+                    </div>
+                    <div class="color-item">
+                        <span class="color-label">Accent</span>
+                        <div class="color-picker-3d-wrapper">
+                            <input type="color" id="color-accent-picker" value="#8B4513" class="color-picker-3d">
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div class="design-section">
+            <div class="design-category">
                 <div class="design-title-stylish">濃淡調整</div>
                 <div class="brightness-controls">
                     <button id="btn-lighten" class="btn-round-stylish" title="薄く"><i class="fas fa-plus"></i></button>
@@ -360,9 +366,15 @@
                     <button id="btn-darken" class="btn-round-stylish" title="濃く"><i class="fas fa-minus"></i></button>
                 </div>
             </div>
+
+            <div class="design-category no-border">
+                <div class="design-title-stylish">ランダム！</div>
+                <button id="btn-random-color" class="btn-random-stylish">
+                    <i class="fas fa-dice"></i> おまかせカラー
+                </button>
+            </div>
         </div>
     </div>
-
     <nav id="bottom-nav">
         <button class="nav-item" data-target="search-screen"><i class="fas fa-list"></i><span>一覧</span></button>
         <button class="nav-item" data-target="favorite-screen"><i class="fas fa-heart"></i><span>お気に入り</span></button>
