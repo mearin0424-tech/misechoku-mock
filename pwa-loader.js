@@ -41,29 +41,24 @@ async function getFcmToken(tokenArea, tokenInfo) {
     const VAPID_KEY = "BC3eV001Pt3fT11KqKJQVGo95jq5DAuU64mJUtcR4Xa-oRhT6gaExcA_eri4AMc9IWvYicPLVcImAF4fU4MCwhk";
 
     if (!('serviceWorker' in navigator)) {
-        if (tokenArea) tokenArea.value = "このブラウザはService Worker非対応です。";
+        console.error("Service Worker非対応");
         return;
     }
 
     try {
-        // ★進捗表示 1
-        if (tokenArea) tokenArea.value = "Service Workerの準備(Active)を待っています...\n(ここで止まる場合はリロードまたはキャッシュ削除を試してください)";
-        
-        // Service Worker がアクティブになるのを待つ (ここで止まりがち)
+        // Service Worker がアクティブになるのを待つ
         const registration = await navigator.serviceWorker.ready; 
-        console.log('Service Worker Ready:', registration);
-
-        // ★進捗表示 2
-        if (tokenArea) tokenArea.value = "Firebaseサーバーからトークンを取得しています...";
-
+        
+        // トークン取得
         const currentToken = await messaging.getToken({ 
             vapidKey: VAPID_KEY,
             serviceWorkerRegistration: registration 
         });
 
         if (currentToken) {
-            // ★完了表示
             console.log('FCM Token:', currentToken);
+            
+            // ★ここで初めて表示する
             if (tokenArea) {
                 tokenArea.value = currentToken; 
                 tokenArea.style.display = 'block';
@@ -73,17 +68,11 @@ async function getFcmToken(tokenArea, tokenInfo) {
                 tokenInfo.style.display = 'block';
             }
         } else {
-            console.warn('トークンがnullでした。');
-            if (tokenArea) tokenArea.value = "トークンを取得できませんでした (null)。";
-            if (tokenInfo) tokenInfo.style.display = 'none';
+            console.warn('トークンが取得できませんでした(null)');
         }
     } catch (err) {
         console.error('トークン取得エラー:', err);
-        if (tokenArea) {
-            tokenArea.value = "エラーが発生しました:\n" + err.message;
-            tokenArea.style.display = 'block';
-        }
-        if (tokenInfo) tokenInfo.style.display = 'none';
+        // エラー時はアラートを出すなどしても良いですが、今回はコンソールのみにします
     }
 }
 
@@ -92,32 +81,24 @@ async function getFcmToken(tokenArea, tokenInfo) {
 document.addEventListener('DOMContentLoaded', () => {
     
     const testBtn = document.getElementById('notification-test-btn');
-    
+    const tokenArea = document.getElementById('token-display-area');
+    const tokenInfo = document.getElementById('token-info');
+
     if (testBtn) {
         testBtn.addEventListener('click', async () => {
-            
-            const tokenArea = document.getElementById('token-display-area');
-            const tokenInfo = document.getElementById('token-info');
-
-            // 初期表示
-            if (tokenArea) {
-                tokenArea.style.display = 'block';
-                tokenArea.value = "処理を開始します...";
-            }
+            // ★クリック時はまず非表示にする（リトライ時などのため）
+            if (tokenArea) tokenArea.style.display = 'none';
             if (tokenInfo) tokenInfo.style.display = 'none';
 
             try {
-                // 1. 許可リクエスト
                 const permission = await requestNotificationPermission();
-
                 if (permission === 'granted') {
-                    // 2. トークン取得へ
                     await getFcmToken(tokenArea, tokenInfo); 
                 } else {
-                    if (tokenArea) tokenArea.value = "通知がブロックされています。\nブラウザの設定から通知を許可してください。";
+                    console.warn("通知が許可されませんでした。");
                 }
             } catch (err) {
-                if (tokenArea) tokenArea.value = "予期せぬエラー: " + err.message;
+                console.error(err);
             }
         });
     }
