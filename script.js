@@ -1,73 +1,67 @@
 document.addEventListener('DOMContentLoaded', () => {
     
-    // --- 画面要素 ---
-    // 画面はクラスや共通管理にしてループ処理した方が効率的ですが、今回はID列挙で対応
+    // --- 画面要素の取得 ---
     const screens = {
         home: document.getElementById('main-menu'),
         search: document.getElementById('search-screen'),
         notification: document.getElementById('notification-screen'),
         message: document.getElementById('message-screen'),
-        profile: document.getElementById('profile-screen'), // マイページ
+        mypage: document.getElementById('mypage-screen'),
+        profile: document.getElementById('profile-screen'),
         form: document.getElementById('form-screen'), // モーダル
         swipe: document.getElementById('swipe-overlay')
     };
     
+    const navItems = document.querySelectorAll('.nav-item');
     const backToTopBtn = document.getElementById('btn-back-to-top');
     const popupOverlay = document.getElementById('popup-overlay');
-    const swiperContainer = document.querySelector('#swipe-overlay .swiper');
     
-    // --- デザインコントロール ---
+    // FAB関連
+    const btnFab = document.getElementById('fab-main'); 
+    const fabSubmenu = document.getElementById('fab-submenu');
+    const btnFindShop = document.getElementById('btn-find-shop');
+    
+    // サイドメニュー関連
     const sideMenu = document.getElementById('side-menu');
     const sideMenuOverlay = document.getElementById('side-menu-overlay');
     const btnHamburger = document.getElementById('btn-hamburger'); 
     const btnCloseSideMenu = document.getElementById('btn-close-side-menu');
-    const bgLayer = document.getElementById('bg-layer');
     const root = document.documentElement;
+    const bgLayer = document.getElementById('bg-layer');
 
-    // --- ナビゲーション ---
-    const navItems = document.querySelectorAll('.nav-item');
-    const btnFab = document.getElementById('fab-add');
-    const btnCloseForm = document.querySelector('.btn-close-form');
-    const formOverlayBg = document.querySelector('.form-overlay-bg');
-
-    // --- 既存メニューボタン (メインメニュー内) ---
+    // メニューボタン
     const btnSwipeImage = document.getElementById('btn-swipe-image');
-    const btnFormImage = document.getElementById('btn-form-image'); // こちらも小窓を開くようにする
+    const btnFormImage = document.getElementById('btn-form-image');
+    const btnNotificationScreen = document.getElementById('btn-notification-screen');
     const btnPopupImage = document.getElementById('btn-popup-image');
-    const btnProfileImage = document.getElementById('btn-profile-image'); // こちらはタスクバー切替と同じ挙動に
+    const btnProfileImage = document.getElementById('btn-profile-image');
 
     const backButtons = Array.from(document.querySelectorAll('.btn-back-to-menu'));
     const closeSwipeBtn = document.getElementById('btn-swipe-close');
+    const btnCloseForm = document.querySelector('.btn-close-form');
+    const formOverlayBg = document.querySelector('.form-overlay-bg');
 
-    // --- その他 (Cropper, Popup) ---
-    let swiper = null; 
-    let cropper = null; 
-    const btnClosePopup = document.getElementById('btn-close-popup');
-    const btnPopupCancel = document.getElementById('btn-popup-cancel');
-    const btnPopupOk = document.getElementById('btn-popup-ok');
-    const imageUploadInput = document.getElementById('image-upload-input');
-    const cropperWrapper = document.getElementById('cropper-wrapper');
-    const imageToCrop = document.getElementById('image-to-crop');
-    const btnCropImage = document.getElementById('btn-crop-image');
-    const cropResultContainer = document.getElementById('crop-result-container');
-    const cropResultImage = document.getElementById('crop-result-image');
-
-
+    let swiper = null;
+    
     // --- 関数定義 ---
 
     // 画面切り替え (タスクバー用)
     function switchScreen(targetId) {
-        // 全画面非表示
+        // FABメニューを閉じる
+        if(fabSubmenu) fabSubmenu.classList.remove('active');
+
+        // 全画面非表示 (フォームとスワイプは特殊なので除外する場合もあるが、基本は消す)
         Object.values(screens).forEach(el => {
-            if(el && el.id !== 'form-screen' && el.id !== 'swipe-overlay') el.style.display = 'none';
+            if(el && el.id !== 'form-screen' && el.id !== 'swipe-overlay') {
+                el.style.display = 'none';
+            }
         });
         
-        // 指定画面表示
         const target = document.getElementById(targetId) || screens.home;
         target.style.display = 'block';
         window.scrollTo(0, 0);
 
-        // タスクバーのactive切り替え
+        // タスクバー更新
         navItems.forEach(item => {
             if (item.getAttribute('data-target') === targetId) {
                 item.classList.add('active');
@@ -76,8 +70,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
         
-        // ホーム以外なら戻るボタン表示...はタスクバーがあるので不要かもしれないが、既存仕様維持なら
-        // 今回はタスクバーがあるのでトップへ戻るボタンの制御のみにする
         if (backToTopBtn) backToTopBtn.style.display = 'none';
     }
 
@@ -85,7 +77,8 @@ document.addEventListener('DOMContentLoaded', () => {
     function toggleFormModal(show) {
         if (show) {
             screens.form.style.display = 'block';
-            document.body.style.overflow = 'hidden'; // 背景スクロール禁止
+            document.body.style.overflow = 'hidden';
+            if(fabSubmenu) fabSubmenu.classList.remove('active');
         } else {
             screens.form.style.display = 'none';
             document.body.style.overflow = 'auto';
@@ -93,28 +86,39 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function showPopup(show) {
-        if (popupOverlay) popupOverlay.style.display = show ? 'flex' : 'none';
+        if (popupOverlay) {
+            popupOverlay.style.display = show ? 'flex' : 'none';
+        }
     }
 
     function toggleSideMenu(show) {
         if (show) {
             sideMenuOverlay.classList.add('active');
             sideMenu.classList.add('active');
+            document.body.style.overflow = 'hidden';
         } else {
             sideMenuOverlay.classList.remove('active');
             sideMenu.classList.remove('active');
+            document.body.style.overflow = 'auto';
         }
     }
 
+    // ヘルパー関数: Hex色コードを薄くする (RGBA変換)
     function hexToLightRgba(hex, alpha) {
-        let r=0,g=0,b=0;
-        if(hex.startsWith('#')) hex = hex.slice(1);
-        if(hex.length===3){
-            r=parseInt(hex[0]+hex[0],16); g=parseInt(hex[1]+hex[1],16); b=parseInt(hex[2]+hex[2],16);
-        }else if(hex.length===6){
-            r=parseInt(hex.substring(0,2),16); g=parseInt(hex.substring(2,4),16); b=parseInt(hex.substring(4,6),16);
+        let r = 0, g = 0, b = 0;
+        // #を除去
+        if (hex.startsWith('#')) hex = hex.slice(1);
+        
+        if (hex.length === 3) {
+            r = parseInt(hex[0] + hex[0], 16);
+            g = parseInt(hex[1] + hex[1], 16);
+            b = parseInt(hex[2] + hex[2], 16);
+        } else if (hex.length === 6) {
+            r = parseInt(hex.substring(0, 2), 16);
+            g = parseInt(hex.substring(2, 4), 16);
+            b = parseInt(hex.substring(4, 6), 16);
         }
-        return `rgba(${r},${g},${b},${alpha})`;
+        return `rgba(${r}, ${g}, ${b}, ${alpha})`;
     }
 
 
@@ -128,9 +132,21 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // FAB & フォームボタン -> フォームモーダルを開く
+    // FAB制御
+    if (btnFab) {
+        btnFab.addEventListener('click', () => {
+            fabSubmenu.classList.toggle('active');
+        });
+    }
+    // 「お店を探す」 -> 検索画面へ
+    if (btnFindShop) {
+        btnFindShop.addEventListener('click', () => {
+            switchScreen('search-screen');
+        });
+    }
+
+    // フォーム表示 (FAB & ボタン)
     const openFormHandler = () => toggleFormModal(true);
-    if (btnFab) btnFab.addEventListener('click', openFormHandler);
     if (btnFormImage) btnFormImage.addEventListener('click', openFormHandler);
     
     // フォーム閉じる
@@ -142,7 +158,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (btnCloseSideMenu) btnCloseSideMenu.addEventListener('click', () => toggleSideMenu(false));
     if (sideMenuOverlay) sideMenuOverlay.addEventListener('click', () => toggleSideMenu(false));
 
-    // デザインコントロール (カラーテーマ)
+
+    // --- Design Control ---
+    
+    // カラーテーマ
     document.querySelectorAll('.theme-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
             const theme = e.target.getAttribute('data-theme');
@@ -158,8 +177,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 default: return;
             }
             root.style.setProperty('--color-bg-start', start);
+            // 背景グラデの終点を調整 (テーマに合わせるかアクセントに合わせるかは好みだが、ここではテーマに合わせる)
+            // ただし、CSS側で var(--color-bg-start) と var(--color-accent) を混ぜている場合もあるため、
+            // ここではCSS変数を更新する
             root.style.setProperty('--color-bg-end', end);
-            // 文字色調整は簡易版
+
+            // 文字色調整
             if(theme==='navy'){
                 root.style.setProperty('--color-text', '#fff');
                 root.style.setProperty('--color-text-brown', '#ffebcd');
@@ -175,6 +198,7 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.addEventListener('click', (e) => {
             const accent = e.target.getAttribute('data-accent');
             let p, d;
+            // 色コードを定義
             switch(accent) {
                 case 'space-navy': p='#191970'; d='#000080'; break;
                 case 'deep-green': p='#006400'; d='#004d00'; break;
@@ -183,13 +207,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 case 'jet-black': p='#000000'; d='#333333'; break;
                 default: return;
             }
+            
             root.style.setProperty('--color-primary', p);
             root.style.setProperty('--color-primary-dark', d);
-            // ボタン背景を薄く
-            root.style.setProperty('--color-btn-bg', p); 
-            // ※元のCSS設計に合わせて文字色を白にするため、背景を濃い色にするか、薄い色+濃い文字にするか
-            // 今回のCSS修正で .btn-menu の文字色は白(#FFF)にしたので、背景は濃い色のままでOK
-            // もし薄い背景にしたい場合は hexToLightRgba を使う
+            
+            // アクセントカラー (背景グラデの終点にも使っている場合)
+            root.style.setProperty('--color-accent', p);
+
+            // 文字色もアクセントカラーに連動させる
+            root.style.setProperty('--color-text-current', p);
+
+            // ボタンの背景色を、アクセントカラーの薄い色に変更
+            const lightBg = hexToLightRgba(p, 0.05); // 5%の不透明度
+            root.style.setProperty('--color-btn-bg', lightBg);
         });
     });
 
@@ -218,50 +248,67 @@ document.addEventListener('DOMContentLoaded', () => {
         bgLayer.style.filter = 'brightness(100%)';
     });
 
-    // スワイプ
+
+    // --- 既存画面のイベント ---
+
+    // スワイプ画面
     if (btnSwipeImage) btnSwipeImage.addEventListener('click', () => {
-        if (swipeOverlay) swipeOverlay.style.display = 'block';
+        if (screens.swipe) screens.swipe.style.display = 'block';
         document.body.style.overflow = 'hidden';
-        if (!swiper && swiperContainer) { 
-            swiper = new Swiper(swiperContainer, { direction: 'vertical', mousewheel: true, grabCursor: true });
-        }
+        // 表示後にSwiper初期化
+        setTimeout(() => {
+            const container = document.querySelector('#swipe-overlay .swiper');
+            if (!swiper && container) { 
+                swiper = new Swiper(container, { direction: 'vertical', mousewheel: true, grabCursor: true });
+            }
+        }, 100);
     });
     if (closeSwipeBtn) closeSwipeBtn.addEventListener('click', () => {
-        if (swipeOverlay) swipeOverlay.style.display = 'none';
+        screens.swipe.style.display = 'none';
         document.body.style.overflow = 'auto';
         switchScreen('main-menu'); // 戻る
     });
 
     // ポップアップ
     if (btnPopupImage) btnPopupImage.addEventListener('click', () => showPopup(true));
+    const btnClosePopup = document.getElementById('btn-close-popup');
+    const btnPopupCancel = document.getElementById('btn-popup-cancel');
+    const btnPopupOk = document.getElementById('btn-popup-ok');
     if (btnClosePopup) btnClosePopup.addEventListener('click', () => showPopup(false));
     if (btnPopupCancel) btnPopupCancel.addEventListener('click', () => showPopup(false));
     if (btnPopupOk) btnPopupOk.addEventListener('click', () => showPopup(false));
     if (popupOverlay) popupOverlay.addEventListener('click', (e) => { if(e.target === popupOverlay) showPopup(false); });
 
-    // プロフィールボタン (メインメニューの)
+    // プロフィール (メニュー内のボタンから)
     if (btnProfileImage) btnProfileImage.addEventListener('click', () => switchScreen('profile-screen'));
+    
+    // 通知テスト (メニュー内のボタンから)
+    if (btnNotificationScreen) btnNotificationScreen.addEventListener('click', () => switchScreen('notification-screen'));
 
-    // 戻るボタン (各画面左上)
+    // 戻るボタン (共通)
     backButtons.forEach(btn => {
         if (btn.id !== 'btn-swipe-close') {
             btn.addEventListener('click', () => switchScreen('main-menu'));
         }
     });
 
-    // スクロールトップボタン
+    // スクロールトップ
     window.onscroll = () => {
         if (backToTopBtn) {
-            if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
-                backToTopBtn.style.display = 'block';
-            } else {
-                backToTopBtn.style.display = 'none';
-            }
+            const scrollY = window.scrollY || document.documentElement.scrollTop;
+            backToTopBtn.style.display = (scrollY > 100) ? 'block' : 'none';
         }
     };
     if (backToTopBtn) backToTopBtn.addEventListener('click', (e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); });
-
+    
     // Cropper
+    const imageUploadInput = document.getElementById('image-upload-input');
+    const cropperWrapper = document.getElementById('cropper-wrapper');
+    const imageToCrop = document.getElementById('image-to-crop');
+    const btnCropImage = document.getElementById('btn-crop-image');
+    const cropResultContainer = document.getElementById('crop-result-container');
+    const cropResultImage = document.getElementById('crop-result-image');
+    
     if (imageUploadInput) {
         imageUploadInput.addEventListener('change', (e) => {
             const file = e.target.files[0];
@@ -301,4 +348,5 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('click', () => {
         document.querySelectorAll('.info-icon.focused').forEach(el => el.classList.remove('focused'));
     });
+
 });
