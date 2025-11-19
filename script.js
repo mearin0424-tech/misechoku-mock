@@ -50,6 +50,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnCloseForm = document.querySelector('.btn-close-form');
     const formOverlayBg = document.querySelector('.form-overlay-bg');
 
+    const designToggle = document.getElementById('design-mode-toggle');
+    if(designToggle) {
+        // 初期状態チェック (HTML側でchecked属性があれば適用)
+        if(document.body.classList.contains('flat-mode')) {
+            designToggle.checked = true;
+        }
+
+        designToggle.addEventListener('change', (e) => {
+            if(e.target.checked) {
+                document.body.classList.add('flat-mode');
+            } else {
+                document.body.classList.remove('flat-mode');
+            }
+        });
+    }
+
     let swiper = null;
 
     function switchScreen(targetId) {
