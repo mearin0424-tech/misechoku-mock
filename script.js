@@ -1,54 +1,64 @@
 document.addEventListener('DOMContentLoaded', () => {
     
-    // --- 画面定義 ---
+    // --- 画面要素 ---
     const screens = {
         home: document.getElementById('main-menu'),
         search: document.getElementById('search-screen'),
         notification: document.getElementById('notification-screen'),
         message: document.getElementById('message-screen'),
         mypage: document.getElementById('mypage-screen'),
-        profile: document.getElementById('profile-screen'),
         form: document.getElementById('form-screen'), 
-        swipe: document.getElementById('swipe-overlay')
+        swipe: document.getElementById('swipe-overlay'),
+        profile: document.getElementById('profile-screen')
     };
     
+    const root = document.documentElement;
+
+    // --- ナビゲーション & ボタン ---
     const navItems = document.querySelectorAll('.nav-item');
-    const backToTopBtn = document.getElementById('btn-back-to-top');
-    const popupOverlay = document.getElementById('popup-overlay');
+    const backButtons = Array.from(document.querySelectorAll('.btn-back-to-menu'));
     
+    // メインメニュー
+    const btnSwipeImage = document.getElementById('btn-swipe-image');
+    const btnFormImage = document.getElementById('btn-form-image');
+    const btnPopupImage = document.getElementById('btn-popup-image');
+    const btnNotificationScreen = document.getElementById('btn-notification-screen');
+
     // FAB
-    const btnFab = document.getElementById('fab-main'); 
+    const btnFab = document.getElementById('fab-main');
     const fabSubmenu = document.getElementById('fab-submenu');
-    const btnFindShop = document.getElementById('btn-find-shop');
-    
+    const btnFindShop = document.getElementById('btn-find-shop'); // お店を探す
+
     // サイドメニュー
     const sideMenu = document.getElementById('side-menu');
     const sideMenuOverlay = document.getElementById('side-menu-overlay');
     const btnHamburger = document.getElementById('btn-hamburger'); 
     const btnCloseSideMenu = document.getElementById('btn-close-side-menu');
-    const root = document.documentElement;
-    const bgLayer = document.getElementById('bg-layer');
 
-    // メニューボタン
-    const btnSwipeImage = document.getElementById('btn-swipe-image');
-    const btnFormImage = document.getElementById('btn-form-image');
-    const btnNotificationScreen = document.getElementById('btn-notification-screen');
-    const btnPopupImage = document.getElementById('btn-popup-image');
-    const btnProfileImage = document.getElementById('btn-profile-image');
+    // デザインコントロール (カラーピッカー)
+    const pickerMain = document.getElementById('color-main-picker');
+    const pickerSub = document.getElementById('color-sub-picker');
+    const pickerAccent = document.getElementById('color-accent-picker');
+    const designRadios = document.getElementsByName('design-style');
 
-    const backButtons = Array.from(document.querySelectorAll('.btn-back-to-menu'));
+    // その他
+    let swiper = null;
     const closeSwipeBtn = document.getElementById('btn-swipe-close');
     const btnCloseForm = document.querySelector('.btn-close-form');
     const formOverlayBg = document.querySelector('.form-overlay-bg');
+    const popupOverlay = document.getElementById('popup-overlay');
+    const btnPopupCancel = document.getElementById('btn-popup-cancel');
+    const btnPopupOk = document.getElementById('btn-popup-ok');
+    const btnClosePopup = document.getElementById('btn-close-popup');
 
-    let swiper = null;
 
-    // --- 画面切り替え ---
+    // --- 関数定義 ---
+
     function switchScreen(targetId) {
-        // FABメニュー閉じる
+        // FAB閉じる
         if(fabSubmenu) fabSubmenu.classList.remove('active');
 
-        // ★重要: 全画面を非表示にする (スワイプやフォームも含める)
+        // 全画面非表示
         Object.values(screens).forEach(el => {
             if(el) el.style.display = 'none';
         });
@@ -57,16 +67,25 @@ document.addEventListener('DOMContentLoaded', () => {
         target.style.display = 'block';
         window.scrollTo(0, 0);
 
-        // タスクバー
+        // タスクバー更新
         navItems.forEach(item => {
             if (item.getAttribute('data-target') === targetId) item.classList.add('active');
             else item.classList.remove('active');
         });
-        
-        if (backToTopBtn) backToTopBtn.style.display = 'none';
     }
 
-    // フォーム (モーダル)
+    function toggleSideMenu(show) {
+        if (show) {
+            sideMenuOverlay.style.display = 'block';
+            sideMenu.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        } else {
+            sideMenuOverlay.style.display = 'none';
+            sideMenu.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+    }
+
     function toggleFormModal(show) {
         if (show) {
             screens.form.style.display = 'block';
@@ -78,141 +97,89 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function showPopup(show) {
-        popupOverlay.style.display = show ? 'flex' : 'none';
-    }
-    function toggleSideMenu(show) {
-        if (show) {
-            sideMenuOverlay.classList.add('active');
-            sideMenu.classList.add('active');
-        } else {
-            sideMenuOverlay.classList.remove('active');
-            sideMenu.classList.remove('active');
-        }
-    }
+    // --- イベントリスナー ---
 
-    // 色変換ヘルパー
-    function hexToLightRgba(hex, alpha) {
-        let r=0,g=0,b=0;
-        if(hex.startsWith('#')) hex=hex.slice(1);
-        if(hex.length===3){ r=parseInt(hex[0]+hex[0],16); g=parseInt(hex[1]+hex[1],16); b=parseInt(hex[2]+hex[2],16); }
-        else if(hex.length===6){ r=parseInt(hex.substring(0,2),16); g=parseInt(hex.substring(2,4),16); b=parseInt(hex.substring(4,6),16); }
-        return `rgba(${r},${g},${b},${alpha})`;
-    }
-
-    // --- イベント ---
-
+    // 1. タスクバー切り替え
     navItems.forEach(item => {
         item.addEventListener('click', () => switchScreen(item.getAttribute('data-target')));
     });
 
-    if (btnFab) btnFab.addEventListener('click', () => fabSubmenu.classList.toggle('active'));
-    if (btnFindShop) btnFindShop.addEventListener('click', () => switchScreen('search-screen'));
+    // 2. FAB操作
+    if(btnFab) {
+        btnFab.addEventListener('click', () => {
+            fabSubmenu.classList.toggle('active');
+        });
+    }
+    // お店を探す -> 検索画面
+    if(btnFindShop) {
+        btnFindShop.addEventListener('click', () => switchScreen('search-screen'));
+    }
 
-    if (btnFormImage) btnFormImage.addEventListener('click', () => toggleFormModal(true));
-    if (btnCloseForm) btnCloseForm.addEventListener('click', () => toggleFormModal(false));
-    if (formOverlayBg) formOverlayBg.addEventListener('click', () => toggleFormModal(false));
+    // 3. メインメニューボタン
+    if(btnNotificationScreen) btnNotificationScreen.addEventListener('click', () => switchScreen('notification-screen'));
+    if(btnFormImage) btnFormImage.addEventListener('click', () => toggleFormModal(true));
+    if(btnPopupImage) btnPopupImage.addEventListener('click', () => { popupOverlay.style.display = 'flex'; });
 
-    // スワイプ
-    if (btnSwipeImage) btnSwipeImage.addEventListener('click', () => {
-        if (screens.swipe) screens.swipe.style.display = 'block';
-        document.body.style.overflow = 'hidden';
-        setTimeout(() => {
-            const container = document.querySelector('#swipe-overlay .swiper');
-            if (!swiper && container) { 
-                swiper = new Swiper(container, { direction: 'vertical', mousewheel: true, grabCursor: true });
+    // スワイプ画面
+    if(btnSwipeImage) {
+        btnSwipeImage.addEventListener('click', () => {
+            screens.swipe.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+            setTimeout(() => {
+                const container = document.querySelector('#swipe-overlay .swiper');
+                if (!swiper && container) { 
+                    swiper = new Swiper(container, { direction: 'vertical', mousewheel: true, grabCursor: true });
+                }
+            }, 100);
+        });
+    }
+    if(closeSwipeBtn) {
+        closeSwipeBtn.addEventListener('click', () => {
+            screens.swipe.style.display = 'none';
+            document.body.style.overflow = 'auto';
+            switchScreen('main-menu');
+        });
+    }
+
+    // 4. デザインコントロール (リアルタイム反映)
+    
+    // カラー変更
+    const updateColor = (varName, value) => root.style.setProperty(varName, value);
+    
+    if(pickerMain) pickerMain.addEventListener('input', (e) => updateColor('--color-main', e.target.value));
+    if(pickerSub) pickerSub.addEventListener('input', (e) => updateColor('--color-sub', e.target.value));
+    if(pickerAccent) pickerAccent.addEventListener('input', (e) => updateColor('--color-accent', e.target.value));
+
+    // デザインモード変更
+    Array.from(designRadios).forEach(radio => {
+        radio.addEventListener('change', (e) => {
+            if(e.target.value === 'flat') {
+                document.body.classList.add('flat-mode');
+            } else {
+                document.body.classList.remove('flat-mode');
             }
-        }, 100);
-    });
-    if (closeSwipeBtn) closeSwipeBtn.addEventListener('click', () => {
-        screens.swipe.style.display = 'none';
-        document.body.style.overflow = 'auto';
-        switchScreen('main-menu');
+        });
     });
 
-    if (btnPopupImage) btnPopupImage.addEventListener('click', () => showPopup(true));
-    document.getElementById('btn-close-popup').addEventListener('click', () => showPopup(false));
-    document.getElementById('btn-popup-cancel').addEventListener('click', () => showPopup(false));
-    document.getElementById('btn-popup-ok').addEventListener('click', () => showPopup(false));
+    // ハンバーガー
+    if(btnHamburger) btnHamburger.addEventListener('click', () => toggleSideMenu(true));
+    if(btnCloseSideMenu) btnCloseSideMenu.addEventListener('click', () => toggleSideMenu(false));
+    if(sideMenuOverlay) sideMenuOverlay.addEventListener('click', () => toggleSideMenu(false));
 
-    if (btnNotificationScreen) btnNotificationScreen.addEventListener('click', () => switchScreen('notification-screen'));
-    if (btnProfileImage) btnProfileImage.addEventListener('click', () => switchScreen('profile-screen'));
-
+    // 5. 共通戻るボタン
     backButtons.forEach(btn => {
-        if (btn.id !== 'btn-swipe-close') {
+        if(btn.id !== 'btn-swipe-close') {
             btn.addEventListener('click', () => switchScreen('main-menu'));
         }
     });
 
-    if (btnHamburger) btnHamburger.addEventListener('click', () => toggleSideMenu(true));
-    if (btnCloseSideMenu) btnCloseSideMenu.addEventListener('click', () => toggleSideMenu(false));
-    if (sideMenuOverlay) sideMenuOverlay.addEventListener('click', () => toggleSideMenu(false));
-
-    // --- Design Control ---
-    document.querySelectorAll('.theme-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            const theme = e.target.getAttribute('data-theme');
-            let start, end;
-            switch(theme) {
-                case 'lemon': start='#f6fd86'; end='#afdece'; break; 
-                case 'lime': start='#c6ff00'; end='#f0f8ff'; break;
-                case 'mint': start='#98fb98'; end='#e0ffff'; break;
-                case 'navy': start='#000080'; end='#191970'; break; 
-                case 'lavender': start='#e6e6fa'; end='#fff0f5'; break;
-                case 'salmon': start='#fa8072'; end='#ffe4e1'; break;
-                case 'beige': start='#f5f5dc'; end='#faf0e6'; break;
-            }
-            root.style.setProperty('--color-bg-start', start);
-            root.style.setProperty('--color-bg-end', end);
-            // ネイビーの時は文字白
-            if(theme==='navy'){ root.style.setProperty('--color-text', '#fff'); root.style.setProperty('--color-text-current', '#fff'); }
-            else { root.style.setProperty('--color-text', '#333'); } 
-            // アクセントカラーの設定が優先されるので text-current はアクセント選択時に上書きされる
-        });
-    });
-
-    document.querySelectorAll('.accent-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            const accent = e.target.getAttribute('data-accent');
-            let p, d;
-            switch(accent) {
-                case 'space-navy': p='#191970'; d='#000080'; break;
-                case 'deep-green': p='#006400'; d='#004d00'; break;
-                case 'blood-red': p='#8b0000'; d='#500000'; break;
-                case 'grandpa-brown': p='#8b4513'; d='#5e2f0d'; break;
-                case 'jet-black': p='#000000'; d='#333333'; break;
-            }
-            root.style.setProperty('--color-primary', p);
-            root.style.setProperty('--color-primary-dark', d);
-            root.style.setProperty('--color-accent', p);
-            root.style.setProperty('--color-text-current', p); // 全体の文字色変更
-            
-            // ボタン背景を薄く
-            root.style.setProperty('--color-btn-bg', hexToLightRgba(p, 0.05));
-        });
-    });
-
-    document.querySelectorAll('.style-btn').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            const s = e.target.getAttribute('data-style');
-            document.body.classList.remove('flat-design', 'super-3d');
-            if(s==='flat') document.body.classList.add('flat-design');
-            else if(s==='super-3d') document.body.classList.add('super-3d');
-        });
-    });
-
-    const adjustBrightness = (val) => {
-        let currentFilter = bgLayer.style.filter || 'brightness(100%)';
-        let match = currentFilter.match(/brightness\((\d+)%\)/);
-        let currentVal = match ? parseInt(match[1]) : 100;
-        bgLayer.style.filter = `brightness(${currentVal + val}%)`;
-    };
-    document.getElementById('btn-lighten').addEventListener('click', () => adjustBrightness(10));
-    document.getElementById('btn-darken').addEventListener('click', () => adjustBrightness(-10));
-    document.getElementById('btn-reset-brightness').addEventListener('click', () => { bgLayer.style.filter = 'brightness(100%)'; });
+    // 6. モーダル・ポップアップ閉じる系
+    if(btnCloseForm) btnCloseForm.addEventListener('click', () => toggleFormModal(false));
+    if(formOverlayBg) formOverlayBg.addEventListener('click', () => toggleFormModal(false));
     
-    // Cropper
-    if(document.getElementById('image-upload-input')) {
-        // (Cropper logic omitted for brevity, same as before)
-    }
+    if(btnClosePopup) btnClosePopup.addEventListener('click', () => popupOverlay.style.display = 'none');
+    if(btnPopupCancel) btnPopupCancel.addEventListener('click', () => popupOverlay.style.display = 'none');
+    if(btnPopupOk) btnPopupOk.addEventListener('click', () => popupOverlay.style.display = 'none');
+    if(popupOverlay) popupOverlay.addEventListener('click', (e) => { if(e.target===popupOverlay) popupOverlay.style.display = 'none'; });
+
 });
