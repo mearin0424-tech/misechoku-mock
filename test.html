@@ -23,6 +23,9 @@
             <p class="main-subtitle">デザインモックサイト</p>
             
             <div class="menu-buttons">
+                <button id="btn-design-control" class="btn btn-menu" style="border-left: 5px solid #FF69B4;">
+                    <i class="fas fa-palette"></i> Design Control
+                </button>
                 <button id="btn-swipe-image" class="btn btn-menu"><i class="fas fa-arrows-alt-v"></i> スワイプイメージ</button>
                 <button id="btn-form-image" class="btn btn-menu"><i class="fas fa-edit"></i> フォームイメージ</button>
                 <button id="btn-popup-image" class="btn btn-menu"><i class="fas fa-window-maximize"></i> ポップアップイメージ</button>
@@ -30,6 +33,7 @@
                 <button id="btn-profile-image" class="btn btn-menu"><i class="fas fa-user-circle"></i> プロフィールイメージ</button>
                 
                 <p class="floating-promo-text">接客タイプ診断はこちら！</p>
+                
                 <a href="https://mearin0424-tech.github.io/personality-test/personality-test.html" class="btn-app-link" target="_blank" rel="noopener noreferrer">
                     <img src="icons/piyoko-icon-128x128.png" alt="診断アプリアイコン">
                     <span>診断アプリへ</span>
@@ -40,7 +44,21 @@
 
     <div id="form-screen" style="display: none;">
         <button class="btn btn-back-to-menu"><i class="fas fa-arrow-left"></i> メニューに戻る</button>
-        <section class="form-section" data-aos="fade-up" data-aos-delay="200"><div class="container"><h2>フォームイメージ</h2><form action="#" method="POST"><div class="form-group"><label for="name"><span class="label-text">テキスト</span><span class="required-mark">*</span><i class="fas fa-question-circle info-icon" data-tooltip="お名前をフルネームで入力してください。"></i></label><input type="text" id="name" name="name" placeholder="例：山田 太郎" required></div><div class="form-group"><label for="email"><span class="label-text">メール</span><span class="required-mark">*</span><i class="fas fa-question-circle info-icon" data-tooltip="確認用のメールアドレスを入力。"></i></label><input type="email" id="email" name="email" placeholder="例：hoge@example.com" required></div><div class="form-group"><label for="date"><span class="label-text">日付 (カレンダー)</span><i class="fas fa-question-circle info-icon" data-tooltip="カレンダーから日付を選択します。"></i></label><input type="date" id="date" name="date"></div><div class="form-group"><label for="list-select"><span class="label-text">リスト</span><span class="required-mark">*</span><i class="fas fa-question-circle info-icon" data-tooltip="一覧から項目を1つ選択してください。"></i></label><select id="list-select" name="list-select" class="form-select" required><option value="" disabled selected>選択してください</option><option value="A">オプションA</option><option value="B">オプションB</option><option value="C">オプションC</option></select></div><div class="form-group"><label><span class="label-text">ラジオボタン</span><span class="required-mark">*</span><i class="fas fa-question-circle info-icon" data-tooltip="どちらか1つを選択。"></i></label><div class="radio-group"><label><input type="radio" name="type" value="A" required> タイプA</label><label><input type="radio" name="type" value="B"> タイプB</label></div></div><div class="form-group"><label for="message"><span class="label-text">テキストエリア</span><i class="fas fa-question-circle info-icon" data-tooltip="ご自由にどうぞ。"></i></label><textarea id="message" name="message" rows="5" placeholder="ご自由に入力してください..."></textarea></div><div class="form-group"><label for="image-upload"><span class="label-text">画像アップロード (320x320)</span><i class="fas fa-question-circle info-icon" data-tooltip="画像をアップロードし、ガイドに合わせて切り抜きます。"></i></label><input type="file" id="image-upload-input" accept="image/*" class="form-file-input"><div id="cropper-wrapper" style="display: none; margin-top: 15px;"><p>ガイドに合わせて画像を切り抜いてください。</p><div id="cropper-container"><img id="image-to-crop" src=""></div><button type="button" id="btn-crop-image" class="btn btn-secondary" style="margin-top: 15px;"><i class="fas fa-cut"></i> この画像に決定</button></div><div id="crop-result-container" style="display: none; margin-top: 15px;"><label><span class="label-text">切り抜き結果</span></label><img id="crop-result-image" src="" class="crop-result-preview"></div></div><div class="form-group text-center"><button type="submit" class="btn btn-primary">送信する</button></div></form></div></section>
+        <section class="form-section" data-aos="fade-up" data-aos-delay="200">
+            <div class="container">
+                <h2>フォームイメージ</h2>
+                <form action="#" method="POST">
+                    <div class="form-group"><label for="name"><span class="label-text">テキスト</span><span class="required-mark">*</span><i class="fas fa-question-circle info-icon" data-tooltip="お名前をフルネームで入力してください。"></i></label><input type="text" id="name" name="name" placeholder="例：山田 太郎" required></div>
+                    <div class="form-group"><label for="email"><span class="label-text">メール</span><span class="required-mark">*</span><i class="fas fa-question-circle info-icon" data-tooltip="確認用のメールアドレスを入力。"></i></label><input type="email" id="email" name="email" placeholder="例：hoge@example.com" required></div>
+                    <div class="form-group"><label for="date"><span class="label-text">日付 (カレンダー)</span><i class="fas fa-question-circle info-icon" data-tooltip="カレンダーから日付を選択します。"></i></label><input type="date" id="date" name="date"></div>
+                    <div class="form-group"><label for="list-select"><span class="label-text">リスト</span><span class="required-mark">*</span><i class="fas fa-question-circle info-icon" data-tooltip="一覧から項目を1つ選択してください。"></i></label><select id="list-select" name="list-select" class="form-select" required><option value="" disabled selected>選択してください</option><option value="A">オプションA</option><option value="B">オプションB</option><option value="C">オプションC</option></select></div>
+                    <div class="form-group"><label><span class="label-text">ラジオボタン</span><span class="required-mark">*</span><i class="fas fa-question-circle info-icon" data-tooltip="どちらか1つを選択。"></i></label><div class="radio-group"><label><input type="radio" name="type" value="A" required> タイプA</label><label><input type="radio" name="type" value="B"> タイプB</label></div></div>
+                    <div class="form-group"><label for="message"><span class="label-text">テキストエリア</span><i class="fas fa-question-circle info-icon" data-tooltip="ご自由にどうぞ。"></i></label><textarea id="message" name="message" rows="5" placeholder="ご自由に入力してください..."></textarea></div>
+                    <div class="form-group"><label for="image-upload"><span class="label-text">画像アップロード (320x320)</span><i class="fas fa-question-circle info-icon" data-tooltip="画像をアップロードし、ガイドに合わせて切り抜きます。"></i></label><input type="file" id="image-upload-input" accept="image/*" class="form-file-input"><div id="cropper-wrapper" style="display: none; margin-top: 15px;"><p>ガイドに合わせて画像を切り抜いてください。</p><div id="cropper-container"><img id="image-to-crop" src=""></div><button type="button" id="btn-crop-image" class="btn btn-secondary" style="margin-top: 15px;"><i class="fas fa-cut"></i> この画像に決定</button></div><div id="crop-result-container" style="display: none; margin-top: 15px;"><label><span class="label-text">切り抜き結果</span></label><img id="crop-result-image" src="" class="crop-result-preview"></div></div>
+                    <div class="form-group text-center"><button type="submit" class="btn btn-primary">送信する</button></div>
+                </form>
+            </div>
+        </section>
     </div>
 
     <div id="notification-screen" style="display: none;">
@@ -50,7 +68,7 @@
     
     <div id="profile-screen" style="display: none;">
         <button class="btn btn-back-to-menu"><i class="fas fa-arrow-left"></i> メニューに戻る</button>
-        <div class="profile-header"><div class="profile-banner"></div><div class="profile-info-section"><div class="profile-avatar-placeholder"></div><button class="btn profile-edit-btn">プロフィール編集</button><h1 class="profile-name">コジコジ まる子</h1><p class="profile-id">@misechoku_dev</p><p class="profile-bio">六本木〇〇でNo.1！<br>#ゆるふわ #たぬき顔</p><div class="profile-stats"><div><strong>123</strong> <span class="stats-label">フォロー</span></div><div><strong>456</strong> <span class="stats-label">フォロワー</span></div></div></div></div>
+        <div class="profile-header"><div class="profile-banner"></div><div class="profile-info-section"><div class="profile-avatar-placeholder"></div><button class="btn profile-edit-btn">プロフィール編集</button><h1 class="profile-name">ミセチョク 太郎</h1><p class="profile-id">@misechoku_dev</p><p class="profile-bio">Webデザイナー見習い。UI/UXデザインに興味津々！趣味は新しいカフェ巡り☕️。<br>#Webデザイン #UI #UX</p><div class="profile-stats"><div><strong>123</strong> <span class="stats-label">フォロー</span></div><div><strong>456</strong> <span class="stats-label">フォロワー</span></div></div></div></div>
         <div class="profile-content"><div class="profile-tabs"><button class="tab-button active">投稿</button><button class="tab-button">いいね</button><button class="tab-button">ギャラリー</button></div><div class="profile-posts"><div class="post-grid"><div class="post-item"><span class="post-item-text">Post 1</span></div><div class="post-item"><span class="post-item-text">Post 2</span></div><div class="post-item"><span class="post-item-text">Post 3</span></div><div class="post-item"><span class="post-item-text">Post 4</span></div><div class="post-item"><span class="post-item-text">Post 5</span></div><div class="post-item"><span class="post-item-text">Post 6</span></div></div></div></div>
     </div>
     
@@ -68,6 +86,57 @@
         <div id="popup-box"><div class="popup-header"><h2>ポップアップ</h2><button id="btn-close-popup" class="btn-close-popup" title="閉じる">&times;</button></div><div class="popup-body"><p>ここにポップアップのコンテンツが入ります。確認ボタンやフォームなどを配置できます。</p></div><div class="popup-actions"><button id="btn-popup-cancel" class="btn btn-secondary">キャンセル</button><button id="btn-popup-ok" class="btn btn-primary">OK</button></div></div>
     </div>
 
+    <div id="side-menu-overlay"></div>
+    <div id="side-menu">
+        <div class="side-menu-header">
+            <h3>Design Control</h3>
+            <button id="btn-close-side-menu">&times;</button>
+        </div>
+        <div class="side-menu-content">
+            
+            <div class="design-category">
+                <h4>カラーテーマ</h4>
+                <div class="option-list">
+                    <button class="btn-option theme-btn" data-theme="lemon">フレッシュレモン！</button>
+                    <button class="btn-option theme-btn" data-theme="lime">ライムグリーン！</button>
+                    <button class="btn-option theme-btn" data-theme="mint">ミントグリーン！</button>
+                    <button class="btn-option theme-btn" data-theme="navy">ネイビーブルー！</button>
+                    <button class="btn-option theme-btn" data-theme="lavender">ラベンダー！</button>
+                    <button class="btn-option theme-btn" data-theme="salmon">サーモンピンク！</button>
+                    <button class="btn-option theme-btn" data-theme="beige">ベージュ！</button>
+                </div>
+            </div>
+
+            <div class="design-category">
+                <h4>アクセントカラー</h4>
+                <div class="option-list">
+                    <button class="btn-option accent-btn" data-accent="space-navy">宇宙のネイビー⋯</button>
+                    <button class="btn-option accent-btn" data-accent="deep-green">深淵のグリーン⋯</button>
+                    <button class="btn-option accent-btn" data-accent="blood-red">鮮血のレッド⋯</button>
+                    <button class="btn-option accent-btn" data-accent="grandpa-brown">おじいちゃんブラウン⋯</button>
+                    <button class="btn-option accent-btn" data-accent="jet-black">漆黒のブラック⋯</button>
+                </div>
+            </div>
+
+            <div class="design-category">
+                <h4>デザイン</h4>
+                <div class="option-list">
+                    <button class="btn-option style-btn" data-style="gradient">グラデーション</button>
+                    <button class="btn-option style-btn" data-style="flat">のっぺり</button>
+                    <button class="btn-option style-btn" data-style="super-3d">超立体</button>
+                </div>
+            </div>
+
+            <div class="design-category">
+                <h4>濃淡調整</h4>
+                <div class="option-buttons-row">
+                    <button id="btn-lighten" class="btn btn-secondary">薄く</button>
+                    <button id="btn-darken" class="btn btn-secondary">濃く</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-messaging-compat.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
