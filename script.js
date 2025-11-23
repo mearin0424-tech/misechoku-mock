@@ -161,7 +161,37 @@ document.addEventListener('DOMContentLoaded', () => {
         item.addEventListener('click', () => switchScreen(item.getAttribute('data-target')));
     });
 
-    if (btnHeaderNotification) btnHeaderNotification.addEventListener('click', () => switchScreen('notification-screen'));
+    //if (btnHeaderNotification) btnHeaderNotification.addEventListener('click', () => switchScreen('notification-screen'));
+    // --- 通知ポップアップ制御 ---
+    const btnHeaderNotification = document.getElementById('btn-header-notification');
+    const notificationPopup = document.getElementById('header-notification-popup');
+    const btnCloseNotif = document.querySelector('.btn-close-notification-popup');
+    const btnGotoPwa = document.getElementById('btn-goto-pwa-test');
+
+    if (btnHeaderNotification) {
+        btnHeaderNotification.addEventListener('click', (e) => {
+            e.stopPropagation(); // 他のクリックイベントへの伝播を防ぐ
+            notificationPopup.classList.toggle('active');
+            
+            // タスクポップアップが開いていたら閉じる
+            if(headerTaskPopup) headerTaskPopup.classList.remove('active');
+        });
+    }
+
+    if(btnCloseNotif) {
+        btnCloseNotif.addEventListener('click', () => {
+            notificationPopup.classList.remove('active');
+        });
+    }
+
+    // PWAテスト画面への遷移
+    if(btnGotoPwa) {
+        btnGotoPwa.addEventListener('click', () => {
+            notificationPopup.classList.remove('active');
+            switchScreen('notification-screen');
+        });
+    }
+    
     if (btnHeaderTask) btnHeaderTask.addEventListener('click', () => headerTaskPopup.classList.toggle('active'));
     if (btnCloseTaskPopup) btnCloseTaskPopup.addEventListener('click', () => headerTaskPopup.classList.remove('active'));
     if (btnPalette) btnPalette.addEventListener('click', () => toggleSideMenu());
@@ -308,3 +338,9 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('.info-icon.focused').forEach(el => el.classList.remove('focused'));
     });
 });
+
+// グローバル関数として定義
+window.toggleUserType = function(btn) {
+    document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+};
