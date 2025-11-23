@@ -162,7 +162,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // --- 通知ポップアップ制御 ---
-    // ※ここで btnHeaderNotification を再定義するとエラーになるため削除しました
     
     const notificationPopup = document.getElementById('header-notification-popup');
     const btnCloseNotif = document.querySelector('.btn-close-notification-popup');
@@ -170,7 +169,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (btnHeaderNotification) {
         btnHeaderNotification.addEventListener('click', (e) => {
-            e.stopPropagation(); // 他のクリックイベントへの伝播を防ぐ
+            e.stopPropagation(); 
             notificationPopup.classList.toggle('active');
             
             // タスクポップアップが開いていたら閉じる
@@ -343,4 +342,31 @@ document.addEventListener('DOMContentLoaded', () => {
 window.toggleUserType = function(btn) {
     document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
+};
+
+// --- 追加: テーマ切り替え機能 ---
+window.setTheme = function(themeName) {
+    const body = document.body;
+    
+    // 既存のテーマクラスを全削除
+    body.classList.remove('theme-vivid', 'theme-chic', 'theme-urban');
+    
+    // ボタンのactive状態を更新
+    document.querySelectorAll('.btn-theme-switch').forEach(btn => {
+        btn.classList.remove('active');
+        if(btn.getAttribute('data-theme') === themeName) {
+            btn.classList.add('active');
+        }
+    });
+
+    // 'default'以外なら該当クラスを付与
+    if (themeName !== 'default') {
+        body.classList.add('theme-' + themeName);
+    }
+    
+    // Urbanモードなら明るさをリセット（見やすさのため）
+    if (themeName === 'urban') {
+        const bgLayer = document.getElementById('bg-layer');
+        if(bgLayer) bgLayer.style.filter = 'brightness(100%)';
+    }
 };
