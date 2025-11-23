@@ -14,6 +14,58 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css?ver=1.0">
+
+    <style>
+        /* 1. グラデーション調整: メイン8割、サブ2割 */
+        #bg-layer {
+            background: linear-gradient(135deg, var(--color-main) 0%, var(--color-main) 70%, var(--color-sub) 100%) !important;
+        }
+
+        /* 5. 改行防止: 各種ボタンやテキスト */
+        .btn, .nav-item span, .menu-buttons .btn-menu, .fab-item, .header-text-btn, .type-btn {
+            white-space: nowrap;
+        }
+
+        /* 2. 店舗/キャスト切替スイッチ */
+        .user-type-switch {
+            display: flex;
+            background: rgba(255,255,255,0.5);
+            border-radius: 30px;
+            padding: 4px;
+            margin: 0 auto 30px auto; /* タイトルの下、メニューの上 */
+            width: fit-content;
+            border: 1px solid rgba(255,255,255,0.6);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .type-btn {
+            padding: 8px 25px;
+            border-radius: 25px;
+            border: none;
+            background: transparent;
+            color: #666;
+            font-weight: bold;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Zen Maru Gothic', sans-serif;
+        }
+        .type-btn.active {
+            background: #fff;
+            color: var(--color-accent);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        /* 3. 通知用ポップアップ (タスク用を流用して調整) */
+        #header-notification-popup {
+            position: fixed; top: 60px; right: 55px; /* タスクより少し左 */
+            width: 280px; background: #fff; border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15); z-index: 510;
+            display: none; overflow: hidden; border: 1px solid #eee;
+        }
+        #header-notification-popup.active { display: block; }
+        .notification-popup-content { padding: 15px; text-align: center; }
+
+    </style>
 </head>
 <body>
 
@@ -51,10 +103,28 @@
         </div>
     </div>
 
+    <div id="header-notification-popup">
+        <div class="task-popup-header">
+            <h4>お知らせ</h4>
+            <button class="btn-close-notification-popup btn-close-task-popup">&times;</button>
+        </div>
+        <div class="notification-popup-content">
+            <p style="font-size:0.85rem; color:#666; margin-bottom:15px;">新しいお知らせはありません。</p>
+            <button id="btn-goto-pwa-test" class="btn btn-primary" style="font-size:0.85rem; width:100%;">
+                <i class="fas fa-paper-plane"></i> PWA通知テスト
+            </button>
+        </div>
+    </div>
+
     <div id="main-menu" class="screen active">
-        <div class="container">
-            <p class="main-subtitle">デザインモックサイト</p>
+        <div class="container" style="display:flex; flex-direction:column; align-items:center;">
+            <p class="main-subtitle" style="margin-bottom: 20px;">デザインモックサイト</p>
             
+            <div class="user-type-switch">
+                <button class="type-btn active" onclick="toggleUserType(this)">店舗向け</button>
+                <button class="type-btn" onclick="toggleUserType(this)">キャスト向け</button>
+            </div>
+
             <div class="menu-buttons">
                 <div class="menu-group">
                     <h3 class="menu-group-title">イメージ表示</h3>
@@ -127,38 +197,51 @@
     </div>
     
     <div id="search-screen" class="screen" style="display: none;">
-        <div class="screen-header"><h2>一覧</h2></div>
+        <div class="screen-header"><h2>タイムライン</h2></div>
         <div class="container">
             <div class="search-bar-container"><input type="text" class="search-input" placeholder="キーワードで検索..."><button class="search-btn"><i class="fas fa-search"></i></button></div>
             <div class="category-tags"><span class="tag active">すべて</span><span class="tag">新着</span><span class="tag">人気</span><span class="tag">おすすめ</span></div>
             
             <div class="thumbnail-list">
                 <div class="thumbnail-card">
-                    <div class="thumb-img" style="background-image: url('images/card-1.png');"></div>
-                    <div class="thumb-info"><h4>ほげほげカフェ</h4><p class="thumb-tag">#おしゃれ #電源あり</p></div>
+                    <div class="thumb-img" style="background-image: url('images/girls/girl-1.png');"></div>
+                    <div class="thumb-info"><h4>ミセチョク花子</h4><p class="thumb-tag">#カフェ巡り #おしゃれ</p></div>
                 </div>
                 <div class="thumbnail-card">
-                    <div class="thumb-img" style="background-image: url('images/card-2.png');"></div>
-                    <div class="thumb-info"><h4>ふがふがレストラン</h4><p class="thumb-tag">#イタリアン #個室</p></div>
+                    <div class="thumb-img" style="background-image: url('images/girls/girl-2.png');"></div>
+                    <div class="thumb-info"><h4>ふがふが子</h4><p class="thumb-tag">#イタリアン #ゲーム</p></div>
                 </div>
                 <div class="thumbnail-card">
-                    <div class="thumb-img" style="background-image: url('images/card-3.png');"></div>
-                    <div class="thumb-info"><h4>ぴよぴよバー</h4><p class="thumb-tag">#静か #カクテル</p></div>
+                    <div class="thumb-img" style="background-image: url('images/girls/girl-3.png');"></div>
+                    <div class="thumb-info"><h4>ぴよぴよ</h4><p class="thumb-tag">#プログラミング #初心者</p></div>
+                </div>
+                <div class="thumbnail-card">
+                    <div class="thumb-img" style="background-image: url('images/girls/girl-4.png');"></div>
+                    <div class="thumb-info"><h4>さくら</h4><p class="thumb-tag">#ドライブ #新人</p></div>
+                </div>
+                <div class="thumbnail-card">
+                    <div class="thumb-img" style="background-image: url('images/girls/girl-5.png');"></div>
+                    <div class="thumb-info"><h4>あおい</h4><p class="thumb-tag">#夜景 #ディナー</p></div>
+                </div>
+                <div class="thumbnail-card">
+                    <div class="thumb-img" style="background-image: url('images/girls/girl-6.png');"></div>
+                    <div class="thumb-info"><h4>リカ</h4><p class="thumb-tag">#リラックス #お家時間</p></div>
                 </div>
             </div>
         </div>
     </div>
 
     <div id="favorite-screen" class="screen" style="display: none;">
-        <div class="screen-header"><h2>お気に入り</h2></div>
-        <div class="container"><p style="text-align:center; color:#888; margin-top:50px;">まだお気に入りがありません。</p></div>
+        <div class="screen-header"><h2>キープ一覧</h2></div>
+        <div class="container"><p style="text-align:center; color:#888; margin-top:50px;">まだキープしたキャストがいません。</p></div>
     </div>
 
     <div id="message-screen" class="screen" style="display: none;">
         <div class="screen-header"><h2>メッセージ</h2></div>
-        <div class="container" style="padding: 0;"> <div class="chat-list">
+        <div class="container" style="padding: 0;"> 
+            <div class="chat-list">
                 <div class="chat-item">
-                    <div class="chat-avatar" style="background-image: url('images/card-1.png');"></div>
+                    <div class="chat-avatar" style="background-image: url('images/girls/girl-1.png');"></div>
                     <div class="chat-content">
                         <div class="chat-top">
                             <h4 class="chat-name">ミセチョク花子</h4>
@@ -168,7 +251,7 @@
                     </div>
                 </div>
                 <div class="chat-item">
-                    <div class="chat-avatar" style="background-image: url('images/card-2.png');"></div>
+                    <div class="chat-avatar" style="background-image: url('images/girls/girl-2.png');"></div>
                     <div class="chat-content">
                         <div class="chat-top">
                             <h4 class="chat-name">ふがふが子</h4>
@@ -179,13 +262,43 @@
                     <span class="chat-unread">1</span>
                 </div>
                 <div class="chat-item">
-                    <div class="chat-avatar" style="background-image: url('images/card-3.png');"></div>
+                    <div class="chat-avatar" style="background-image: url('images/girls/girl-3.png');"></div>
                     <div class="chat-content">
                         <div class="chat-top">
                             <h4 class="chat-name">ぴよぴよ</h4>
                             <span class="chat-time">2日前</span>
                         </div>
                         <p class="chat-preview">了解です！</p>
+                    </div>
+                </div>
+                <div class="chat-item">
+                    <div class="chat-avatar" style="background-image: url('images/girls/girl-4.png');"></div>
+                    <div class="chat-content">
+                        <div class="chat-top">
+                            <h4 class="chat-name">さくら</h4>
+                            <span class="chat-time">3日前</span>
+                        </div>
+                        <p class="chat-preview">はじめまして！よろしくお願いします。</p>
+                    </div>
+                </div>
+                <div class="chat-item">
+                    <div class="chat-avatar" style="background-image: url('images/girls/girl-5.png');"></div>
+                    <div class="chat-content">
+                        <div class="chat-top">
+                            <h4 class="chat-name">あおい</h4>
+                            <span class="chat-time">1週間前</span>
+                        </div>
+                        <p class="chat-preview">またご飯行きましょう！</p>
+                    </div>
+                </div>
+                <div class="chat-item">
+                    <div class="chat-avatar" style="background-image: url('images/girls/girl-6.png');"></div>
+                    <div class="chat-content">
+                        <div class="chat-top">
+                            <h4 class="chat-name">リカ</h4>
+                            <span class="chat-time">1週間前</span>
+                        </div>
+                        <p class="chat-preview">写真送りますね〜。</p>
                     </div>
                 </div>
             </div>
@@ -214,7 +327,7 @@
                 
                 <div class="swiper-slide">
                     <div class="card-content" id="card-1">
-                        <img src="images/card-1.png" alt="User Profile" class="profile-image">
+                        <img src="images/girls/girl-1.png" alt="User Profile" class="profile-image">
                         <div class="overlay"></div>
 
                         <div class="action-bar">
@@ -247,7 +360,7 @@
 
                 <div class="swiper-slide">
                     <div class="card-content" id="card-2">
-                        <img src="images/card-2.png" alt="User Profile" class="profile-image">
+                        <img src="images/girls/girl-2.png" alt="User Profile" class="profile-image">
                         <div class="overlay"></div>
                         <div class="action-bar">
                             <div class="action-item side-action-btn"><i class="fas fa-heart icon-circle"></i><span class="action-label">2.5k</span></div>
@@ -265,7 +378,7 @@
 
                 <div class="swiper-slide">
                     <div class="card-content" id="card-3">
-                        <img src="images/card-3.png" alt="User Profile" class="profile-image">
+                        <img src="images/girls/girl-3.png" alt="User Profile" class="profile-image">
                         <div class="overlay"></div>
                         <div class="action-bar">
                             <div class="action-item side-action-btn"><i class="fas fa-heart icon-circle"></i><span class="action-label">10k</span></div>
@@ -276,6 +389,60 @@
                             <div class="user-name">ぴよぴよ (20)</div>
                             <div class="user-tags">#勉強中 #プログラミング #初心者</div>
                             <div class="user-intro">頑張ります！</div>
+                        </div>
+                        <div class="swipe-indicator"><i class="fas fa-chevron-up swipe-icon"></i><span class="swipe-text">SWIPE</span></div>
+                    </div>
+                </div>
+
+                <div class="swiper-slide">
+                    <div class="card-content" id="card-4">
+                        <img src="images/girls/girl-4.png" alt="User Profile" class="profile-image">
+                        <div class="overlay"></div>
+                        <div class="action-bar">
+                            <div class="action-item side-action-btn"><i class="fas fa-heart icon-circle"></i><span class="action-label">1.2k</span></div>
+                            <div class="action-item side-action-btn"><i class="fas fa-bookmark icon-circle"></i><span class="action-label">保存</span></div>
+                            <div class="action-item side-action-btn"><i class="fas fa-share-alt icon-circle"></i><span class="action-label">シェア</span></div>
+                        </div>
+                        <div class="profile-info-new">
+                            <div class="user-name">さくら (21)</div>
+                            <div class="user-tags">#ドライブ #新人 #学生</div>
+                            <div class="user-intro">はじめまして、よろしくね！</div>
+                        </div>
+                        <div class="swipe-indicator"><i class="fas fa-chevron-up swipe-icon"></i><span class="swipe-text">SWIPE</span></div>
+                    </div>
+                </div>
+
+                <div class="swiper-slide">
+                    <div class="card-content" id="card-5">
+                        <img src="images/girls/girl-5.png" alt="User Profile" class="profile-image">
+                        <div class="overlay"></div>
+                        <div class="action-bar">
+                            <div class="action-item side-action-btn"><i class="fas fa-heart icon-circle"></i><span class="action-label">5k</span></div>
+                            <div class="action-item side-action-btn"><i class="fas fa-bookmark icon-circle"></i><span class="action-label">保存</span></div>
+                            <div class="action-item side-action-btn"><i class="fas fa-share-alt icon-circle"></i><span class="action-label">シェア</span></div>
+                        </div>
+                        <div class="profile-info-new">
+                            <div class="user-name">あおい (23)</div>
+                            <div class="user-tags">#夜景 #ディナー #おっとり</div>
+                            <div class="user-intro">美味しいもの食べるのが好きです。</div>
+                        </div>
+                        <div class="swipe-indicator"><i class="fas fa-chevron-up swipe-icon"></i><span class="swipe-text">SWIPE</span></div>
+                    </div>
+                </div>
+
+                <div class="swiper-slide">
+                    <div class="card-content" id="card-6">
+                        <img src="images/girls/girl-6.png" alt="User Profile" class="profile-image">
+                        <div class="overlay"></div>
+                        <div class="action-bar">
+                            <div class="action-item side-action-btn"><i class="fas fa-heart icon-circle"></i><span class="action-label">3k</span></div>
+                            <div class="action-item side-action-btn"><i class="fas fa-bookmark icon-circle"></i><span class="action-label">保存</span></div>
+                            <div class="action-item side-action-btn"><i class="fas fa-share-alt icon-circle"></i><span class="action-label">シェア</span></div>
+                        </div>
+                        <div class="profile-info-new">
+                            <div class="user-name">リカ (25)</div>
+                            <div class="user-tags">#リラックス #お家時間 #大人</div>
+                            <div class="user-intro">まったり過ごしたいな。</div>
                         </div>
                         <div class="swipe-indicator"><i class="fas fa-chevron-up swipe-icon"></i><span class="swipe-text">SWIPE</span></div>
                     </div>
@@ -375,10 +542,11 @@
             </div>
         </div>
     </div>
+    
     <nav id="bottom-nav">
-        <button class="nav-item" data-target="search-screen"><i class="fas fa-list"></i><span>一覧</span></button>
-        <button class="nav-item" data-target="favorite-screen"><i class="fas fa-heart"></i><span>お気に入り</span></button>
         <button class="nav-item active" data-target="main-menu"><i class="fas fa-home"></i><span>ホーム</span></button>
+        <button class="nav-item" data-target="search-screen"><i class="fas fa-stream"></i><span>タイムライン</span></button>
+        <button class="nav-item" data-target="favorite-screen"><i class="fas fa-bookmark"></i><span>キープ</span></button>
         <button class="nav-item" data-target="message-screen"><i class="fas fa-comment-dots"></i><span>メッセージ</span></button>
         <button class="nav-item" data-target="mypage-screen"><i class="fas fa-user"></i><span>マイページ</span></button>
     </nav>
@@ -389,6 +557,66 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.js"></script>
     <script src="pwa-loader.js"></script>
     <script src="script.js?ver=1.0""></script> 
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 店舗/キャスト切替処理
+            window.toggleUserType = function(btn) {
+                document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            };
+
+            // 通知小窓の制御
+            const btnNotif = document.getElementById('btn-header-notification');
+            const notifPopup = document.getElementById('header-notification-popup');
+            const btnCloseNotif = document.querySelector('.btn-close-notification-popup');
+            const btnGotoPwa = document.getElementById('btn-goto-pwa-test');
+
+            // 既存のイベント(script.js)が上書きされないように注意しつつ、クリックイベントを追加
+            if(btnNotif) {
+                // script.jsで定義されている switchScreen('notification-screen') を無効化する必要がある場合、
+                // cloneNodeでリスナーを削除するテクニックなどが必要ですが、
+                // ここでは単純にscript.jsの挙動(画面遷移)を上書きするのは難しいため、
+                // script.jsの「btnHeaderNotification」のクリックイベントが「notification-screen」へ遷移する仕様の場合、
+                // これを変更するには本来 script.js の修正が必要です。
+                // 
+                // ★今回はHTML側で button の id を変更せず、onclick属性などを利用していないため、
+                // script.jsのイベントリスナーが発火してしまいます。
+                // これを回避するため、古い要素を複製して置き換え（イベント削除）し、新しい動作を付与します。
+                
+                const newBtnNotif = btnNotif.cloneNode(true);
+                btnNotif.parentNode.replaceChild(newBtnNotif, btnNotif);
+
+                newBtnNotif.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    notifPopup.classList.toggle('active');
+                    // 他のポップアップを閉じるなどの処理はお好みで
+                    const taskPopup = document.getElementById('header-task-popup');
+                    if(taskPopup) taskPopup.classList.remove('active');
+                });
+            }
+
+            if(btnCloseNotif) {
+                btnCloseNotif.addEventListener('click', () => {
+                    notifPopup.classList.remove('active');
+                });
+            }
+
+            if(btnGotoPwa) {
+                btnGotoPwa.addEventListener('click', () => {
+                    notifPopup.classList.remove('active');
+                    // script.js内の関数 switchScreen がグローバルにあるか確認
+                    // ない場合は直接DOM操作
+                    const screens = document.querySelectorAll('.screen');
+                    screens.forEach(s => s.style.display = 'none');
+                    document.getElementById('notification-screen').style.display = 'block';
+                    
+                    // Navのアクティブ状態解除（ホーム等）
+                    document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+                });
+            }
+        });
+    </script>
 
 </body>
 </html>
