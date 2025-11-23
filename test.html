@@ -12,8 +12,8 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?ver=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700&family=Montserrat:wght@700;900&family=Playfair+Display:ital,wght@0,700;1,700&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css?ver=1.1">
 </head>
 <body>
 
@@ -316,7 +316,7 @@
                             <div class="action-item side-action-btn"><i class="fas fa-share-alt icon-circle"></i><span class="action-label">シェア</span></div>
                         </div>
                         <div class="profile-info-new">
-                            <div class="user-name">ふがふが子 (22)</div>
+                            <div class="user-name">aya (22)</div>
                             <div class="user-tags">#ゲーム #インドア #イタリアン</div>
                             <div class="user-intro">仲良くしてください！</div>
                         </div>
@@ -334,8 +334,8 @@
                             <div class="action-item side-action-btn"><i class="fas fa-share-alt icon-circle"></i><span class="action-label">シェア</span></div>
                         </div>
                         <div class="profile-info-new">
-                            <div class="user-name">ぴよぴよ (20)</div>
-                            <div class="user-tags">#勉強中 #プログラミング #初心者</div>
+                            <div class="user-name">まり子 (20)</div>
+                            <div class="user-tags">#勉強中 #初心者 #大学生</div>
                             <div class="user-intro">頑張ります！</div>
                         </div>
                         <div class="swipe-indicator"><i class="fas fa-chevron-up swipe-icon"></i><span class="swipe-text">SWIPE</span></div>
@@ -371,7 +371,7 @@
                         </div>
                         <div class="profile-info-new">
                             <div class="user-name">あおい (23)</div>
-                            <div class="user-tags">#夜景 #ディナー #おっとり</div>
+                            <div class="user-tags">#ゆるふわ #おっとり</div>
                             <div class="user-intro">美味しいもの食べるのが好きです。</div>
                         </div>
                         <div class="swipe-indicator"><i class="fas fa-chevron-up swipe-icon"></i><span class="swipe-text">SWIPE</span></div>
@@ -437,6 +437,27 @@
         </div>
         
         <div class="side-menu-content">
+            <div class="design-category">
+                <div class="design-title-stylish">MODERN THEMES</div>
+                <div class="theme-switch-container">
+                    <button class="btn-theme-switch" data-theme="vivid" onclick="setTheme('vivid')">
+                        <span class="theme-icon" style="background:#FFD700; border:2px solid #000;"></span>
+                        <span class="theme-label">BOLD</span>
+                    </button>
+                    <button class="btn-theme-switch" data-theme="chic" onclick="setTheme('chic')">
+                        <span class="theme-icon" style="background:#fff; border:1px solid #ddd;"></span>
+                        <span class="theme-label">CHIC</span>
+                    </button>
+                    <button class="btn-theme-switch" data-theme="urban" onclick="setTheme('urban')">
+                        <span class="theme-icon" style="background:#121212; border:1px solid #333; box-shadow: 0 0 5px #00FFC2;"></span>
+                        <span class="theme-label">URBAN</span>
+                    </button>
+                    <button class="btn-theme-switch active" data-theme="default" onclick="setTheme('default')">
+                        <span class="theme-icon" style="background:#f6fd86; border:1px solid #ccc;"></span>
+                        <span class="theme-label">NORMAL</span>
+                    </button>
+                </div>
+            </div>
             <div class="design-category">
                 <div class="design-title-stylish">スタイル</div>
                 <div class="style-switch-container">
@@ -504,7 +525,7 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.js"></script>
     <script src="pwa-loader.js"></script>
-    <script src="script.js?ver=1.0"></script> 
+    <script src="script.js?ver=1.1"></script> 
 
 </body>
 </html>
