@@ -161,9 +161,9 @@ document.addEventListener('DOMContentLoaded', () => {
         item.addEventListener('click', () => switchScreen(item.getAttribute('data-target')));
     });
 
-    //if (btnHeaderNotification) btnHeaderNotification.addEventListener('click', () => switchScreen('notification-screen'));
     // --- 通知ポップアップ制御 ---
-    const btnHeaderNotification = document.getElementById('btn-header-notification');
+    // ※ここで btnHeaderNotification を再定義するとエラーになるため削除しました
+    
     const notificationPopup = document.getElementById('header-notification-popup');
     const btnCloseNotif = document.querySelector('.btn-close-notification-popup');
     const btnGotoPwa = document.getElementById('btn-goto-pwa-test');
