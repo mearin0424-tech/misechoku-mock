@@ -14,58 +14,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css?ver=1.0">
-
-    <style>
-        /* 1. グラデーション調整: メイン8割、サブ2割 */
-        #bg-layer {
-            background: linear-gradient(135deg, var(--color-main) 0%, var(--color-main) 70%, var(--color-sub) 100%) !important;
-        }
-
-        /* 5. 改行防止: 各種ボタンやテキスト */
-        .btn, .nav-item span, .menu-buttons .btn-menu, .fab-item, .header-text-btn, .type-btn {
-            white-space: nowrap;
-        }
-
-        /* 2. 店舗/キャスト切替スイッチ */
-        .user-type-switch {
-            display: flex;
-            background: rgba(255,255,255,0.5);
-            border-radius: 30px;
-            padding: 4px;
-            margin: 0 auto 30px auto; /* タイトルの下、メニューの上 */
-            width: fit-content;
-            border: 1px solid rgba(255,255,255,0.6);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-        }
-        .type-btn {
-            padding: 8px 25px;
-            border-radius: 25px;
-            border: none;
-            background: transparent;
-            color: #666;
-            font-weight: bold;
-            font-size: 0.95rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: 'Zen Maru Gothic', sans-serif;
-        }
-        .type-btn.active {
-            background: #fff;
-            color: var(--color-accent);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-
-        /* 3. 通知用ポップアップ (タスク用を流用して調整) */
-        #header-notification-popup {
-            position: fixed; top: 60px; right: 55px; /* タスクより少し左 */
-            width: 280px; background: #fff; border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15); z-index: 510;
-            display: none; overflow: hidden; border: 1px solid #eee;
-        }
-        #header-notification-popup.active { display: block; }
-        .notification-popup-content { padding: 15px; text-align: center; }
-
-    </style>
 </head>
 <body>
 
@@ -556,67 +504,7 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.js"></script>
     <script src="pwa-loader.js"></script>
-    <script src="script.js?ver=1.0""></script> 
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // 店舗/キャスト切替処理
-            window.toggleUserType = function(btn) {
-                document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-            };
-
-            // 通知小窓の制御
-            const btnNotif = document.getElementById('btn-header-notification');
-            const notifPopup = document.getElementById('header-notification-popup');
-            const btnCloseNotif = document.querySelector('.btn-close-notification-popup');
-            const btnGotoPwa = document.getElementById('btn-goto-pwa-test');
-
-            // 既存のイベント(script.js)が上書きされないように注意しつつ、クリックイベントを追加
-            if(btnNotif) {
-                // script.jsで定義されている switchScreen('notification-screen') を無効化する必要がある場合、
-                // cloneNodeでリスナーを削除するテクニックなどが必要ですが、
-                // ここでは単純にscript.jsの挙動(画面遷移)を上書きするのは難しいため、
-                // script.jsの「btnHeaderNotification」のクリックイベントが「notification-screen」へ遷移する仕様の場合、
-                // これを変更するには本来 script.js の修正が必要です。
-                // 
-                // ★今回はHTML側で button の id を変更せず、onclick属性などを利用していないため、
-                // script.jsのイベントリスナーが発火してしまいます。
-                // これを回避するため、古い要素を複製して置き換え（イベント削除）し、新しい動作を付与します。
-                
-                const newBtnNotif = btnNotif.cloneNode(true);
-                btnNotif.parentNode.replaceChild(newBtnNotif, btnNotif);
-
-                newBtnNotif.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    notifPopup.classList.toggle('active');
-                    // 他のポップアップを閉じるなどの処理はお好みで
-                    const taskPopup = document.getElementById('header-task-popup');
-                    if(taskPopup) taskPopup.classList.remove('active');
-                });
-            }
-
-            if(btnCloseNotif) {
-                btnCloseNotif.addEventListener('click', () => {
-                    notifPopup.classList.remove('active');
-                });
-            }
-
-            if(btnGotoPwa) {
-                btnGotoPwa.addEventListener('click', () => {
-                    notifPopup.classList.remove('active');
-                    // script.js内の関数 switchScreen がグローバルにあるか確認
-                    // ない場合は直接DOM操作
-                    const screens = document.querySelectorAll('.screen');
-                    screens.forEach(s => s.style.display = 'none');
-                    document.getElementById('notification-screen').style.display = 'block';
-                    
-                    // Navのアクティブ状態解除（ホーム等）
-                    document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-                });
-            }
-        });
-    </script>
+    <script src="script.js?ver=1.0"></script> 
 
 </body>
 </html>
