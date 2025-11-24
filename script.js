@@ -2,23 +2,23 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // --- データ定義 ---
     const appData = {
-        shop: { // 店舗向け（表示内容：女の子）
+        shop: { // 店舗向けモード（タイムラインには女の子を表示）
             pathPrefix: 'images/girls/',
-            imgName: (i) => `${i}.png`, 
+            imgName: (i) => `girl-${i}.png`, // ※ファイル名がgirl-1.png等の場合
             items: [
-                { id:1, name: 'あや', age: 22, text: '初心者です！絶賛お店探し中。', time: '10分前' },
-                { id:2, name: 'まる子', age: 20, text: '今日から2か月、大阪にいます。', time: '30分前' },
-                { id:3, name: '舞', age: 24, text: '初心者です、いろいろ教えてください！', time: '1時間前' },
-                { id:4, name: 'さくら', age: 21, text: '明日東京に帰ります。', time: '3時間前' },
-                { id:5, name: 'あおい', age: 23, text: '今すぐ入れます！', time: '昨日' },
-                { id:6, name: 'リカ', age: 25, text: 'お家でまったり、リラックスタイム中～', time: '昨日' }
+                { id:1, name: 'あや', age: 22, text: 'カフェ巡りが好きです☕️ 仲良くしてね！', time: '10分前' },
+                { id:2, name: 'まる子', age: 20, text: 'ゲーム大好き🎮 一緒に遊びましょ〜', time: '30分前' },
+                { id:3, name: '舞', age: 24, text: 'プログラミング勉強中💻 教えてください！', time: '1時間前' },
+                { id:4, name: 'さくら', age: 21, text: 'ドライブ連れてって🚗 海行きたい！', time: '3時間前' },
+                { id:5, name: 'あおい', age: 23, text: '夜景が綺麗なところに行きたいな✨', time: '昨日' },
+                { id:6, name: 'リカ', age: 25, text: 'お家でまったり派🏠 リラックスタイム', time: '昨日' }
             ]
         },
-        cast: { // キャスト向け（表示内容：お店）
-            pathPrefix: 'images/omise/', // ※フォルダが存在しない場合は適宜作成かダミーパスで
+        cast: { // キャスト向けモード（タイムラインにはお店を表示）
+            pathPrefix: 'images/omise/', 
             imgName: (i) => `${i}.png`, 
             items: [
-                { id:1, name: 'CLUB SHINJUKU', age: null, text: '時給5000円〜にアップ中✨ 未経験者大歓迎！', time: '新着' },
+                { id:1, name: 'CLUB SHINJUKU', age: null, text: '時給5000円〜✨ 未経験者大歓迎！', time: '新着' },
                 { id:2, name: 'Lounge Rose', age: null, text: '落ち着いた雰囲気の会員制ラウンジ🍷', time: '急募' },
                 { id:3, name: 'Girls Bar PIYO', age: null, text: '私服OK！髪型ネイル自由💅 ゆるく働こう', time: '人気' },
                 { id:4, name: 'Cabaret FLOWER', age: null, text: '豪華な内装と厚待遇💎 送りあり', time: '3時間前' },
@@ -28,11 +28,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-
-    appData.shop.imgName = (i) => `${i}.png`; 
-    // omise側は画像がない場合のダミー（または数字.png）
+    // ファイル名の微調整（実際のファイル構成に合わせてください）
+    appData.shop.imgName = (i) => `girl-${i}.png`; 
     appData.cast.imgName = (i) => `${i}.png`; 
-
 
     let currentMode = 'shop'; // 初期モード
 
@@ -93,15 +91,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- コンテンツ描画関数 ---
     function renderContent() {
-        const data = appData[currentMode];
+        const viewData = appData[currentMode]; // タイムライン等の表示用データ
+        // マイページ用データ（逆にする：店舗モードなら自分のページは店舗画像）
+        const mypageMode = (currentMode === 'shop') ? 'cast' : 'shop';
+        const mypageData = appData[mypageMode];
         
-        // 1. スワイプスライド生成
+        // 1. スワイプスライド生成 (View Data)
         const swipeWrapper = document.getElementById('swipe-wrapper');
         if(swipeWrapper) {
-            swipeWrapper.innerHTML = data.items.map((item, index) => `
+            swipeWrapper.innerHTML = viewData.items.map((item, index) => `
                 <div class="swiper-slide">
                     <div class="card-content">
-                        <img src="${data.pathPrefix}${data.imgName(index + 1)}" alt="${item.name}" class="profile-image" onerror="this.src='images/girls/1.png'">
+                        <img src="${viewData.pathPrefix}${viewData.imgName(index + 1)}" alt="${item.name}" class="profile-image" onerror="this.src='images/girls/girl-1.png'">
                         <div class="overlay"></div>
                         <div class="action-bar">
                             <div class="action-item side-action-btn"><i class="fas fa-heart icon-circle"></i><span class="action-label">いいね</span></div>
@@ -118,12 +119,12 @@ document.addEventListener('DOMContentLoaded', () => {
             if(swiper) { swiper.update(); swiper.slideTo(0); }
         }
 
-        // 2. タイムライン生成
+        // 2. タイムライン生成 (View Data)
         const timelineContainer = document.getElementById('timeline-container');
         if(timelineContainer) {
-            timelineContainer.innerHTML = data.items.map((item, index) => `
+            timelineContainer.innerHTML = viewData.items.map((item, index) => `
                 <div class="timeline-item">
-                    <div class="timeline-img-area" style="background-image: url('${data.pathPrefix}${data.imgName(index + 1)}');"></div>
+                    <div class="timeline-img-area" style="background-image: url('${viewData.pathPrefix}${viewData.imgName(index + 1)}');"></div>
                     <div class="timeline-content-area">
                         <div class="timeline-meta">
                             <span class="timeline-name">${item.name} ${item.age ? '('+item.age+')' : ''}</span>
@@ -136,12 +137,12 @@ document.addEventListener('DOMContentLoaded', () => {
             `).join('');
         }
 
-        // 3. チャットリスト生成
+        // 3. チャットリスト生成 (View Data)
         const chatContainer = document.getElementById('chat-list-container');
         if(chatContainer) {
-            chatContainer.innerHTML = data.items.slice(0, 3).map((item, index) => `
+            chatContainer.innerHTML = viewData.items.slice(0, 3).map((item, index) => `
                 <div class="chat-item">
-                    <div class="chat-avatar" style="background-image: url('${data.pathPrefix}${data.imgName(index + 1)}');"></div>
+                    <div class="chat-avatar" style="background-image: url('${viewData.pathPrefix}${viewData.imgName(index + 1)}');"></div>
                     <div class="chat-content">
                         <div class="chat-top"><h4 class="chat-name">${item.name}</h4><span class="chat-time">${item.time}</span></div>
                         <p class="chat-preview">${item.text}</p>
@@ -151,12 +152,12 @@ document.addEventListener('DOMContentLoaded', () => {
             `).join('');
         }
 
-        // 4. EC風グリッド生成
+        // 4. EC風グリッド生成 (View Data)
         const ecGridContainer = document.getElementById('ec-grid-container');
         if(ecGridContainer) {
-            ecGridContainer.innerHTML = data.items.map((item, index) => `
+            ecGridContainer.innerHTML = viewData.items.map((item, index) => `
                 <div class="ec-item">
-                    <div class="ec-img-area" style="background-image: url('${data.pathPrefix}${data.imgName(index + 1)}');"></div>
+                    <div class="ec-img-area" style="background-image: url('${viewData.pathPrefix}${viewData.imgName(index + 1)}');"></div>
                     <div class="ec-info-area">
                         <div class="ec-name">${item.name}</div>
                         <div class="ec-desc">${item.text}</div>
@@ -165,15 +166,31 @@ document.addEventListener('DOMContentLoaded', () => {
             `).join('');
         }
 
-        // 5. マイページ画像更新
+        // 5. マイページ画像更新 (Mypage Data = Reverse of View Data)
         const mypageMainImg = document.getElementById('mypage-main-img');
-        if(mypageMainImg) mypageMainImg.src = `${data.pathPrefix}${data.imgName(1)}`;
+        if(mypageMainImg) mypageMainImg.src = `${mypageData.pathPrefix}${mypageData.imgName(1)}`;
         const mypageName = document.getElementById('mypage-name-display');
-        if(mypageName) mypageName.innerHTML = `${data.items[0].name} <span class="mypage-age">${data.items[0].age ? '('+data.items[0].age+'歳)' : ''}</span>`;
+        if(mypageName) mypageName.innerHTML = `${mypageData.items[0].name} <span class="mypage-age">${mypageData.items[0].age ? '('+mypageData.items[0].age+'歳)' : ''}</span>`;
+        
         const mypageGallery1 = document.getElementById('mypage-gallery-1');
-        if(mypageGallery1) mypageGallery1.style.backgroundImage = `url('${data.pathPrefix}${data.imgName(1)}')`;
+        if(mypageGallery1) mypageGallery1.style.backgroundImage = `url('${mypageData.pathPrefix}${mypageData.imgName(1)}')`;
         const mypageGallery2 = document.getElementById('mypage-gallery-2');
-        if(mypageGallery2) mypageGallery2.style.backgroundImage = `url('${data.pathPrefix}${data.imgName(2)}')`;
+        if(mypageGallery2) mypageGallery2.style.backgroundImage = `url('${mypageData.pathPrefix}${mypageData.imgName(2)}')`;
+
+        // マイページのガイドテキスト更新
+        updateMypageGuides(mypageMode);
+    }
+
+    function updateMypageGuides(mypageMode) {
+        // ガイドラベルの設定
+        const labels = (mypageMode === 'cast') 
+            ? ['外観', '内装', 'お気に入り', 'その他'] // Castデータ(お店)の場合のガイド
+            : ['胸上', '全身', 'お気に入り', 'その他']; // Shopデータ(女の子)の場合のガイド
+            
+        for(let i=1; i<=4; i++) {
+            const labelEl = document.getElementById(`guide-label-${i}`);
+            if(labelEl) labelEl.textContent = labels[i-1];
+        }
     }
 
     // 初期描画
@@ -236,7 +253,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // HEXからRGBAへの変換
     function hexToLightRgba(hex, alpha) {
         let r=0,g=0,b=0;
         if(hex.startsWith('#')) hex=hex.slice(1);
@@ -245,7 +261,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return `rgba(${r},${g},${b},${alpha})`;
     }
 
-    // --- イベントリスナー設定 ---
+    // --- イベントリスナー ---
     navItems.forEach(item => {
         item.addEventListener('click', () => switchScreen(item.getAttribute('data-target')));
     });
@@ -273,13 +289,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (btnFabPost) btnFabPost.addEventListener('click', () => toggleFormModal(true));
 
     if(btnNotificationScreen) btnNotificationScreen.addEventListener('click', () => switchScreen('notification-screen'));
-    
-    // 削除済みボタンへの参照を削除
-    // if(btnPopupImage) ... 
-
     if(btnRealSite) btnRealSite.addEventListener('click', () => showRealPopup(true));
-
-    // 新規ボタンイベント
     if(btnGridList) btnGridList.addEventListener('click', () => switchScreen('grid-list-screen'));
 
     if(btnCloseForm) btnCloseForm.addEventListener('click', () => toggleFormModal(false));
@@ -298,7 +308,6 @@ document.addEventListener('DOMContentLoaded', () => {
             document.body.style.overflow = 'hidden';
             setTimeout(() => {
                 const container = document.querySelector('#swipe-overlay .swiper');
-                // 再生成のため既存インスタンスがあれば破棄
                 if(swiper) { swiper.destroy(); swiper = null; }
                 swiper = new Swiper(container, { direction: 'vertical', mousewheel: true, grabCursor: true });
             }, 100);
@@ -370,20 +379,47 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     if (backToTopBtn) backToTopBtn.addEventListener('click', (e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); });
 
-    // --- 画像切り抜きロジック ---
+    // --- 画像切り抜き・アップロード画面ロジック ---
     const imageUploadScreen = document.getElementById('image-upload-screen');
     const uploadGuideText = document.getElementById('upload-guide-text');
     const galleryInput = document.getElementById('gallery-image-input');
     const galleryCropperWrapper = document.getElementById('gallery-cropper-wrapper');
     const galleryImageToCrop = document.getElementById('gallery-image-to-crop');
     const btnConfirmCrop = document.getElementById('btn-confirm-crop');
+    const iconBg = document.getElementById('upload-guide-icon-bg');
     let galleryCropper = null;
 
-    window.openImageUpload = function(guideName) {
+    window.openImageUpload = function(guideType) {
         if(imageUploadScreen) {
             imageUploadScreen.style.display = 'block';
             document.body.style.overflow = 'hidden'; 
-            if(uploadGuideText) uploadGuideText.textContent = `ガイド: ${guideName}の写真`;
+            
+            // マイページモード(逆のユーザータイプ)を取得
+            const mypageMode = (currentMode === 'shop') ? 'cast' : 'shop';
+            let guideText = '';
+            let iconClass = 'fas fa-camera'; // デフォルト
+
+            // ガイドテキストとアイコンの決定
+            if(mypageMode === 'cast') {
+                // ユーザーは店舗(Shop Mode) -> マイページはお店(Cast Data) -> ガイドは外観・内装
+                if(guideType === '1' || guideType === '外観') { guideText = '外観'; iconClass = 'fas fa-building'; }
+                else if(guideType === '2' || guideType === '内装') { guideText = '内装'; iconClass = 'fas fa-couch'; }
+                else { guideText = guideType; iconClass = 'fas fa-image'; }
+            } else {
+                // ユーザーはキャスト(Cast Mode) -> マイページは女の子(Shop Data) -> ガイドは胸上・全身
+                if(guideType === '1' || guideType === '胸上') { guideText = '胸上'; iconClass = 'fas fa-user'; }
+                else if(guideType === '2' || guideType === '全身') { guideText = '全身'; iconClass = 'fas fa-female'; }
+                else { guideText = guideType; iconClass = 'fas fa-image'; }
+            }
+
+            if(guideType === '新規') {
+                guideText = '新規画像';
+                iconClass = 'fas fa-plus-circle';
+            }
+
+            if(uploadGuideText) uploadGuideText.textContent = guideText;
+            if(iconBg) iconBg.innerHTML = `<i class="${iconClass}"></i>`;
+
             if(galleryInput) galleryInput.value = '';
             if(galleryCropperWrapper) galleryCropperWrapper.style.display = 'none';
             if(btnConfirmCrop) btnConfirmCrop.style.display = 'none';
