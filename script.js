@@ -369,4 +369,91 @@ window.setTheme = function(themeName) {
         const bgLayer = document.getElementById('bg-layer');
         if(bgLayer) bgLayer.style.filter = 'brightness(100%)';
     }
+    // --- 画像アップロード画面の制御 ---
+    const imageUploadScreen = document.getElementById('image-upload-screen');
+    const uploadGuideTitle = document.getElementById('upload-guide-title');
+    const uploadGuideText = document.getElementById('upload-guide-text');
+    const galleryInput = document.getElementById('gallery-image-input');
+    const galleryCropperWrapper = document.getElementById('gallery-cropper-wrapper');
+    const galleryImageToCrop = document.getElementById('gallery-image-to-crop');
+    const btnConfirmCrop = document.getElementById('btn-confirm-crop');
+    let galleryCropper = null;
+
+    // アップロード画面を開く関数
+    window.openImageUpload = function(guideName) {
+        if(imageUploadScreen) {
+            imageUploadScreen.style.display = 'block';
+            document.body.style.overflow = 'hidden'; // 背景スクロール固定
+            
+            // ガイドテキストの更新
+            if(uploadGuideText) {
+                uploadGuideText.textContent = `ガイド: ${guideName}の写真`;
+            }
+            
+            // 状態リセット
+            if(galleryInput) galleryInput.value = '';
+            if(galleryCropperWrapper) galleryCropperWrapper.style.display = 'none';
+            if(btnConfirmCrop) btnConfirmCrop.style.display = 'none';
+            if(galleryCropper) {
+                galleryCropper.destroy();
+                galleryCropper = null;
+            }
+        }
+    };
+
+    // アップロード画面を閉じる関数
+    window.closeImageUpload = function() {
+        if(imageUploadScreen) {
+            imageUploadScreen.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+    };
+
+    // 画像選択時の処理
+    if(galleryInput) {
+        galleryInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                // 前回のクロッパーがあれば破棄
+                if (galleryCropper) {
+                    galleryCropper.destroy();
+                }
+
+                galleryImageToCrop.src = event.target.result;
+                galleryCropperWrapper.style.display = 'block';
+                btnConfirmCrop.style.display = 'block';
+
+                // Cropper.jsの起動
+                galleryCropper = new Cropper(galleryImageToCrop, {
+                    aspectRatio: 1,      // 正方形に固定
+                    viewMode: 1,         // 画像枠内に制限
+                    dragMode: 'move',    // 画像をドラッグ移動
+                    autoCropArea: 1.0,   // 初期選択範囲を最大に
+                    guides: true,        // ガイド線を表示
+                    center: true,
+                    highlight: false,
+                    background: false,
+                });
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+
+    // 決定ボタン（デモ用アラート）
+    if(btnConfirmCrop) {
+        btnConfirmCrop.addEventListener('click', () => {
+            if(!galleryCropper) return;
+            // 切り取った画像データを取得
+            const canvas = galleryCropper.getCroppedCanvas({
+                width: 320, height: 320
+            });
+            
+            // ここで本来はサーバー送信や画面反映を行う
+            alert("切り取り完了！\n(このデモではここまでです)");
+            closeImageUpload();
+        });
+    }
 };
