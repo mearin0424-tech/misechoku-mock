@@ -9,10 +9,12 @@ document.addEventListener('DOMContentLoaded', () => {
         form: document.getElementById('form-screen'), 
         swipe: document.getElementById('swipe-overlay'),
         error: document.getElementById('error-screen'),
-        notification: document.getElementById('notification-screen')
+        notification: document.getElementById('notification-screen'),
+        upload: document.getElementById('image-upload-screen')
     };
     
     const root = document.documentElement;
+    const body = document.body;
     const navItems = document.querySelectorAll('.nav-item');
     const backToTopBtn = document.getElementById('btn-back-to-top');
     const popupOverlay = document.getElementById('popup-overlay');
@@ -36,72 +38,25 @@ document.addEventListener('DOMContentLoaded', () => {
     const pickerMain = document.getElementById('color-main-picker');
     const pickerSub = document.getElementById('color-sub-picker');
     const pickerAccent = document.getElementById('color-accent-picker');
-    const designRadios = document.getElementsByName('design-style');
+    
+    const designToggle = document.getElementById('design-mode-toggle');
 
     const btnSwipeImage = document.getElementById('btn-swipe-image');
     const btnPopupImage = document.getElementById('btn-popup-image');
     const btnNotificationScreen = document.getElementById('btn-notification-screen');
     const btnErrorImage = document.getElementById('btn-error-image');
     const btnRealSite = document.getElementById('btn-real-site');
+    const btnRandom = document.getElementById('btn-random-color');
 
     const backButtons = Array.from(document.querySelectorAll('.btn-back-to-menu'));
     const btnBackHome = document.querySelector('.btn-back-home');
     const closeSwipeBtn = document.getElementById('btn-swipe-close');
     const btnCloseForm = document.querySelector('.btn-close-form');
     const formOverlayBg = document.querySelector('.form-overlay-bg');
-    const designToggle = document.getElementById('design-mode-toggle');
-    const btnRandom = document.getElementById('btn-random-color');
     
-    if(btnRandom) {
-        btnRandom.addEventListener('click', () => {
-            // ランダムなHEX色を生成する関数
-            const getRandomHex = () => {
-                const letters = '0123456789ABCDEF';
-                let color = '#';
-                for (let i = 0; i < 6; i++) {
-                    color += letters[Math.floor(Math.random() * 16)];
-                }
-                return color;
-            };
-
-            // 3色生成
-            const mainColor = getRandomHex();
-            const subColor = getRandomHex();
-            const accentColor = getRandomHex();
-
-            // ピッカーの値を変えて、inputイベントを発火（既存の更新処理を動かす）
-            if(pickerMain) {
-                pickerMain.value = mainColor;
-                pickerMain.dispatchEvent(new Event('input'));
-            }
-            if(pickerSub) {
-                pickerSub.value = subColor;
-                pickerSub.dispatchEvent(new Event('input'));
-            }
-            if(pickerAccent) {
-                pickerAccent.value = accentColor;
-                pickerAccent.dispatchEvent(new Event('input'));
-            }
-        });
-    }
-    
-    if(designToggle) {
-        // 初期状態チェック (HTML側でchecked属性があれば適用)
-        if(document.body.classList.contains('flat-mode')) {
-            designToggle.checked = true;
-        }
-
-        designToggle.addEventListener('change', (e) => {
-            if(e.target.checked) {
-                document.body.classList.add('flat-mode');
-            } else {
-                document.body.classList.remove('flat-mode');
-            }
-        });
-    }
-
     let swiper = null;
 
+    // --- 画面切り替え ---
     function switchScreen(targetId) {
         if(fabSubmenu) fabSubmenu.classList.remove('active');
         if(btnFab) btnFab.classList.remove('active');
@@ -148,6 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // HEXからRGBAへの変換（背景色の透明度調整用）
     function hexToLightRgba(hex, alpha) {
         let r=0,g=0,b=0;
         if(hex.startsWith('#')) hex=hex.slice(1);
@@ -156,13 +112,11 @@ document.addEventListener('DOMContentLoaded', () => {
         return `rgba(${r},${g},${b},${alpha})`;
     }
 
-    // Event Listeners
+    // --- イベントリスナー設定 ---
     navItems.forEach(item => {
         item.addEventListener('click', () => switchScreen(item.getAttribute('data-target')));
     });
 
-    // --- 通知ポップアップ制御 ---
-    
     const notificationPopup = document.getElementById('header-notification-popup');
     const btnCloseNotif = document.querySelector('.btn-close-notification-popup');
     const btnGotoPwa = document.getElementById('btn-goto-pwa-test');
@@ -171,30 +125,16 @@ document.addEventListener('DOMContentLoaded', () => {
         btnHeaderNotification.addEventListener('click', (e) => {
             e.stopPropagation(); 
             notificationPopup.classList.toggle('active');
-            
-            // タスクポップアップが開いていたら閉じる
             if(headerTaskPopup) headerTaskPopup.classList.remove('active');
         });
     }
 
-    if(btnCloseNotif) {
-        btnCloseNotif.addEventListener('click', () => {
-            notificationPopup.classList.remove('active');
-        });
-    }
-
-    // PWAテスト画面への遷移
-    if(btnGotoPwa) {
-        btnGotoPwa.addEventListener('click', () => {
-            notificationPopup.classList.remove('active');
-            switchScreen('notification-screen');
-        });
-    }
-    
+    if(btnCloseNotif) btnCloseNotif.addEventListener('click', () => notificationPopup.classList.remove('active'));
+    if(btnGotoPwa) btnGotoPwa.addEventListener('click', () => { notificationPopup.classList.remove('active'); switchScreen('notification-screen'); });
     if (btnHeaderTask) btnHeaderTask.addEventListener('click', () => headerTaskPopup.classList.toggle('active'));
     if (btnCloseTaskPopup) btnCloseTaskPopup.addEventListener('click', () => headerTaskPopup.classList.remove('active'));
+    
     if (btnPalette) btnPalette.addEventListener('click', () => toggleSideMenu());
-
     if (btnFab) btnFab.addEventListener('click', () => { btnFab.classList.toggle('active'); fabSubmenu.classList.toggle('active'); });
     if (btnFindShop) btnFindShop.addEventListener('click', () => switchScreen('search-screen'));
     if (btnFabPost) btnFabPost.addEventListener('click', () => toggleFormModal(true));
@@ -247,32 +187,53 @@ document.addEventListener('DOMContentLoaded', () => {
         if (btn.id !== 'btn-swipe-close') btn.addEventListener('click', () => switchScreen('main-menu'));
     });
     if(btnBackHome) btnBackHome.addEventListener('click', () => switchScreen('main-menu'));
-
     if(btnCloseSideMenu) btnCloseSideMenu.addEventListener('click', () => toggleSideMenu(false));
     if(sideMenuOverlay) sideMenuOverlay.addEventListener('click', () => toggleSideMenu(false));
 
-    const updateColor = (varName, value) => {
-        root.style.setProperty(varName, value);
-        if (varName === '--color-accent') {
-            root.style.setProperty('--color-text-current', value);
-            root.style.setProperty('--color-btn-bg', hexToLightRgba(value, 0.05));
-        }
-    };
-    if(pickerMain) pickerMain.addEventListener('input', (e) => updateColor('--color-main', e.target.value));
-    if(pickerSub) pickerSub.addEventListener('input', (e) => updateColor('--color-sub', e.target.value));
-    if(pickerAccent) pickerAccent.addEventListener('input', (e) => {
-        const val = e.target.value;
-        updateColor('--color-accent', val);
-        updateColor('--color-text-current', val);
-        root.style.setProperty('--color-btn-bg', hexToLightRgba(val, 0.05));
-    });
-    Array.from(designRadios).forEach(radio => {
-        radio.addEventListener('change', (e) => {
-            if(e.target.value === 'flat') document.body.classList.add('flat-mode');
+    // --- カラーパレット・デザイン設定 ---
+    
+    // スタイル (立体/のっぺり)
+    if(designToggle) {
+        if(document.body.classList.contains('flat-mode')) designToggle.checked = true;
+        designToggle.addEventListener('change', (e) => {
+            if(e.target.checked) document.body.classList.add('flat-mode');
             else document.body.classList.remove('flat-mode');
         });
-    });
+    }
 
+    // カラーピッカー (優先度: importantを付与してテーマCSSを上書き)
+    const updateColor = (varName, value) => {
+        // body要素に直接 !important 付きでスタイルを設定し、テーマのクラスCSSよりも優先させる
+        document.body.style.setProperty(varName, value, 'important');
+        
+        // アクセントカラーの場合は関連色も更新
+        if (varName === '--color-accent') {
+            document.body.style.setProperty('--color-text-current', value, 'important');
+            document.body.style.setProperty('--color-btn-bg', hexToLightRgba(value, 0.05), 'important');
+        }
+    };
+
+    if(pickerMain) pickerMain.addEventListener('input', (e) => updateColor('--color-main', e.target.value));
+    if(pickerSub) pickerSub.addEventListener('input', (e) => updateColor('--color-sub', e.target.value));
+    if(pickerAccent) pickerAccent.addEventListener('input', (e) => updateColor('--color-accent', e.target.value));
+
+    // ランダムカラー
+    if(btnRandom) {
+        btnRandom.addEventListener('click', () => {
+            const getRandomHex = () => {
+                const letters = '0123456789ABCDEF';
+                let color = '#';
+                for (let i = 0; i < 6; i++) color += letters[Math.floor(Math.random() * 16)];
+                return color;
+            };
+            const m = getRandomHex(); const s = getRandomHex(); const a = getRandomHex();
+            if(pickerMain) { pickerMain.value = m; updateColor('--color-main', m); }
+            if(pickerSub) { pickerSub.value = s; updateColor('--color-sub', s); }
+            if(pickerAccent) { pickerAccent.value = a; updateColor('--color-accent', a); }
+        });
+    }
+
+    // 明るさ調整
     const adjustBrightness = (val) => {
         let currentFilter = document.getElementById('bg-layer').style.filter || 'brightness(100%)';
         let match = currentFilter.match(/brightness\((\d+)%\)/);
@@ -287,91 +248,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (backToTopBtn) backToTopBtn.style.display = (window.scrollY > 100) ? 'block' : 'none';
     };
     if (backToTopBtn) backToTopBtn.addEventListener('click', (e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); });
-    
-    const imageUploadInput = document.getElementById('image-upload-input');
-    if(imageUploadInput) {
-        const cropperWrapper = document.getElementById('cropper-wrapper');
-        const imageToCrop = document.getElementById('image-to-crop');
-        const btnCropImage = document.getElementById('btn-crop-image');
-        const cropResultContainer = document.getElementById('crop-result-container');
-        const cropResultImage = document.getElementById('crop-result-image');
-        let cropper = null;
 
-        imageUploadInput.addEventListener('change', (e) => {
-            const file = e.target.files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = (event) => {
-                if (cropper) cropper.destroy();
-                imageToCrop.src = event.target.result;
-                cropperWrapper.style.display = 'block';
-                cropper = new Cropper(imageToCrop, { aspectRatio: 1, viewMode: 1, autoCropArea: 0.8, minCropBoxWidth: 320, minCropBoxHeight: 320, ready() { cropper.setCropBoxData({ width: 320, height: 320 }); } });
-                cropResultContainer.style.display = 'none'; 
-            };
-            reader.readAsDataURL(file);
-        });
-        if(btnCropImage) {
-            btnCropImage.addEventListener('click', () => {
-                if (!cropper) return;
-                const canvas = cropper.getCroppedCanvas({ width: 320, height: 320, imageSmoothingEnabled: true, imageSmoothingQuality: 'high' });
-                if (canvas) {
-                    cropResultImage.src = canvas.toDataURL('image/png');
-                    cropResultContainer.style.display = 'block';
-                }
-            });
-        }
-    }
-    
-    document.querySelectorAll('.info-icon').forEach(icon => {
-        const text = icon.getAttribute('data-tooltip') || "ヒント";
-        const tip = document.createElement('span');
-        tip.className = 'tooltip-text';
-        tip.textContent = text;
-        icon.appendChild(tip);
-        icon.addEventListener('click', (e) => {
-            e.stopPropagation();
-            icon.classList.toggle('focused');
-        });
-    });
-    document.addEventListener('click', () => {
-        document.querySelectorAll('.info-icon.focused').forEach(el => el.classList.remove('focused'));
-    });
-});
-
-// グローバル関数として定義
-window.toggleUserType = function(btn) {
-    document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-};
-
-// --- 追加: テーマ切り替え機能 ---
-window.setTheme = function(themeName) {
-    const body = document.body;
-    
-    // 既存のテーマクラスを全削除
-    body.classList.remove('theme-vivid', 'theme-chic', 'theme-urban');
-    
-    // ボタンのactive状態を更新
-    document.querySelectorAll('.btn-theme-switch').forEach(btn => {
-        btn.classList.remove('active');
-        if(btn.getAttribute('data-theme') === themeName) {
-            btn.classList.add('active');
-        }
-    });
-
-    // 'default'以外なら該当クラスを付与
-    if (themeName !== 'default') {
-        body.classList.add('theme-' + themeName);
-    }
-    
-    // Urbanモードなら明るさをリセット（見やすさのため）
-    if (themeName === 'urban') {
-        const bgLayer = document.getElementById('bg-layer');
-        if(bgLayer) bgLayer.style.filter = 'brightness(100%)';
-    }
-    // --- 画像アップロード画面の制御 ---
+    // --- 画像切り抜きロジック ---
     const imageUploadScreen = document.getElementById('image-upload-screen');
-    const uploadGuideTitle = document.getElementById('upload-guide-title');
     const uploadGuideText = document.getElementById('upload-guide-text');
     const galleryInput = document.getElementById('gallery-image-input');
     const galleryCropperWrapper = document.getElementById('gallery-cropper-wrapper');
@@ -379,29 +258,17 @@ window.setTheme = function(themeName) {
     const btnConfirmCrop = document.getElementById('btn-confirm-crop');
     let galleryCropper = null;
 
-    // アップロード画面を開く関数
     window.openImageUpload = function(guideName) {
         if(imageUploadScreen) {
             imageUploadScreen.style.display = 'block';
-            document.body.style.overflow = 'hidden'; // 背景スクロール固定
-            
-            // ガイドテキストの更新
-            if(uploadGuideText) {
-                uploadGuideText.textContent = `ガイド: ${guideName}の写真`;
-            }
-            
-            // 状態リセット
+            document.body.style.overflow = 'hidden'; 
+            if(uploadGuideText) uploadGuideText.textContent = `ガイド: ${guideName}の写真`;
             if(galleryInput) galleryInput.value = '';
             if(galleryCropperWrapper) galleryCropperWrapper.style.display = 'none';
             if(btnConfirmCrop) btnConfirmCrop.style.display = 'none';
-            if(galleryCropper) {
-                galleryCropper.destroy();
-                galleryCropper = null;
-            }
+            if(galleryCropper) { galleryCropper.destroy(); galleryCropper = null; }
         }
     };
-
-    // アップロード画面を閉じる関数
     window.closeImageUpload = function() {
         if(imageUploadScreen) {
             imageUploadScreen.style.display = 'none';
@@ -409,51 +276,52 @@ window.setTheme = function(themeName) {
         }
     };
 
-    // 画像選択時の処理
     if(galleryInput) {
         galleryInput.addEventListener('change', (e) => {
             const file = e.target.files[0];
             if (!file) return;
-
             const reader = new FileReader();
             reader.onload = (event) => {
-                // 前回のクロッパーがあれば破棄
-                if (galleryCropper) {
-                    galleryCropper.destroy();
-                }
-
+                if (galleryCropper) galleryCropper.destroy();
                 galleryImageToCrop.src = event.target.result;
                 galleryCropperWrapper.style.display = 'block';
                 btnConfirmCrop.style.display = 'block';
-
-                // Cropper.jsの起動
                 galleryCropper = new Cropper(galleryImageToCrop, {
-                    aspectRatio: 1,      // 正方形に固定
-                    viewMode: 1,         // 画像枠内に制限
-                    dragMode: 'move',    // 画像をドラッグ移動
-                    autoCropArea: 1.0,   // 初期選択範囲を最大に
-                    guides: true,        // ガイド線を表示
-                    center: true,
-                    highlight: false,
-                    background: false,
+                    aspectRatio: 1, viewMode: 1, dragMode: 'move', autoCropArea: 1.0, guides: true, center: true, highlight: false, background: false,
                 });
             };
             reader.readAsDataURL(file);
         });
     }
-
-    // 決定ボタン（デモ用アラート）
     if(btnConfirmCrop) {
         btnConfirmCrop.addEventListener('click', () => {
             if(!galleryCropper) return;
-            // 切り取った画像データを取得
-            const canvas = galleryCropper.getCroppedCanvas({
-                width: 320, height: 320
-            });
-            
-            // ここで本来はサーバー送信や画面反映を行う
             alert("切り取り完了！\n(このデモではここまでです)");
             closeImageUpload();
         });
     }
+});
+
+// --- グローバル関数定義 ---
+window.toggleUserType = function(btn) {
+    document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+};
+
+window.setTheme = function(themeName) {
+    const body = document.body;
+    body.classList.remove('theme-hotel', 'theme-chic', 'theme-modern');
+    
+    document.querySelectorAll('.btn-theme-switch').forEach(btn => {
+        btn.classList.remove('active');
+        if(btn.getAttribute('data-theme') === themeName) btn.classList.add('active');
+    });
+
+    if (themeName !== 'default') {
+        body.classList.add('theme-' + themeName);
+    }
+    
+    // テーマ切り替え時、明度フィルターをリセットして見やすくする
+    const bgLayer = document.getElementById('bg-layer');
+    if(bgLayer) bgLayer.style.filter = 'brightness(100%)';
 };
