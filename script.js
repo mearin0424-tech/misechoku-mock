@@ -1,5 +1,35 @@
 document.addEventListener('DOMContentLoaded', () => {
     
+    // --- データ定義 ---
+    const appData = {
+        shop: { // 店舗向け（表示内容：女の子）
+            pathPrefix: 'images/girls/',
+            imgName: (i) => `${i}.png`, // ファイル名ルール: 1.png
+            items: [
+                { id:1, name: 'あや', age: 22, text: 'カフェ巡りが好きです☕️ 仲良くしてね！', time: '10分前' },
+                { id:2, name: 'まる子', age: 20, text: 'ゲーム大好き🎮 一緒に遊びましょ〜', time: '30分前' },
+                { id:3, name: '舞', age: 24, text: 'プログラミング勉強中💻 教えてください！', time: '1時間前' },
+                { id:4, name: 'さくら', age: 21, text: 'ドライブ連れてって🚗 海行きたい！', time: '3時間前' },
+                { id:5, name: 'あおい', age: 23, text: '夜景が綺麗なところに行きたいな✨', time: '昨日' },
+                { id:6, name: 'リカ', age: 25, text: 'お家でまったり派🏠 リラックスタイム', time: '昨日' }
+            ]
+        },
+        cast: { // キャスト向け（表示内容：お店）
+            pathPrefix: 'images/omise/',
+            imgName: (i) => `${i}.png`, // ファイル名ルール: 1.png
+            items: [
+                { id:1, name: 'CLUB SHINJUKU', age: null, text: '時給5000円〜✨ 未経験者大歓迎！', time: '新着' },
+                { id:2, name: 'Lounge Rose', age: null, text: '落ち着いた雰囲気の会員制ラウンジ🍷', time: '急募' },
+                { id:3, name: 'Girls Bar PIYO', age: null, text: '私服OK！髪型ネイル自由💅 ゆるく働こう', time: '人気' },
+                { id:4, name: 'Cabaret FLOWER', age: null, text: '豪華な内装と厚待遇💎 送りあり', time: '3時間前' },
+                { id:5, name: 'Snack 昭和', age: null, text: 'アットホームな職場です🎤 カラオケ好き歓迎', time: '昨日' },
+                { id:6, name: 'Bar BLUE', age: null, text: 'オープニングスタッフ募集！💙 駅チカ', time: '昨日' }
+            ]
+        }
+    };
+
+    let currentMode = 'shop'; // 初期モード
+
     const screens = {
         home: document.getElementById('main-menu'),
         search: document.getElementById('search-screen'),
@@ -10,11 +40,11 @@ document.addEventListener('DOMContentLoaded', () => {
         swipe: document.getElementById('swipe-overlay'),
         error: document.getElementById('error-screen'),
         notification: document.getElementById('notification-screen'),
-        upload: document.getElementById('image-upload-screen')
+        upload: document.getElementById('image-upload-screen'),
+        grid: document.getElementById('grid-list-screen') // 新規
     };
     
     const root = document.documentElement;
-    const body = document.body;
     const navItems = document.querySelectorAll('.nav-item');
     const backToTopBtn = document.getElementById('btn-back-to-top');
     const popupOverlay = document.getElementById('popup-overlay');
@@ -42,9 +72,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const designToggle = document.getElementById('design-mode-toggle');
 
     const btnSwipeImage = document.getElementById('btn-swipe-image');
-    const btnPopupImage = document.getElementById('btn-popup-image');
+    const btnGridList = document.getElementById('btn-grid-list'); // 新規
     const btnNotificationScreen = document.getElementById('btn-notification-screen');
-    const btnErrorImage = document.getElementById('btn-error-image');
     const btnRealSite = document.getElementById('btn-real-site');
     const btnRandom = document.getElementById('btn-random-color');
 
@@ -55,6 +84,104 @@ document.addEventListener('DOMContentLoaded', () => {
     const formOverlayBg = document.querySelector('.form-overlay-bg');
     
     let swiper = null;
+
+    // --- コンテンツ描画関数 ---
+    function renderContent() {
+        const data = appData[currentMode];
+        
+        // 1. スワイプスライド生成
+        const swipeWrapper = document.getElementById('swipe-wrapper');
+        if(swipeWrapper) {
+            swipeWrapper.innerHTML = data.items.map((item, index) => `
+                <div class="swiper-slide">
+                    <div class="card-content">
+                        <img src="${data.pathPrefix}${data.imgName(index + 1)}" alt="${item.name}" class="profile-image">
+                        <div class="overlay"></div>
+                        <div class="action-bar">
+                            <div class="action-item side-action-btn"><i class="fas fa-heart icon-circle"></i><span class="action-label">いいね</span></div>
+                            <div class="action-item side-action-btn"><i class="fas fa-bookmark icon-circle"></i><span class="action-label">保存</span></div>
+                        </div>
+                        <div class="profile-info-new">
+                            <div class="user-name">${item.name} ${item.age ? '('+item.age+')' : ''}</div>
+                            <div class="user-intro">${item.text}</div>
+                        </div>
+                        <div class="swipe-indicator"><i class="fas fa-chevron-up swipe-icon"></i><span class="swipe-text">SWIPE</span></div>
+                    </div>
+                </div>
+            `).join('');
+            if(swiper) { swiper.update(); swiper.slideTo(0); }
+        }
+
+        // 2. タイムライン生成
+        const timelineContainer = document.getElementById('timeline-container');
+        if(timelineContainer) {
+            timelineContainer.innerHTML = data.items.map((item, index) => `
+                <div class="timeline-item">
+                    <div class="timeline-img-area" style="background-image: url('${data.pathPrefix}${data.imgName(index + 1)}');"></div>
+                    <div class="timeline-content-area">
+                        <div class="timeline-meta">
+                            <span class="timeline-name">${item.name} ${item.age ? '('+item.age+')' : ''}</span>
+                            <span class="timeline-date">${item.time}</span>
+                        </div>
+                        <div class="timeline-tweet">${item.text}</div>
+                        <button class="timeline-like-btn" onclick="toggleLike(this)"><i class="far fa-heart"></i></button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // 3. チャットリスト生成
+        const chatContainer = document.getElementById('chat-list-container');
+        if(chatContainer) {
+            chatContainer.innerHTML = data.items.slice(0, 3).map((item, index) => `
+                <div class="chat-item">
+                    <div class="chat-avatar" style="background-image: url('${data.pathPrefix}${data.imgName(index + 1)}');"></div>
+                    <div class="chat-content">
+                        <div class="chat-top"><h4 class="chat-name">${item.name}</h4><span class="chat-time">${item.time}</span></div>
+                        <p class="chat-preview">${item.text}</p>
+                    </div>
+                    ${index===1 ? '<span class="chat-unread">1</span>' : ''}
+                </div>
+            `).join('');
+        }
+
+        // 4. EC風グリッド生成
+        const ecGridContainer = document.getElementById('ec-grid-container');
+        if(ecGridContainer) {
+            ecGridContainer.innerHTML = data.items.map((item, index) => `
+                <div class="ec-item">
+                    <div class="ec-img-area" style="background-image: url('${data.pathPrefix}${data.imgName(index + 1)}');"></div>
+                    <div class="ec-info-area">
+                        <div class="ec-name">${item.name}</div>
+                        <div class="ec-desc">${item.text}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // 5. マイページ画像更新
+        const mypageMainImg = document.getElementById('mypage-main-img');
+        if(mypageMainImg) mypageMainImg.src = `${data.pathPrefix}${data.imgName(1)}`;
+        const mypageName = document.getElementById('mypage-name-display');
+        if(mypageName) mypageName.innerHTML = `${data.items[0].name} <span class="mypage-age">${data.items[0].age ? '('+data.items[0].age+'歳)' : ''}</span>`;
+        const mypageGallery1 = document.getElementById('mypage-gallery-1');
+        if(mypageGallery1) mypageGallery1.style.backgroundImage = `url('${data.pathPrefix}${data.imgName(1)}')`;
+        const mypageGallery2 = document.getElementById('mypage-gallery-2');
+        if(mypageGallery2) mypageGallery2.style.backgroundImage = `url('${data.pathPrefix}${data.imgName(2)}')`;
+    }
+
+    // 初期描画
+    renderContent();
+
+    // --- モード切り替え関数 ---
+    window.toggleUserType = function(type) {
+        currentMode = type;
+        document.querySelectorAll('.type-btn').forEach(btn => {
+            btn.classList.remove('active');
+            if(btn.dataset.type === type) btn.classList.add('active');
+        });
+        renderContent();
+    };
 
     // --- 画面切り替え ---
     function switchScreen(targetId) {
@@ -103,7 +230,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // HEXからRGBAへの変換（背景色の透明度調整用）
+    // HEXからRGBAへの変換
     function hexToLightRgba(hex, alpha) {
         let r=0,g=0,b=0;
         if(hex.startsWith('#')) hex=hex.slice(1);
@@ -141,8 +268,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if(btnNotificationScreen) btnNotificationScreen.addEventListener('click', () => switchScreen('notification-screen'));
     if(btnPopupImage) btnPopupImage.addEventListener('click', () => showPopup(true));
-    if(btnErrorImage) btnErrorImage.addEventListener('click', () => switchScreen('error-screen'));
+    //if(btnErrorImage) btnErrorImage.addEventListener('click', () => switchScreen('error-screen')); // 削除
     if(btnRealSite) btnRealSite.addEventListener('click', () => showRealPopup(true));
+
+    // 新規ボタンイベント
+    if(btnGridList) btnGridList.addEventListener('click', () => switchScreen('grid-list-screen'));
 
     if(btnCloseForm) btnCloseForm.addEventListener('click', () => toggleFormModal(false));
     if(formOverlayBg) formOverlayBg.addEventListener('click', () => toggleFormModal(false));
@@ -160,9 +290,9 @@ document.addEventListener('DOMContentLoaded', () => {
             document.body.style.overflow = 'hidden';
             setTimeout(() => {
                 const container = document.querySelector('#swipe-overlay .swiper');
-                if (!swiper && container) { 
-                    swiper = new Swiper(container, { direction: 'vertical', mousewheel: true, grabCursor: true });
-                }
+                // 再生成のため既存インスタンスがあれば破棄
+                if(swiper) { swiper.destroy(); swiper = null; }
+                swiper = new Swiper(container, { direction: 'vertical', mousewheel: true, grabCursor: true });
             }, 100);
         });
     }
@@ -173,15 +303,6 @@ document.addEventListener('DOMContentLoaded', () => {
             switchScreen('main-menu');
         });
     }
-    document.querySelectorAll('.card-content').forEach(card => {
-        card.addEventListener('click', (e) => {
-            if(!e.target.closest('.side-action-btn')) {
-                screens.swipe.style.display = 'none';
-                document.body.style.overflow = 'auto';
-                switchScreen('mypage-screen');
-            }
-        });
-    });
 
     backButtons.forEach(btn => {
         if (btn.id !== 'btn-swipe-close') btn.addEventListener('click', () => switchScreen('main-menu'));
@@ -191,8 +312,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if(sideMenuOverlay) sideMenuOverlay.addEventListener('click', () => toggleSideMenu(false));
 
     // --- カラーパレット・デザイン設定 ---
-    
-    // スタイル (立体/のっぺり)
     if(designToggle) {
         if(document.body.classList.contains('flat-mode')) designToggle.checked = true;
         designToggle.addEventListener('change', (e) => {
@@ -201,12 +320,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // カラーピッカー (優先度: importantを付与してテーマCSSを上書き)
     const updateColor = (varName, value) => {
-        // body要素に直接 !important 付きでスタイルを設定し、テーマのクラスCSSよりも優先させる
         document.body.style.setProperty(varName, value, 'important');
-        
-        // アクセントカラーの場合は関連色も更新
         if (varName === '--color-accent') {
             document.body.style.setProperty('--color-text-current', value, 'important');
             document.body.style.setProperty('--color-btn-bg', hexToLightRgba(value, 0.05), 'important');
@@ -217,7 +332,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if(pickerSub) pickerSub.addEventListener('input', (e) => updateColor('--color-sub', e.target.value));
     if(pickerAccent) pickerAccent.addEventListener('input', (e) => updateColor('--color-accent', e.target.value));
 
-    // ランダムカラー
     if(btnRandom) {
         btnRandom.addEventListener('click', () => {
             const getRandomHex = () => {
@@ -233,7 +347,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 明るさ調整
     const adjustBrightness = (val) => {
         let currentFilter = document.getElementById('bg-layer').style.filter || 'brightness(100%)';
         let match = currentFilter.match(/brightness\((\d+)%\)/);
@@ -303,11 +416,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // --- グローバル関数定義 ---
-window.toggleUserType = function(btn) {
-    document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-};
-
 window.setTheme = function(themeName) {
     const body = document.body;
     body.classList.remove('theme-hotel', 'theme-chic', 'theme-modern');
@@ -320,8 +428,18 @@ window.setTheme = function(themeName) {
     if (themeName !== 'default') {
         body.classList.add('theme-' + themeName);
     }
-    
-    // テーマ切り替え時、明度フィルターをリセットして見やすくする
     const bgLayer = document.getElementById('bg-layer');
     if(bgLayer) bgLayer.style.filter = 'brightness(100%)';
+};
+
+window.toggleLike = function(btn) {
+    btn.classList.toggle('active');
+    const icon = btn.querySelector('i');
+    if(btn.classList.contains('active')) {
+        icon.classList.remove('far');
+        icon.classList.add('fas');
+    } else {
+        icon.classList.remove('fas');
+        icon.classList.add('far');
+    }
 };
