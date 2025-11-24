@@ -13,7 +13,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700&family=Montserrat:wght@700;900&family=Playfair+Display:ital,wght@0,700;1,700&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?ver=2.0">
+    <link rel="stylesheet" href="style.css?ver=4.0">
 </head>
 <body>
 
@@ -23,6 +23,14 @@
         <div class="header-left">
             <img src="images/misechoku-yoko.png" alt="ミセチョク" class="header-logo-img">
         </div>
+        
+        <div class="header-center">
+            <div class="user-type-switch header-switch">
+                <button class="type-btn active" data-type="shop" onclick="toggleUserType('shop')">店舗向け</button>
+                <button class="type-btn" data-type="cast" onclick="toggleUserType('cast')">キャスト向け</button>
+            </div>
+        </div>
+
         <div class="header-right">
             <button id="btn-header-task" class="header-icon-btn">
                 <i class="fas fa-check-circle"></i>
@@ -46,7 +54,7 @@
             <button class="btn-close-task-popup">&times;</button>
         </div>
         <div class="task-popup-content">
-            <div class="mini-task-item"><i class="fas fa-comment-dots" style="color: #eb6b6b;"></i><span>〇〇店との面談日程を決めよう！</span></div>
+            <div class="mini-task-item"><i class="fas fa-comment-dots" style="color: #eb6b6b;"></i><span>面談日程を決めよう！</span></div>
             <div class="mini-task-item"><i class="fas fa-user-edit" style="color: #6babe8;"></i><span>プロフィールを完成させよう</span></div>
         </div>
     </div>
@@ -68,18 +76,12 @@
         <div class="container" style="display:flex; flex-direction:column; align-items:center;">
             <p class="main-subtitle" style="margin-bottom: 20px;">デザインモックサイト</p>
             
-            <div class="user-type-switch">
-                <button class="type-btn active" onclick="toggleUserType(this)">店舗向け</button>
-                <button class="type-btn" onclick="toggleUserType(this)">キャスト向け</button>
-            </div>
-
             <div class="menu-buttons">
                 <div class="menu-group">
                     <h3 class="menu-group-title">イメージ表示</h3>
                     <div class="menu-group-content">
                         <button id="btn-swipe-image" class="btn btn-menu-small"><i class="fas fa-arrows-alt-v"></i> スワイプ</button>
-                        <button id="btn-popup-image" class="btn btn-menu-small"><i class="fas fa-window-maximize"></i> ポップアップ</button>
-                        <button id="btn-error-image" class="btn btn-menu-small"><i class="fas fa-exclamation-triangle"></i> エラー処理</button>
+                        <button id="btn-grid-list" class="btn btn-menu-small"><i class="fas fa-th"></i> サムネリスト</button>
                     </div>
                 </div>
 
@@ -97,6 +99,14 @@
         </div>
     </div>
 
+    <div id="grid-list-screen" class="screen" style="display: none;">
+        <div class="screen-header"><h2>サムネリスト</h2></div>
+        <div class="container">
+            <div id="ec-grid-container" class="ec-grid-layout">
+                </div>
+        </div>
+    </div>
+
     <div id="form-screen" class="screen" style="display: none;">
         <div class="form-overlay-bg"></div>
         <div class="form-modal-container">
@@ -109,7 +119,6 @@
                     <div class="form-group"><label><span class="label-text">テキスト</span><span class="required-mark">*</span></label><input type="text" placeholder="例：山田 太郎" required></div>
                     <div class="form-group"><label><span class="label-text">メール</span><span class="required-mark">*</span></label><input type="email" placeholder="例：hoge@example.com" required></div>
                     <div class="form-group"><label><span class="label-text">日付</span></label><input type="date"></div>
-                    
                     <div class="form-group">
                         <label><span class="label-text">画像アップロード (320x320)</span></label>
                         <div class="custom-file-upload">
@@ -124,7 +133,6 @@
                             <img id="crop-result-image" src="" class="crop-result-preview">
                         </div>
                     </div>
-
                     <div class="form-group text-center"><button type="submit" class="btn btn-primary btn-submit-stylish">送信する</button></div>
                 </form>
             </div>
@@ -147,35 +155,11 @@
     <div id="search-screen" class="screen" style="display: none;">
         <div class="screen-header"><h2>タイムライン</h2></div>
         <div class="container">
-            <div class="search-bar-container"><input type="text" class="search-input" placeholder="キーワードで検索..."><button class="search-btn"><i class="fas fa-search"></i></button></div>
-            <div class="category-tags"><span class="tag active">すべて</span><span class="tag">新着</span><span class="tag">人気</span><span class="tag">おすすめ</span></div>
-            
-            <div class="thumbnail-list">
-                <div class="thumbnail-card">
-                    <div class="thumb-img" style="background-image: url('images/girls/girl-1.png');"></div>
-                    <div class="thumb-info"><h4>aya</h4><p class="thumb-tag">#カフェ巡り #おしゃれ</p></div>
-                </div>
-                <div class="thumbnail-card">
-                    <div class="thumb-img" style="background-image: url('images/girls/girl-2.png');"></div>
-                    <div class="thumb-info"><h4>まる子</h4><p class="thumb-tag">#イタリアン #ゲーム</p></div>
-                </div>
-                <div class="thumbnail-card">
-                    <div class="thumb-img" style="background-image: url('images/girls/girl-3.png');"></div>
-                    <div class="thumb-info"><h4>舞</h4><p class="thumb-tag">#プログラミング #初心者</p></div>
-                </div>
-                <div class="thumbnail-card">
-                    <div class="thumb-img" style="background-image: url('images/girls/girl-4.png');"></div>
-                    <div class="thumb-info"><h4>さくら</h4><p class="thumb-tag">#ドライブ #新人</p></div>
-                </div>
-                <div class="thumbnail-card">
-                    <div class="thumb-img" style="background-image: url('images/girls/girl-5.png');"></div>
-                    <div class="thumb-info"><h4>aoi</h4><p class="thumb-tag">#夜景 #ディナー</p></div>
-                </div>
-                <div class="thumbnail-card">
-                    <div class="thumb-img" style="background-image: url('images/girls/girl-6.png');"></div>
-                    <div class="thumb-info"><h4>リカ</h4><p class="thumb-tag">#リラックス #お家時間</p></div>
-                </div>
+            <div class="category-tags">
+                <span class="tag active">おすすめ</span><span class="tag">人気</span><span class="tag">新着</span><span class="tag">今すぐ入れる</span>
             </div>
+            <div class="timeline-list" id="timeline-container">
+                </div>
         </div>
     </div>
 
@@ -187,48 +171,16 @@
     <div id="message-screen" class="screen" style="display: none;">
         <div class="screen-header"><h2>メッセージ</h2></div>
         <div class="container" style="padding: 0;"> 
-            <div class="chat-list">
-                <div class="chat-item">
-                    <div class="chat-avatar" style="background-image: url('images/girls/girl-1.png');"></div>
-                    <div class="chat-content">
-                        <div class="chat-top">
-                            <h4 class="chat-name">aya</h4>
-                            <span class="chat-time">10:30</span>
-                        </div>
-                        <p class="chat-preview">面談日程承知しました。</p>
-                    </div>
+            <div class="chat-list" id="chat-list-container">
                 </div>
-                <div class="chat-item">
-                    <div class="chat-avatar" style="background-image: url('images/girls/girl-2.png');"></div>
-                    <div class="chat-content">
-                        <div class="chat-top">
-                            <h4 class="chat-name">舞</h4>
-                            <span class="chat-time">昨日</span>
-                        </div>
-                        <p class="chat-preview">ありがとうございます！確認しました。</p>
-                    </div>
-                    <span class="chat-unread">1</span>
-                </div>
-                <div class="chat-item">
-                    <div class="chat-avatar" style="background-image: url('images/girls/girl-3.png');"></div>
-                    <div class="chat-content">
-                        <div class="chat-top">
-                            <h4 class="chat-name">まる子</h4>
-                            <span class="chat-time">2日前</span>
-                        </div>
-                        <p class="chat-preview">了解です！</p>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 
     <div id="mypage-screen" class="screen" style="display: none;">
         <div class="mypage-container">
-            
             <div class="mypage-top-section">
                 <div class="mypage-avatar-wrapper">
-                    <img src="images/girls/girl-1.png" alt="プロフィール画像" class="mypage-avatar-img">
+                    <img src="images/girls/1.png" alt="プロフィール画像" class="mypage-avatar-img" id="mypage-main-img">
                     <button class="btn-avatar-add"><i class="fas fa-plus"></i></button>
                 </div>
                 <div class="mypage-speech-bubble">
@@ -239,7 +191,7 @@
 
             <div class="mypage-info-section">
                 <div class="info-header-row">
-                    <h2 class="mypage-name">Yui <span class="mypage-age">(31歳)</span></h2>
+                    <h2 class="mypage-name" id="mypage-name-display">Yui <span class="mypage-age">(31歳)</span></h2>
                     <div class="mypage-likes"><i class="far fa-heart"></i><span class="like-count">6</span></div>
                 </div>
                 <div class="mypage-stats">
@@ -261,20 +213,12 @@
             </div>
 
             <div class="mypage-gallery-grid-6">
-                <div class="gallery-item-square" style="background-image: url('images/girls/girl-1.png');"></div>
-                <div class="gallery-item-square" style="background-image: url('images/girls/girl-2.png');"></div>
-                <div class="gallery-item-square placeholder" onclick="openImageUpload('胸上')">
-                    <div class="placeholder-inner"><i class="fas fa-plus"></i><span class="guide-label">胸上</span></div>
-                </div>
-                <div class="gallery-item-square placeholder" onclick="openImageUpload('全身')">
-                    <div class="placeholder-inner"><i class="fas fa-plus"></i><span class="guide-label">全身</span></div>
-                </div>
-                <div class="gallery-item-square placeholder" onclick="openImageUpload('お気に入り')">
-                    <div class="placeholder-inner"><i class="fas fa-plus"></i><span class="guide-label">お気に入り</span></div>
-                </div>
-                <div class="gallery-item-square placeholder" onclick="openImageUpload('その他')">
-                    <div class="placeholder-inner"><i class="fas fa-plus"></i><span class="guide-label">その他</span></div>
-                </div>
+                <div class="gallery-item-square" id="mypage-gallery-1"></div>
+                <div class="gallery-item-square" id="mypage-gallery-2"></div>
+                <div class="gallery-item-square placeholder" onclick="openImageUpload('胸上')"><div class="placeholder-inner"><i class="fas fa-plus"></i><span class="guide-label">胸上</span></div></div>
+                <div class="gallery-item-square placeholder" onclick="openImageUpload('全身')"><div class="placeholder-inner"><i class="fas fa-plus"></i><span class="guide-label">全身</span></div></div>
+                <div class="gallery-item-square placeholder" onclick="openImageUpload('お気に入り')"><div class="placeholder-inner"><i class="fas fa-plus"></i><span class="guide-label">お気に入り</span></div></div>
+                <div class="gallery-item-square placeholder" onclick="openImageUpload('その他')"><div class="placeholder-inner"><i class="fas fa-plus"></i><span class="guide-label">その他</span></div></div>
             </div>
         </div>
     </div>
@@ -282,36 +226,7 @@
     <div id="swipe-overlay" style="display: none;">
         <button class="btn btn-back-to-menu" id="btn-swipe-close"><i class="fas fa-arrow-left"></i> メニューに戻る</button>
         <div class="swiper">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide">
-                    <div class="card-content" id="card-1">
-                        <img src="images/girls/girl-1.png" alt="User Profile" class="profile-image">
-                        <div class="overlay"></div>
-                        <div class="action-bar">
-                            <div class="action-item side-action-btn"><i class="fas fa-heart icon-circle"></i><span class="action-label">いいね</span></div>
-                            <div class="action-item side-action-btn"><i class="fas fa-bookmark icon-circle"></i><span class="action-label">保存</span></div>
-                            <div class="action-item side-action-btn"><i class="fas fa-share-alt icon-circle"></i><span class="action-label">シェア</span></div>
-                        </div>
-                        <div class="profile-info-new">
-                            <div class="user-name">ミセチョク花子 (24)</div>
-                            <div class="user-tags">#カフェ巡り #旅行好き #カメラ女子</div>
-                            <div class="user-intro">よろしくお願いします♪</div>
-                        </div>
-                        <div class="swipe-indicator"><i class="fas fa-chevron-up swipe-icon"></i><span class="swipe-text">SWIPE</span></div>
-                    </div>
-                </div>
-                <div class="swiper-slide">
-                    <div class="card-content" id="card-2">
-                        <img src="images/girls/girl-2.png" alt="User Profile" class="profile-image">
-                        <div class="overlay"></div>
-                        <div class="profile-info-new">
-                            <div class="user-name">aya (22)</div>
-                            <div class="user-tags">#ゲーム #インドア #イタリアン</div>
-                            <div class="user-intro">仲良くしてください！</div>
-                        </div>
-                    </div>
-                </div>
-                </div>
+            <div class="swiper-wrapper" id="swipe-wrapper"></div>
         </div>
     </div>
 
@@ -468,7 +383,7 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.js"></script>
     <script src="pwa-loader.js"></script>
-    <script src="script.js?ver=2.0"></script> 
+    <script src="script.js?ver=4.0"></script> 
 
 </body>
 </html>
