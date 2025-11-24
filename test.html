@@ -14,7 +14,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700&family=Montserrat:wght@700;900&family=Playfair+Display:ital,wght@0,700;1,700&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?ver=4.0">
+    <link rel="stylesheet" href="style.css?ver=5.0">
 </head>
 <body>
 
@@ -216,15 +216,16 @@
             <div class="mypage-gallery-grid-6">
                 <div class="gallery-item-square" id="mypage-gallery-1"></div>
                 <div class="gallery-item-square" id="mypage-gallery-2"></div>
-                <div class="gallery-item-square placeholder" onclick="openImageUpload('胸上')"><div class="placeholder-inner"><i class="fas fa-plus"></i><span class="guide-label">胸上</span></div></div>
-                <div class="gallery-item-square placeholder" onclick="openImageUpload('全身')"><div class="placeholder-inner"><i class="fas fa-plus"></i><span class="guide-label">全身</span></div></div>
-                <div class="gallery-item-square placeholder" onclick="openImageUpload('お気に入り')"><div class="placeholder-inner"><i class="fas fa-plus"></i><span class="guide-label">お気に入り</span></div></div>
-                <div class="gallery-item-square placeholder" onclick="openImageUpload('その他')"><div class="placeholder-inner"><i class="fas fa-plus"></i><span class="guide-label">その他</span></div></div>
+                <div class="gallery-item-square placeholder" onclick="openImageUpload('1')"><div class="placeholder-inner"><i class="fas fa-plus"></i><span class="guide-label" id="guide-label-1"></span></div></div>
+                <div class="gallery-item-square placeholder" onclick="openImageUpload('2')"><div class="placeholder-inner"><i class="fas fa-plus"></i><span class="guide-label" id="guide-label-2"></span></div></div>
+                <div class="gallery-item-square placeholder" onclick="openImageUpload('3')"><div class="placeholder-inner"><i class="fas fa-plus"></i><span class="guide-label" id="guide-label-3"></span></div></div>
+                <div class="gallery-item-square placeholder" onclick="openImageUpload('4')"><div class="placeholder-inner"><i class="fas fa-plus"></i><span class="guide-label" id="guide-label-4"></span></div></div>
             </div>
         </div>
     </div>
     
     <div id="swipe-overlay" style="display: none;">
+        <div class="swipe-background-layer"></div>
         <button class="btn btn-back-to-menu" id="btn-swipe-close"><i class="fas fa-arrow-left"></i> メニューに戻る</button>
         <div class="swiper">
             <div class="swiper-wrapper" id="swipe-wrapper"></div>
@@ -353,14 +354,18 @@
     </nav>
 
     <div id="image-upload-screen" class="screen" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 2000; background: #fff;">
-        <div class="screen-header" style="display: flex; justify-content: space-between; align-items: center;">
+        <div id="upload-guide-icon-bg" class="upload-guide-icon-bg">
+            <i class="fas fa-camera"></i>
+        </div>
+
+        <div class="screen-header" style="display: flex; justify-content: space-between; align-items: center; position:relative; z-index:10;">
             <h2 id="upload-guide-title">画像をアップロード</h2>
             <button class="btn-close-form" onclick="closeImageUpload()">&times;</button>
         </div>
-        <div class="container" style="padding-top: 20px; display: flex; flex-direction: column; align-items: center;">
-            <p style="margin-bottom: 20px; color: #666; font-size: 0.9rem;">
+        <div class="container" style="padding-top: 20px; display: flex; flex-direction: column; align-items: center; position:relative; z-index:10;">
+            <p style="margin-bottom: 20px; color: #666; font-size: 0.9rem; text-align:center; background:rgba(255,255,255,0.8); padding:10px; border-radius:10px;">
                 枠に合わせて画像を調整してください。<br>
-                <span id="upload-guide-text" style="color: #ff6b6b; font-weight: bold;"></span>
+                <span id="upload-guide-text" style="color: #ff6b6b; font-weight: bold; font-size:1.2rem;"></span>
             </p>
             <div class="custom-file-upload" style="width: 100%; margin-bottom: 20px;">
                 <input type="file" id="gallery-image-input" accept="image/*">
@@ -384,7 +389,7 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.js"></script>
     <script src="pwa-loader.js"></script>
-    <script src="script.js?ver=4.0"></script> 
+    <script src="script.js?ver=5.0"></script> 
 
 </body>
 </html>
