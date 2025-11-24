@@ -14,7 +14,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700&family=Montserrat:wght@700;900&family=Playfair+Display:ital,wght@0,700;1,700&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?ver=5.0">
+    <link rel="stylesheet" href="style.css?ver=6.0">
 </head>
 <body>
 
@@ -73,38 +73,11 @@
         </div>
     </div>
 
-    <div id="main-menu" class="screen active">
-        <div class="container" style="display:flex; flex-direction:column; align-items:center;">
-            <p class="main-subtitle" style="margin-bottom: 20px;">デザインモックサイト</p>
-            
-            <div class="menu-buttons">
-                <div class="menu-group">
-                    <h3 class="menu-group-title">イメージ表示</h3>
-                    <div class="menu-group-content">
-                        <button id="btn-swipe-image" class="btn btn-menu-small"><i class="fas fa-arrows-alt-v"></i> スワイプ</button>
-                        <button id="btn-grid-list" class="btn btn-menu-small"><i class="fas fa-th"></i> サムネリスト</button>
-                    </div>
-                </div>
-
-                <p class="floating-promo-text">接客タイプ診断はこちら！</p>
-                <a href="https://mearin0424-tech.github.io/personality-test/personality-test.html" class="btn-app-link" target="_blank" rel="noopener noreferrer">
-                    <img src="icons/piyoko-icon-128x128.png" alt="診断アプリアイコン">
-                    <span>接客タイプ診断</span>
-                </a>
-
-                <p class="floating-promo-text" style="margin-top: 25px;">ホンモノサイトはこちら！</p>
-                <button id="btn-real-site" class="btn-real-link">
-                    <img src="images/misechoku-yoko.png" alt="ミセチョク公式サイト">
-                </button>
+    <div id="home-screen" class="screen active">
+        <div class="swiper-container-wrapper">
+            <div class="swiper">
+                <div class="swiper-wrapper" id="swipe-wrapper"></div>
             </div>
-        </div>
-    </div>
-
-    <div id="grid-list-screen" class="screen" style="display: none;">
-        <div class="screen-header"><h2>サムネリスト</h2></div>
-        <div class="container">
-            <div id="ec-grid-container" class="ec-grid-layout">
-                </div>
         </div>
     </div>
 
@@ -154,13 +127,20 @@
     </div>
     
     <div id="search-screen" class="screen" style="display: none;">
-        <div class="screen-header"><h2>タイムライン</h2></div>
+        <div class="screen-header" style="display: flex; justify-content: space-between; align-items: center;">
+            <h2>タイムライン</h2>
+            <button id="btn-toggle-view" class="header-text-btn" onclick="toggleTimelineView()">
+                <i class="fas fa-th-large"></i> <span id="view-mode-text">リスト</span>
+            </button>
+        </div>
         <div class="container">
             <div class="category-tags">
                 <span class="tag active">おすすめ</span><span class="tag">人気</span><span class="tag">新着</span><span class="tag">今すぐ入れる</span>
             </div>
-            <div class="timeline-list" id="timeline-container">
-                </div>
+            
+            <div class="timeline-list" id="timeline-container"></div>
+            
+            <div class="ec-grid-layout" id="ec-grid-container" style="display: none;"></div>
         </div>
     </div>
 
@@ -172,8 +152,7 @@
     <div id="message-screen" class="screen" style="display: none;">
         <div class="screen-header"><h2>メッセージ</h2></div>
         <div class="container" style="padding: 0;"> 
-            <div class="chat-list" id="chat-list-container">
-                </div>
+            <div class="chat-list" id="chat-list-container"></div>
         </div>
     </div>
 
@@ -221,14 +200,32 @@
                 <div class="gallery-item-square placeholder" onclick="openImageUpload('3')"><div class="placeholder-inner"><i class="fas fa-plus"></i><span class="guide-label" id="guide-label-3"></span></div></div>
                 <div class="gallery-item-square placeholder" onclick="openImageUpload('4')"><div class="placeholder-inner"><i class="fas fa-plus"></i><span class="guide-label" id="guide-label-4"></span></div></div>
             </div>
+
+            <div style="padding: 30px 20px; text-align: center;">
+                <p style="font-size: 0.9rem; margin-bottom: 10px; color: #666;">あなたにぴったりの接客スタイルは？</p>
+                <a href="https://mearin0424-tech.github.io/personality-test/personality-test.html" class="btn-app-link" target="_blank" rel="noopener noreferrer" style="margin: 0 auto;">
+                    <img src="icons/piyoko-icon-128x128.png" alt="診断アプリアイコン">
+                    <span>接客タイプ診断</span>
+                </a>
+            </div>
         </div>
     </div>
     
-    <div id="swipe-overlay" style="display: none;">
-        <div class="swipe-background-layer"></div>
-        <button class="btn btn-back-to-menu" id="btn-swipe-close"><i class="fas fa-arrow-left"></i> メニューに戻る</button>
-        <div class="swiper">
-            <div class="swiper-wrapper" id="swipe-wrapper"></div>
+    <div id="search-dialog" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 2000; background: rgba(0,0,0,0.5); backdrop-filter: blur(3px); align-items: center; justify-content: center;">
+        <div class="popup-box">
+            <div class="popup-header">
+                <h2>条件検索</h2>
+                <button class="btn-close-popup" onclick="closeSearchDialog()">&times;</button>
+            </div>
+            <div class="popup-body">
+                <div class="form-group"><label class="label-text">エリア</label><input type="text" placeholder="例：新宿、渋谷"></div>
+                <div class="form-group"><label class="label-text">ジャンル</label><select style="width:100%; padding:8px;"><option>すべて</option><option>キャバクラ</option><option>ガールズバー</option><option>ラウンジ</option></select></div>
+                <div class="form-group"><label class="label-text">キーワード</label><input type="text" placeholder="フリーワード"></div>
+            </div>
+            <div class="popup-actions">
+                <button class="btn btn-secondary" onclick="closeSearchDialog()">キャンセル</button>
+                <button class="btn btn-primary" onclick="closeSearchDialog(); switchScreen('search-screen');">検索する</button>
+            </div>
         </div>
     </div>
 
@@ -237,10 +234,10 @@
     <div id="fab-container">
         <div id="fab-submenu" class="fab-submenu">
             <button class="fab-item" id="btn-fab-search"><i class="fas fa-search"></i> 検索</button>
-            <button class="fab-item" id="btn-fab-post"><i class="fas fa-edit"></i> 記事投稿</button>
-        </div>
+            </div>
         <button id="fab-main" class="btn-fab"><i class="fas fa-plus"></i></button>
     </div>
+
 
     <div id="side-menu-overlay"></div>
     <div id="side-menu">
@@ -253,21 +250,25 @@
             <div class="design-category">
                 <div class="design-title-stylish">THEMES</div>
                 <div class="theme-switch-container">
-                    <button class="btn-theme-switch active" data-theme="default" onclick="setTheme('default')">
-                        <span class="theme-icon" style="background:linear-gradient(135deg, #f6fd86, #afdece); border:1px solid #ccc;"></span>
-                        <span class="theme-label">Gradation</span>
+                    <button class="btn-theme-switch active" data-theme="modern" onclick="setTheme('modern')">
+                        <span class="theme-icon" style="background:radial-gradient(circle at top left, #fff, #f6fd86); border:1px solid #ccc;"></span>
+                        <span class="theme-label">Modern</span>
                     </button>
                     <button class="btn-theme-switch" data-theme="hotel" onclick="setTheme('hotel')">
-                        <span class="theme-icon" style="background:#32323a; border:2px solid #bf9b5a;"></span>
+                        <span class="theme-icon" style="background:#32323a; border:2px solid #d4af37;"></span>
                         <span class="theme-label">Hotel Like</span>
                     </button>
                     <button class="btn-theme-switch" data-theme="chic" onclick="setTheme('chic')">
                         <span class="theme-icon" style="background:#fff; border:1px solid #E8DCCA;"></span>
                         <span class="theme-label">Chic</span>
                     </button>
-                    <button class="btn-theme-switch" data-theme="modern" onclick="setTheme('modern')">
+                    <button class="btn-theme-switch" data-theme="fresh" onclick="setTheme('fresh')">
                         <span class="theme-icon" style="background:#FFE338; border:2px solid #000;"></span>
-                        <span class="theme-label">Modern</span>
+                        <span class="theme-label">Fresh</span>
+                    </button>
+                    <button class="btn-theme-switch" data-theme="neon" onclick="setTheme('neon')">
+                        <span class="theme-icon" style="background:#000033; border:2px solid #FFFF00;"></span>
+                        <span class="theme-label">Neon</span>
                     </button>
                 </div>
             </div>
@@ -327,7 +328,7 @@
     </div>
     
     <nav id="bottom-nav">
-        <button class="nav-item active" data-target="main-menu"><i class="fas fa-home"></i><span>ホーム</span></button>
+        <button class="nav-item active" data-target="home-screen"><i class="fas fa-home"></i><span>ホーム</span></button>
         <button class="nav-item" data-target="search-screen"><i class="fas fa-stream"></i><span>タイムライン</span></button>
         <button class="nav-item" data-target="favorite-screen"><i class="fas fa-bookmark"></i><span>キープ</span></button>
         <button class="nav-item" data-target="message-screen"><i class="fas fa-comment-dots"></i><span>メッセージ</span></button>
@@ -335,10 +336,7 @@
     </nav>
 
     <div id="image-upload-screen" class="screen" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 2000; background: #fff;">
-        <div id="upload-guide-icon-bg" class="upload-guide-icon-bg">
-            <i class="fas fa-camera"></i>
-        </div>
-
+        <div id="upload-guide-icon-bg" class="upload-guide-icon-bg"><i class="fas fa-camera"></i></div>
         <div class="screen-header" style="display: flex; justify-content: space-between; align-items: center; position:relative; z-index:10;">
             <h2 id="upload-guide-title">画像をアップロード</h2>
             <button class="btn-close-form" onclick="closeImageUpload()">&times;</button>
@@ -370,7 +368,7 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.js"></script>
     <script src="pwa-loader.js"></script>
-    <script src="script.js?ver=5.0"></script> 
+    <script src="script.js?ver=6.0"></script> 
 
 </body>
 </html>
