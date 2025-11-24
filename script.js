@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
             pathPrefix: 'images/omise/', // ※フォルダが存在しない場合は適宜作成かダミーパスで
             imgName: (i) => `${i}.png`, 
             items: [
-                { id:1, name: 'CLUB SHINJUKU', age: null, text: '時給5000円〜✨ 未経験者大歓迎！', time: '新着' },
+                { id:1, name: 'CLUB SHINJUKU', age: null, text: '時給5000円〜にアップ中✨ 未経験者大歓迎！', time: '新着' },
                 { id:2, name: 'Lounge Rose', age: null, text: '落ち着いた雰囲気の会員制ラウンジ🍷', time: '急募' },
                 { id:3, name: 'Girls Bar PIYO', age: null, text: '私服OK！髪型ネイル自由💅 ゆるく働こう', time: '人気' },
                 { id:4, name: 'Cabaret FLOWER', age: null, text: '豪華な内装と厚待遇💎 送りあり', time: '3時間前' },
