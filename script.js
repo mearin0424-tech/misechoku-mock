@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const appData = {
         shop: { // 店舗向け（表示内容：女の子）
             pathPrefix: 'images/girls/',
-            imgName: (i) => `girl-${i}.png`, // ※ファイル名がgirl-1.png等の場合。1.pngなら `${i}.png` に修正してください
+            imgName: (i) => `${i}.png`, 
             items: [
                 { id:1, name: 'あや', age: 22, text: '初心者です！絶賛お店探し中。', time: '10分前' },
                 { id:2, name: 'まる子', age: 20, text: '今日から2か月、大阪にいます。', time: '30分前' },
