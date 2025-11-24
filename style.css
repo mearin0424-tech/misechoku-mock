@@ -351,3 +351,210 @@ body.theme-urban .thumbnail-info h4 { color: #fff; }
 body.theme-urban .btn-menu { border: 1px solid #333; color: #fff; }
 body.theme-urban .screen-header { background: rgba(10,10,10,0.8); border-bottom: 1px solid #333; }
 body.theme-urban #bottom-nav { background: #0a0a0a; border-top: 1px solid #333; }
+
+/* =========================================
+   MY PAGE REDESIGN (画像のデザインを再現)
+   ========================================= */
+
+/* マイページ全体を白背景に設定 */
+#mypage-screen {
+    background-color: #ffffff;
+    min-height: 100vh;
+}
+.mypage-container {
+    padding-bottom: 80px; /* フッターメニュー分 */
+    background-color: #fff;
+}
+
+/* --- 上部エリア（アバター＋吹き出し） --- */
+.mypage-top-section {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    gap: 15px;
+}
+
+/* アバター周り */
+.mypage-avatar-wrapper {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    flex-shrink: 0;
+}
+.mypage-avatar-img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #ff69b4; /* ピンクの枠線 */
+    padding: 2px; /* 枠線と画像の間の白スペース */
+    background: #fff;
+}
+.btn-avatar-add {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 24px;
+    height: 24px;
+    background-color: #0099ff; /* 青いプラスボタン */
+    color: white;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+/* 吹き出し */
+.mypage-speech-bubble {
+    position: relative;
+    background: #ffe4e1; /* 薄いピンク */
+    border-radius: 8px;
+    padding: 10px 15px;
+    flex-grow: 1;
+    font-size: 0.8rem;
+    color: #555;
+    line-height: 1.4;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+.mypage-speech-bubble::after {
+    content: '';
+    position: absolute;
+    left: -10px;
+    top: 50%;
+    transform: translateY(-50%);
+    border-style: solid;
+    border-width: 8px 10px 8px 0;
+    border-color: transparent #ffe4e1 transparent transparent;
+}
+.mypage-speech-bubble p {
+    margin: 0;
+}
+.bubble-edit-icon {
+    margin-left: 5px;
+    color: #888;
+    cursor: pointer;
+}
+
+/* --- 情報エリア --- */
+.mypage-info-section {
+    padding: 0 20px 20px 20px;
+}
+
+.info-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.mypage-name {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+    margin: 0;
+}
+.mypage-age {
+    font-size: 1rem;
+    font-weight: normal;
+    margin-left: 5px;
+}
+.mypage-likes {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #ff6b6b;
+}
+.mypage-likes i {
+    font-size: 1.4rem;
+}
+.like-count {
+    font-size: 0.8rem;
+    margin-top: 2px;
+}
+
+.mypage-stats {
+    font-size: 0.85rem;
+    color: #333;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+.mypage-stats p {
+    margin: 0;
+}
+
+.mypage-bio {
+    font-size: 0.9rem;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+/* タグ（ピル型） */
+.mypage-tags-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 15px;
+}
+.tag-pill {
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    padding: 4px 12px;
+    font-size: 0.75rem;
+    color: #666;
+    background: #fff;
+}
+
+.mypage-link-row {
+    text-align: right;
+    margin-bottom: 20px;
+}
+.link-arrow {
+    font-size: 0.85rem;
+    color: #cca400; /* ゴールドっぽい色 */
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* --- アクションボタン --- */
+.mypage-action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 0 20px 20px 20px;
+}
+.btn-outline-wide {
+    width: 100%;
+    padding: 10px;
+    background: #fff;
+    border: 1px solid #333;
+    border-radius: 5px; /* 角丸少し */
+    font-size: 0.95rem;
+    color: #333;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: center;
+    transition: background 0.2s;
+}
+.btn-outline-wide:hover {
+    background: #f9f9f9;
+}
+.btn-outline-wide i {
+    margin-right: 8px;
+}
+
+/* --- ギャラリー --- */
+.mypage-gallery-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px; /* 画像間の隙間 */
+}
+.gallery-item {
+    width: 100%;
+    aspect-ratio: 1 / 1; /* 正方形 */
+    background-size: cover;
+    background-position: center;
+}
