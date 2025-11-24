@@ -253,7 +253,7 @@
         </div>
     </div>
 
-    <div id="mypage-screen" class="screen" style="display: none;">
+   <div id="mypage-screen" class="screen" style="display: none;">
         <div class="mypage-container">
             
             <div class="mypage-top-section">
@@ -270,46 +270,57 @@
             <div class="mypage-info-section">
                 <div class="info-header-row">
                     <h2 class="mypage-name">Yui <span class="mypage-age">(31歳)</span></h2>
-                    <div class="mypage-likes">
-                        <i class="far fa-heart"></i>
-                        <span class="like-count">6</span>
-                    </div>
+                    <div class="mypage-likes"><i class="far fa-heart"></i><span class="like-count">6</span></div>
                 </div>
-
                 <div class="mypage-stats">
                     <p>身長 156 cm 体重 44kg</p>
                     <p>3サイズ B 83 / W 60 / H 85</p>
                 </div>
-
-                <div class="mypage-bio">
-                    <p>未経験です！<br>よろしくお願いします！</p>
-                </div>
-
+                <div class="mypage-bio"><p>未経験です！<br>よろしくお願いします！</p></div>
                 <div class="mypage-tags-row">
-                    <span class="tag-pill">ガールズバー</span>
-                    <span class="tag-pill">コンカフェ</span>
-                    <span class="tag-pill">小柄</span>
-                    <span class="tag-pill">OL/一般職</span>
-                    <span class="tag-pill">パリピ系</span>
+                    <span class="tag-pill">ガールズバー</span><span class="tag-pill">コンカフェ</span>
+                    <span class="tag-pill">小柄</span><span class="tag-pill">OL/一般職</span>
                 </div>
-
-                <div class="mypage-link-row">
-                    <a href="#" class="link-arrow"> > プロフィール</a>
-                </div>
+                <div class="mypage-link-row"><a href="#" class="link-arrow"> > プロフィール</a></div>
             </div>
 
             <div class="mypage-action-buttons">
-                <button class="btn-outline-wide">
-                    <i class="fas fa-user-circle"></i> プロフィールを編集する
-                </button>
-                <button class="btn-outline-wide">
-                    <i class="fas fa-camera"></i> 投稿する
+                <button class="btn-outline-wide" onclick="openImageUpload('新規')">
+                    <i class="fas fa-camera"></i> 画像を追加
                 </button>
             </div>
 
-            <div class="mypage-gallery-grid">
-                <div class="gallery-item" style="background-image: url('images/girls/girl-1.png');"></div>
-                <div class="gallery-item" style="background-image: url('images/card-1.png'); background-color: #ffd700;"></div>
+            <div class="mypage-gallery-grid-6">
+                <div class="gallery-item-square" style="background-image: url('images/girls/girl-1.png');"></div>
+                <div class="gallery-item-square" style="background-image: url('images/girls/girl-2.png');"></div>
+                
+                <div class="gallery-item-square placeholder" onclick="openImageUpload('胸上')">
+                    <div class="placeholder-inner">
+                        <i class="fas fa-plus"></i>
+                        <span class="guide-label">胸上</span>
+                    </div>
+                </div>
+                
+                <div class="gallery-item-square placeholder" onclick="openImageUpload('全身')">
+                    <div class="placeholder-inner">
+                        <i class="fas fa-plus"></i>
+                        <span class="guide-label">全身</span>
+                    </div>
+                </div>
+
+                <div class="gallery-item-square placeholder" onclick="openImageUpload('お気に入り')">
+                    <div class="placeholder-inner">
+                        <i class="fas fa-plus"></i>
+                        <span class="guide-label">お気に入り</span>
+                    </div>
+                </div>
+
+                <div class="gallery-item-square placeholder" onclick="openImageUpload('その他')">
+                    <div class="placeholder-inner">
+                        <i class="fas fa-plus"></i>
+                        <span class="guide-label">その他</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
