@@ -28,9 +28,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // 画像ファイル名の調整（実際のファイル名に合わせてください）
-    // 元のHTMLでは 'images/girls/girl-1.png' となっていたため、それに合わせます
-    appData.shop.imgName = (i) => `girl-${i}.png`; 
+
+    appData.shop.imgName = (i) => `${i}.png`; 
     // omise側は画像がない場合のダミー（または数字.png）
     appData.cast.imgName = (i) => `${i}.png`; 
 
@@ -102,7 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
             swipeWrapper.innerHTML = data.items.map((item, index) => `
                 <div class="swiper-slide">
                     <div class="card-content">
-                        <img src="${data.pathPrefix}${data.imgName(index + 1)}" alt="${item.name}" class="profile-image" onerror="this.src='images/girls/girl-1.png'">
+                        <img src="${data.pathPrefix}${data.imgName(index + 1)}" alt="${item.name}" class="profile-image" onerror="this.src='images/girls/1.png'">
                         <div class="overlay"></div>
                         <div class="action-bar">
                             <div class="action-item side-action-btn"><i class="fas fa-heart icon-circle"></i><span class="action-label">いいね</span></div>
