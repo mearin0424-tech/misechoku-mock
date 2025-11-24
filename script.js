@@ -4,19 +4,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const appData = {
         shop: { // 店舗向け（表示内容：女の子）
             pathPrefix: 'images/girls/',
-            imgName: (i) => `${i}.png`, // ファイル名ルール: 1.png
+            imgName: (i) => `girl-${i}.png`, // ※ファイル名がgirl-1.png等の場合。1.pngなら `${i}.png` に修正してください
             items: [
-                { id:1, name: 'あや', age: 22, text: 'カフェ巡りが好きです☕️ 仲良くしてね！', time: '10分前' },
-                { id:2, name: 'まる子', age: 20, text: 'ゲーム大好き🎮 一緒に遊びましょ〜', time: '30分前' },
-                { id:3, name: '舞', age: 24, text: 'プログラミング勉強中💻 教えてください！', time: '1時間前' },
-                { id:4, name: 'さくら', age: 21, text: 'ドライブ連れてって🚗 海行きたい！', time: '3時間前' },
-                { id:5, name: 'あおい', age: 23, text: '夜景が綺麗なところに行きたいな✨', time: '昨日' },
-                { id:6, name: 'リカ', age: 25, text: 'お家でまったり派🏠 リラックスタイム', time: '昨日' }
+                { id:1, name: 'あや', age: 22, text: '初心者です！絶賛お店探し中。', time: '10分前' },
+                { id:2, name: 'まる子', age: 20, text: '今日から2か月、大阪にいます。', time: '30分前' },
+                { id:3, name: '舞', age: 24, text: '初心者です、いろいろ教えてください！', time: '1時間前' },
+                { id:4, name: 'さくら', age: 21, text: '明日東京に帰ります。', time: '3時間前' },
+                { id:5, name: 'あおい', age: 23, text: '今すぐ入れます！', time: '昨日' },
+                { id:6, name: 'リカ', age: 25, text: 'お家でまったり、リラックスタイム中～', time: '昨日' }
             ]
         },
         cast: { // キャスト向け（表示内容：お店）
-            pathPrefix: 'images/omise/',
-            imgName: (i) => `${i}.png`, // ファイル名ルール: 1.png
+            pathPrefix: 'images/omise/', // ※フォルダが存在しない場合は適宜作成かダミーパスで
+            imgName: (i) => `${i}.png`, 
             items: [
                 { id:1, name: 'CLUB SHINJUKU', age: null, text: '時給5000円〜✨ 未経験者大歓迎！', time: '新着' },
                 { id:2, name: 'Lounge Rose', age: null, text: '落ち着いた雰囲気の会員制ラウンジ🍷', time: '急募' },
@@ -27,6 +27,13 @@ document.addEventListener('DOMContentLoaded', () => {
             ]
         }
     };
+
+    // 画像ファイル名の調整（実際のファイル名に合わせてください）
+    // 元のHTMLでは 'images/girls/girl-1.png' となっていたため、それに合わせます
+    appData.shop.imgName = (i) => `girl-${i}.png`; 
+    // omise側は画像がない場合のダミー（または数字.png）
+    appData.cast.imgName = (i) => `${i}.png`; 
+
 
     let currentMode = 'shop'; // 初期モード
 
@@ -41,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
         error: document.getElementById('error-screen'),
         notification: document.getElementById('notification-screen'),
         upload: document.getElementById('image-upload-screen'),
-        grid: document.getElementById('grid-list-screen') // 新規
+        grid: document.getElementById('grid-list-screen') 
     };
     
     const root = document.documentElement;
@@ -72,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const designToggle = document.getElementById('design-mode-toggle');
 
     const btnSwipeImage = document.getElementById('btn-swipe-image');
-    const btnGridList = document.getElementById('btn-grid-list'); // 新規
+    const btnGridList = document.getElementById('btn-grid-list'); 
     const btnNotificationScreen = document.getElementById('btn-notification-screen');
     const btnRealSite = document.getElementById('btn-real-site');
     const btnRandom = document.getElementById('btn-random-color');
@@ -95,7 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
             swipeWrapper.innerHTML = data.items.map((item, index) => `
                 <div class="swiper-slide">
                     <div class="card-content">
-                        <img src="${data.pathPrefix}${data.imgName(index + 1)}" alt="${item.name}" class="profile-image">
+                        <img src="${data.pathPrefix}${data.imgName(index + 1)}" alt="${item.name}" class="profile-image" onerror="this.src='images/girls/girl-1.png'">
                         <div class="overlay"></div>
                         <div class="action-bar">
                             <div class="action-item side-action-btn"><i class="fas fa-heart icon-circle"></i><span class="action-label">いいね</span></div>
@@ -267,8 +274,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (btnFabPost) btnFabPost.addEventListener('click', () => toggleFormModal(true));
 
     if(btnNotificationScreen) btnNotificationScreen.addEventListener('click', () => switchScreen('notification-screen'));
-    if(btnPopupImage) btnPopupImage.addEventListener('click', () => showPopup(true));
-    //if(btnErrorImage) btnErrorImage.addEventListener('click', () => switchScreen('error-screen')); // 削除
+    
+    // 削除済みボタンへの参照を削除
+    // if(btnPopupImage) ... 
+
     if(btnRealSite) btnRealSite.addEventListener('click', () => showRealPopup(true));
 
     // 新規ボタンイベント
