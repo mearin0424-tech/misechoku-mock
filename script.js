@@ -334,7 +334,30 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 });
+const guideImg = document.getElementById('guide-character');
+    const guideImages = [
+        'images/guide/okojyo_1.jpg',
+        'images/guide/okojyo_2.jpg',
+        'images/guide/fenex_1.jpg',
+        'images/guide/fenex_2.jpg',
+        'images/guide/piyo_1.JPG', // 拡張子の大文字小文字に注意
+        'images/guide/piyo_2.jpg'
+    ];
+    let guideIndex = 0;
 
+    if (guideImg) {
+        guideImg.addEventListener('click', () => {
+            // 次の画像のインデックスを計算 (0 -> 1 -> ... -> 5 -> 0)
+            guideIndex = (guideIndex + 1) % guideImages.length;
+            guideImg.src = guideImages[guideIndex];
+            
+            // クリック時のアニメーション用
+            guideImg.style.transform = 'scale(0.8)';
+            setTimeout(() => {
+                guideImg.style.transform = 'scale(1)';
+            }, 100);
+        });
+    }
 // グローバル関数
 window.setTheme = function(themeName) {
     const body = document.body;
