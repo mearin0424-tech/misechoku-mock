@@ -453,3 +453,22 @@ body.theme-neon .btn-outline-wide { background: transparent; border-color: #FFFF
 .placeholder-inner { display: flex; flex-direction: column; align-items: center; color: #999; }
 .placeholder-inner i { font-size: 1.2rem; margin-bottom: 5px; }
 .guide-label { font-size: 0.7rem; font-weight: bold; }
+
+/* ▼ ガイドキャラクター画像用のスタイルを追加 ▼ */
+#guide-character {
+    position: fixed;
+    top: 65px; /* ヘッダー(60px)のすぐ下 */
+    left: 10px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%; /* 丸く切り抜き（必要であれば） */
+    object-fit: contain;
+    z-index: 1500; /* モーダルより下、FABより上 */
+    cursor: pointer;
+    transition: transform 0.1s ease;
+    filter: drop-shadow(0 2px 5px rgba(0,0,0,0.3)); /* 影をつけて浮き上がらせる */
+}
+
+#guide-character:active {
+    transform: scale(0.9);
+}
