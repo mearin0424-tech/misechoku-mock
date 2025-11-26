@@ -69,6 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeSwipeBtn = document.getElementById('btn-swipe-close'); // 削除候補だがエラー防止で残す
     const btnCloseForm = document.querySelector('.btn-close-form');
     const formOverlayBg = document.querySelector('.form-overlay-bg');
+    const fabContainer = document.getElementById('fab-container');
     
     let swiper = null;
 
@@ -211,7 +212,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- 画面切り替え ---
     function switchScreen(targetId) {
         // FAB制御: home, searchのみ表示
-        if(targetId === 'home-screen' || targetId === 'search-screen') {
+        if(targetId === 'home-screen' || targetId === 'search-screen' || targetId === 'favorite-screen') {
             fabContainer.style.display = 'flex';
         } else {
             fabContainer.style.display = 'none';
