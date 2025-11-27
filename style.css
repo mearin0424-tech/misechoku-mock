@@ -1,11 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700&family=Shippori+Mincho:wght@400;700&family=Noto+Sans+JP:wght@400;700&family=Montserrat:wght@700&family=Oswald:wght@500&display=swap');
 
 :root {
-    /* --- 配色変数 (初期値: Rose) --- */
-    --color-main: #404d3e;       /* 背景すべて */
-    --color-sub: #77342f;        /* ヘッダー・タスクバー・サイドバー・タイムライン吹き出し */
-    --color-accent: #230f08;     /* タグ・ボタン・アイコン・タイトル・FAB */
-    --color-text-custom: #b8c4ba; /* 本文テキスト */
+    /* --- 配色変数 (初期値: Gogh) --- */
+    --color-main: #f6e599;       
+    --color-sub: #f9b83e;        
+    --color-accent: #064277;     
+    --color-text-custom: #040a18; 
     
     --shadow-light: 0 4px 12px rgba(0,0,0,0.08); 
     --shadow-hover: 0 6px 16px rgba(0,0,0,0.15);
@@ -32,7 +32,13 @@ body {
 #bg-layer { 
     position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; 
     background: var(--color-main); 
+    transition: background 0.5s ease;
 }
+/* グラデーションモード */
+body.gradation-mode #bg-layer {
+    background: linear-gradient(135deg, var(--color-sub) 0%, var(--color-main) 30%, var(--color-main) 70%, var(--color-sub) 100%);
+}
+
 .container { max-width: 800px; margin: 0 auto; padding: 0 20px; }
 
 /* --- ヘッダー --- */
@@ -113,6 +119,16 @@ body {
 .design-category.no-border { border: none; box-shadow: none; margin-bottom: 0; padding-bottom: 0; }
 .design-title-stylish { font-family: var(--font-header); font-weight: 700; font-size: 0.9rem; color: var(--color-accent) !important; margin-bottom: 12px; letter-spacing: 0.05em; text-align: center; opacity: 1; }
 
+/* グラデーションスイッチ */
+.style-switch-container { display: flex; align-items: center; gap: 10px; }
+.switch-label { font-size: 0.8rem; font-weight: bold; }
+.toggle-switch { position: relative; display: inline-block; width: 50px; height: 26px; }
+.toggle-switch input { opacity: 0; width: 0; height: 0; }
+.slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0,0,0,0.3); transition: .4s; border-radius: 34px; }
+.slider:before { position: absolute; content: ""; height: 20px; width: 20px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
+input:checked + .slider { background-color: var(--color-accent); }
+input:checked + .slider:before { transform: translateX(24px); }
+
 /* テーマボタン */
 .theme-switch-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-bottom: 10px; }
 .btn-theme-switch { background: none; border: none; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 5px; opacity: 0.8; transition: all 0.3s; margin-bottom: 10px; width: 80px; }
@@ -120,12 +136,14 @@ body {
 .theme-icon { width: 40px; height: 40px; border-radius: 50%; box-shadow: 0 2px 5px rgba(0,0,0,0.3); display: block; border: 2px solid #fff; }
 .theme-label { font-size: 0.7rem; font-weight: bold; color: #fff; letter-spacing: 1px; }
 
-/* カラーピッカー */
+/* カラーピッカー & テキスト入力 */
 .color-pickers-row { display: flex; justify-content: center; gap: 20px; width: 100%; flex-wrap: wrap; }
-.color-item { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.color-item { display: flex; flex-direction: column; align-items: center; gap: 5px; }
 .color-label { font-size: 0.75rem; color: #fff; font-family: sans-serif; font-weight: bold; }
+.color-picker-group { display: flex; flex-direction: column; align-items: center; gap: 5px; }
 .color-picker-3d-wrapper { width: 45px; height: 45px; border-radius: 50%; border: 2px solid #fff; overflow: hidden; position: relative; cursor: pointer; }
 .color-picker-3d { width: 150%; height: 150%; position: absolute; top: -25%; left: -25%; border: none; padding: 0; cursor: pointer; }
+.color-hex-input { width: 60px; border: none; border-radius: 4px; padding: 2px 4px; font-size: 0.7rem; text-align: center; background: rgba(255,255,255,0.8); color: #333; }
 
 /* フォント選択 */
 .font-switch-container { display: flex; flex-direction: column; gap: 10px; width: 100%; padding: 0 10px; box-sizing: border-box; }
@@ -151,7 +169,7 @@ body {
 .fab-item { background: #FFF; color: var(--color-accent); border: none; padding: 12px 20px; border-radius: 25px; box-shadow: 0 3px 10px rgba(0,0,0,0.2); font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 10px; white-space: nowrap; text-decoration: none; }
 
 /* Guide Wrapper & Character */
-#guide-wrapper { position: relative; display: flex; align-items: center; justify-content: flex-end; flex-direction: row; /* 画像の左に吹き出し */ }
+#guide-wrapper { position: relative; display: flex; align-items: center; justify-content: flex-end; flex-direction: row; }
 #guide-character {
     width: 90px; 
     height: 90px; 
@@ -169,18 +187,17 @@ body {
 #guide-speech-bubble {
     background: var(--color-accent);
     color: #fff;
-    padding: 8px 16px; /* 大きく */
+    padding: 8px 16px; 
     border-radius: 20px;
-    font-size: 1.0rem; /* 大きく */
+    font-size: 1.0rem; 
     font-weight: bold;
-    margin-right: 10px; /* 画像との間隔 */
+    margin-right: 10px; 
     white-space: nowrap;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     cursor: pointer;
     animation: floatMsg 2s infinite ease-in-out;
-    position: relative; /* Flex配置のためrelative */
+    position: relative;
 }
-/* 吹き出しの尻尾 (右向き) */
 #guide-speech-bubble::after {
     content: ''; position: absolute; 
     top: 50%; right: -8px; transform: translateY(-50%);
@@ -299,7 +316,7 @@ body {
 .mypage-bio { font-size: 0.9rem; color: var(--color-text-custom); margin-bottom: 15px; }
 .mypage-tags-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 15px; }
 .tag-pill { border: 1px solid var(--color-accent); border-radius: 15px; padding: 4px 12px; font-size: 0.75rem; color: var(--color-accent); background: transparent; }
-.mypage-link-row { text-align: center; margin-bottom: 20px; } /* 中央寄せ */
+.mypage-link-row { text-align: center; margin-bottom: 20px; }
 
 .mypage-action-buttons { display: flex; flex-direction: column; gap: 10px; padding: 0 20px 20px 20px; }
 .btn-outline-wide { width: 100%; padding: 10px; background: transparent; border: 1px solid var(--color-accent); border-radius: 5px; font-size: 0.95rem; color: var(--color-accent); font-weight: bold; cursor: pointer; text-align: center; transition: background 0.2s; }
