@@ -282,13 +282,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if(pickerAccent) pickerAccent.addEventListener('input', (e) => updateColor('--color-accent', e.target.value));
     if(pickerText) pickerText.addEventListener('input', (e) => updateColor('--color-text-custom', e.target.value));
 
-    // ガイド画像切り替えロジック
+    // ガイド画像切り替えロジック (pngに変更)
     const guideImg = document.getElementById('guide-character');
     const guideImages = [
         'images/guide/okojyo.png', 
-        'images/guide/fenex.jpg',
-        'images/guide/piyoko.JPG',
-        'images/guide/piyota.jpg'
+        'images/guide/fenex.png',
+        'images/guide/piyoko.png',
+        'images/guide/piyota.png'
     ];
     let guideIndex = 0;
 
@@ -343,10 +343,10 @@ document.addEventListener('DOMContentLoaded', () => {
 // --- テーマ定義 (Design Control) ---
 const THEMES = {
     'Rose': {
-        main: '#fff0f5',   // LavenderBlush
-        sub: '#ffb6c1',    // LightPink
-        accent: '#db7093', // PaleVioletRed
-        text: '#555555'
+        main: '#404d3e',   
+        sub: '#77342f',    
+        accent: '#230f08', 
+        text: '#b8c4ba'
     },
     'Hotel': {
         main: '#2c2c2c',   // Dark Gray
@@ -413,8 +413,27 @@ window.setTheme = function(themeName) {
 };
 
 window.resetThemeColors = function() {
-    // 現在選択中のテーマの初期値に戻す
     setTheme(currentThemeName);
+};
+
+// --- フォント設定 ---
+const FONTS = {
+    'round': { header: "'Zen Maru Gothic', sans-serif", body: "'Zen Maru Gothic', sans-serif" },
+    'mincho': { header: "'Shippori Mincho', serif", body: "'Shippori Mincho', serif" },
+    'gothic': { header: "'Noto Sans JP', sans-serif", body: "'Noto Sans JP', sans-serif" }
+};
+
+window.setFont = function(fontType) {
+    const font = FONTS[fontType];
+    if(!font) return;
+
+    document.body.style.setProperty('--font-header', font.header);
+    document.body.style.setProperty('--font-body', font.body);
+
+    document.querySelectorAll('.btn-font-switch').forEach(btn => {
+        btn.classList.remove('active');
+        if(btn.dataset.font === fontType) btn.classList.add('active');
+    });
 };
 
 window.toggleLike = function(btn) {
