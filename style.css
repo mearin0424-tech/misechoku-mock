@@ -1,11 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700&family=Shippori+Mincho:wght@400;700&family=Noto+Sans+JP:wght@400;700&family=Montserrat:wght@700&family=Oswald:wght@500&display=swap');
 
 :root {
-    /* --- 配色変数 (初期値: Gogh) --- */
-    --color-main: #f6e599;       
-    --color-sub: #f9b83e;        
-    --color-accent: #064277;     
-    --color-text-custom: #040a18; 
+    /* --- 配色変数 (初期値: Victoria) --- */
+    --color-main: #003c41;       
+    --color-sub: #62613b;        
+    --color-accent: #98006a;     
+    --color-text-custom: #8faba8; 
     
     --shadow-light: 0 4px 12px rgba(0,0,0,0.08); 
     --shadow-hover: 0 6px 16px rgba(0,0,0,0.15);
@@ -215,43 +215,54 @@ input:checked + .slider:before { transform: translateX(24px); }
 .tag.active { background: var(--color-accent); color: #fff; }
 
 .timeline-list { display: flex; flex-direction: column; gap: 15px; padding-bottom: 20px; }
+/* Timeline Item: 背景・枠線なし、影なし */
 .timeline-item { 
     display: flex; 
-    background: var(--color-main); 
-    border: 1px solid var(--color-accent); 
-    border-radius: var(--border-radius-card); 
-    overflow: hidden; 
-    box-shadow: var(--shadow-light); 
+    background: transparent; 
+    border: none; 
+    border-radius: 0;
+    overflow: visible; /* 吹き出しがはみ出るのを許可 */
+    box-shadow: none; 
     height: 140px; 
     color: var(--color-text-custom);
+    align-items: center;
 }
-.timeline-img-area { width: 50%; background-size: cover; background-position: center; }
-.timeline-content-area { width: 50%; padding: 10px; position: relative; display: flex; flex-direction: column; }
-.timeline-meta { display: flex; justify-content: space-between; align-items: baseline; font-size: 0.8rem; margin-bottom: 8px; color: var(--color-text-custom); opacity: 0.8; }
-.timeline-name { font-weight: bold; color: var(--color-accent); font-size: 0.95rem; }
+.timeline-img-area { 
+    width: 120px; height: 120px; flex-shrink: 0;
+    background-size: cover; background-position: center; border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2); z-index: 1;
+}
+.timeline-content-area { 
+    flex-grow: 1; 
+    padding: 10px; 
+    position: relative; 
+    display: flex; flex-direction: column; 
+    justify-content: center;
+}
+.timeline-meta { display: none; } /* シンプルにするため一旦非表示、あるいは吹き出し内に入れる */
 
-/* タイムライン吹き出し (Sub Color) */
+/* タイムライン吹き出し (Sub Color) - 丸み強化・画像に被せる */
 .timeline-tweet { 
     background: var(--color-sub); 
-    border: 2px solid var(--color-sub);
-    border-radius: 8px; 
-    padding: 8px; 
-    font-size: 0.8rem; 
+    border: none;
+    border-radius: 25px; /* 丸く */
+    padding: 15px 20px; 
+    font-size: 0.9rem; 
     color: #fff; 
     position: relative; 
-    margin-bottom: 25px; 
-    flex-grow: 1; 
+    margin-bottom: 0; 
     line-height: 1.4; 
     display: flex; align-items: center; 
+    margin-left: -30px; /* 画像に被せる */
+    z-index: 2;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
 }
-.timeline-tweet::before { 
-    content: ""; position: absolute; top: 12px; left: -6px; 
-    border-top: 6px solid transparent; border-bottom: 6px solid transparent; 
-    border-right: 6px solid var(--color-sub); 
-}
-.timeline-like-btn { position: absolute; bottom: 8px; right: 10px; background: none; border: none; color: #ccc; font-size: 1.2rem; cursor: pointer; transition: transform 0.2s; }
+.timeline-tweet::before { display: none; } /* 吹き出しの尻尾は不要（被せるデザインのため） */
+
+.timeline-like-btn { position: absolute; bottom: -5px; right: 0; background: #fff; border-radius: 50%; width: 30px; height: 30px; display: flex; justify-content: center; align-items: center; color: #ccc; font-size: 1rem; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.1); z-index: 3;}
 .timeline-like-btn.active { color: #ff4d4d; }
 
+/* Grid */
 .ec-grid-layout { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; padding-bottom: 20px; }
 .ec-item { 
     background: var(--color-main); 
