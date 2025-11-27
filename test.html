@@ -14,7 +14,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700&family=Montserrat:wght@700;900&family=Playfair+Display:ital,wght@0,700;1,700&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?ver=6.1">
+    <link rel="stylesheet" href="style.css?ver=7.0">
 </head>
 <body>
 
@@ -49,15 +49,16 @@
         </div>
     </header>
 
-    <img id="guide-character" src="images/guide/okojyo.jpg" alt="Guide Character">
+    <img id="guide-character" src="images/guide/okojyo.png" alt="ガイド">
+
     <div id="header-task-popup">
         <div class="task-popup-header">
             <h4>やることリスト</h4>
             <button class="btn-close-task-popup">&times;</button>
         </div>
         <div class="task-popup-content">
-            <div class="mini-task-item"><i class="fas fa-comment-dots" style="color: #eb6b6b;"></i><span>面談日程を決めよう！</span></div>
-            <div class="mini-task-item"><i class="fas fa-user-edit" style="color: #6babe8;"></i><span>プロフィールを完成させよう</span></div>
+            <div class="mini-task-item"><i class="fas fa-comment-dots" style="color: #fff;"></i><span>面談日程を決めよう！</span></div>
+            <div class="mini-task-item"><i class="fas fa-user-edit" style="color: #fff;"></i><span>プロフィールを完成させよう</span></div>
         </div>
     </div>
 
@@ -67,7 +68,7 @@
             <button class="btn-close-notification-popup btn-close-task-popup">&times;</button>
         </div>
         <div class="notification-popup-content">
-            <p style="font-size:0.85rem; color:#666; margin-bottom:15px;">新しいお知らせはありません。</p>
+            <p style="font-size:0.85rem; margin-bottom:15px;">新しいお知らせはありません。</p>
             <button id="btn-goto-pwa-test" class="btn btn-primary" style="font-size:0.85rem; width:100%;">
                 <i class="fas fa-paper-plane"></i> PWA通知テスト
             </button>
@@ -203,7 +204,7 @@
             </div>
 
             <div style="padding: 30px 20px; text-align: center;">
-                <p style="font-size: 0.9rem; margin-bottom: 10px; color: #666;">あなたにぴったりの接客スタイルは？</p>
+                <p style="font-size: 0.9rem; margin-bottom: 10px; color: var(--color-text-custom);">あなたにぴったりの接客スタイルは？</p>
                 <a href="https://mearin0424-tech.github.io/personality-test/personality-test.html" class="btn-app-link" target="_blank" rel="noopener noreferrer" style="margin: 0 auto;">
                     <img src="icons/piyoko-icon-128x128.png" alt="診断アプリアイコン">
                     <span>接客タイプ診断</span>
@@ -254,78 +255,67 @@
             <div class="design-category">
                 <div class="design-title-stylish">THEMES</div>
                 <div class="theme-switch-container">
-                    <button class="btn-theme-switch active" data-theme="modern" onclick="setTheme('modern')">
-                        <span class="theme-icon" style="background:radial-gradient(circle at top left, #fff, #f6fd86); border:1px solid #ccc;"></span>
-                        <span class="theme-label">Modern</span>
+                    <button class="btn-theme-switch active" data-theme="Rose" onclick="setTheme('Rose')">
+                        <span class="theme-icon" style="background:#fff0f5; border:2px solid #db7093;"></span>
+                        <span class="theme-label">Rose</span>
                     </button>
-                    <button class="btn-theme-switch" data-theme="hotel" onclick="setTheme('hotel')">
-                        <span class="theme-icon" style="background:#32323a; border:2px solid #d4af37;"></span>
-                        <span class="theme-label">Hotel Like</span>
+                    <button class="btn-theme-switch" data-theme="Hotel" onclick="setTheme('Hotel')">
+                        <span class="theme-icon" style="background:#2c2c2c; border:2px solid #d4af37;"></span>
+                        <span class="theme-label">Hotel</span>
                     </button>
-                    <button class="btn-theme-switch" data-theme="chic" onclick="setTheme('chic')">
-                        <span class="theme-icon" style="background:#fff; border:1px solid #E8DCCA;"></span>
+                    <button class="btn-theme-switch" data-theme="Chic" onclick="setTheme('Chic')">
+                        <span class="theme-icon" style="background:#f5f5dc; border:2px solid #8b4513;"></span>
                         <span class="theme-label">Chic</span>
                     </button>
-                    <button class="btn-theme-switch" data-theme="fresh" onclick="setTheme('fresh')">
-                        <span class="theme-icon" style="background:#FFE338; border:2px solid #000;"></span>
-                        <span class="theme-label">Fresh</span>
+                    <button class="btn-theme-switch" data-theme="Royal" onclick="setTheme('Royal')">
+                        <span class="theme-icon" style="background:#000080; border:2px solid #ffd700;"></span>
+                        <span class="theme-label">Royal</span>
                     </button>
-                    <button class="btn-theme-switch" data-theme="neon" onclick="setTheme('neon')">
-                        <span class="theme-icon" style="background:#000033; border:2px solid #FFFF00;"></span>
+                    <button class="btn-theme-switch" data-theme="Victoria" onclick="setTheme('Victoria')">
+                        <span class="theme-icon" style="background:#006400; border:2px solid #c0c0c0;"></span>
+                        <span class="theme-label">Victoria</span>
+                    </button>
+                    <button class="btn-theme-switch" data-theme="Neon" onclick="setTheme('Neon')">
+                        <span class="theme-icon" style="background:#000; border:2px solid #00ff00;"></span>
                         <span class="theme-label">Neon</span>
                     </button>
                 </div>
             </div>
-            <div class="design-category">
-                <div class="design-title-stylish">スタイル</div>
-                <div class="style-switch-container">
-                    <span class="switch-label">立体</span>
-                    <label class="toggle-switch">
-                        <input type="checkbox" id="design-mode-toggle">
-                        <span class="slider round"></span>
-                    </label>
-                    <span class="switch-label">のっぺり</span>
-                </div>
-            </div>
 
             <div class="design-category">
-                <div class="design-title-stylish">カラーパレット</div>
-                <div class="color-pickers-row">
+                <div class="design-title-stylish">PALLET</div>
+                <div class="color-pickers-row" style="flex-wrap: wrap; gap:15px;">
                     <div class="color-item">
                         <span class="color-label">Main</span>
                         <div class="color-picker-3d-wrapper">
-                            <input type="color" id="color-main-picker" value="#f6fd86" class="color-picker-3d">
+                            <input type="color" id="color-main-picker" class="color-picker-3d">
                         </div>
                     </div>
                     <div class="color-item">
                         <span class="color-label">Sub</span>
                         <div class="color-picker-3d-wrapper">
-                            <input type="color" id="color-sub-picker" value="#afdece" class="color-picker-3d">
+                            <input type="color" id="color-sub-picker" class="color-picker-3d">
                         </div>
                     </div>
                     <div class="color-item">
                         <span class="color-label">Accent</span>
                         <div class="color-picker-3d-wrapper">
-                            <input type="color" id="color-accent-picker" value="#8B4513" class="color-picker-3d">
+                            <input type="color" id="color-accent-picker" class="color-picker-3d">
                         </div>
                     </div>
-                </div>
-                <p style="font-size:0.7rem; color:#888; text-align:center; margin-top:5px;">※選択色は全テーマに優先適用されます</p>
-            </div>
-
-            <div class="design-category">
-                <div class="design-title-stylish">濃淡調整</div>
-                <div class="brightness-controls">
-                    <button id="btn-lighten" class="btn-round-stylish" title="薄く"><i class="fas fa-plus"></i></button>
-                    <button id="btn-reset-brightness" class="btn-round-stylish reset" title="リセット"><i class="fas fa-undo"></i></button>
-                    <button id="btn-darken" class="btn-round-stylish" title="濃く"><i class="fas fa-minus"></i></button>
+                    <div class="color-item">
+                        <span class="color-label">Text</span>
+                        <div class="color-picker-3d-wrapper">
+                            <input type="color" id="color-text-picker" class="color-picker-3d">
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <div class="design-category no-border">
-                <div class="design-title-stylish">ランダム！</div>
-                <button id="btn-random-color" class="btn-random-stylish">
-                    <i class="fas fa-dice"></i> おまかせカラー
+                <div class="design-title-stylish">RESET</div>
+                <button id="btn-reset-color" onclick="resetThemeColors()">
+                    <i class="fas fa-undo"></i> 初期値に戻す
                 </button>
             </div>
         </div>
@@ -372,7 +362,7 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.js"></script>
     <script src="pwa-loader.js"></script>
-    <script src="script.js?ver=6.1"></script> 
+    <script src="script.js?ver=7.0"></script> 
 
 </body>
 </html>
