@@ -418,10 +418,6 @@ window.setTheme = function(themeName) {
     });
 };
 
-window.resetThemeColors = function() {
-    setTheme(currentThemeName);
-};
-
 // --- フォント設定 ---
 const FONTS = {
     'round': { header: "'Zen Maru Gothic', sans-serif", body: "'Zen Maru Gothic', sans-serif" },
