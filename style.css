@@ -457,16 +457,19 @@ body.theme-neon .btn-outline-wide { background: transparent; border-color: #FFFF
 /* ▼ ガイドキャラクター画像用のスタイルを追加 ▼ */
 #guide-character {
     position: fixed;
-    top: 65px; /* ヘッダー(60px)のすぐ下 */
-    left: 10px;
-    width: 60px;
-    height: 60px;
-    border-radius: 50%; /* 丸く切り抜き（必要であれば） */
-    object-fit: contain;
-    z-index: 1500; /* モーダルより下、FABより上 */
+    top: 70px; /* ヘッダー(60px) + 余白 */
+    /* left: 10px;  ← 削除 または auto に */
+    right: 10px; /* ← 右端に移動 */
+    width: 80px;  /* ← 60px から 80px に拡大 */
+    height: 80px; /* ← 60px から 80px に拡大 */
+    border-radius: 50%;
+    object-fit: cover;
+    z-index: 1000;
     cursor: pointer;
-    transition: transform 0.1s ease;
-    filter: drop-shadow(0 2px 5px rgba(0,0,0,0.3)); /* 影をつけて浮き上がらせる */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    background-color: #fff;
+    transition: transform 0.1s;
+    border: 2px solid #fff;
 }
 
 #guide-character:active {
