@@ -270,7 +270,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- カラーピッカー関連 ---
     const updateColor = (varName, value) => {
-        document.body.style.setProperty(varName, value); // 'important'は削除し、JSでのstyle属性操作を優先
+        document.body.style.setProperty(varName, value);
     };
     const pickerMain = document.getElementById('color-main-picker');
     const pickerSub = document.getElementById('color-sub-picker');
