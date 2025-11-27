@@ -109,7 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             <span class="timeline-date">${item.time}</span>
                         </div>
                         <div class="timeline-tweet">${item.text}</div>
-                        <button class="timeline-like-btn" onclick="toggleLike(this)"><i class="far fa-heart"></i></button>
+                        <div class="timeline-like-btn" onclick="toggleLike(this)"><i class="far fa-heart"></i></div>
                     </div>
                 </div>
             `).join('');
@@ -360,8 +360,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
     
-    // 初期テーマ適用 (Gogh)
-    setTheme('Gogh');
+    // 初期テーマ適用 (Victoria + Gradation ON)
+    setTheme('Victoria');
+    toggleGradation(true);
+    document.getElementById('gradation-toggle').checked = true;
 });
 
 // --- テーマ定義 (Design Control) ---
