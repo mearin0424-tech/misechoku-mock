@@ -14,7 +14,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700&family=Shippori+Mincho:wght@400;700&family=Noto+Sans+JP:wght@400;700&family=Montserrat:wght@700&family=Oswald:wght@500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?ver=9.0">
+    <link rel="stylesheet" href="style.css?ver=10.0">
 </head>
 <body>
 
@@ -183,14 +183,20 @@
                     <span class="tag-pill">ガールズバー</span><span class="tag-pill">コンカフェ</span>
                     <span class="tag-pill">小柄</span><span class="tag-pill">OL/一般職</span>
                 </div>
-                <div class="mypage-link-row"><a href="#" class="link-arrow"> > プロフィール</a></div>
-            </div>
-
-            <div class="mypage-action-buttons">
-                <button class="btn-outline-wide" onclick="openImageUpload('新規')">
-                    <i class="fas fa-camera"></i> 画像を追加
-                </button>
-            </div>
+                
+                <div style="padding: 15px 0; text-align: center; margin-bottom: 10px;">
+                    <p style="font-size: 0.85rem; margin-bottom: 8px; color: var(--color-text-custom);">あなたにぴったりの接客スタイルは？</p>
+                    <a href="https://mearin0424-tech.github.io/personality-test/personality-test.html" class="btn-app-link" target="_blank" rel="noopener noreferrer" style="margin: 0 auto;">
+                        <img src="icons/piyoko-icon-128x128.png" alt="診断アプリアイコン">
+                        <span>接客タイプ診断</span>
+                    </a>
+                </div>
+                <div class="mypage-link-row" style="text-align: center;">
+                    <button class="btn-outline-wide" style="width: 100%; padding: 12px;">
+                        プロフィールを編集
+                    </button>
+                </div>
+                </div>
 
             <div class="mypage-gallery-grid-6">
                 <div class="gallery-item-square" id="mypage-gallery-1"></div>
@@ -199,14 +205,6 @@
                 <div class="gallery-item-square placeholder" onclick="openImageUpload('2')"><div class="placeholder-inner"><i class="fas fa-plus"></i><span class="guide-label" id="guide-label-2"></span></div></div>
                 <div class="gallery-item-square placeholder" onclick="openImageUpload('3')"><div class="placeholder-inner"><i class="fas fa-plus"></i><span class="guide-label" id="guide-label-3"></span></div></div>
                 <div class="gallery-item-square placeholder" onclick="openImageUpload('4')"><div class="placeholder-inner"><i class="fas fa-plus"></i><span class="guide-label" id="guide-label-4"></span></div></div>
-            </div>
-
-            <div style="padding: 30px 20px; text-align: center;">
-                <p style="font-size: 0.9rem; margin-bottom: 10px; color: var(--color-text-custom);">あなたにぴったりの接客スタイルは？</p>
-                <a href="https://mearin0424-tech.github.io/personality-test/personality-test.html" class="btn-app-link" target="_blank" rel="noopener noreferrer" style="margin: 0 auto;">
-                    <img src="icons/piyoko-icon-128x128.png" alt="診断アプリアイコン">
-                    <span>接客タイプ診断</span>
-                </a>
             </div>
         </div>
     </div>
@@ -313,7 +311,7 @@
                 </div>
             </div>
 
-            <div class="design-category">
+            <div class="design-category no-border">
                 <div class="design-title-stylish">FONTS</div>
                 <div class="font-switch-container">
                     <button class="btn-font-switch active" data-font="round" onclick="setFont('round')">丸ゴシック (Pop)</button>
@@ -322,13 +320,7 @@
                 </div>
             </div>
 
-            <div class="design-category no-border">
-                <div class="design-title-stylish">RESET</div>
-                <button id="btn-reset-color" onclick="resetThemeColors()">
-                    <i class="fas fa-undo"></i> 初期値に戻す
-                </button>
             </div>
-        </div>
     </div>
     
     <nav id="bottom-nav">
@@ -372,7 +364,7 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.js"></script>
     <script src="pwa-loader.js"></script>
-    <script src="script.js?ver=9.0"></script> 
+    <script src="script.js?ver=10.0"></script> 
 
 </body>
 </html>
