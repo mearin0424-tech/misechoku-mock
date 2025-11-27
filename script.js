@@ -1,10 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
     
-    // --- データ定義 ---
+    // --- 1. データ定義 ---
     const appData = {
-        shop: { // 店舗向けモード（タイムラインには女の子を表示）
+        shop: { // 店舗向けモード
             pathPrefix: 'images/girls/',
-            imgName: (i) => `${i}.png`, // ※ファイル名が1.png等の場合
+            imgName: (i) => `${i}.png`, 
             items: [
                 { id:1, name: 'あや', age: 22, text: '今から入れます！', time: '10分前' },
                 { id:2, name: 'まる子', age: 20, text: '明日東京に戻ります。', time: '30分前' },
@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 { id:6, name: 'リカ', age: 25, text: 'お家でまったりリラックスタイム', time: '昨日' }
             ]
         },
-        cast: { // キャスト向けモード（タイムラインにはお店を表示）
+        cast: { // キャスト向けモード
             pathPrefix: 'images/omise/', 
             imgName: (i) => `${i}.png`, 
             items: [
@@ -31,11 +31,12 @@ document.addEventListener('DOMContentLoaded', () => {
     appData.shop.imgName = (i) => `${i}.png`; 
     appData.cast.imgName = (i) => `${i}.png`; 
 
+    // --- 2. 変数定義 ---
     let currentMode = 'shop'; 
-    let isGridView = false; // タイムライン表示モード
+    let isGridView = false; 
 
     const screens = {
-        home: document.getElementById('home-screen'), // メイン画面＝スワイプ画面
+        home: document.getElementById('home-screen'),
         search: document.getElementById('search-screen'),
         favorite: document.getElementById('favorite-screen'),
         message: document.getElementById('message-screen'),
@@ -51,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const popupOverlay = document.getElementById('popup-overlay');
     const headerTaskPopup = document.getElementById('header-task-popup');
     const searchDialog = document.getElementById('search-dialog');
-    const fabContainer = document.getElementById('fab-container');
+    const fabContainer = document.getElementById('fab-container'); // ここで宣言
     const btnFab = document.getElementById('fab-main'); 
     const fabSubmenu = document.getElementById('fab-submenu');
     
@@ -66,20 +67,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const designToggle = document.getElementById('design-mode-toggle');
     const btnRandom = document.getElementById('btn-random-color');
-    const closeSwipeBtn = document.getElementById('btn-swipe-close'); // 削除候補だがエラー防止で残す
+    const closeSwipeBtn = document.getElementById('btn-swipe-close');
     const btnCloseForm = document.querySelector('.btn-close-form');
     const formOverlayBg = document.querySelector('.form-overlay-bg');
-    const fabContainer = document.getElementById('fab-container');
     
     let swiper = null;
 
-    // --- コンテンツ描画 ---
+    // --- 3. 関数定義 ---
     function renderContent() {
         const viewData = appData[currentMode];
         const mypageMode = (currentMode === 'shop') ? 'cast' : 'shop';
         const mypageData = appData[mypageMode];
         
-        // スワイプ画面 (ホーム)
+        // スワイプ画面
         const swipeWrapper = document.getElementById('swipe-wrapper');
         if(swipeWrapper) {
             swipeWrapper.innerHTML = viewData.items.map((item, index) => `
@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        // タイムライン (リスト)
+        // タイムライン
         const timelineContainer = document.getElementById('timeline-container');
         if(timelineContainer) {
             timelineContainer.innerHTML = viewData.items.map((item, index) => `
@@ -124,7 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
             `).join('');
         }
 
-        // EC風グリッド (サムネリスト)
+        // グリッド
         const ecGridContainer = document.getElementById('ec-grid-container');
         if(ecGridContainer) {
             ecGridContainer.innerHTML = viewData.items.map((item, index) => `
@@ -138,7 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
             `).join('');
         }
 
-        // チャットリスト
+        // チャット
         const chatContainer = document.getElementById('chat-list-container');
         if(chatContainer) {
             chatContainer.innerHTML = viewData.items.slice(0, 3).map((item, index) => `
@@ -153,7 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
             `).join('');
         }
 
-        // マイページ更新
+        // マイページ
         const mypageMainImg = document.getElementById('mypage-main-img');
         if(mypageMainImg) mypageMainImg.src = `${mypageData.pathPrefix}${mypageData.imgName(1)}`;
         const mypageName = document.getElementById('mypage-name-display');
@@ -176,9 +176,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // --- 4. 実行・イベントリスナー ---
     renderContent();
 
-    // --- モード切り替え ---
     window.toggleUserType = function(type) {
         currentMode = type;
         document.querySelectorAll('.type-btn').forEach(btn => {
@@ -188,7 +188,6 @@ document.addEventListener('DOMContentLoaded', () => {
         renderContent();
     };
 
-    // --- タイムライン表示切り替え ---
     window.toggleTimelineView = function() {
         isGridView = !isGridView;
         const listContainer = document.getElementById('timeline-container');
@@ -209,9 +208,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // --- 画面切り替え ---
     function switchScreen(targetId) {
-        // FAB制御: home, searchのみ表示
+        // FAB制御: home, search, favoriteで表示
         if(targetId === 'home-screen' || targetId === 'search-screen' || targetId === 'favorite-screen') {
             fabContainer.style.display = 'flex';
         } else {
@@ -234,10 +232,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 初期画面設定: FAB表示制御
+    // 初期表示
     switchScreen('home-screen');
 
-    // --- FAB検索機能 ---
     const btnFabSearch = document.getElementById('btn-fab-search');
     if(btnFabSearch) {
         btnFabSearch.addEventListener('click', () => {
@@ -250,12 +247,10 @@ document.addEventListener('DOMContentLoaded', () => {
         searchDialog.style.display = 'none';
     };
 
-    // --- その他イベントリスナー ---
     navItems.forEach(item => {
         item.addEventListener('click', () => switchScreen(item.getAttribute('data-target')));
     });
 
-    // 通知、タスク、パレット等の共通処理は維持
     if (btnHeaderNotification) {
         btnHeaderNotification.addEventListener('click', (e) => {
             e.stopPropagation(); 
@@ -283,7 +278,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // カラーピッカー等 (省略せず記述)
     const updateColor = (varName, value) => {
         document.body.style.setProperty(varName, value, 'important');
         if (varName === '--color-accent') {
@@ -298,7 +292,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if(pickerSub) pickerSub.addEventListener('input', (e) => updateColor('--color-sub', e.target.value));
     if(pickerAccent) pickerAccent.addEventListener('input', (e) => updateColor('--color-accent', e.target.value));
 
-    // 画像アップロード関連
+    // 画像アップロード
     const imageUploadScreen = document.getElementById('image-upload-screen');
     const uploadGuideText = document.getElementById('upload-guide-text');
     const iconBg = document.getElementById('upload-guide-icon-bg');
@@ -333,32 +327,33 @@ document.addEventListener('DOMContentLoaded', () => {
             document.body.style.overflow = 'auto';
         }
     };
-});
-const guideImg = document.getElementById('guide-character');
+
+    // ガイド画像切り替えロジック
+    const guideImg = document.getElementById('guide-character');
     const guideImages = [
         'images/guide/okojyo_1.jpg',
         'images/guide/okojyo_2.jpg',
         'images/guide/fenex_1.jpg',
         'images/guide/fenex_2.jpg',
-        'images/guide/piyo_1.JPG', // 拡張子の大文字小文字に注意
+        'images/guide/piyo_1.JPG',
         'images/guide/piyo_2.jpg'
     ];
     let guideIndex = 0;
 
     if (guideImg) {
         guideImg.addEventListener('click', () => {
-            // 次の画像のインデックスを計算 (0 -> 1 -> ... -> 5 -> 0)
             guideIndex = (guideIndex + 1) % guideImages.length;
             guideImg.src = guideImages[guideIndex];
-            
-            // クリック時のアニメーション用
             guideImg.style.transform = 'scale(0.8)';
             setTimeout(() => {
                 guideImg.style.transform = 'scale(1)';
             }, 100);
         });
     }
-// グローバル関数
+
+});
+
+// グローバル関数（DOM読み込み外）
 window.setTheme = function(themeName) {
     const body = document.body;
     body.classList.remove('theme-hotel', 'theme-chic', 'theme-fresh', 'theme-neon');
@@ -366,7 +361,7 @@ window.setTheme = function(themeName) {
         btn.classList.remove('active');
         if(btn.getAttribute('data-theme') === themeName) btn.classList.add('active');
     });
-    if (themeName !== 'modern') { // default is modern
+    if (themeName !== 'modern') { 
         body.classList.add('theme-' + themeName);
     }
 };
