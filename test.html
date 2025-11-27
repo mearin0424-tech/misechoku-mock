@@ -14,7 +14,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700&family=Shippori+Mincho:wght@400;700&family=Noto+Sans+JP:wght@400;700&family=Montserrat:wght@700&family=Oswald:wght@500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?ver=10.0">
+    <link rel="stylesheet" href="style.css?ver=11.0">
 </head>
 <body>
 
@@ -191,12 +191,13 @@
                         <span>接客タイプ診断</span>
                     </a>
                 </div>
+
                 <div class="mypage-link-row" style="text-align: center;">
                     <button class="btn-outline-wide" style="width: 100%; padding: 12px;">
                         プロフィールを編集
                     </button>
                 </div>
-                </div>
+            </div>
 
             <div class="mypage-gallery-grid-6">
                 <div class="gallery-item-square" id="mypage-gallery-1"></div>
@@ -251,11 +252,28 @@
         </div>
         
         <div class="side-menu-content">
+            
+            <div class="design-category">
+                <div class="design-title-stylish">GRADATION</div>
+                <div class="style-switch-container">
+                    <span class="switch-label" style="color:#fff;">OFF</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="gradation-toggle" onclick="toggleGradation(this.checked)">
+                        <span class="slider round"></span>
+                    </label>
+                    <span class="switch-label" style="color:#fff;">ON</span>
+                </div>
+            </div>
+
             <div class="design-category">
                 <div class="design-title-stylish">THEMES</div>
                 <div class="theme-switch-container">
-                    <button class="btn-theme-switch active" data-theme="Rose" onclick="setTheme('Rose')">
-                        <span class="theme-icon" style="background:#404d3e; border:2px solid #230f08;"></span>
+                    <button class="btn-theme-switch active" data-theme="Gogh" onclick="setTheme('Gogh')">
+                        <span class="theme-icon" style="background:#f6e599; border:2px solid #064277;"></span>
+                        <span class="theme-label">Gogh</span>
+                    </button>
+                    <button class="btn-theme-switch" data-theme="Rose" onclick="setTheme('Rose')">
+                        <span class="theme-icon" style="background:#a8998e; border:2px solid #610710;"></span>
                         <span class="theme-label">Rose</span>
                     </button>
                     <button class="btn-theme-switch" data-theme="Hotel" onclick="setTheme('Hotel')">
@@ -263,19 +281,19 @@
                         <span class="theme-label">Hotel</span>
                     </button>
                     <button class="btn-theme-switch" data-theme="Chic" onclick="setTheme('Chic')">
-                        <span class="theme-icon" style="background:#f5f5dc; border:2px solid #8b4513;"></span>
+                        <span class="theme-icon" style="background:#e3e3b3; border:2px solid #381a04;"></span>
                         <span class="theme-label">Chic</span>
                     </button>
                     <button class="btn-theme-switch" data-theme="Royal" onclick="setTheme('Royal')">
-                        <span class="theme-icon" style="background:#f8f8ff; border:2px solid #ffd700;"></span>
+                        <span class="theme-icon" style="background:#c7c7d9; border:2px solid #857210;"></span>
                         <span class="theme-label">Royal</span>
                     </button>
                     <button class="btn-theme-switch" data-theme="Victoria" onclick="setTheme('Victoria')">
-                        <span class="theme-icon" style="background:#fffff0; border:2px solid #006400;"></span>
+                        <span class="theme-icon" style="background:#003c41; border:2px solid #98006a;"></span>
                         <span class="theme-label">Victoria</span>
                     </button>
                     <button class="btn-theme-switch" data-theme="Neon" onclick="setTheme('Neon')">
-                        <span class="theme-icon" style="background:#000; border:2px solid #00ff00;"></span>
+                        <span class="theme-icon" style="background:#000000; border:2px solid #e2aa11;"></span>
                         <span class="theme-label">Neon</span>
                     </button>
                 </div>
@@ -286,26 +304,38 @@
                 <div class="color-pickers-row">
                     <div class="color-item">
                         <span class="color-label">Main</span>
-                        <div class="color-picker-3d-wrapper">
-                            <input type="color" id="color-main-picker" class="color-picker-3d">
+                        <div class="color-picker-group">
+                            <div class="color-picker-3d-wrapper">
+                                <input type="color" id="color-main-picker" class="color-picker-3d">
+                            </div>
+                            <input type="text" id="color-main-text" class="color-hex-input" maxlength="7">
                         </div>
                     </div>
                     <div class="color-item">
                         <span class="color-label">Sub</span>
-                        <div class="color-picker-3d-wrapper">
-                            <input type="color" id="color-sub-picker" class="color-picker-3d">
+                        <div class="color-picker-group">
+                            <div class="color-picker-3d-wrapper">
+                                <input type="color" id="color-sub-picker" class="color-picker-3d">
+                            </div>
+                            <input type="text" id="color-sub-text" class="color-hex-input" maxlength="7">
                         </div>
                     </div>
                     <div class="color-item">
                         <span class="color-label">Accent</span>
-                        <div class="color-picker-3d-wrapper">
-                            <input type="color" id="color-accent-picker" class="color-picker-3d">
+                        <div class="color-picker-group">
+                            <div class="color-picker-3d-wrapper">
+                                <input type="color" id="color-accent-picker" class="color-picker-3d">
+                            </div>
+                            <input type="text" id="color-accent-text" class="color-hex-input" maxlength="7">
                         </div>
                     </div>
                     <div class="color-item">
                         <span class="color-label">Text</span>
-                        <div class="color-picker-3d-wrapper">
-                            <input type="color" id="color-text-picker" class="color-picker-3d">
+                        <div class="color-picker-group">
+                            <div class="color-picker-3d-wrapper">
+                                <input type="color" id="color-text-picker" class="color-picker-3d">
+                            </div>
+                            <input type="text" id="color-text-text" class="color-hex-input" maxlength="7">
                         </div>
                     </div>
                 </div>
@@ -320,7 +350,7 @@
                 </div>
             </div>
 
-            </div>
+        </div>
     </div>
     
     <nav id="bottom-nav">
@@ -364,7 +394,7 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.js"></script>
     <script src="pwa-loader.js"></script>
-    <script src="script.js?ver=10.0"></script> 
+    <script src="script.js?ver=11.0"></script> 
 
 </body>
 </html>
