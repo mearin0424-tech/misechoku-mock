@@ -1,16 +1,19 @@
-@import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700&family=Shippori+Mincho:wght@400;700&family=Noto+Sans+JP:wght@400;700&display=swap');
 
 :root {
     /* --- 初期変数 (デフォルト値: Roseテーマ) --- */
-    --color-main: #fff0f5;       /* 背景すべて */
-    --color-sub: #ffb6c1;        /* ヘッダー・タスクバー・サイドバー */
-    --color-accent: #db7093;     /* タグ・ボタン・アイコン・タイトル・吹き出し */
-    --color-text-custom: #555555; /* 本文テキスト */
+    --color-main: #404d3e;       /* 背景すべて */
+    --color-sub: #77342f;        /* ヘッダー・タスクバー・サイドバー */
+    --color-accent: #230f08;     /* タグ・ボタン・アイコン・タイトル・吹き出し */
+    --color-text-custom: #b8c4ba; /* 本文テキスト */
     
     --shadow-light: 0 4px 12px rgba(0,0,0,0.08); 
     --header-height: 60px;
+    
+    /* デフォルトフォント */
     --font-header: 'Zen Maru Gothic', sans-serif;
-    --font-body: 'Noto Sans JP', sans-serif;
+    --font-body: 'Zen Maru Gothic', sans-serif;
+    
     --border-radius-card: 15px;
     --border-radius-btn: 25px;
 }
@@ -43,7 +46,7 @@ body {
 #bottom-nav { 
     position: fixed; bottom: 0; left: 0; width: 100%; height: 70px; 
     background: var(--color-sub); 
-    border-top: 1px solid rgba(255,255,255,0.2); 
+    border-top: 1px solid rgba(255,255,255,0.1); 
     display: flex; justify-content: space-around; align-items: center; z-index: 400; 
     transition: background 0.3s;
 }
@@ -65,6 +68,7 @@ body {
 /* タイトル文字 */
 .screen-header h2, .popup-header h2, .side-menu-header h3, .design-title-stylish {
     color: var(--color-accent) !important;
+    font-family: var(--font-header);
 }
 
 /* ボタン・タグ・ライン */
@@ -77,7 +81,7 @@ body {
 /* 吹き出し (Accent) */
 .mypage-speech-bubble { 
     background: var(--color-accent); 
-    color: #fff; /* アクセント背景上の文字は白固定が見やすいが、Text変数を適用したい場合は要調整 */
+    color: #fff; 
     position: relative; border-radius: 8px; padding: 10px 15px; flex-grow: 1; font-size: 0.8rem; display: flex; justify-content: space-between; align-items: flex-start;
 }
 .mypage-speech-bubble::after { 
@@ -87,7 +91,6 @@ body {
 }
 
 /* タイムラインの吹き出し */
-/* 背景をMain、枠線をAccent、文字をTextにすることで、Text色がどんな色でも読みやすくする */
 .timeline-tweet {
     background: var(--color-main); 
     border: 2px solid var(--color-accent);
@@ -106,7 +109,7 @@ body {
 /* --- Main Color (背景) 適用エリア --- */
 .timeline-item, .ec-item, .chat-item, .popup-box, .form-modal-container {
     background: var(--color-main); 
-    border: 1px solid var(--color-accent); /* 視認性確保のためAccentで枠 */
+    border: 1px solid var(--color-accent); 
     color: var(--color-text-custom);
 }
 .screen-header { background: var(--color-main); border-bottom: 1px solid var(--color-accent); }
@@ -151,21 +154,36 @@ body {
 .color-picker-3d-wrapper { width: 40px; height: 40px; border-radius: 50%; overflow: hidden; border: 2px solid #fff; position: relative; }
 .color-picker-3d { width: 150%; height: 150%; position: absolute; top: -25%; left: -25%; cursor: pointer; border: none; padding: 0; }
 
-/* ガイドキャラクター */
+/* フォント選択ボタン */
+.font-switch-container { display: flex; flex-direction: column; gap: 10px; width: 100%; padding: 0 20px; box-sizing: border-box; }
+.btn-font-switch { 
+    background: rgba(255,255,255,0.1); 
+    border: 1px solid rgba(255,255,255,0.3); 
+    color: #fff; 
+    padding: 10px; 
+    border-radius: 8px; 
+    cursor: pointer; 
+    text-align: center;
+    font-size: 0.9rem;
+}
+.btn-font-switch.active { background: rgba(255,255,255,0.3); border-color: #fff; font-weight: bold; }
+
+/* ガイドキャラクター (透過・拡大) */
 #guide-character {
     position: fixed;
     top: 70px;
-    right: 10px; /* 右端に配置 */
-    width: 80px; /* サイズアップ */
-    height: 80px;
-    border-radius: 50%;
-    object-fit: cover;
+    right: 10px; /* 右端 */
+    width: 120px; /* サイズアップ */
+    height: 120px; /* サイズアップ */
+    object-fit: contain; /* 比率を保って収める */
     z-index: 1000;
     cursor: pointer;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    background-color: #fff;
+    /* border, border-radius, background-color, box-shadow を削除して透過 */
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
     transition: transform 0.1s;
-    border: 2px solid #fff;
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3)); /* 透過画像用の影 */
 }
 #guide-character:active { transform: scale(0.9); }
 
@@ -182,14 +200,14 @@ body {
 }
 #btn-reset-color:hover { background: rgba(255,255,255,0.3); }
 
-/* その他表示調整 */
+/* スワイプカード */
 .swiper-slide { display: flex; justify-content: center; align-items: center; }
 .card-content { width: 100%; height: 100%; max-width: 400px; max-height: 80vh; position: relative; border-radius: 20px; overflow: hidden; background: #000; box-shadow: 0 0 20px rgba(0,0,0,0.5); }
 .profile-image { width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; z-index: 1; }
 .overlay { position: absolute; bottom: 0; left: 0; width: 100%; height: 60%; background: linear-gradient(to top, rgba(0,0,0,0.85), transparent); z-index: 2; pointer-events: none; }
 .profile-info-new { position: absolute; bottom: 80px; left: 20px; right: 80px; z-index: 10; color: #fff; text-shadow: 0 1px 3px rgba(0,0,0,0.8); text-align: left; }
-.user-name { font-size: 24px; font-weight: bold; margin-bottom: 8px; color: #fff !important; } /* カード内は白文字 */
-.user-intro { color: #eee !important; } /* カード内は白文字 */
+.user-name { font-size: 24px; font-weight: bold; margin-bottom: 8px; color: #fff !important; } 
+.user-intro { color: #eee !important; } 
 .action-bar { position: absolute; right: 15px; bottom: 100px; z-index: 10; display: flex; flex-direction: column; align-items: center; gap: 25px; color: #fff; }
 .swipe-indicator { position: absolute; bottom: 25px; left: 0; width: 100%; z-index: 10; display: flex; flex-direction: column; align-items: center; color: #fff; animation: floatUp 1.5s ease-in-out infinite; pointer-events: none; }
 @keyframes floatUp { 0% { transform: translateY(0); opacity: 0.7; } 50% { transform: translateY(-8px); opacity: 1; } 100% { transform: translateY(0); opacity: 0.7; } }
