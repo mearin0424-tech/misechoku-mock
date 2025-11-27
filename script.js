@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // --- 1. データ定義 ---
     const appData = {
-        shop: { // 店舗向けモード
+        shop: { 
             pathPrefix: 'images/girls/',
             imgName: (i) => `${i}.png`, 
             items: [
@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 { id:6, name: 'リカ', age: 25, text: 'お家でまったりリラックスタイム', time: '昨日' }
             ]
         },
-        cast: { // キャスト向けモード
+        cast: { 
             pathPrefix: 'images/omise/', 
             imgName: (i) => `${i}.png`, 
             items: [
@@ -48,10 +48,6 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     
     const navItems = document.querySelectorAll('.nav-item');
-    const backToTopBtn = document.getElementById('btn-back-to-top');
-    const popupOverlay = document.getElementById('popup-overlay');
-    const headerTaskPopup = document.getElementById('header-task-popup');
-    const searchDialog = document.getElementById('search-dialog');
     const fabContainer = document.getElementById('fab-container');
     const btnFab = document.getElementById('fab-main'); 
     const fabSubmenu = document.getElementById('fab-submenu');
@@ -64,13 +60,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnHeaderNotification = document.getElementById('btn-header-notification');
     const btnHeaderTask = document.getElementById('btn-header-task');
     const btnCloseTaskPopup = document.querySelector('.btn-close-task-popup');
+    const headerTaskPopup = document.getElementById('header-task-popup');
+    const searchDialog = document.getElementById('search-dialog');
 
-    const designToggle = document.getElementById('design-mode-toggle');
-    const btnRandom = document.getElementById('btn-random-color');
-    const closeSwipeBtn = document.getElementById('btn-swipe-close');
-    const btnCloseForm = document.querySelector('.btn-close-form');
-    const formOverlayBg = document.querySelector('.form-overlay-bg');
-    
     let swiper = null;
 
     // --- 3. 関数定義 ---
@@ -209,7 +201,6 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     function switchScreen(targetId) {
-        // FAB制御: home, search, favoriteで表示
         if(targetId === 'home-screen' || targetId === 'search-screen' || targetId === 'favorite-screen') {
             fabContainer.style.display = 'flex';
         } else {
@@ -232,7 +223,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 初期表示
     switchScreen('home-screen');
 
     const btnFabSearch = document.getElementById('btn-fab-search');
@@ -278,21 +268,42 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // --- カラーピッカー関連 ---
     const updateColor = (varName, value) => {
-        document.body.style.setProperty(varName, value, 'important');
-        if (varName === '--color-accent') {
-            document.body.style.setProperty('--color-text-current', value, 'important');
-        }
+        document.body.style.setProperty(varName, value); // 'important'は削除し、JSでのstyle属性操作を優先
     };
     const pickerMain = document.getElementById('color-main-picker');
     const pickerSub = document.getElementById('color-sub-picker');
     const pickerAccent = document.getElementById('color-accent-picker');
+    const pickerText = document.getElementById('color-text-picker');
 
     if(pickerMain) pickerMain.addEventListener('input', (e) => updateColor('--color-main', e.target.value));
     if(pickerSub) pickerSub.addEventListener('input', (e) => updateColor('--color-sub', e.target.value));
     if(pickerAccent) pickerAccent.addEventListener('input', (e) => updateColor('--color-accent', e.target.value));
+    if(pickerText) pickerText.addEventListener('input', (e) => updateColor('--color-text-custom', e.target.value));
 
-    // 画像アップロード
+    // ガイド画像切り替えロジック
+    const guideImg = document.getElementById('guide-character');
+    const guideImages = [
+        'images/guide/okojyo.png', 
+        'images/guide/fenex.jpg',
+        'images/guide/piyoko.JPG',
+        'images/guide/piyota.jpg'
+    ];
+    let guideIndex = 0;
+
+    if (guideImg) {
+        guideImg.addEventListener('click', () => {
+            guideIndex = (guideIndex + 1) % guideImages.length;
+            guideImg.src = guideImages[guideIndex];
+            guideImg.style.transform = 'scale(0.8)';
+            setTimeout(() => {
+                guideImg.style.transform = 'scale(1)';
+            }, 100);
+        });
+    }
+
+    // 画像アップロード (省略なし)
     const imageUploadScreen = document.getElementById('image-upload-screen');
     const uploadGuideText = document.getElementById('upload-guide-text');
     const iconBg = document.getElementById('upload-guide-icon-bg');
@@ -327,41 +338,83 @@ document.addEventListener('DOMContentLoaded', () => {
             document.body.style.overflow = 'auto';
         }
     };
-
-    // ガイド画像切り替えロジック
-    const guideImg = document.getElementById('guide-character');
-    const guideImages = [
-        'images/guide/okojyo.png', 
-        'images/guide/fenex.jpg',
-        'images/guide/piyoko.JPG',
-        'images/guide/piyota.jpg'
-    ];
-    let guideIndex = 0;
-
-    if (guideImg) {
-        guideImg.addEventListener('click', () => {
-            guideIndex = (guideIndex + 1) % guideImages.length;
-            guideImg.src = guideImages[guideIndex];
-            guideImg.style.transform = 'scale(0.8)';
-            setTimeout(() => {
-                guideImg.style.transform = 'scale(1)';
-            }, 100);
-        });
-    }
-
 });
 
-// グローバル関数（DOM読み込み外）
+// --- テーマ定義 (Design Control) ---
+const THEMES = {
+    'Rose': {
+        main: '#fff0f5',   // LavenderBlush
+        sub: '#ffb6c1',    // LightPink
+        accent: '#db7093', // PaleVioletRed
+        text: '#555555'
+    },
+    'Hotel': {
+        main: '#2c2c2c',   // Dark Gray
+        sub: '#1a1a1a',    // Very Dark Gray
+        accent: '#d4af37', // Gold
+        text: '#f0f0f0'    // White Smoke
+    },
+    'Chic': {
+        main: '#f5f5dc',   // Beige
+        sub: '#d2b48c',    // Tan
+        accent: '#8b4513', // SaddleBrown
+        text: '#3e2723'    // Dark Brown
+    },
+    'Royal': {
+        main: '#f8f8ff',   // GhostWhite
+        sub: '#000080',    // Navy
+        accent: '#ffd700', // Gold
+        text: '#333333'
+    },
+    'Victoria': {
+        main: '#fffff0',   // Ivory
+        sub: '#006400',    // DarkGreen
+        accent: '#800000', // Maroon
+        text: '#333333'
+    },
+    'Neon': {
+        main: '#000000',   // Black
+        sub: '#191970',    // MidnightBlue
+        accent: '#00ff00', // Lime
+        text: '#ffffff'
+    }
+};
+
+let currentThemeName = 'Rose'; // デフォルト
+
 window.setTheme = function(themeName) {
-    const body = document.body;
-    body.classList.remove('theme-hotel', 'theme-chic', 'theme-fresh', 'theme-neon');
+    const theme = THEMES[themeName];
+    if (!theme) return;
+    
+    currentThemeName = themeName;
+    
+    // CSS変数を更新
+    document.body.style.setProperty('--color-main', theme.main);
+    document.body.style.setProperty('--color-sub', theme.sub);
+    document.body.style.setProperty('--color-accent', theme.accent);
+    document.body.style.setProperty('--color-text-custom', theme.text);
+
+    // ピッカーの値も更新
+    const pickerMain = document.getElementById('color-main-picker');
+    const pickerSub = document.getElementById('color-sub-picker');
+    const pickerAccent = document.getElementById('color-accent-picker');
+    const pickerText = document.getElementById('color-text-picker');
+    
+    if(pickerMain) pickerMain.value = theme.main;
+    if(pickerSub) pickerSub.value = theme.sub;
+    if(pickerAccent) pickerAccent.value = theme.accent;
+    if(pickerText) pickerText.value = theme.text;
+
+    // ボタンのアクティブ表示切替
     document.querySelectorAll('.btn-theme-switch').forEach(btn => {
         btn.classList.remove('active');
-        if(btn.getAttribute('data-theme') === themeName) btn.classList.add('active');
+        if(btn.dataset.theme === themeName) btn.classList.add('active');
     });
-    if (themeName !== 'modern') { 
-        body.classList.add('theme-' + themeName);
-    }
+};
+
+window.resetThemeColors = function() {
+    // 現在選択中のテーマの初期値に戻す
+    setTheme(currentThemeName);
 };
 
 window.toggleLike = function(btn) {
