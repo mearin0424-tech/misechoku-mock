@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const popupOverlay = document.getElementById('popup-overlay');
     const headerTaskPopup = document.getElementById('header-task-popup');
     const searchDialog = document.getElementById('search-dialog');
-    const fabContainer = document.getElementById('fab-container'); // ここで宣言
+    const fabContainer = document.getElementById('fab-container');
     const btnFab = document.getElementById('fab-main'); 
     const fabSubmenu = document.getElementById('fab-submenu');
     
@@ -331,12 +331,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // ガイド画像切り替えロジック
     const guideImg = document.getElementById('guide-character');
     const guideImages = [
-        'images/guide/okojyo_1.jpg',
-        'images/guide/okojyo_2.jpg',
-        'images/guide/fenex_1.jpg',
-        'images/guide/fenex_2.jpg',
-        'images/guide/piyo_1.JPG',
-        'images/guide/piyo_2.jpg'
+        'images/guide/okojyo.png', 
+        'images/guide/fenex.jpg',
+        'images/guide/piyoko.JPG',
+        'images/guide/piyota.jpg'
     ];
     let guideIndex = 0;
 
