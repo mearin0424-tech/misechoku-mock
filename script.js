@@ -49,7 +49,6 @@ document.addEventListener('DOMContentLoaded', () => {
     
     const navItems = document.querySelectorAll('.nav-item');
     const fabContainer = document.getElementById('fab-container');
-    const btnFab = document.getElementById('fab-main'); 
     const fabSubmenu = document.getElementById('fab-submenu');
     
     const sideMenu = document.getElementById('side-menu');
@@ -208,7 +207,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         if(fabSubmenu) fabSubmenu.classList.remove('active');
-        if(btnFab) btnFab.classList.remove('active');
         if(headerTaskPopup) headerTaskPopup.classList.remove('active');
 
         Object.values(screens).forEach(el => { if(el) el.style.display = 'none'; });
@@ -230,7 +228,6 @@ document.addEventListener('DOMContentLoaded', () => {
         btnFabSearch.addEventListener('click', () => {
             searchDialog.style.display = 'flex';
             fabSubmenu.classList.remove('active');
-            btnFab.classList.remove('active');
         });
     }
     window.closeSearchDialog = function() {
@@ -252,7 +249,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (btnCloseTaskPopup) btnCloseTaskPopup.addEventListener('click', () => headerTaskPopup.classList.remove('active'));
     
     if (btnPalette) btnPalette.addEventListener('click', () => toggleSideMenu());
-    if (btnFab) btnFab.addEventListener('click', () => { btnFab.classList.toggle('active'); fabSubmenu.classList.toggle('active'); });
 
     if(btnCloseSideMenu) btnCloseSideMenu.addEventListener('click', () => toggleSideMenu(false));
     if(sideMenuOverlay) sideMenuOverlay.addEventListener('click', () => toggleSideMenu(false));
@@ -282,8 +278,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if(pickerAccent) pickerAccent.addEventListener('input', (e) => updateColor('--color-accent', e.target.value));
     if(pickerText) pickerText.addEventListener('input', (e) => updateColor('--color-text-custom', e.target.value));
 
-    // ガイド画像切り替えロジック
+    // ガイド画像・吹き出し機能
     const guideImg = document.getElementById('guide-character');
+    const guideBubble = document.getElementById('guide-speech-bubble');
+    
+    // 画像切り替え
     const guideImages = [
         'images/guide/okojyo.png', 
         'images/guide/fenex.png',
@@ -300,6 +299,13 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 guideImg.style.transform = 'scale(1)';
             }, 100);
+        });
+    }
+
+    // 吹き出しクリックでメニュー開閉
+    if (guideBubble) {
+        guideBubble.addEventListener('click', () => {
+            fabSubmenu.classList.toggle('active');
         });
     }
 
@@ -380,7 +386,7 @@ const THEMES = {
     }
 };
 
-let currentThemeName = 'Rose'; // デフォルト
+let currentThemeName = 'Rose'; 
 
 window.setTheme = function(themeName) {
     const theme = THEMES[themeName];
