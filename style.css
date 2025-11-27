@@ -35,7 +35,7 @@ body {
 }
 .container { max-width: 800px; margin: 0 auto; padding: 0 20px; }
 
-/* --- ヘッダー (Sub Color) --- */
+/* --- ヘッダー --- */
 #global-header { 
     position: fixed; top: 0; left: 0; width: 100%; height: var(--header-height); 
     background: var(--color-sub); 
@@ -52,7 +52,7 @@ body {
 .header-icon-btn { background: transparent; border: none; width: 38px; height: 38px; font-size: 1.2rem; color: var(--color-accent); cursor: pointer; position: relative; display: flex; justify-content: center; align-items: center; }
 .header-icon-btn .badge { position: absolute; top: 5px; right: 5px; background: #ff4d4d; width: 14px; height: 14px; border-radius: 50%; font-size: 9px; color: white; display: flex; justify-content: center; align-items: center; }
 
-/* スイッチ (Header) */
+/* スイッチ */
 .header-switch.user-type-switch {
     margin: 0; padding: 2px;
     background: rgba(255,255,255,0.8);
@@ -81,7 +81,7 @@ body {
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
-/* --- タスクバー (Sub Color) --- */
+/* --- タスクバー --- */
 #bottom-nav { 
     position: fixed; bottom: 0; left: 0; width: 100%; height: 70px; 
     background: var(--color-sub); 
@@ -93,7 +93,7 @@ body {
 .nav-item i { font-size: 1.4rem; }
 .nav-item.active { color: var(--color-accent); font-weight: bold; background: rgba(255,255,255,0.2); border-radius: 10px; }
 
-/* --- サイドメニュー (Sub Color) --- */
+/* --- サイドメニュー --- */
 #side-menu-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 600; display: none; }
 #side-menu-overlay.active { display: block; }
 #side-menu {
@@ -113,7 +113,7 @@ body {
 .design-category.no-border { border: none; box-shadow: none; margin-bottom: 0; padding-bottom: 0; }
 .design-title-stylish { font-family: var(--font-header); font-weight: 700; font-size: 0.9rem; color: var(--color-accent) !important; margin-bottom: 12px; letter-spacing: 0.05em; text-align: center; opacity: 1; }
 
-/* テーマ切り替えボタン */
+/* テーマボタン */
 .theme-switch-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-bottom: 10px; }
 .btn-theme-switch { background: none; border: none; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 5px; opacity: 0.8; transition: all 0.3s; margin-bottom: 10px; width: 80px; }
 .btn-theme-switch.active, .btn-theme-switch:hover { opacity: 1; transform: translateY(-2px); }
@@ -133,11 +133,7 @@ body {
 .btn-font-switch:hover { background: rgba(255,255,255,0.2); }
 .btn-font-switch.active { background: rgba(255,255,255,0.3); border-color: #fff; font-weight: bold; }
 
-/* リセットボタン */
-#btn-reset-color { background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.5); color: #fff; padding: 10px 22px; border-radius: 25px; font-weight: bold; cursor: pointer; width: 100%; transition: all 0.3s; }
-#btn-reset-color:hover { background: rgba(255,255,255,0.3); }
-
-/* --- 共通コンポーネント --- */
+/* --- 共通 --- */
 .screen-header { padding: 20px; background: var(--color-main); margin-bottom: 20px; border-bottom: 1px solid var(--color-accent); }
 .screen-header h2 { margin: 0; font-size: 1.4rem; color: var(--color-accent) !important; font-family: var(--font-header); }
 
@@ -145,9 +141,8 @@ body {
 .btn-secondary { background: #f0f0f0; color: #444; border: 1px solid #ddd; }
 .btn-primary, .btn-submit-stylish { background: var(--color-accent); color: #FFF; border: none; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
 
-/* FAB & Guide (Positioning) */
+/* FAB / Guide (統合) */
 #fab-container { position: fixed; bottom: 80px; right: 10px; z-index: 300; display: flex; flex-direction: column; align-items: flex-end; gap: 10px; pointer-events: none; }
-/* 子要素でpointer-eventsを有効化 */
 #fab-submenu, #guide-wrapper { pointer-events: auto; }
 
 .fab-submenu { display: none; flex-direction: column; gap: 10px; margin-bottom: 5px; align-items: flex-end; }
@@ -156,7 +151,7 @@ body {
 .fab-item { background: #FFF; color: var(--color-accent); border: none; padding: 12px 20px; border-radius: 25px; box-shadow: 0 3px 10px rgba(0,0,0,0.2); font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 10px; white-space: nowrap; text-decoration: none; }
 
 /* Guide Wrapper & Character */
-#guide-wrapper { position: relative; display: flex; flex-direction: column; align-items: flex-end; }
+#guide-wrapper { position: relative; display: flex; align-items: center; justify-content: flex-end; flex-direction: row; /* 画像の左に吹き出し */ }
 #guide-character {
     width: 90px; 
     height: 90px; 
@@ -170,40 +165,38 @@ body {
 }
 #guide-character:active { transform: scale(0.9); }
 
-/* ガイドの「さがす」吹き出し */
+/* 「さがす」吹き出し (左側に配置) */
 #guide-speech-bubble {
     background: var(--color-accent);
     color: #fff;
-    padding: 5px 12px;
-    border-radius: 15px;
-    font-size: 0.8rem;
+    padding: 8px 16px; /* 大きく */
+    border-radius: 20px;
+    font-size: 1.0rem; /* 大きく */
     font-weight: bold;
-    position: absolute;
-    top: -30px;
-    right: 10px;
+    margin-right: 10px; /* 画像との間隔 */
     white-space: nowrap;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     cursor: pointer;
     animation: floatMsg 2s infinite ease-in-out;
+    position: relative; /* Flex配置のためrelative */
 }
+/* 吹き出しの尻尾 (右向き) */
 #guide-speech-bubble::after {
-    content: ''; position: absolute; bottom: -6px; right: 20px;
-    border-width: 6px 6px 0; border-style: solid;
-    border-color: var(--color-accent) transparent transparent transparent;
+    content: ''; position: absolute; 
+    top: 50%; right: -8px; transform: translateY(-50%);
+    border-width: 8px 0 8px 8px; border-style: solid;
+    border-color: transparent transparent transparent var(--color-accent);
 }
 @keyframes floatMsg { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
 
 
-/* --- コンテンツエリア (Timeline, Grid, Chat) --- */
-/* Header Text Btn */
+/* --- コンテンツエリア --- */
 .header-text-btn { background: transparent; border: 1px solid var(--color-accent); border-radius: 20px; padding: 5px 12px; font-size: 0.8rem; color: var(--color-accent); cursor: pointer; display: flex; align-items: center; gap: 6px; }
 
-/* Tags */
 .category-tags { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 15px; margin-bottom: 10px; }
 .tag { padding: 6px 15px; border-radius: 20px; background: transparent; border: 1px solid var(--color-accent); color: var(--color-accent); font-size: 0.85rem; white-space: nowrap; cursor: pointer; }
 .tag.active { background: var(--color-accent); color: #fff; }
 
-/* Timeline List */
 .timeline-list { display: flex; flex-direction: column; gap: 15px; padding-bottom: 20px; }
 .timeline-item { 
     display: flex; 
@@ -220,14 +213,14 @@ body {
 .timeline-meta { display: flex; justify-content: space-between; align-items: baseline; font-size: 0.8rem; margin-bottom: 8px; color: var(--color-text-custom); opacity: 0.8; }
 .timeline-name { font-weight: bold; color: var(--color-accent); font-size: 0.95rem; }
 
-/* タイムラインの吹き出し (Sub Color) */
+/* タイムライン吹き出し (Sub Color) */
 .timeline-tweet { 
     background: var(--color-sub); 
     border: 2px solid var(--color-sub);
     border-radius: 8px; 
     padding: 8px; 
     font-size: 0.8rem; 
-    color: #fff; /* 背景がSubカラーなので白文字推奨 */
+    color: #fff; 
     position: relative; 
     margin-bottom: 25px; 
     flex-grow: 1; 
@@ -242,7 +235,6 @@ body {
 .timeline-like-btn { position: absolute; bottom: 8px; right: 10px; background: none; border: none; color: #ccc; font-size: 1.2rem; cursor: pointer; transition: transform 0.2s; }
 .timeline-like-btn.active { color: #ff4d4d; }
 
-/* EC Grid */
 .ec-grid-layout { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; padding-bottom: 20px; }
 .ec-item { 
     background: var(--color-main); 
@@ -257,7 +249,7 @@ body {
 .ec-name { font-size: 0.95rem; font-weight: bold; color: var(--color-accent); margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .ec-desc { font-size: 0.75rem; color: var(--color-text-custom); line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 
-/* Chat List */
+/* Chat List (LINE風 - クリックアクション追加) */
 .chat-list { min-height: 100vh; }
 .chat-item { 
     display: flex; padding: 12px 15px; 
@@ -265,6 +257,10 @@ body {
     background: var(--color-main);
     color: var(--color-text-custom);
     cursor: pointer; align-items: center; gap: 15px; position: relative; 
+    transition: background-color 0.1s;
+}
+.chat-item:active {
+    background-color: rgba(0,0,0,0.1) !important; /* クリック感 */
 }
 .chat-avatar { width: 50px; height: 50px; border-radius: 50%; background-size: cover; background-position: center; background-color: #eee; flex-shrink: 0; }
 .chat-content { flex-grow: 1; overflow: hidden; }
@@ -281,7 +277,7 @@ body {
 .mypage-avatar-img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 3px solid var(--color-accent); padding: 2px; background: #fff; }
 .btn-avatar-add { position: absolute; bottom: 0; right: 0; width: 24px; height: 24px; background-color: #0099ff; color: white; border: 2px solid #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; cursor: pointer; }
 
-/* マイページの吹き出し (Sub Color) */
+/* マイページ吹き出し (Sub Color) */
 .mypage-speech-bubble { 
     background: var(--color-sub); 
     color: #fff; 
@@ -303,8 +299,7 @@ body {
 .mypage-bio { font-size: 0.9rem; color: var(--color-text-custom); margin-bottom: 15px; }
 .mypage-tags-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 15px; }
 .tag-pill { border: 1px solid var(--color-accent); border-radius: 15px; padding: 4px 12px; font-size: 0.75rem; color: var(--color-accent); background: transparent; }
-.mypage-link-row { text-align: right; margin-bottom: 20px; }
-.link-arrow { font-size: 0.85rem; color: var(--color-accent); text-decoration: none; font-weight: bold; }
+.mypage-link-row { text-align: center; margin-bottom: 20px; } /* 中央寄せ */
 
 .mypage-action-buttons { display: flex; flex-direction: column; gap: 10px; padding: 0 20px 20px 20px; }
 .btn-outline-wide { width: 100%; padding: 10px; background: transparent; border: 1px solid var(--color-accent); border-radius: 5px; font-size: 0.95rem; color: var(--color-accent); font-weight: bold; cursor: pointer; text-align: center; transition: background 0.2s; }
@@ -363,7 +358,7 @@ input[type="text"], input[type="email"], input[type="date"], select { width: 100
 .custom-file-upload input[type="file"] { display: none; }
 .btn-file-select { display: flex; justify-content: center; align-items: center; padding: 12px; background: rgba(255,255,255,0.5); border: 2px dashed var(--color-accent); border-radius: 8px; color: var(--color-text-custom); cursor: pointer; font-size: 0.9rem; width: 100%; }
 
-/* Popup Box (Search) */
+/* Popup Box */
 #popup-overlay, #search-dialog { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); z-index: 2000; display: none; justify-content: center; align-items: center; }
 .popup-box { 
     background: var(--color-main); padding: 0; border-radius: var(--border-radius-card); border: 2px solid var(--color-accent);
