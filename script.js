@@ -268,15 +268,30 @@ document.addEventListener('DOMContentLoaded', () => {
     const updateColor = (varName, value) => {
         document.body.style.setProperty(varName, value);
     };
-    const pickerMain = document.getElementById('color-main-picker');
-    const pickerSub = document.getElementById('color-sub-picker');
-    const pickerAccent = document.getElementById('color-accent-picker');
-    const pickerText = document.getElementById('color-text-picker');
+    
+    // ピッカーとテキスト入力の同期用関数
+    const setupColorSync = (pickerId, textId, varName) => {
+        const picker = document.getElementById(pickerId);
+        const text = document.getElementById(textId);
+        if(!picker || !text) return;
 
-    if(pickerMain) pickerMain.addEventListener('input', (e) => updateColor('--color-main', e.target.value));
-    if(pickerSub) pickerSub.addEventListener('input', (e) => updateColor('--color-sub', e.target.value));
-    if(pickerAccent) pickerAccent.addEventListener('input', (e) => updateColor('--color-accent', e.target.value));
-    if(pickerText) pickerText.addEventListener('input', (e) => updateColor('--color-text-custom', e.target.value));
+        picker.addEventListener('input', (e) => {
+            text.value = e.target.value;
+            updateColor(varName, e.target.value);
+        });
+        text.addEventListener('input', (e) => {
+            const val = e.target.value;
+            if(/^#[0-9A-F]{6}$/i.test(val)) {
+                picker.value = val;
+                updateColor(varName, val);
+            }
+        });
+    };
+
+    setupColorSync('color-main-picker', 'color-main-text', '--color-main');
+    setupColorSync('color-sub-picker', 'color-sub-text', '--color-sub');
+    setupColorSync('color-accent-picker', 'color-accent-text', '--color-accent');
+    setupColorSync('color-text-picker', 'color-text-text', '--color-text-custom');
 
     // ガイド画像・吹き出し機能
     const guideImg = document.getElementById('guide-character');
@@ -344,55 +359,60 @@ document.addEventListener('DOMContentLoaded', () => {
             document.body.style.overflow = 'auto';
         }
     };
+    
+    // 初期テーマ適用 (Gogh)
+    setTheme('Gogh');
 });
 
 // --- テーマ定義 (Design Control) ---
 const THEMES = {
+    'Gogh': {
+        main: '#f6e599',   
+        sub: '#f9b83e',    
+        accent: '#064277', 
+        text: '#040a18'
+    },
     'Rose': {
-        main: '#404d3e',   
-        sub: '#77342f',    
-        accent: '#230f08', 
-        text: '#b8c4ba'
+        main: '#a8998e',   
+        sub: '#404d3e',    
+        accent: '#610710', 
+        text: '#230f08'
     },
     'Hotel': {
         main: '#2c2c2c',   
-        sub: '#1a1a1a',    
+        sub: '#6c2735',    
         accent: '#d4af37', 
         text: '#f0f0f0'    
     },
     'Chic': {
-        main: '#f5f5dc',   
-        sub: '#d2b48c',    
-        accent: '#8b4513', 
-        text: '#3e2723'    
+        main: '#e3e3b3',   
+        sub: '#d4af7f',    
+        accent: '#381a04', 
+        text: '#2e1d1a'    
     },
     'Royal': {
-        main: '#f8f8ff',   
-        sub: '#000080',    
-        accent: '#ffd700', 
+        main: '#c7c7d9',   
+        sub: '#34346e',    
+        accent: '#857210', 
         text: '#333333'
     },
     'Victoria': {
-        main: '#fffff0',   
-        sub: '#006400',    
-        accent: '#800000', 
-        text: '#333333'
+        main: '#003c41',   
+        sub: '#62613b',    
+        accent: '#98006a', 
+        text: '#8faba8'
     },
     'Neon': {
         main: '#000000',   
-        sub: '#191970',    
-        accent: '#00ff00', 
+        sub: '#7e2a41',    
+        accent: '#e2aa11', 
         text: '#ffffff'
     }
 };
 
-let currentThemeName = 'Rose'; 
-
 window.setTheme = function(themeName) {
     const theme = THEMES[themeName];
     if (!theme) return;
-    
-    currentThemeName = themeName;
     
     // CSS変数を更新
     document.body.style.setProperty('--color-main', theme.main);
@@ -400,22 +420,29 @@ window.setTheme = function(themeName) {
     document.body.style.setProperty('--color-accent', theme.accent);
     document.body.style.setProperty('--color-text-custom', theme.text);
 
-    // ピッカーの値も更新
-    const pickerMain = document.getElementById('color-main-picker');
-    const pickerSub = document.getElementById('color-sub-picker');
-    const pickerAccent = document.getElementById('color-accent-picker');
-    const pickerText = document.getElementById('color-text-picker');
-    
-    if(pickerMain) pickerMain.value = theme.main;
-    if(pickerSub) pickerSub.value = theme.sub;
-    if(pickerAccent) pickerAccent.value = theme.accent;
-    if(pickerText) pickerText.value = theme.text;
+    // ピッカーとテキストの値を更新
+    const updatePicker = (pickerId, textId, val) => {
+        const p = document.getElementById(pickerId);
+        const t = document.getElementById(textId);
+        if(p) p.value = val;
+        if(t) t.value = val;
+    };
+    updatePicker('color-main-picker', 'color-main-text', theme.main);
+    updatePicker('color-sub-picker', 'color-sub-text', theme.sub);
+    updatePicker('color-accent-picker', 'color-accent-text', theme.accent);
+    updatePicker('color-text-picker', 'color-text-text', theme.text);
 
     // ボタンのアクティブ表示切替
     document.querySelectorAll('.btn-theme-switch').forEach(btn => {
         btn.classList.remove('active');
         if(btn.dataset.theme === themeName) btn.classList.add('active');
     });
+};
+
+// --- グラデーション切り替え ---
+window.toggleGradation = function(isAh) {
+    if(isAh) document.body.classList.add('gradation-mode');
+    else document.body.classList.remove('gradation-mode');
 };
 
 // --- フォント設定 ---
