@@ -14,7 +14,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700&family=Shippori+Mincho:wght@400;700&family=Noto+Sans+JP:wght@400;700&family=Montserrat:wght@700&family=Oswald:wght@500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?ver=11.0">
+    <link rel="stylesheet" href="style.css?ver=12.0">
 </head>
 <body>
 
@@ -258,7 +258,7 @@
                 <div class="style-switch-container">
                     <span class="switch-label" style="color:#fff;">OFF</span>
                     <label class="toggle-switch">
-                        <input type="checkbox" id="gradation-toggle" onclick="toggleGradation(this.checked)">
+                        <input type="checkbox" id="gradation-toggle">
                         <span class="slider round"></span>
                     </label>
                     <span class="switch-label" style="color:#fff;">ON</span>
@@ -268,7 +268,11 @@
             <div class="design-category">
                 <div class="design-title-stylish">THEMES</div>
                 <div class="theme-switch-container">
-                    <button class="btn-theme-switch active" data-theme="Gogh" onclick="setTheme('Gogh')">
+                    <button class="btn-theme-switch active" data-theme="Victoria" onclick="setTheme('Victoria')">
+                        <span class="theme-icon" style="background:#003c41; border:2px solid #98006a;"></span>
+                        <span class="theme-label">Victoria</span>
+                    </button>
+                    <button class="btn-theme-switch" data-theme="Gogh" onclick="setTheme('Gogh')">
                         <span class="theme-icon" style="background:#f6e599; border:2px solid #064277;"></span>
                         <span class="theme-label">Gogh</span>
                     </button>
@@ -287,10 +291,6 @@
                     <button class="btn-theme-switch" data-theme="Royal" onclick="setTheme('Royal')">
                         <span class="theme-icon" style="background:#c7c7d9; border:2px solid #857210;"></span>
                         <span class="theme-label">Royal</span>
-                    </button>
-                    <button class="btn-theme-switch" data-theme="Victoria" onclick="setTheme('Victoria')">
-                        <span class="theme-icon" style="background:#003c41; border:2px solid #98006a;"></span>
-                        <span class="theme-label">Victoria</span>
                     </button>
                     <button class="btn-theme-switch" data-theme="Neon" onclick="setTheme('Neon')">
                         <span class="theme-icon" style="background:#000000; border:2px solid #e2aa11;"></span>
@@ -394,7 +394,7 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.js"></script>
     <script src="pwa-loader.js"></script>
-    <script src="script.js?ver=11.0"></script> 
+    <script src="script.js?ver=12.0"></script> 
 
 </body>
 </html>
