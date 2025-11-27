@@ -282,7 +282,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if(pickerAccent) pickerAccent.addEventListener('input', (e) => updateColor('--color-accent', e.target.value));
     if(pickerText) pickerText.addEventListener('input', (e) => updateColor('--color-text-custom', e.target.value));
 
-    // ガイド画像切り替えロジック (pngに変更)
+    // ガイド画像切り替えロジック
     const guideImg = document.getElementById('guide-character');
     const guideImages = [
         'images/guide/okojyo.png', 
@@ -349,33 +349,33 @@ const THEMES = {
         text: '#b8c4ba'
     },
     'Hotel': {
-        main: '#2c2c2c',   // Dark Gray
-        sub: '#1a1a1a',    // Very Dark Gray
-        accent: '#d4af37', // Gold
-        text: '#f0f0f0'    // White Smoke
+        main: '#2c2c2c',   
+        sub: '#1a1a1a',    
+        accent: '#d4af37', 
+        text: '#f0f0f0'    
     },
     'Chic': {
-        main: '#f5f5dc',   // Beige
-        sub: '#d2b48c',    // Tan
-        accent: '#8b4513', // SaddleBrown
-        text: '#3e2723'    // Dark Brown
+        main: '#f5f5dc',   
+        sub: '#d2b48c',    
+        accent: '#8b4513', 
+        text: '#3e2723'    
     },
     'Royal': {
-        main: '#f8f8ff',   // GhostWhite
-        sub: '#000080',    // Navy
-        accent: '#ffd700', // Gold
+        main: '#f8f8ff',   
+        sub: '#000080',    
+        accent: '#ffd700', 
         text: '#333333'
     },
     'Victoria': {
-        main: '#fffff0',   // Ivory
-        sub: '#006400',    // DarkGreen
-        accent: '#800000', // Maroon
+        main: '#fffff0',   
+        sub: '#006400',    
+        accent: '#800000', 
         text: '#333333'
     },
     'Neon': {
-        main: '#000000',   // Black
-        sub: '#191970',    // MidnightBlue
-        accent: '#00ff00', // Lime
+        main: '#000000',   
+        sub: '#191970',    
+        accent: '#00ff00', 
         text: '#ffffff'
     }
 };
