@@ -14,7 +14,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700&family=Shippori+Mincho:wght@400;700&family=Noto+Sans+JP:wght@400;700&family=Montserrat:wght@700&family=Oswald:wght@500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?ver=8.0">
+    <link rel="stylesheet" href="style.css?ver=8.1">
 </head>
 <body>
 
@@ -57,8 +57,8 @@
             <button class="btn-close-task-popup">&times;</button>
         </div>
         <div class="task-popup-content">
-            <div class="mini-task-item"><i class="fas fa-comment-dots" style="color: #888;"></i><span>面談日程を決めよう！</span></div>
-            <div class="mini-task-item"><i class="fas fa-user-edit" style="color: #888;"></i><span>プロフィールを完成させよう</span></div>
+            <div class="mini-task-item"><i class="fas fa-comment-dots" style="color: var(--color-accent);"></i><span>面談日程を決めよう！</span></div>
+            <div class="mini-task-item"><i class="fas fa-user-edit" style="color: var(--color-accent);"></i><span>プロフィールを完成させよう</span></div>
         </div>
     </div>
 
@@ -68,7 +68,7 @@
             <button class="btn-close-notification-popup btn-close-task-popup">&times;</button>
         </div>
         <div class="notification-popup-content">
-            <p style="font-size:0.85rem; margin-bottom:15px;">新しいお知らせはありません。</p>
+            <p style="font-size:0.85rem; margin-bottom:15px; color:var(--color-text-custom);">新しいお知らせはありません。</p>
             <button id="btn-goto-pwa-test" class="btn btn-primary" style="font-size:0.85rem; width:100%;">
                 <i class="fas fa-paper-plane"></i> PWA通知テスト
             </button>
@@ -148,7 +148,7 @@
 
     <div id="favorite-screen" class="screen" style="display: none;">
         <div class="screen-header"><h2>キープ一覧</h2></div>
-        <div class="container"><p style="text-align:center; color:#888; margin-top:50px;">まだキープしたキャストがいません。</p></div>
+        <div class="container"><p style="text-align:center; color:var(--color-text-custom); margin-top:50px;">まだキープしたキャストがいません。</p></div>
     </div>
 
     <div id="message-screen" class="screen" style="display: none;">
@@ -371,7 +371,7 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.js"></script>
     <script src="pwa-loader.js"></script>
-    <script src="script.js?ver=8.0"></script> 
+    <script src="script.js?ver=8.1"></script> 
 
 </body>
 </html>
