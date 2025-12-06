@@ -14,36 +14,13 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700&family=Shippori+Mincho:wght@400;700&family=Noto+Sans+JP:wght@400;700&family=Montserrat:wght@700&family=Oswald:wght@500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?ver=13.0">
+    <link rel="stylesheet" href="style.css?ver=12.0">
 </head>
 <body>
 
     <div id="bg-layer"></div>
 
-    <!-- ログイン画面 (初期表示) -->
-    <div id="login-screen" class="screen active" style="z-index: 2000; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 100vh; background: var(--color-main);">
-        <div class="login-container">
-            <img src="images/misechoku-yoko.png" alt="ミセチョク" class="login-logo">
-            <p class="login-catch">お店とキャストをつなぐ、<br>新しいマッチングアプリ</p>
-            
-            <form id="login-form" onsubmit="event.preventDefault(); handleLogin();">
-                <div class="form-group">
-                    <input type="email" id="login-email" placeholder="メールアドレス" required>
-                </div>
-                <div class="form-group">
-                    <input type="password" id="login-password" placeholder="パスワード" required>
-                </div>
-                <button type="submit" class="btn btn-primary btn-wide">ログイン</button>
-            </form>
-            
-            <div class="login-actions">
-                <button onclick="showRegisterModal()" class="btn-text">初めての方はこちら（新規登録）</button>
-                <button onclick="skipLogin()" class="btn-text-small">デモとして利用（ログインなし）</button>
-            </div>
-        </div>
-    </div>
-
-    <header id="global-header" style="display: none;">
+    <header id="global-header">
         <div class="header-left">
             <img src="images/misechoku-yoko.png" alt="ミセチョク" class="header-logo-img">
         </div>
@@ -72,7 +49,6 @@
         </div>
     </header>
 
-    <!-- ... (ヘッダーポップアップ類は既存コードと同じなので省略しても良いですが、念の為構造維持) ... -->
     <div id="header-task-popup">
         <div class="task-popup-header">
             <h4>やることリスト</h4>
@@ -81,12 +57,9 @@
         <div class="task-popup-content">
             <div class="mini-task-item"><i class="fas fa-comment-dots" style="color: var(--color-accent);"></i><span>面談日程を決めよう！</span></div>
             <div class="mini-task-item"><i class="fas fa-user-edit" style="color: var(--color-accent);"></i><span>プロフィールを完成させよう</span></div>
-            <div class="mini-task-item" onclick="handleLogout()" style="cursor: pointer; border-top: 1px solid #ccc; margin-top: 10px; padding-top: 10px;">
-                <i class="fas fa-sign-out-alt" style="color: var(--color-accent);"></i><span>ログアウト</span>
-            </div>
         </div>
     </div>
-    
+
     <div id="header-notification-popup">
         <div class="task-popup-header">
             <h4>お知らせ</h4>
@@ -100,8 +73,7 @@
         </div>
     </div>
 
-    <!-- コンテンツ画面群 -->
-    <div id="home-screen" class="screen" style="display: none;">
+    <div id="home-screen" class="screen active">
         <div class="swiper-container-wrapper">
             <div class="swiper">
                 <div class="swiper-wrapper" id="swipe-wrapper"></div>
@@ -109,8 +81,52 @@
         </div>
     </div>
 
+    <div id="form-screen" class="screen" style="display: none;">
+        <div class="form-overlay-bg"></div>
+        <div class="form-modal-container">
+            <div class="form-modal-header">
+                <h2>新規登録 / 投稿</h2>
+                <button class="btn-close-form" title="閉じる">&times;</button>
+            </div>
+            <div class="form-modal-body">
+                <form action="#" method="POST" onsubmit="event.preventDefault();">
+                    <div class="form-group"><label><span class="label-text">テキスト</span><span class="required-mark">*</span></label><input type="text" placeholder="例：山田 太郎" required></div>
+                    <div class="form-group"><label><span class="label-text">メール</span><span class="required-mark">*</span></label><input type="email" placeholder="例：hoge@example.com" required></div>
+                    <div class="form-group"><label><span class="label-text">日付</span></label><input type="date"></div>
+                    <div class="form-group">
+                        <label><span class="label-text">画像アップロード (320x320)</span></label>
+                        <div class="custom-file-upload">
+                            <input type="file" id="image-upload-input" accept="image/*">
+                            <label for="image-upload-input" class="btn-file-select"><i class="fas fa-cloud-upload-alt"></i> 画像を選択</label>
+                        </div>
+                        <div id="cropper-wrapper" style="display: none; margin-top: 15px;">
+                            <div id="cropper-container"><img id="image-to-crop" src=""></div>
+                            <button type="button" id="btn-crop-image" class="btn btn-secondary" style="margin-top: 15px; width:100%;"><i class="fas fa-cut"></i> 切り抜く</button>
+                        </div>
+                        <div id="crop-result-container" style="display: none; margin-top: 15px; text-align:center;">
+                            <img id="crop-result-image" src="" class="crop-result-preview">
+                        </div>
+                    </div>
+                    <div class="form-group text-center"><button type="submit" class="btn btn-primary btn-submit-stylish">送信する</button></div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="notification-screen" class="screen" style="display: none;">
+        <div class="screen-header"><h2>通知</h2></div>
+        <div class="container">
+            <section class="notification-section">
+                <h2>PWA通知テスト</h2>
+                <p>PWAとしてインストール後、通知許可をするとテストが可能です。</p>
+                <button id="notification-test-btn" class="btn btn-notification-stylish"><i class="fas fa-paper-plane"></i> 通知テスト (トークン取得)</button>
+                <textarea id="token-display-area" style="display: none;" rows="4" readonly></textarea>
+                <p id="token-info" style="display: none;">表示されたトークンを開発者に連携してください。</p>
+            </section>
+        </div>
+    </div>
+    
     <div id="search-screen" class="screen" style="display: none;">
-        <!-- ... (既存のコンテンツ) ... -->
         <div class="screen-header" style="display: flex; justify-content: space-between; align-items: center;">
             <h2>タイムライン</h2>
             <button id="btn-toggle-view" class="header-text-btn" onclick="toggleTimelineView()">
@@ -121,7 +137,9 @@
             <div class="category-tags">
                 <span class="tag active">おすすめ</span><span class="tag">人気</span><span class="tag">新着</span><span class="tag">今すぐ入れる</span>
             </div>
+            
             <div class="timeline-list" id="timeline-container"></div>
+            
             <div class="ec-grid-layout" id="ec-grid-container" style="display: none;"></div>
         </div>
     </div>
@@ -142,7 +160,6 @@
         <div class="mypage-container">
             <div class="mypage-top-section">
                 <div class="mypage-avatar-wrapper">
-                    <!-- デフォルト画像 -->
                     <img src="images/girls/1.png" alt="プロフィール画像" class="mypage-avatar-img" id="mypage-main-img">
                     <button class="btn-avatar-add"><i class="fas fa-plus"></i></button>
                 </div>
@@ -154,9 +171,8 @@
 
             <div class="mypage-info-section">
                 <div class="info-header-row">
-                    <!-- ユーザー名表示用 -->
-                    <h2 class="mypage-name" id="mypage-name-display">ゲスト <span class="mypage-age"></span></h2>
-                    <div class="mypage-likes"><i class="far fa-heart"></i><span class="like-count">0</span></div>
+                    <h2 class="mypage-name" id="mypage-name-display">Yui <span class="mypage-age">(31歳)</span></h2>
+                    <div class="mypage-likes"><i class="far fa-heart"></i><span class="like-count">6</span></div>
                 </div>
                 <div class="mypage-stats">
                     <p>身長 156 cm 体重 44kg</p>
@@ -165,79 +181,35 @@
                 <div class="mypage-bio"><p>未経験です！<br>よろしくお願いします！</p></div>
                 <div class="mypage-tags-row">
                     <span class="tag-pill">ガールズバー</span><span class="tag-pill">コンカフェ</span>
+                    <span class="tag-pill">小柄</span><span class="tag-pill">OL/一般職</span>
                 </div>
+                
+                <div style="padding: 15px 0; text-align: center; margin-bottom: 10px;">
+                    <p style="font-size: 0.85rem; margin-bottom: 8px; color: var(--color-text-custom);">あなたにぴったりの接客スタイルは？</p>
+                    <a href="https://mearin0424-tech.github.io/personality-test/personality-test.html" class="btn-app-link" target="_blank" rel="noopener noreferrer" style="margin: 0 auto;">
+                        <img src="icons/piyoko-icon-128x128.png" alt="診断アプリアイコン">
+                        <span>接客タイプ診断</span>
+                    </a>
+                </div>
+
                 <div class="mypage-link-row" style="text-align: center;">
-                    <button class="btn-outline-wide" style="width: 100%; padding: 12px;">プロフィールを編集</button>
-                    <br><br>
-                    <button class="btn-outline-wide" onclick="handleLogout()" style="width: 100%; padding: 12px; color: #ff6b6b; border-color: #ff6b6b;">ログアウト</button>
+                    <button class="btn-outline-wide" style="width: 100%; padding: 12px;">
+                        プロフィールを編集
+                    </button>
                 </div>
             </div>
-            
-            <!-- ギャラリー省略 (既存のまま) -->
+
             <div class="mypage-gallery-grid-6">
-                 <div class="gallery-item-square" id="mypage-gallery-1"></div>
-                 <div class="gallery-item-square" id="mypage-gallery-2"></div>
-                 <div class="gallery-item-square placeholder" onclick="openImageUpload('1')"><div class="placeholder-inner"><i class="fas fa-plus"></i><span class="guide-label" id="guide-label-1"></span></div></div>
-                 <div class="gallery-item-square placeholder" onclick="openImageUpload('2')"><div class="placeholder-inner"><i class="fas fa-plus"></i><span class="guide-label" id="guide-label-2"></span></div></div>
-                 <div class="gallery-item-square placeholder" onclick="openImageUpload('3')"><div class="placeholder-inner"><i class="fas fa-plus"></i><span class="guide-label" id="guide-label-3"></span></div></div>
-                 <div class="gallery-item-square placeholder" onclick="openImageUpload('4')"><div class="placeholder-inner"><i class="fas fa-plus"></i><span class="guide-label" id="guide-label-4"></span></div></div>
+                <div class="gallery-item-square" id="mypage-gallery-1"></div>
+                <div class="gallery-item-square" id="mypage-gallery-2"></div>
+                <div class="gallery-item-square placeholder" onclick="openImageUpload('1')"><div class="placeholder-inner"><i class="fas fa-plus"></i><span class="guide-label" id="guide-label-1"></span></div></div>
+                <div class="gallery-item-square placeholder" onclick="openImageUpload('2')"><div class="placeholder-inner"><i class="fas fa-plus"></i><span class="guide-label" id="guide-label-2"></span></div></div>
+                <div class="gallery-item-square placeholder" onclick="openImageUpload('3')"><div class="placeholder-inner"><i class="fas fa-plus"></i><span class="guide-label" id="guide-label-3"></span></div></div>
+                <div class="gallery-item-square placeholder" onclick="openImageUpload('4')"><div class="placeholder-inner"><i class="fas fa-plus"></i><span class="guide-label" id="guide-label-4"></span></div></div>
             </div>
         </div>
     </div>
     
-    <div id="notification-screen" class="screen" style="display: none;">
-        <div class="screen-header"><h2>通知</h2></div>
-        <div class="container">
-             <section class="notification-section">
-                <h2>PWA通知テスト</h2>
-                <p>PWAとしてインストール後、通知許可をするとテストが可能です。</p>
-                <button id="notification-test-btn" class="btn btn-notification-stylish"><i class="fas fa-paper-plane"></i> 通知テスト (トークン取得)</button>
-                <textarea id="token-display-area" style="display: none;" rows="4" readonly></textarea>
-                <p id="token-info" style="display: none;">表示されたトークンを開発者に連携してください。</p>
-            </section>
-        </div>
-    </div>
-
-    <!-- 新規登録/投稿フォーム (パスワード欄追加) -->
-    <div id="form-screen" class="screen" style="display: none;">
-        <div class="form-overlay-bg"></div>
-        <div class="form-modal-container">
-            <div class="form-modal-header">
-                <h2>新規登録</h2>
-                <button class="btn-close-form" title="閉じる" onclick="closeRegisterModal()">&times;</button>
-            </div>
-            <div class="form-modal-body">
-                <form onsubmit="event.preventDefault(); submitRegister();">
-                    <div class="form-group">
-                        <label><span class="label-text">お名前</span><span class="required-mark">*</span></label>
-                        <input type="text" id="reg-name" placeholder="例：山田 太郎" required>
-                    </div>
-                    <div class="form-group">
-                        <label><span class="label-text">メールアドレス</span><span class="required-mark">*</span></label>
-                        <input type="email" id="reg-email" placeholder="例：hoge@example.com" required>
-                    </div>
-                    <!-- パスワード欄追加 -->
-                    <div class="form-group">
-                        <label><span class="label-text">パスワード</span><span class="required-mark">*</span></label>
-                        <input type="password" id="reg-password" placeholder="半角英数字" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label><span class="label-text">プロフィール画像</span></label>
-                        <div class="custom-file-upload">
-                            <input type="file" id="image-upload-input" accept="image/*">
-                            <label for="image-upload-input" class="btn-file-select"><i class="fas fa-cloud-upload-alt"></i> 画像を選択</label>
-                        </div>
-                    </div>
-                    <div class="form-group text-center">
-                        <button type="submit" class="btn btn-primary btn-submit-stylish">登録する</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- その他ダイアログ (既存) -->
     <div id="search-dialog" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 2000; background: rgba(0,0,0,0.5); backdrop-filter: blur(3px); align-items: center; justify-content: center;">
         <div class="popup-box">
             <div class="popup-header">
@@ -256,7 +228,139 @@
         </div>
     </div>
 
-    <!-- 画像アップロード用 (省略) -->
+    <a href="#" id="btn-back-to-top" class="btn-floating" title="トップに戻る" style="display: none;"><i class="fas fa-arrow-up"></i></a>
+    
+    <div id="fab-container">
+        <div id="fab-submenu" class="fab-submenu">
+            <a href="https://mearin0424-tech.github.io/ai-chat-test/index.html" class="fab-item" target="_blank" style="text-decoration: none;">
+                <i class="fas fa-robot"></i> AIガイド
+            </a>
+            <button class="fab-item" id="btn-fab-search"><i class="fas fa-search"></i> 検索</button>
+        </div>
+        <div id="guide-wrapper" style="position: relative; cursor: pointer;">
+            <div id="guide-speech-bubble">さがす</div>
+            <img id="guide-character" src="images/guide/okojyo.png" alt="ガイド">
+        </div>
+    </div>
+
+
+    <div id="side-menu-overlay"></div>
+    <div id="side-menu">
+        <div class="side-menu-header">
+            <h3>Design Control</h3>
+            <button id="btn-close-side-menu">閉じる <i class="fas fa-times"></i></button>
+        </div>
+        
+        <div class="side-menu-content">
+            
+            <div class="design-category">
+                <div class="design-title-stylish">GRADATION</div>
+                <div class="style-switch-container">
+                    <span class="switch-label" style="color:#fff;">OFF</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="gradation-toggle">
+                        <span class="slider round"></span>
+                    </label>
+                    <span class="switch-label" style="color:#fff;">ON</span>
+                </div>
+            </div>
+
+            <div class="design-category">
+                <div class="design-title-stylish">THEMES</div>
+                <div class="theme-switch-container">
+                    <button class="btn-theme-switch active" data-theme="Victoria" onclick="setTheme('Victoria')">
+                        <span class="theme-icon" style="background:#003c41; border:2px solid #98006a;"></span>
+                        <span class="theme-label">Victoria</span>
+                    </button>
+                    <button class="btn-theme-switch" data-theme="Gogh" onclick="setTheme('Gogh')">
+                        <span class="theme-icon" style="background:#f6e599; border:2px solid #064277;"></span>
+                        <span class="theme-label">Gogh</span>
+                    </button>
+                    <button class="btn-theme-switch" data-theme="Rose" onclick="setTheme('Rose')">
+                        <span class="theme-icon" style="background:#a8998e; border:2px solid #610710;"></span>
+                        <span class="theme-label">Rose</span>
+                    </button>
+                    <button class="btn-theme-switch" data-theme="Hotel" onclick="setTheme('Hotel')">
+                        <span class="theme-icon" style="background:#2c2c2c; border:2px solid #d4af37;"></span>
+                        <span class="theme-label">Hotel</span>
+                    </button>
+                    <button class="btn-theme-switch" data-theme="Chic" onclick="setTheme('Chic')">
+                        <span class="theme-icon" style="background:#e3e3b3; border:2px solid #381a04;"></span>
+                        <span class="theme-label">Chic</span>
+                    </button>
+                    <button class="btn-theme-switch" data-theme="Royal" onclick="setTheme('Royal')">
+                        <span class="theme-icon" style="background:#c7c7d9; border:2px solid #857210;"></span>
+                        <span class="theme-label">Royal</span>
+                    </button>
+                    <button class="btn-theme-switch" data-theme="Neon" onclick="setTheme('Neon')">
+                        <span class="theme-icon" style="background:#000000; border:2px solid #e2aa11;"></span>
+                        <span class="theme-label">Neon</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="design-category">
+                <div class="design-title-stylish">PALLET</div>
+                <div class="color-pickers-row">
+                    <div class="color-item">
+                        <span class="color-label">Main</span>
+                        <div class="color-picker-group">
+                            <div class="color-picker-3d-wrapper">
+                                <input type="color" id="color-main-picker" class="color-picker-3d">
+                            </div>
+                            <input type="text" id="color-main-text" class="color-hex-input" maxlength="7">
+                        </div>
+                    </div>
+                    <div class="color-item">
+                        <span class="color-label">Sub</span>
+                        <div class="color-picker-group">
+                            <div class="color-picker-3d-wrapper">
+                                <input type="color" id="color-sub-picker" class="color-picker-3d">
+                            </div>
+                            <input type="text" id="color-sub-text" class="color-hex-input" maxlength="7">
+                        </div>
+                    </div>
+                    <div class="color-item">
+                        <span class="color-label">Accent</span>
+                        <div class="color-picker-group">
+                            <div class="color-picker-3d-wrapper">
+                                <input type="color" id="color-accent-picker" class="color-picker-3d">
+                            </div>
+                            <input type="text" id="color-accent-text" class="color-hex-input" maxlength="7">
+                        </div>
+                    </div>
+                    <div class="color-item">
+                        <span class="color-label">Text</span>
+                        <div class="color-picker-group">
+                            <div class="color-picker-3d-wrapper">
+                                <input type="color" id="color-text-picker" class="color-picker-3d">
+                            </div>
+                            <input type="text" id="color-text-text" class="color-hex-input" maxlength="7">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="design-category no-border">
+                <div class="design-title-stylish">FONTS</div>
+                <div class="font-switch-container">
+                    <button class="btn-font-switch active" data-font="round" onclick="setFont('round')">丸ゴシック (Pop)</button>
+                    <button class="btn-font-switch" data-font="mincho" onclick="setFont('mincho')">明朝体 (Elegant)</button>
+                    <button class="btn-font-switch" data-font="gothic" onclick="setFont('gothic')">ゴシック (Standard)</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    
+    <nav id="bottom-nav">
+        <button class="nav-item active" data-target="home-screen"><i class="fas fa-home"></i><span>ホーム</span></button>
+        <button class="nav-item" data-target="search-screen"><i class="fas fa-stream"></i><span>タイムライン</span></button>
+        <button class="nav-item" data-target="favorite-screen"><i class="fas fa-bookmark"></i><span>キープ</span></button>
+        <button class="nav-item" data-target="message-screen"><i class="fas fa-comment-dots"></i><span>メッセージ</span></button>
+        <button class="nav-item" data-target="mypage-screen"><i class="fas fa-user"></i><span>マイページ</span></button>
+    </nav>
+
     <div id="image-upload-screen" class="screen" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 2000; background: #fff;">
         <div id="upload-guide-icon-bg" class="upload-guide-icon-bg"><i class="fas fa-camera"></i></div>
         <div class="screen-header" style="display: flex; justify-content: space-between; align-items: center; position:relative; z-index:10;">
@@ -274,45 +378,14 @@
                     <i class="fas fa-folder-open"></i> ライブラリから選択
                 </label>
             </div>
-            <!-- クロッパーは今回は省略 -->
-        </div>
-    </div>
-
-    <nav id="bottom-nav" style="display: none;">
-        <button class="nav-item active" data-target="home-screen"><i class="fas fa-home"></i><span>ホーム</span></button>
-        <button class="nav-item" data-target="search-screen"><i class="fas fa-stream"></i><span>タイムライン</span></button>
-        <button class="nav-item" data-target="favorite-screen"><i class="fas fa-bookmark"></i><span>キープ</span></button>
-        <button class="nav-item" data-target="message-screen"><i class="fas fa-comment-dots"></i><span>メッセージ</span></button>
-        <button class="nav-item" data-target="mypage-screen"><i class="fas fa-user"></i><span>マイページ</span></button>
-    </nav>
-    
-    <!-- Design Control Side Menu (省略) -->
-    <div id="side-menu-overlay"></div>
-    <div id="side-menu">
-        <div class="side-menu-header">
-            <h3>Design Control</h3>
-            <button id="btn-close-side-menu">閉じる <i class="fas fa-times"></i></button>
-        </div>
-        <div class="side-menu-content">
-             <!-- デザイン設定（既存のまま） -->
-             <div class="design-category">
-                <div class="design-title-stylish">THEMES</div>
-                <div class="theme-switch-container">
-                    <button class="btn-theme-switch active" data-theme="Victoria" onclick="setTheme('Victoria')"><span class="theme-label">Victoria</span></button>
-                    <button class="btn-theme-switch" data-theme="Neon" onclick="setTheme('Neon')"><span class="theme-label">Neon</span></button>
+            <div id="gallery-cropper-wrapper" style="display: none; width: 100%; max-width: 400px; margin-bottom: 20px;">
+                <div style="height: 350px; background: #333;">
+                    <img id="gallery-image-to-crop" src="" style="max-width: 100%;">
                 </div>
             </div>
-        </div>
-    </div>
-    
-    <!-- FAB (省略) -->
-    <div id="fab-container" style="display: none;">
-        <div id="fab-submenu" class="fab-submenu">
-            <button class="fab-item" id="btn-fab-search"><i class="fas fa-search"></i> 検索</button>
-        </div>
-        <div id="guide-wrapper">
-            <div id="guide-speech-bubble">さがす</div>
-            <img id="guide-character" src="images/guide/okojyo.png" alt="ガイド">
+            <button id="btn-confirm-crop" class="btn btn-primary btn-submit-stylish" style="display: none;">
+                <i class="fas fa-check"></i> この範囲で登録
+            </button>
         </div>
     </div>
 
@@ -321,7 +394,7 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.js"></script>
     <script src="pwa-loader.js"></script>
-    <script src="script.js?ver=13.0"></script> 
+    <script src="script.js?ver=12.0"></script> 
 
 </body>
 </html>
