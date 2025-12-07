@@ -26,6 +26,7 @@ body {
     line-height: 1.7; 
     background: var(--color-main); 
     transition: background 0.3s, color 0.3s;
+    overflow-x: hidden; /* ★修正: 横スクロール防止 */
 }
 
 /* 背景レイヤー */
@@ -81,59 +82,6 @@ body.gradation-mode #bg-layer {
     transition: all 0.3s ease;
     font-family: var(--font-header);
 }
-
-/* --- レスポンシブ対応：ヘッダー --- */
-@media (max-width: 480px) {
-    #global-header {
-        padding: 8px 10px;
-        flex-wrap: wrap;
-    }
-    .header-left {
-        flex: 0 0 auto;
-    }
-    .header-logo-img {
-        height: 32px;
-        max-width: 120px;
-        object-fit: contain;
-    }
-    .header-center {
-        flex: 1 1 100%;
-        order: 3;
-        margin-top: 8px;
-        justify-content: center;
-    }
-    .header-right {
-        flex: 0 0 auto;
-        margin-left: auto;
-    }
-    .header-icon-btn {
-        width: 36px;
-        height: 36px;
-        font-size: 0.9rem;
-    }
-    .header-switch.user-type-switch {
-        transform: scale(0.85);
-    }
-    .header-switch .type-btn {
-        padding: 4px 12px;
-        font-size: 0.75rem;
-    }
-}
-
-@media (max-width: 360px) {
-    .header-switch .type-btn {
-        padding: 4px 10px;
-        font-size: 0.7rem;
-    }
-    .header-logo-img {
-        height: 28px;
-        max-width: 100px;
-    }
-    .header-icon-btn {
-        width: 32px;
-        height: 32px;
-        font-size: 0.8rem;
-    }
 .header-switch .type-btn.active {
     background: var(--color-accent);
     color: #fff;
@@ -236,7 +184,7 @@ input:checked + .slider:before { transform: translateX(24px); }
 }
 #guide-character:active { transform: scale(0.9); }
 
-/* 「さがす」吹き出し (左側に配置) */
+/* 「さがす」吹き出し */
 #guide-speech-bubble {
     background: var(--color-accent);
     color: #fff;
@@ -257,242 +205,6 @@ input:checked + .slider:before { transform: translateX(24px); }
     border-width: 8px 0 8px 8px; border-style: solid;
     border-color: transparent transparent transparent var(--color-accent);
 }
-
-/* --- レスポンシブ対応：ECグリッドレイアウト --- */
-@media (max-width: 480px) {
-    .ec-grid-layout {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
-        padding-bottom: 15px;
-    }
-    .ec-info-area {
-        padding: 8px;
-    }
-    .ec-name {
-        font-size: 0.85rem;
-    }
-    .ec-desc {
-        font-size: 0.7rem;
-    }
-}
-
-@media (max-width: 360px) {
-    .ec-grid-layout {
-        grid-template-columns: 1fr; /* 1列に変更 */
-        gap: 12px;
-    }
-    .ec-item {
-        max-width: 100%;
-    }
-}
-
-/* --- レスポンシブ対応：コンテナとスクリーン --- */
-@media (max-width: 480px) {
-    .container {
-        padding-left: 12px;
-        padding-right: 12px;
-    }
-    .screen-header {
-        padding: 12px 12px;
-    }
-    .screen-header h2 {
-        font-size: 1.2rem;
-    }
-}
-
-/* --- レスポンシブ対応：ボタンとUI要素 --- */
-@media (max-width: 480px) {
-    .btn {
-        padding: 10px 16px;
-        font-size: 0.9rem;
-    }
-    .btn-menu-small {
-        padding: 8px 14px;
-        font-size: 0.85rem;
-    }
-    .menu-buttons {
-        width: 100%;
-        padding: 0 10px;
-    }
-    .menu-group-title {
-        font-size: 1rem;
-    }
-    .floating-promo-text {
-        font-size: 0.85rem;
-    }
-    .btn-app-link {
-        padding: 12px;
-        font-size: 0.9rem;
-    }
-    .btn-app-link img {
-        width: 48px;
-        height: 48px;
-    }
-    .btn-real-link img {
-        max-width: 200px;
-        height: auto;
-    }
-}
-
-/* --- レスポンシブ対応：マイページ --- */
-@media (max-width: 480px) {
-    .mypage-container {
-        padding: 15px 12px;
-    }
-    .mypage-top-section {
-        flex-direction: column;
-        align-items: center;
-        padding: 15px 0;
-    }
-    .mypage-avatar-wrapper {
-        margin-bottom: 15px;
-    }
-    .mypage-avatar-img {
-        width: 100px;
-        height: 100px;
-    }
-    .mypage-speech-bubble {
-        width: 90%;
-        max-width: 300px;
-        padding: 12px;
-        font-size: 0.85rem;
-    }
-    .mypage-name {
-        font-size: 1.3rem;
-    }
-    .mypage-stats {
-        font-size: 0.85rem;
-    }
-    .mypage-bio {
-        font-size: 0.9rem;
-    }
-    .mypage-gallery-grid-6 {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 8px;
-    }
-    .gallery-item-square {
-        aspect-ratio: 1 / 1;
-    }
-}
-
-@media (max-width: 360px) {
-    .mypage-gallery-grid-6 {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 6px;
-    }
-}
-
-/* --- レスポンシブ対応：フォームモーダル --- */
-@media (max-width: 480px) {
-    .form-modal-container {
-        width: 95%;
-        max-width: 95%;
-        margin: 10px auto;
-        max-height: 90vh;
-        overflow-y: auto;
-    }
-    .form-modal-header h2 {
-        font-size: 1.1rem;
-    }
-    .form-group {
-        margin-bottom: 15px;
-    }
-    .form-group label {
-        font-size: 0.9rem;
-    }
-    .form-group input,
-    .form-group textarea {
-        font-size: 0.9rem;
-        padding: 10px;
-    }
-}
-
-/* --- レスポンシブ対応：ボトムナビゲーション --- */
-@media (max-width: 480px) {
-    #bottom-nav {
-        padding: 8px 0;
-    }
-    .nav-item {
-        font-size: 0.7rem;
-        padding: 6px 4px;
-    }
-    .nav-item i {
-        font-size: 1.1rem;
-        margin-bottom: 4px;
-    }
-}
-
-/* --- レスポンシブ対応：FAB（フローティングアクションボタン） --- */
-@media (max-width: 480px) {
-    #fab-container {
-        bottom: 70px;
-        right: 15px;
-    }
-    .btn-fab {
-        width: 50px;
-        height: 50px;
-        font-size: 1.2rem;
-    }
-    .fab-item {
-        padding: 10px 14px;
-        font-size: 0.85rem;
-    }
-}
-
-/* --- レスポンシブ対応：ポップアップ --- */
-@media (max-width: 480px) {
-    .popup-box {
-        width: 90%;
-        max-width: 90%;
-        margin: 20px auto;
-    }
-    .popup-header h2 {
-        font-size: 1.1rem;
-    }
-    .popup-body {
-        padding: 15px;
-        font-size: 0.9rem;
-    }
-}
-
-/* --- レスポンシブ対応：サイドメニュー --- */
-@media (max-width: 480px) {
-    #side-menu {
-        width: 85%;
-        max-width: 320px;
-    }
-    .side-menu-header h3 {
-        font-size: 1.1rem;
-    }
-    .design-title-stylish {
-        font-size: 0.85rem;
-    }
-    .btn-theme-switch {
-        padding: 10px;
-    }
-    .theme-label {
-        font-size: 0.8rem;
-    }
-}
-
-/* --- レスポンシブ対応：タイムラインとチャット --- */
-@media (max-width: 480px) {
-    .category-tags {
-        flex-wrap: wrap;
-        gap: 8px;
-        padding: 10px 0;
-    }
-    .tag {
-        padding: 6px 12px;
-        font-size: 0.8rem;
-    }
-    .timeline-list {
-        padding: 10px 0;
-    }
-    .chat-list {
-        padding: 0;
-    }
-}
 @keyframes floatMsg { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
 
 
@@ -504,17 +216,18 @@ input:checked + .slider:before { transform: translateX(24px); }
 .tag.active { background: var(--color-accent); color: #fff; }
 
 .timeline-list { display: flex; flex-direction: column; gap: 15px; padding-bottom: 20px; }
-/* Timeline Item: 背景・枠線なし、影なし */
+/* Timeline Item: ★修正: height:140pxを削除しmin-heightへ */
 .timeline-item { 
     display: flex; 
     background: transparent; 
     border: none; 
     border-radius: 0;
-    overflow: visible; /* 吹き出しがはみ出るのを許可 */
+    overflow: visible; 
     box-shadow: none; 
-    height: 140px; 
+    min-height: 100px; /* ★内容量に応じて伸びるように変更 */
     color: var(--color-text-custom);
-    align-items: center;
+    align-items: flex-start; /* ★上揃えに変更 */
+    padding-bottom: 15px;
 }
 .timeline-img-area { 
     width: 120px; height: 120px; flex-shrink: 0;
@@ -528,13 +241,13 @@ input:checked + .slider:before { transform: translateX(24px); }
     display: flex; flex-direction: column; 
     justify-content: center;
 }
-.timeline-meta { display: none; } /* シンプルにするため一旦非表示、あるいは吹き出し内に入れる */
+.timeline-meta { display: none; } 
 
-/* タイムライン吹き出し (Sub Color) - 丸み強化・画像に被せる */
+/* タイムライン吹き出し */
 .timeline-tweet { 
     background: var(--color-sub); 
     border: none;
-    border-radius: 25px; /* 丸く */
+    border-radius: 25px; 
     padding: 15px 20px; 
     font-size: 0.9rem; 
     color: #fff; 
@@ -542,11 +255,12 @@ input:checked + .slider:before { transform: translateX(24px); }
     margin-bottom: 0; 
     line-height: 1.4; 
     display: flex; align-items: center; 
-    margin-left: -30px; /* 画像に被せる */
+    margin-left: -30px; 
     z-index: 2;
     box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    margin-top: 10px; /* ★上揃えにしたための調整 */
 }
-.timeline-tweet::before { display: none; } /* 吹き出しの尻尾は不要（被せるデザインのため） */
+.timeline-tweet::before { display: none; }
 
 .timeline-like-btn { position: absolute; bottom: -5px; right: 0; background: #fff; border-radius: 50%; width: 30px; height: 30px; display: flex; justify-content: center; align-items: center; color: #ccc; font-size: 1rem; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.1); z-index: 3;}
 .timeline-like-btn.active { color: #ff4d4d; }
@@ -566,7 +280,7 @@ input:checked + .slider:before { transform: translateX(24px); }
 .ec-name { font-size: 0.95rem; font-weight: bold; color: var(--color-accent); margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .ec-desc { font-size: 0.75rem; color: var(--color-text-custom); line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 
-/* Chat List (LINE風 - クリックアクション追加) */
+/* Chat List */
 .chat-list { min-height: 100vh; }
 .chat-item { 
     display: flex; padding: 12px 15px; 
@@ -577,7 +291,7 @@ input:checked + .slider:before { transform: translateX(24px); }
     transition: background-color 0.1s;
 }
 .chat-item:active {
-    background-color: rgba(0,0,0,0.1) !important; /* クリック感 */
+    background-color: rgba(0,0,0,0.1) !important;
 }
 .chat-avatar { width: 50px; height: 50px; border-radius: 50%; background-size: cover; background-position: center; background-color: #eee; flex-shrink: 0; }
 .chat-content { flex-grow: 1; overflow: hidden; }
@@ -594,7 +308,7 @@ input:checked + .slider:before { transform: translateX(24px); }
 .mypage-avatar-img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 3px solid var(--color-accent); padding: 2px; background: #fff; }
 .btn-avatar-add { position: absolute; bottom: 0; right: 0; width: 24px; height: 24px; background-color: #0099ff; color: white; border: 2px solid #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; cursor: pointer; }
 
-/* マイページ吹き出し (Sub Color) */
+/* マイページ吹き出し */
 .mypage-speech-bubble { 
     background: var(--color-sub); 
     color: #fff; 
@@ -689,4 +403,44 @@ input[type="text"], input[type="email"], input[type="date"], select { width: 100
 
 .btn-floating { position: fixed; bottom: 90px; left: 20px; width: 50px; height: 50px; background: var(--color-main); color: var(--color-accent); border: 1px solid var(--color-accent); border-radius: 50%; text-align: center; line-height: 50px; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.2); z-index: 200; transition: all 0.3s; }
 .btn-floating:hover { transform: translateY(-3px); }
+
+
+/* =========================================================
+   ★追加: モバイル向けレスポンシブスタイル (480px以下)
+========================================================= */
+@media screen and (max-width: 480px) {
+    /* コンテナの余白調整 */
+    .container { padding: 0 15px; }
+
+    /* ヘッダー周り */
+    .header-logo-img { height: 28px; }
+    .header-icon-btn { width: 32px; height: 32px; font-size: 1rem; }
+    .header-switch .type-btn { padding: 4px 8px; font-size: 0.7rem; }
+    
+    /* タイムライン */
+    .timeline-img-area { 
+        width: 90px; height: 90px; 
+    }
+    .timeline-tweet { 
+        font-size: 0.8rem; 
+        padding: 10px 15px; 
+        margin-left: -20px; /* 重なりを少し減らす */
+        margin-top: 0;
+    }
+    
+    /* マイページ */
+    .mypage-top-section { padding: 15px; gap: 10px; }
+    .mypage-avatar-wrapper { width: 60px; height: 60px; }
+    .mypage-speech-bubble { font-size: 0.75rem; padding: 8px 12px; }
+    .mypage-name { font-size: 1.0rem; }
+    .mypage-age { font-size: 0.85rem; }
+    .mypage-stats, .mypage-bio { font-size: 0.8rem; }
+    
+    /* その他 */
+    .ec-grid-layout { gap: 10px; }
+    
+    /* スワイプカード */
+    .card-content { max-height: 70vh; }
+    .profile-info-new { bottom: 60px; left: 15px; }
+    .user-name { font-size: 1.2rem; }
 }
