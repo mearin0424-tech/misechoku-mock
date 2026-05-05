@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>NightWork App Simulator</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- React & ReactDOM -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    
+    <!-- Babel -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <style>
+        .pb-safe { padding-bottom: max(16px, env(safe-area-inset-bottom, 16px)); }
+        .pt-safe { padding-top: max(8px, env(safe-area-inset-top, 8px)); }
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+        body { background-color: #000; color: #fff; margin: 0; -webkit-tap-highlight-color: transparent; }
+        select option { background-color: #1a1a1a; color: #fff; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState } = React;
+
+        // ==========================================
+        // 🎨 テーマ & スタイル 定義 (全10パターン)
+        // ==========================================
+        const themes = {
+            wine_gold: {
+                id: 'wine_gold', name: 'Wine & Gold (ワイン×金)',
+                bgApp: 'bg-[#0f0507]', bgMain: 'bg-[#1f0911]', bgCard: 'bg-[#2e0e18]', bgInput: 'bg-[#3d121f]', bgOverlay: 'bg-[#1f0911]/90', navBg: 'bg-[#1f0911]',
+                textMain: 'text-[#FFF0F3]', textSub: 'text-[#B58A93]', hoverAccentText: 'group-hover:text-[#dcb568]',
+                border: 'border-[#4a1728]', borderInput: 'border-[#5a1c31]',
+                iconInactive: 'text-[#B58A93]', starColor: 'text-[#dcb568]', starBg: 'bg-[#dcb568]/10',
+                tagText: 'text-[#dcb568]', tagBg: 'bg-[#dcb568]/10', tagBorder: 'border-[#dcb568]/30',
+                radiusBase: 'rounded-xl', radiusCard: 'rounded-2xl', radiusFull: 'rounded-full', fontTitle: 'font-serif tracking-widest',
+                styles: {
+                    gradient: {
+                        btnPrimary: 'bg-gradient-to-r from-[#dcb568] to-[#b8860b] text-[#1f0911] shadow-md font-bold',
+                        btnSecondary: 'bg-[#2e0e18] text-[#dcb568] border border-[#5a1c31]',
+                        textGrad: 'text-transparent bg-clip-text bg-gradient-to-r from-[#dcb568] to-[#b8860b]',
+                        card: 'bg-[#2e0e18] border border-[#4a1728] shadow-lg',
+                        badge: 'bg-gradient-to-r from-[#dcb568] to-[#b8860b] text-[#1f0911] border-2 border-[#2e0e18] shadow-sm font-bold',
+                        tabIndicator: 'bg-gradient-to-r from-[#dcb568] to-[#b8860b] shadow-[0_0_8px_rgba(220,181,104,0.6)]',
+                        iconActive: 'text-[#dcb568]',
+                        progressFill: 'bg-[#dcb568] shadow-[0_0_4px_rgba(220,181,104,0.8)]',
+                        actionBtn: 'bg-black/40 backdrop-blur-md border border-white/20 text-white hover:bg-[#dcb568] hover:border-transparent hover:text-[#1f0911]',
+                    },
+                    flat: {
+                        btnPrimary: 'bg-[#dcb568] text-[#1f0911] font-bold',
+                        btnSecondary: 'bg-[#2e0e18] text-[#dcb568]',
+                        textGrad: 'text-[#dcb568]',
+                        card: 'bg-[#2e0e18]',
+                        badge: 'bg-[#dcb568] text-[#1f0911] font-bold',
+                        tabIndicator: 'bg-[#dcb568]',
+                        iconActive: 'text-[#dcb568]',
+                        progressFill: 'bg-[#dcb568]',
+                        actionBtn: 'bg-black/40 text-white hover:bg-[#dcb568] hover:text-[#1f0911]',
+                    },
+                    '3d': {
+                        btnPrimary: 'bg-gradient-to-b from-[#dcb568] to-[#b8860b] text-[#1f0911] font-bold shadow-[inset_0_2px_4px_rgba(255,255,255,0.6),0_6px_12px_rgba(0,0,0,0.8)] active:shadow-none active:translate-y-1',
+                        btnSecondary: 'bg-[#2e0e18] text-[#dcb568] shadow-[inset_0_1px_2px_rgba(255,255,255,0.1),0_4px_8px_rgba(0,0,0,0.5)]',
+                        textGrad: 'text-[#dcb568] drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]',
+                        card: 'bg-[#2e0e18] border-t border-white/10 border-l border-white/5 shadow-[8px_8px_16px_rgba(0,0,0,0.6),-4px_-4px_10px_rgba(255,255,255,0.03)]',
+                        badge: 'bg-[#dcb568] text-[#1f0911] font-bold shadow-[inset_0_1px_2px_rgba(255,255,255,0.6),0_2px_4px_rgba(0,0,0,0.8)]',
+                        tabIndicator: 'bg-[#dcb568] shadow-[0_0_5px_rgba(220,181,104,0.8)]',
+                        iconActive: 'text-[#dcb568] drop-shadow-md',
+                        progressFill: 'bg-[#dcb568] shadow-[inset_0_1px_2px_rgba(255,255,255,0.8)]',
+                        actionBtn: 'bg-[#2e0e18] text-[#dcb568] shadow-[inset_0_2px_4px_rgba(255,255,255,0.2),0_6px_12px_rgba(0,0,0,0.6)] hover:bg-[#dcb568] hover:text-[#1f0911]',
+                    },
+                    neon: {
+                        btnPrimary: 'bg-[#1f0911] border-2 border-[#dcb568] text-[#dcb568] font-bold shadow-[0_0_15px_rgba(220,181,104,0.5),inset_0_0_10px_rgba(220,181,104,0.3)] hover:bg-[#dcb568]/20',
+                        btnSecondary: 'bg-[#1f0911] text-[#dcb568] border border-[#dcb568]/50 shadow-[0_0_10px_rgba(220,181,104,0.2)]',
+                        textGrad: 'text-[#dcb568] drop-shadow-[0_0_8px_#dcb568]',
+                        card: 'bg-[#1f0911]/80 border border-[#dcb568]/40 shadow-[0_0_20px_rgba(220,181,104,0.15)] backdrop-blur-sm',
+                        badge: 'bg-[#1f0911] border border-[#dcb568] text-[#dcb568] font-bold shadow-[0_0_8px_rgba(220,181,104,0.8)]',
+                        tabIndicator: 'bg-[#dcb568] shadow-[0_0_12px_#dcb568]',
+                        iconActive: 'text-[#dcb568] drop-shadow-[0_0_8px_#dcb568]',
+                        progressFill: 'bg-[#dcb568] shadow-[0_0_10px_#dcb568]',
+                        actionBtn: 'bg-[#1f0911] border border-[#dcb568] text-[#dcb568] shadow-[0_0_15px_rgba(220,181,104,0.4)] hover:bg-[#dcb568]/20',
+                    }
+                }
+            },
+            classic: {
+                id: 'classic', name: 'Classic Gold (王道)',
+                bgApp: 'bg-[#0a0a0a]', bgMain: 'bg-[#161110]', bgCard: 'bg-[#1c1514]', bgInput: 'bg-[#0d0a09]', bgOverlay: 'bg-[#161110]/90', navBg: 'bg-[#161110]',
+                textMain: 'text-[#ececec]', textSub: 'text-gray-400', hoverAccentText: 'group-hover:text-[#dcb568]',
+                border: 'border-[#362725]', borderInput: 'border-[#4a3633]',
+                iconInactive: 'text-gray-500', starColor: 'text-[#dcb568]', starBg: 'bg-[#dcb568]/10',
+                tagText: 'text-[#dcb568]', tagBg: 'bg-[#dcb568]/10', tagBorder: 'border-[#dcb568]/30',
+                radiusBase: 'rounded-md', radiusCard: 'rounded-lg', radiusFull: 'rounded-full', fontTitle: 'font-serif tracking-widest',
+                styles: {
+                    gradient: {
+                        btnPrimary: 'bg-gradient-to-r from-[#dcb568] to-[#b8860b] text-[#161110] shadow-md',
+                        btnSecondary: 'bg-[#0d0a09] text-[#dcb568] border border-[#4a3633]',
+                        textGrad: 'text-transparent bg-clip-text bg-gradient-to-r from-[#dcb568] to-[#b8860b]',
+                        card: 'bg-[#1c1514] border border-[#362725] shadow-lg',
+                        badge: 'bg-gradient-to-r from-[#dcb568] to-[#b8860b] text-[#161110] border-2 border-[#161110] shadow-sm',
+                        tabIndicator: 'bg-gradient-to-r from-[#dcb568] to-[#b8860b] shadow-[0_0_8px_rgba(220,181,104,0.6)]',
+                        iconActive: 'text-[#dcb568]',
+                        progressFill: 'bg-white shadow-[0_0_4px_rgba(255,255,255,0.8)]',
+                        actionBtn: 'bg-black/40 backdrop-blur-md border border-white/20 text-white hover:bg-[#dcb568] hover:border-transparent hover:text-[#161110]',
+                    },
+                    flat: {
+                        btnPrimary: 'bg-[#dcb568] text-[#161110]',
+                        btnSecondary: 'bg-[#1c1514] text-[#dcb568]',
+                        textGrad: 'text-[#dcb568]',
+                        card: 'bg-[#1c1514]',
+                        badge: 'bg-[#dcb568] text-[#161110]',
+                        tabIndicator: 'bg-[#dcb568]',
+                        iconActive: 'text-[#dcb568]',
+                        progressFill: 'bg-white',
+                        actionBtn: 'bg-black/40 text-white hover:bg-[#dcb568] hover:text-[#161110]',
+                    },
+                    '3d': {
+                        btnPrimary: 'bg-gradient-to-b from-[#dcb568] to-[#b8860b] text-[#161110] shadow-[inset_0_2px_4px_rgba(255,255,255,0.6),0_6px_12px_rgba(0,0,0,0.8)] active:shadow-none active:translate-y-1',
+                        btnSecondary: 'bg-[#1c1514] text-[#dcb568] shadow-[inset_0_1px_2px_rgba(255,255,255,0.1),0_4px_8px_rgba(0,0,0,0.6)]',
+                        textGrad: 'text-[#dcb568] drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]',
+                        card: 'bg-[#1c1514] border-t border-white/5 border-l border-white/5 shadow-[8px_8px_16px_rgba(0,0,0,0.6),-4px_-4px_10px_rgba(255,255,255,0.02)]',
+                        badge: 'bg-[#dcb568] text-[#161110] shadow-[inset_0_1px_2px_rgba(255,255,255,0.6),0_2px_4px_rgba(0,0,0,0.8)]',
+                        tabIndicator: 'bg-[#dcb568] shadow-[0_0_5px_rgba(220,181,104,0.8)]',
+                        iconActive: 'text-[#dcb568] drop-shadow-md',
+                        progressFill: 'bg-white shadow-[inset_0_1px_2px_rgba(0,0,0,0.5)]',
+                        actionBtn: 'bg-[#1c1514] text-white shadow-[inset_0_2px_4px_rgba(255,255,255,0.2),0_6px_12px_rgba(0,0,0,0.6)] hover:text-[#dcb568]',
+                    },
+                    neon: {
+                        btnPrimary: 'bg-[#161110] border-2 border-[#dcb568] text-[#dcb568] shadow-[0_0_15px_rgba(220,181,104,0.5),inset_0_0_10px_rgba(220,181,104,0.3)]',
+                        btnSecondary: 'bg-[#161110] text-[#dcb568] border border-[#dcb568]/50 shadow-[0_0_10px_rgba(220,181,104,0.2)]',
+                        textGrad: 'text-[#dcb568] drop-shadow-[0_0_8px_#dcb568]',
+                        card: 'bg-[#161110]/80 border border-[#dcb568]/40 shadow-[0_0_20px_rgba(220,181,104,0.15)] backdrop-blur-sm',
+                        badge: 'bg-[#161110] border border-[#dcb568] text-[#dcb568] shadow-[0_0_8px_rgba(220,181,104,0.8)]',
+                        tabIndicator: 'bg-[#dcb568] shadow-[0_0_12px_#dcb568]',
+                        iconActive: 'text-[#dcb568] drop-shadow-[0_0_8px_#dcb568]',
+                        progressFill: 'bg-[#dcb568] shadow-[0_0_10px_#dcb568]',
+                        actionBtn: 'bg-[#161110] border border-[#dcb568] text-[#dcb568] shadow-[0_0_15px_rgba(220,181,104,0.4)] hover:bg-[#dcb568]/20',
+                    }
+                }
+            },
+            sapphire: {
+                id: 'sapphire', name: 'Royal Sapphire (青×銀)',
+                bgApp: 'bg-[#020617]', bgMain: 'bg-[#0f172a]', bgCard: 'bg-[#1e293b]', bgInput: 'bg-[#334155]/50', bgOverlay: 'bg-[#0f172a]/90', navBg: 'bg-[#0f172a]',
+                textMain: 'text-[#f8fafc]', textSub: 'text-[#94a3b8]', hoverAccentText: 'group-hover:text-[#38bdf8]',
+                border: 'border-[#334155]', borderInput: 'border-[#475569]',
+                iconInactive: 'text-[#94a3b8]', starColor: 'text-[#38bdf8]', starBg: 'bg-[#38bdf8]/10',
+                tagText: 'text-[#38bdf8]', tagBg: 'bg-[#38bdf8]/10', tagBorder: 'border-[#38bdf8]/30',
+                radiusBase: 'rounded-[16px]', radiusCard: 'rounded-[24px]', radiusFull: 'rounded-full', fontTitle: 'font-serif tracking-widest',
+                styles: {
+                    gradient: {
+                        btnPrimary: 'bg-gradient-to-r from-[#38bdf8] to-[#0284c7] text-[#0f172a] shadow-md font-bold',
+                        btnSecondary: 'bg-[#1e293b] text-[#38bdf8] border border-[#475569]',
+                        textGrad: 'text-transparent bg-clip-text bg-gradient-to-r from-[#38bdf8] to-[#0284c7]',
+                        card: 'bg-[#1e293b] border border-[#334155] shadow-lg',
+                        badge: 'bg-gradient-to-r from-[#38bdf8] to-[#0284c7] text-[#0f172a] border-2 border-[#1e293b] shadow-sm font-bold',
+                        tabIndicator: 'bg-gradient-to-r from-[#38bdf8] to-[#0284c7] shadow-[0_0_8px_rgba(56,189,248,0.6)]',
+                        iconActive: 'text-[#38bdf8]',
+                        progressFill: 'bg-[#38bdf8] shadow-[0_0_4px_rgba(56,189,248,0.8)]',
+                        actionBtn: 'bg-black/40 backdrop-blur-md border border-white/20 text-white hover:bg-[#38bdf8] hover:border-transparent hover:text-[#0f172a]',
+                    },
+                    flat: {
+                        btnPrimary: 'bg-[#38bdf8] text-[#0f172a] font-bold',
+                        btnSecondary: 'bg-[#1e293b] text-[#38bdf8]',
+                        textGrad: 'text-[#38bdf8]',
+                        card: 'bg-[#1e293b]',
+                        badge: 'bg-[#38bdf8] text-[#0f172a] font-bold',
+                        tabIndicator: 'bg-[#38bdf8]',
+                        iconActive: 'text-[#38bdf8]',
+                        progressFill: 'bg-[#38bdf8]',
+                        actionBtn: 'bg-black/40 text-white hover:bg-[#38bdf8] hover:text-[#0f172a]',
+                    },
+                    '3d': {
+                        btnPrimary: 'bg-gradient-to-b from-[#38bdf8] to-[#0ea5e9] text-[#0f172a] font-bold shadow-[inset_0_2px_4px_rgba(255,255,255,0.6),0_6px_12px_rgba(0,0,0,0.8)] active:shadow-none active:translate-y-1',
+                        btnSecondary: 'bg-[#1e293b] text-[#38bdf8] shadow-[inset_0_1px_2px_rgba(255,255,255,0.1),0_4px_8px_rgba(0,0,0,0.5)]',
+                        textGrad: 'text-[#38bdf8] drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]',
+                        card: 'bg-[#1e293b] border-t border-white/10 border-l border-white/5 shadow-[8px_8px_16px_rgba(0,0,0,0.6),-4px_-4px_10px_rgba(255,255,255,0.03)]',
+                        badge: 'bg-[#38bdf8] text-[#0f172a] font-bold shadow-[inset_0_1px_2px_rgba(255,255,255,0.6),0_2px_4px_rgba(0,0,0,0.8)]',
+                        tabIndicator: 'bg-[#38bdf8] shadow-[0_0_5px_rgba(56,189,248,0.8)]',
+                        iconActive: 'text-[#38bdf8] drop-shadow-md',
+                        progressFill: 'bg-[#38bdf8] shadow-[inset_0_1px_2px_rgba(255,255,255,0.8)]',
+                        actionBtn: 'bg-[#1e293b] text-[#38bdf8] shadow-[inset_0_2px_4px_rgba(255,255,255,0.2),0_6px_12px_rgba(0,0,0,0.6)] hover:bg-[#38bdf8] hover:text-[#0f172a]',
+                    },
+                    neon: {
+                        btnPrimary: 'bg-[#0f172a] border-2 border-[#38bdf8] text-[#38bdf8] font-bold shadow-[0_0_15px_rgba(56,189,248,0.5),inset_0_0_10px_rgba(56,189,248,0.3)] hover:bg-[#38bdf8]/20',
+                        btnSecondary: 'bg-[#0f172a] text-[#38bdf8] border border-[#38bdf8]/50 shadow-[0_0_10px_rgba(56,189,248,0.2)]',
+                        textGrad: 'text-[#38bdf8] drop-shadow-[0_0_8px_#38bdf8]',
+                        card: 'bg-[#0f172a]/80 border border-[#38bdf8]/40 shadow-[0_0_20px_rgba(56,189,248,0.15)] backdrop-blur-sm',
+                        badge: 'bg-[#0f172a] border border-[#38bdf8] text-[#38bdf8] font-bold shadow-[0_0_8px_rgba(56,189,248,0.8)]',
+                        tabIndicator: 'bg-[#38bdf8] shadow-[0_0_12px_#38bdf8]',
+                        iconActive: 'text-[#38bdf8] drop-shadow-[0_0_8px_#38bdf8]',
+                        progressFill: 'bg-[#38bdf8] shadow-[0_0_10px_#38bdf8]',
+                        actionBtn: 'bg-[#0f172a] border border-[#38bdf8] text-[#38bdf8] shadow-[0_0_15px_rgba(56,189,248,0.4)] hover:bg-[#38bdf8]/20',
+                    }
+                }
+            },
+            pearl: {
+                id: 'pearl', name: 'Champagne Pearl (モカ×シャンパン)',
+                bgApp: 'bg-[#1a1614]', bgMain: 'bg-[#2c2421]', bgCard: 'bg-[#3e332f]', bgInput: 'bg-[#4f433e]/50', bgOverlay: 'bg-[#2c2421]/90', navBg: 'bg-[#2c2421]',
+                textMain: 'text-[#fffdf7]', textSub: 'text-[#d4cfc9]', hoverAccentText: 'group-hover:text-[#e3d5ca]',
+                border: 'border-[#4f433e]', borderInput: 'border-[#6a5a54]',
+                iconInactive: 'text-[#d4cfc9]', starColor: 'text-[#e3d5ca]', starBg: 'bg-[#e3d5ca]/10',
+                tagText: 'text-[#e3d5ca]', tagBg: 'bg-[#e3d5ca]/10', tagBorder: 'border-[#e3d5ca]/30',
+                radiusBase: 'rounded-[12px]', radiusCard: 'rounded-[20px]', radiusFull: 'rounded-full', fontTitle: 'font-serif tracking-[0.1em]',
+                styles: {
+                    gradient: {
+                        btnPrimary: 'bg-gradient-to-r from-[#e3d5ca] to-[#d5bdaf] text-[#2c2421] shadow-md font-bold',
+                        btnSecondary: 'bg-[#3e332f] text-[#e3d5ca] border border-[#6a5a54]',
+                        textGrad: 'text-transparent bg-clip-text bg-gradient-to-r from-[#e3d5ca] to-[#d5bdaf]',
+                        card: 'bg-[#3e332f] border border-[#4f433e] shadow-lg',
+                        badge: 'bg-gradient-to-r from-[#e3d5ca] to-[#d5bdaf] text-[#2c2421] border-2 border-[#3e332f] shadow-sm font-bold',
+                        tabIndicator: 'bg-gradient-to-r from-[#e3d5ca] to-[#d5bdaf] shadow-[0_0_8px_rgba(227,213,202,0.6)]',
+                        iconActive: 'text-[#e3d5ca]',
+                        progressFill: 'bg-[#e3d5ca] shadow-[0_0_4px_rgba(227,213,202,0.8)]',
+                        actionBtn: 'bg-black/40 backdrop-blur-md border border-white/20 text-white hover:bg-[#e3d5ca] hover:border-transparent hover:text-[#2c2421]',
+                    },
+                    flat: {
+                        btnPrimary: 'bg-[#e3d5ca] text-[#2c2421] font-bold',
+                        btnSecondary: 'bg-[#3e332f] text-[#e3d5ca]',
+                        textGrad: 'text-[#e3d5ca]',
+                        card: 'bg-[#3e332f]',
+                        badge: 'bg-[#e3d5ca] text-[#2c2421] font-bold',
+                        tabIndicator: 'bg-[#e3d5ca]',
+                        iconActive: 'text-[#e3d5ca]',
+                        progressFill: 'bg-[#e3d5ca]',
+                        actionBtn: 'bg-black/40 text-white hover:bg-[#e3d5ca] hover:text-[#2c2421]',
+                    },
+                    '3d': {
+                        btnPrimary: 'bg-gradient-to-b from-[#e3d5ca] to-[#d5bdaf] text-[#2c2421] font-bold shadow-[inset_0_2px_4px_rgba(255,255,255,0.6),0_6px_12px_rgba(0,0,0,0.5)] active:shadow-none active:translate-y-1',
+                        btnSecondary: 'bg-[#3e332f] text-[#e3d5ca] shadow-[inset_0_1px_2px_rgba(255,255,255,0.1),0_4px_8px_rgba(0,0,0,0.4)]',
+                        textGrad: 'text-[#e3d5ca] drop-shadow-[0_2px_2px_rgba(0,0,0,0.6)]',
+                        card: 'bg-[#3e332f] border-t border-white/10 border-l border-white/5 shadow-[8px_8px_16px_rgba(0,0,0,0.4),-4px_-4px_10px_rgba(255,255,255,0.05)]',
+                        badge: 'bg-[#e3d5ca] text-[#2c2421] font-bold shadow-[inset_0_1px_2px_rgba(255,255,255,0.6),0_2px_4px_rgba(0,0,0,0.5)]',
+                        tabIndicator: 'bg-[#e3d5ca] shadow-[0_0_5px_rgba(227,213,202,0.8)]',
+                        iconActive: 'text-[#e3d5ca] drop-shadow-md',
+                        progressFill: 'bg-[#e3d5ca] shadow-[inset_0_1px_2px_rgba(255,255,255,0.8)]',
+                        actionBtn: 'bg-[#3e332f] text-[#e3d5ca] shadow-[inset_0_2px_4px_rgba(255,255,255,0.2),0_6px_12px_rgba(0,0,0,0.4)] hover:bg-[#e3d5ca] hover:text-[#2c2421]',
+                    },
+                    neon: {
+                        btnPrimary: 'bg-[#2c2421] border-2 border-[#e3d5ca] text-[#e3d5ca] font-bold shadow-[0_0_15px_rgba(227,213,202,0.5),inset_0_0_10px_rgba(227,213,202,0.3)] hover:bg-[#e3d5ca]/20',
+                        btnSecondary: 'bg-[#2c2421] text-[#e3d5ca] border border-[#e3d5ca]/50 shadow-[0_0_10px_rgba(227,213,202,0.2)]',
+                        textGrad: 'text-[#e3d5ca] drop-shadow-[0_0_8px_#e3d5ca]',
+                        card: 'bg-[#2c2421]/80 border border-[#e3d5ca]/40 shadow-[0_0_20px_rgba(227,213,202,0.15)] backdrop-blur-sm',
+                        badge: 'bg-[#2c2421] border border-[#e3d5ca] text-[#e3d5ca] font-bold shadow-[0_0_8px_rgba(227,213,202,0.8)]',
+                        tabIndicator: 'bg-[#e3d5ca] shadow-[0_0_12px_#e3d5ca]',
+                        iconActive: 'text-[#e3d5ca] drop-shadow-[0_0_8px_#e3d5ca]',
+                        progressFill: 'bg-[#e3d5ca] shadow-[0_0_10px_#e3d5ca]',
+                        actionBtn: 'bg-[#2c2421] border border-[#e3d5ca] text-[#e3d5ca] shadow-[0_0_15px_rgba(227,213,202,0.4)] hover:bg-[#e3d5ca]/20',
+                    }
+                }
+            },
+            emerald: {
+                id: 'emerald', name: 'Emerald Onyx (黒×エメラルド)',
+                bgApp: 'bg-[#060907]', bgMain: 'bg-[#0d1410]', bgCard: 'bg-[#16211a]', bgInput: 'bg-[#1e2f25]/50', bgOverlay: 'bg-[#0d1410]/90', navBg: 'bg-[#0d1410]',
+                textMain: 'text-[#f0f5f2]', textSub: 'text-[#9caf9b]', hoverAccentText: 'group-hover:text-[#52b788]',
+                border: 'border-[#2a3f31]', borderInput: 'border-[#395643]',
+                iconInactive: 'text-[#9caf9b]', starColor: 'text-[#52b788]', starBg: 'bg-[#52b788]/10',
+                tagText: 'text-[#52b788]', tagBg: 'bg-[#52b788]/10', tagBorder: 'border-[#52b788]/30',
+                radiusBase: 'rounded-[16px]', radiusCard: 'rounded-[24px]', radiusFull: 'rounded-full', fontTitle: 'font-sans font-light tracking-[0.2em]',
+                styles: {
+                    gradient: {
+                        btnPrimary: 'bg-gradient-to-r from-[#52b788] to-[#40916c] text-[#0d1410] shadow-md font-bold',
+                        btnSecondary: 'bg-[#16211a] text-[#52b788] border border-[#395643]',
+                        textGrad: 'text-transparent bg-clip-text bg-gradient-to-r from-[#52b788] to-[#40916c]',
+                        card: 'bg-[#16211a] border border-[#2a3f31] shadow-lg',
+                        badge: 'bg-gradient-to-r from-[#52b788] to-[#40916c] text-[#0d1410] border-2 border-[#16211a] shadow-sm font-bold',
+                        tabIndicator: 'bg-gradient-to-r from-[#52b788] to-[#40916c] shadow-[0_0_8px_rgba(82,183,136,0.6)]',
+                        iconActive: 'text-[#52b788]',
+                        progressFill: 'bg-[#52b788] shadow-[0_0_4px_rgba(82,183,136,0.8)]',
+                        actionBtn: 'bg-black/40 backdrop-blur-md border border-white/20 text-white hover:bg-[#52b788] hover:border-transparent hover:text-[#0d1410]',
+                    },
+                    flat: {
+                        btnPrimary: 'bg-[#52b788] text-[#0d1410] font-bold',
+                        btnSecondary: 'bg-[#16211a] text-[#52b788]',
+                        textGrad: 'text-[#52b788]',
+                        card: 'bg-[#16211a]',
+                        badge: 'bg-[#52b788] text-[#0d1410] font-bold',
+                        tabIndicator: 'bg-[#52b788]',
+                        iconActive: 'text-[#52b788]',
+                        progressFill: 'bg-[#52b788]',
+                        actionBtn: 'bg-black/40 text-white hover:bg-[#52b788] hover:text-[#0d1410]',
+                    },
+                    '3d': {
+                        btnPrimary: 'bg-gradient-to-b from-[#52b788] to-[#40916c] text-[#0d1410] font-bold shadow-[inset_0_2px_4px_rgba(255,255,255,0.6),0_6px_12px_rgba(0,0,0,0.8)] active:shadow-none active:translate-y-1',
+                        btnSecondary: 'bg-[#16211a] text-[#52b788] shadow-[inset_0_1px_2px_rgba(255,255,255,0.1),0_4px_8px_rgba(0,0,0,0.5)]',
+                        textGrad: 'text-[#52b788] drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]',
+                        card: 'bg-[#16211a] border-t border-white/10 border-l border-white/5 shadow-[8px_8px_16px_rgba(0,0,0,0.6),-4px_-4px_10px_rgba(255,255,255,0.03)]',
+                        badge: 'bg-[#52b788] text-[#0d1410] font-bold shadow-[inset_0_1px_2px_rgba(255,255,255,0.6),0_2px_4px_rgba(0,0,0,0.8)]',
+                        tabIndicator: 'bg-[#52b788] shadow-[0_0_5px_rgba(82,183,136,0.8)]',
+                        iconActive: 'text-[#52b788] drop-shadow-md',
+                        progressFill: 'bg-[#52b788] shadow-[inset_0_1px_2px_rgba(255,255,255,0.8)]',
+                        actionBtn: 'bg-[#16211a] text-[#52b788] shadow-[inset_0_2px_4px_rgba(255,255,255,0.2),0_6px_12px_rgba(0,0,0,0.6)] hover:bg-[#52b788] hover:text-[#0d1410]',
+                    },
+                    neon: {
+                        btnPrimary: 'bg-[#0d1410] border-2 border-[#52b788] text-[#52b788] font-bold shadow-[0_0_15px_rgba(82,183,136,0.5),inset_0_0_10px_rgba(82,183,136,0.3)] hover:bg-[#52b788]/20',
+                        btnSecondary: 'bg-[#0d1410] text-[#52b788] border border-[#52b788]/50 shadow-[0_0_10px_rgba(82,183,136,0.2)]',
+                        textGrad: 'text-[#52b788] drop-shadow-[0_0_8px_#52b788]',
+                        card: 'bg-[#0d1410]/80 border border-[#52b788]/40 shadow-[0_0_20px_rgba(82,183,136,0.15)] backdrop-blur-sm',
+                        badge: 'bg-[#0d1410] border border-[#52b788] text-[#52b788] font-bold shadow-[0_0_8px_rgba(82,183,136,0.8)]',
+                        tabIndicator: 'bg-[#52b788] shadow-[0_0_12px_#52b788]',
+                        iconActive: 'text-[#52b788] drop-shadow-[0_0_8px_#52b788]',
+                        progressFill: 'bg-[#52b788] shadow-[0_0_10px_#52b788]',
+                        actionBtn: 'bg-[#0d1410] border border-[#52b788] text-[#52b788] shadow-[0_0_15px_rgba(82,183,136,0.4)] hover:bg-[#52b788]/20',
+                    }
+                }
+            },
+            ruby: {
+                id: 'ruby', name: 'Ruby Velvet (深紅×ローズG)',
+                bgApp: 'bg-[#0f0406]', bgMain: 'bg-[#1c070a]', bgCard: 'bg-[#2e0b12]', bgInput: 'bg-[#400f19]/50', bgOverlay: 'bg-[#1c070a]/90', navBg: 'bg-[#1c070a]',
+                textMain: 'text-[#fff0f5]', textSub: 'text-[#d6a1aa]', hoverAccentText: 'group-hover:text-[#ffb5a7]',
+                border: 'border-[#4d121e]', borderInput: 'border-[#691829]',
+                iconInactive: 'text-[#d6a1aa]', starColor: 'text-[#ffb5a7]', starBg: 'bg-[#ffb5a7]/10',
+                tagText: 'text-[#ffb5a7]', tagBg: 'bg-[#ffb5a7]/10', tagBorder: 'border-[#ffb5a7]/30',
+                radiusBase: 'rounded-[12px]', radiusCard: 'rounded-[20px]', radiusFull: 'rounded-full', fontTitle: 'font-serif tracking-widest',
+                styles: {
+                    gradient: {
+                        btnPrimary: 'bg-gradient-to-r from-[#ffb5a7] to-[#e5989b] text-[#1c070a] shadow-md font-bold',
+                        btnSecondary: 'bg-[#2e0b12] text-[#ffb5a7] border border-[#691829]',
+                        textGrad: 'text-transparent bg-clip-text bg-gradient-to-r from-[#ffb5a7] to-[#e5989b]',
+                        card: 'bg-[#2e0b12] border border-[#4d121e] shadow-lg',
+                        badge: 'bg-gradient-to-r from-[#ffb5a7] to-[#e5989b] text-[#1c070a] border-2 border-[#2e0b12] shadow-sm font-bold',
+                        tabIndicator: 'bg-gradient-to-r from-[#ffb5a7] to-[#e5989b] shadow-[0_0_8px_rgba(255,181,167,0.6)]',
+                        iconActive: 'text-[#ffb5a7]',
+                        progressFill: 'bg-[#ffb5a7] shadow-[0_0_4px_rgba(255,181,167,0.8)]',
+                        actionBtn: 'bg-black/40 backdrop-blur-md border border-white/20 text-white hover:bg-[#ffb5a7] hover:border-transparent hover:text-[#1c070a]',
+                    },
+                    flat: {
+                        btnPrimary: 'bg-[#ffb5a7] text-[#1c070a] font-bold',
+                        btnSecondary: 'bg-[#2e0b12] text-[#ffb5a7]',
+                        textGrad: 'text-[#ffb5a7]',
+                        card: 'bg-[#2e0b12]',
+                        badge: 'bg-[#ffb5a7] text-[#1c070a] font-bold',
+                        tabIndicator: 'bg-[#ffb5a7]',
+                        iconActive: 'text-[#ffb5a7]',
+                        progressFill: 'bg-[#ffb5a7]',
+                        actionBtn: 'bg-black/40 text-white hover:bg-[#ffb5a7] hover:text-[#1c070a]',
+                    },
+                    '3d': {
+                        btnPrimary: 'bg-gradient-to-b from-[#ffb5a7] to-[#e5989b] text-[#1c070a] font-bold shadow-[inset_0_2px_4px_rgba(255,255,255,0.6),0_6px_12px_rgba(0,0,0,0.8)] active:shadow-none active:translate-y-1',
+                        btnSecondary: 'bg-[#2e0b12] text-[#ffb5a7] shadow-[inset_0_1px_2px_rgba(255,255,255,0.1),0_4px_8px_rgba(0,0,0,0.5)]',
+                        textGrad: 'text-[#ffb5a7] drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]',
+                        card: 'bg-[#2e0b12] border-t border-white/10 border-l border-white/5 shadow-[8px_8px_16px_rgba(0,0,0,0.6),-4px_-4px_10px_rgba(255,255,255,0.03)]',
+                        badge: 'bg-[#ffb5a7] text-[#1c070a] font-bold shadow-[inset_0_1px_2px_rgba(255,255,255,0.6),0_2px_4px_rgba(0,0,0,0.8)]',
+                        tabIndicator: 'bg-[#ffb5a7] shadow-[0_0_5px_rgba(255,181,167,0.8)]',
+                        iconActive: 'text-[#ffb5a7] drop-shadow-md',
+                        progressFill: 'bg-[#ffb5a7] shadow-[inset_0_1px_2px_rgba(255,255,255,0.8)]',
+                        actionBtn: 'bg-[#2e0b12] text-[#ffb5a7] shadow-[inset_0_2px_4px_rgba(255,255,255,0.2),0_6px_12px_rgba(0,0,0,0.6)] hover:bg-[#ffb5a7] hover:text-[#1c070a]',
+                    },
+                    neon: {
+                        btnPrimary: 'bg-[#1c070a] border-2 border-[#ffb5a7] text-[#ffb5a7] font-bold shadow-[0_0_15px_rgba(255,181,167,0.5),inset_0_0_10px_rgba(255,181,167,0.3)] hover:bg-[#ffb5a7]/20',
+                        btnSecondary: 'bg-[#1c070a] text-[#ffb5a7] border border-[#ffb5a7]/50 shadow-[0_0_10px_rgba(255,181,167,0.2)]',
+                        textGrad: 'text-[#ffb5a7] drop-shadow-[0_0_8px_#ffb5a7]',
+                        card: 'bg-[#1c070a]/80 border border-[#ffb5a7]/40 shadow-[0_0_20px_rgba(255,181,167,0.15)] backdrop-blur-sm',
+                        badge: 'bg-[#1c070a] border border-[#ffb5a7] text-[#ffb5a7] font-bold shadow-[0_0_8px_rgba(255,181,167,0.8)]',
+                        tabIndicator: 'bg-[#ffb5a7] shadow-[0_0_12px_#ffb5a7]',
+                        iconActive: 'text-[#ffb5a7] drop-shadow-[0_0_8px_#ffb5a7]',
+                        progressFill: 'bg-[#ffb5a7] shadow-[0_0_10px_#ffb5a7]',
+                        actionBtn: 'bg-[#1c070a] border border-[#ffb5a7] text-[#ffb5a7] shadow-[0_0_15px_rgba(255,181,167,0.4)] hover:bg-[#ffb5a7]/20',
+                    }
+                }
+            },
+            platinum: {
+                id: 'platinum', name: 'Obsidian Diamond (漆黒×銀)',
+                bgApp: 'bg-[#000000]', bgMain: 'bg-[#0a0a0a]', bgCard: 'bg-[#141414]', bgInput: 'bg-[#1f1f1f]/50', bgOverlay: 'bg-[#0a0a0a]/90', navBg: 'bg-[#0a0a0a]',
+                textMain: 'text-[#ffffff]', textSub: 'text-[#a3a3a3]', hoverAccentText: 'group-hover:text-[#e2e8f0]',
+                border: 'border-[#262626]', borderInput: 'border-[#404040]',
+                iconInactive: 'text-[#a3a3a3]', starColor: 'text-[#e2e8f0]', starBg: 'bg-[#e2e8f0]/10',
+                tagText: 'text-[#e2e8f0]', tagBg: 'bg-[#e2e8f0]/10', tagBorder: 'border-[#e2e8f0]/30',
+                radiusBase: 'rounded-[8px]', radiusCard: 'rounded-[16px]', radiusFull: 'rounded-full', fontTitle: 'font-sans font-light tracking-[0.25em]',
+                styles: {
+                    gradient: {
+                        btnPrimary: 'bg-gradient-to-r from-[#e2e8f0] to-[#94a3b8] text-[#0a0a0a] shadow-md font-bold',
+                        btnSecondary: 'bg-[#141414] text-[#e2e8f0] border border-[#404040]',
+                        textGrad: 'text-transparent bg-clip-text bg-gradient-to-r from-[#e2e8f0] to-[#94a3b8]',
+                        card: 'bg-[#141414] border border-[#262626] shadow-lg',
+                        badge: 'bg-gradient-to-r from-[#e2e8f0] to-[#94a3b8] text-[#0a0a0a] border-2 border-[#141414] shadow-sm font-bold',
+                        tabIndicator: 'bg-gradient-to-r from-[#e2e8f0] to-[#94a3b8] shadow-[0_0_8px_rgba(226,232,240,0.6)]',
+                        iconActive: 'text-[#e2e8f0]',
+                        progressFill: 'bg-[#e2e8f0] shadow-[0_0_4px_rgba(226,232,240,0.8)]',
+                        actionBtn: 'bg-black/40 backdrop-blur-md border border-white/20 text-white hover:bg-[#e2e8f0] hover:border-transparent hover:text-[#0a0a0a]',
+                    },
+                    flat: {
+                        btnPrimary: 'bg-[#e2e8f0] text-[#0a0a0a] font-bold',
+                        btnSecondary: 'bg-[#141414] text-[#e2e8f0]',
+                        textGrad: 'text-[#e2e8f0]',
+                        card: 'bg-[#141414]',
+                        badge: 'bg-[#e2e8f0] text-[#0a0a0a] font-bold',
+                        tabIndicator: 'bg-[#e2e8f0]',
+                        iconActive: 'text-[#e2e8f0]',
+                        progressFill: 'bg-[#e2e8f0]',
+                        actionBtn: 'bg-black/40 text-white hover:bg-[#e2e8f0] hover:text-[#0a0a0a]',
+                    },
+                    '3d': {
+                        btnPrimary: 'bg-gradient-to-b from-[#ffffff] to-[#cbd5e1] text-[#0a0a0a] font-bold shadow-[inset_0_2px_4px_rgba(255,255,255,0.8),0_6px_12px_rgba(0,0,0,0.8)] active:shadow-none active:translate-y-1',
+                        btnSecondary: 'bg-[#141414] text-[#e2e8f0] shadow-[inset_0_1px_2px_rgba(255,255,255,0.2),0_4px_8px_rgba(0,0,0,0.8)]',
+                        textGrad: 'text-[#e2e8f0] drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]',
+                        card: 'bg-[#141414] border-t border-white/10 border-l border-white/5 shadow-[8px_8px_16px_rgba(0,0,0,0.8),-4px_-4px_10px_rgba(255,255,255,0.05)]',
+                        badge: 'bg-[#e2e8f0] text-[#0a0a0a] font-bold shadow-[inset_0_1px_2px_rgba(255,255,255,0.8),0_2px_4px_rgba(0,0,0,0.8)]',
+                        tabIndicator: 'bg-[#e2e8f0] shadow-[0_0_5px_rgba(226,232,240,0.8)]',
+                        iconActive: 'text-[#e2e8f0] drop-shadow-md',
+                        progressFill: 'bg-[#e2e8f0] shadow-[inset_0_1px_2px_rgba(255,255,255,0.8)]',
+                        actionBtn: 'bg-[#141414] text-[#e2e8f0] shadow-[inset_0_2px_4px_rgba(255,255,255,0.3),0_6px_12px_rgba(0,0,0,0.8)] hover:bg-[#e2e8f0] hover:text-[#0a0a0a]',
+                    },
+                    neon: {
+                        btnPrimary: 'bg-[#0a0a0a] border-2 border-[#e2e8f0] text-[#e2e8f0] font-bold shadow-[0_0_15px_rgba(226,232,240,0.5),inset_0_0_10px_rgba(226,232,240,0.3)] hover:bg-[#e2e8f0]/20',
+                        btnSecondary: 'bg-[#0a0a0a] text-[#e2e8f0] border border-[#e2e8f0]/50 shadow-[0_0_10px_rgba(226,232,240,0.2)]',
+                        textGrad: 'text-[#e2e8f0] drop-shadow-[0_0_8px_#e2e8f0]',
+                        card: 'bg-[#0a0a0a]/80 border border-[#e2e8f0]/40 shadow-[0_0_20px_rgba(226,232,240,0.15)] backdrop-blur-sm',
+                        badge: 'bg-[#0a0a0a] border border-[#e2e8f0] text-[#e2e8f0] font-bold shadow-[0_0_8px_rgba(226,232,240,0.8)]',
+                        tabIndicator: 'bg-[#e2e8f0] shadow-[0_0_12px_#e2e8f0]',
+                        iconActive: 'text-[#e2e8f0] drop-shadow-[0_0_8px_#e2e8f0]',
+                        progressFill: 'bg-[#e2e8f0] shadow-[0_0_10px_#e2e8f0]',
+                        actionBtn: 'bg-[#0a0a0a] border border-[#e2e8f0] text-[#e2e8f0] shadow-[0_0_15px_rgba(226,232,240,0.4)] hover:bg-[#e2e8f0]/20',
+                    }
+                }
+            },
+            pink: {
+                id: 'pink', name: 'Midnight Cosmetics (ピンク系)',
+                bgApp: 'bg-[#0A0710]', bgMain: 'bg-[#130E1A]', bgCard: 'bg-[#1E1726]', bgInput: 'bg-[#2A1F3D]/50', bgOverlay: 'bg-[#130E1A]/90', navBg: 'bg-[#130E1A]',
+                textMain: 'text-white', textSub: 'text-[#8A7D9E]', hoverAccentText: 'group-hover:text-[#FF2A7A]',
+                border: 'border-[#2A1F3D]', borderInput: 'border-[#3E2E59]',
+                iconInactive: 'text-[#8A7D9E]', starColor: 'text-[#FFD700]', starBg: 'bg-[#FFD700]/10',
+                tagText: 'text-[#FF2A7A]', tagBg: 'bg-[#FF2A7A]/10', tagBorder: 'border-[#FF2A7A]/30',
+                radiusBase: 'rounded-[16px]', radiusCard: 'rounded-[24px]', radiusFull: 'rounded-full', fontTitle: 'font-serif tracking-[0.15em]',
+                styles: {
+                    gradient: {
+                        btnPrimary: 'bg-gradient-to-r from-[#FF2A7A] to-[#FF7A00] text-white shadow-[0_4px_12px_rgba(255,42,122,0.3)]',
+                        btnSecondary: 'bg-[#1E1726] text-[#FF2A7A] border border-[#3E2E59]',
+                        textGrad: 'text-transparent bg-clip-text bg-gradient-to-r from-[#FF2A7A] to-[#FF7A00]',
+                        card: 'bg-[#1E1726] border border-[#2A1F3D] shadow-lg',
+                        badge: 'bg-gradient-to-r from-[#FF2A7A] to-[#FF7A00] text-white border-2 border-[#1E1726] shadow-sm',
+                        tabIndicator: 'bg-gradient-to-r from-[#FF2A7A] to-[#FF7A00] shadow-[0_0_8px_rgba(255,42,122,0.6)]',
+                        iconActive: 'text-[#FF2A7A]',
+                        progressFill: 'bg-white shadow-[0_0_4px_rgba(255,255,255,0.8)]',
+                        actionBtn: 'bg-black/40 backdrop-blur-md border border-white/20 text-white hover:bg-[#FF2A7A] hover:border-transparent',
+                    },
+                    flat: {
+                        btnPrimary: 'bg-[#FF2A7A] text-white',
+                        btnSecondary: 'bg-[#1E1726] text-[#FF2A7A]',
+                        textGrad: 'text-[#FF2A7A]',
+                        card: 'bg-[#1E1726]',
+                        badge: 'bg-[#FF2A7A] text-white',
+                        tabIndicator: 'bg-[#FF2A7A]',
+                        iconActive: 'text-[#FF2A7A]',
+                        progressFill: 'bg-white',
+                        actionBtn: 'bg-black/40 text-white hover:bg-[#FF2A7A]',
+                    },
+                    '3d': {
+                        btnPrimary: 'bg-gradient-to-b from-[#FF2A7A] to-[#E0155B] text-white shadow-[inset_0_2px_4px_rgba(255,255,255,0.4),0_6px_12px_rgba(0,0,0,0.6)] active:shadow-none active:translate-y-1',
+                        btnSecondary: 'bg-[#1E1726] text-[#FF2A7A] shadow-[inset_0_1px_2px_rgba(255,255,255,0.1),0_4px_8px_rgba(0,0,0,0.5)]',
+                        textGrad: 'text-[#FF2A7A] drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]',
+                        card: 'bg-[#1E1726] border-t border-white/5 border-l border-white/5 shadow-[8px_8px_16px_rgba(0,0,0,0.6),-4px_-4px_10px_rgba(255,255,255,0.03)]',
+                        badge: 'bg-[#FF2A7A] text-white shadow-[inset_0_1px_2px_rgba(255,255,255,0.4),0_2px_4px_rgba(0,0,0,0.5)]',
+                        tabIndicator: 'bg-[#FF2A7A] shadow-[0_0_5px_rgba(255,42,122,0.8)]',
+                        iconActive: 'text-[#FF2A7A] drop-shadow-md',
+                        progressFill: 'bg-white shadow-[inset_0_1px_2px_rgba(0,0,0,0.5)]',
+                        actionBtn: 'bg-[#1E1726] text-white shadow-[inset_0_2px_4px_rgba(255,255,255,0.2),0_6px_12px_rgba(0,0,0,0.6)] hover:bg-[#FF2A7A]',
+                    },
+                    neon: {
+                        btnPrimary: 'bg-[#130E1A] border-2 border-[#FF2A7A] text-[#FF2A7A] shadow-[0_0_15px_rgba(255,42,122,0.5),inset_0_0_10px_rgba(255,42,122,0.3)]',
+                        btnSecondary: 'bg-[#130E1A] text-[#FF2A7A] border border-[#FF2A7A]/50 shadow-[0_0_10px_rgba(255,42,122,0.2)]',
+                        textGrad: 'text-[#FF2A7A] drop-shadow-[0_0_8px_#FF2A7A]',
+                        card: 'bg-[#130E1A]/80 border border-[#FF2A7A]/40 shadow-[0_0_20px_rgba(255,42,122,0.15)] backdrop-blur-sm',
+                        badge: 'bg-[#130E1A] border border-[#FF2A7A] text-[#FF2A7A] shadow-[0_0_8px_rgba(255,42,122,0.8)]',
+                        tabIndicator: 'bg-[#FF2A7A] shadow-[0_0_12px_#FF2A7A]',
+                        iconActive: 'text-[#FF2A7A] drop-shadow-[0_0_8px_#FF2A7A]',
+                        progressFill: 'bg-[#FF2A7A] shadow-[0_0_10px_#FF2A7A]',
+                        actionBtn: 'bg-[#130E1A] border border-[#FF2A7A] text-[#FF2A7A] shadow-[0_0_15px_rgba(255,42,122,0.4)] hover:bg-[#FF2A7A]/20',
+                    }
+                }
+            },
+            purple: {
+                id: 'purple', name: 'Deep Purple (紫系)',
+                bgApp: 'bg-[#0B0514]', bgMain: 'bg-[#150A21]', bgCard: 'bg-[#231142]', bgInput: 'bg-[#311859]/50', bgOverlay: 'bg-[#150A21]/90', navBg: 'bg-[#150A21]',
+                textMain: 'text-white', textSub: 'text-[#A58BCC]', hoverAccentText: 'group-hover:text-[#D484FF]',
+                border: 'border-[#3C1A70]', borderInput: 'border-[#4C248A]',
+                iconInactive: 'text-[#A58BCC]', starColor: 'text-[#FFD700]', starBg: 'bg-[#FFD700]/10',
+                tagText: 'text-[#D484FF]', tagBg: 'bg-[#D484FF]/10', tagBorder: 'border-[#D484FF]/30',
+                radiusBase: 'rounded-[16px]', radiusCard: 'rounded-[24px]', radiusFull: 'rounded-full', fontTitle: 'font-serif tracking-[0.15em]',
+                styles: {
+                    gradient: {
+                        btnPrimary: 'bg-gradient-to-r from-[#D484FF] to-[#B14EFF] text-white shadow-[0_4px_12px_rgba(177,78,255,0.3)]',
+                        btnSecondary: 'bg-[#231142] text-[#D484FF] border border-[#4C248A]',
+                        textGrad: 'text-transparent bg-clip-text bg-gradient-to-r from-[#D484FF] to-[#B14EFF]',
+                        card: 'bg-[#231142] border border-[#3C1A70] shadow-lg',
+                        badge: 'bg-gradient-to-r from-[#D484FF] to-[#B14EFF] text-white border-2 border-[#231142] shadow-sm',
+                        tabIndicator: 'bg-gradient-to-r from-[#D484FF] to-[#B14EFF] shadow-[0_0_8px_rgba(177,78,255,0.6)]',
+                        iconActive: 'text-[#D484FF]',
+                        progressFill: 'bg-white shadow-[0_0_4px_rgba(255,255,255,0.8)]',
+                        actionBtn: 'bg-black/40 backdrop-blur-md border border-white/20 text-white hover:bg-[#B14EFF] hover:border-transparent',
+                    },
+                    flat: {
+                        btnPrimary: 'bg-[#B14EFF] text-white',
+                        btnSecondary: 'bg-[#231142] text-[#D484FF]',
+                        textGrad: 'text-[#D484FF]',
+                        card: 'bg-[#231142]',
+                        badge: 'bg-[#B14EFF] text-white',
+                        tabIndicator: 'bg-[#D484FF]',
+                        iconActive: 'text-[#D484FF]',
+                        progressFill: 'bg-white',
+                        actionBtn: 'bg-black/40 text-white hover:bg-[#B14EFF]',
+                    },
+                    '3d': {
+                        btnPrimary: 'bg-gradient-to-b from-[#D484FF] to-[#8C33D1] text-white shadow-[inset_0_2px_4px_rgba(255,255,255,0.4),0_6px_12px_rgba(0,0,0,0.6)] active:shadow-none active:translate-y-1',
+                        btnSecondary: 'bg-[#231142] text-[#D484FF] shadow-[inset_0_1px_2px_rgba(255,255,255,0.1),0_4px_8px_rgba(0,0,0,0.5)]',
+                        textGrad: 'text-[#D484FF] drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]',
+                        card: 'bg-[#231142] border-t border-white/5 border-l border-white/5 shadow-[8px_8px_16px_rgba(0,0,0,0.6),-4px_-4px_10px_rgba(255,255,255,0.03)]',
+                        badge: 'bg-[#B14EFF] text-white shadow-[inset_0_1px_2px_rgba(255,255,255,0.4),0_2px_4px_rgba(0,0,0,0.5)]',
+                        tabIndicator: 'bg-[#D484FF] shadow-[0_0_5px_rgba(177,78,255,0.8)]',
+                        iconActive: 'text-[#D484FF] drop-shadow-md',
+                        progressFill: 'bg-white shadow-[inset_0_1px_2px_rgba(0,0,0,0.5)]',
+                        actionBtn: 'bg-[#231142] text-white shadow-[inset_0_2px_4px_rgba(255,255,255,0.2),0_6px_12px_rgba(0,0,0,0.6)] hover:bg-[#B14EFF]',
+                    },
+                    neon: {
+                        btnPrimary: 'bg-[#150A21] border-2 border-[#D484FF] text-[#D484FF] shadow-[0_0_15px_rgba(212,132,255,0.5),inset_0_0_10px_rgba(212,132,255,0.3)]',
+                        btnSecondary: 'bg-[#150A21] text-[#D484FF] border border-[#D484FF]/50 shadow-[0_0_10px_rgba(212,132,255,0.2)]',
+                        textGrad: 'text-[#D484FF] drop-shadow-[0_0_8px_#D484FF]',
+                        card: 'bg-[#150A21]/80 border border-[#D484FF]/40 shadow-[0_0_20px_rgba(212,132,255,0.15)] backdrop-blur-sm',
+                        badge: 'bg-[#150A21] border border-[#D484FF] text-[#D484FF] shadow-[0_0_8px_rgba(212,132,255,0.8)]',
+                        tabIndicator: 'bg-[#D484FF] shadow-[0_0_12px_#D484FF]',
+                        iconActive: 'text-[#D484FF] drop-shadow-[0_0_8px_#D484FF]',
+                        progressFill: 'bg-[#D484FF] shadow-[0_0_10px_#D484FF]',
+                        actionBtn: 'bg-[#150A21] border border-[#D484FF] text-[#D484FF] shadow-[0_0_15px_rgba(212,132,255,0.4)] hover:bg-[#D484FF]/20',
+                    }
+                }
+            },
+            wine: {
+                id: 'wine', name: 'Bordeaux Rose (ワイン系)',
+                bgApp: 'bg-[#0F0507]', bgMain: 'bg-[#1A0A0E]', bgCard: 'bg-[#2A1016]', bgInput: 'bg-[#3D1821]/50', bgOverlay: 'bg-[#1A0A0E]/90', navBg: 'bg-[#1A0A0E]',
+                textMain: 'text-[#FFF0F3]', textSub: 'text-[#B58A93]', hoverAccentText: 'group-hover:text-[#FF4D6D]',
+                border: 'border-[#4A1D27]', borderInput: 'border-[#5C2431]',
+                iconInactive: 'text-[#B58A93]', starColor: 'text-[#FFB703]', starBg: 'bg-[#FFB703]/10',
+                tagText: 'text-[#FF4D6D]', tagBg: 'bg-[#FF4D6D]/10', tagBorder: 'border-[#FF4D6D]/30',
+                radiusBase: 'rounded-xl', radiusCard: 'rounded-2xl', radiusFull: 'rounded-full', fontTitle: 'font-serif tracking-widest',
+                styles: {
+                    gradient: {
+                        btnPrimary: 'bg-gradient-to-r from-[#FF4D6D] to-[#C9184A] text-white shadow-[0_4px_12px_rgba(201,24,74,0.3)]',
+                        btnSecondary: 'bg-[#2A1016] text-[#FF4D6D] border border-[#5C2431]',
+                        textGrad: 'text-transparent bg-clip-text bg-gradient-to-r from-[#FF4D6D] to-[#C9184A]',
+                        card: 'bg-[#2A1016] border border-[#4A1D27] shadow-lg',
+                        badge: 'bg-gradient-to-r from-[#FF4D6D] to-[#C9184A] text-white border-2 border-[#2A1016] shadow-sm',
+                        tabIndicator: 'bg-gradient-to-r from-[#FF4D6D] to-[#C9184A] shadow-[0_0_8px_rgba(201,24,74,0.6)]',
+                        iconActive: 'text-[#FF4D6D]',
+                        progressFill: 'bg-white shadow-[0_0_4px_rgba(255,255,255,0.8)]',
+                        actionBtn: 'bg-black/40 backdrop-blur-md border border-white/20 text-white hover:bg-[#C9184A] hover:border-transparent',
+                    },
+                    flat: {
+                        btnPrimary: 'bg-[#C9184A] text-white',
+                        btnSecondary: 'bg-[#2A1016] text-[#FF4D6D]',
+                        textGrad: 'text-[#FF4D6D]',
+                        card: 'bg-[#2A1016]',
+                        badge: 'bg-[#C9184A] text-white',
+                        tabIndicator: 'bg-[#FF4D6D]',
+                        iconActive: 'text-[#FF4D6D]',
+                        progressFill: 'bg-white',
+                        actionBtn: 'bg-black/40 text-white hover:bg-[#C9184A]',
+                    },
+                    '3d': {
+                        btnPrimary: 'bg-gradient-to-b from-[#FF4D6D] to-[#A0133A] text-white shadow-[inset_0_2px_4px_rgba(255,255,255,0.4),0_6px_12px_rgba(0,0,0,0.6)] active:shadow-none active:translate-y-1',
+                        btnSecondary: 'bg-[#2A1016] text-[#FF4D6D] shadow-[inset_0_1px_2px_rgba(255,255,255,0.1),0_4px_8px_rgba(0,0,0,0.5)]',
+                        textGrad: 'text-[#FF4D6D] drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]',
+                        card: 'bg-[#2A1016] border-t border-white/5 border-l border-white/5 shadow-[8px_8px_16px_rgba(0,0,0,0.6),-4px_-4px_10px_rgba(255,255,255,0.03)]',
+                        badge: 'bg-[#C9184A] text-white shadow-[inset_0_1px_2px_rgba(255,255,255,0.4),0_2px_4px_rgba(0,0,0,0.5)]',
+                        tabIndicator: 'bg-[#FF4D6D] shadow-[0_0_5px_rgba(201,24,74,0.8)]',
+                        iconActive: 'text-[#FF4D6D] drop-shadow-md',
+                        progressFill: 'bg-white shadow-[inset_0_1px_2px_rgba(0,0,0,0.5)]',
+                        actionBtn: 'bg-[#2A1016] text-white shadow-[inset_0_2px_4px_rgba(255,255,255,0.2),0_6px_12px_rgba(0,0,0,0.6)] hover:bg-[#C9184A]',
+                    },
+                    neon: {
+                        btnPrimary: 'bg-[#1A0A0E] border-2 border-[#FF4D6D] text-[#FF4D6D] shadow-[0_0_15px_rgba(255,77,109,0.5),inset_0_0_10px_rgba(255,77,109,0.3)]',
+                        btnSecondary: 'bg-[#1A0A0E] text-[#FF4D6D] border border-[#FF4D6D]/50 shadow-[0_0_10px_rgba(255,77,109,0.2)]',
+                        textGrad: 'text-[#FF4D6D] drop-shadow-[0_0_8px_#FF4D6D]',
+                        card: 'bg-[#1A0A0E]/80 border border-[#FF4D6D]/40 shadow-[0_0_20px_rgba(255,77,109,0.15)] backdrop-blur-sm',
+                        badge: 'bg-[#1A0A0E] border border-[#FF4D6D] text-[#FF4D6D] shadow-[0_0_8px_rgba(255,77,109,0.8)]',
+                        tabIndicator: 'bg-[#FF4D6D] shadow-[0_0_12px_#FF4D6D]',
+                        iconActive: 'text-[#FF4D6D] drop-shadow-[0_0_8px_#FF4D6D]',
+                        progressFill: 'bg-[#FF4D6D] shadow-[0_0_10px_#FF4D6D]',
+                        actionBtn: 'bg-[#1A0A0E] border border-[#FF4D6D] text-[#FF4D6D] shadow-[0_0_15px_rgba(255,77,109,0.4)] hover:bg-[#FF4D6D]/20',
+                    }
+                }
+            }
+        };
+
+        // ==========================================
+        // 📱 下部ナビゲーション
+        // ==========================================
+        const BottomNav = ({ theme, styleData, activeTab }) => {
+            const navItems = [
+                { id: 'swipe', icon: 'ph-house', label: 'SWIPE' },
+                { id: 'search', icon: 'ph-magnifying-glass', label: 'SEARCH' },
+                { id: 'likes', icon: 'ph-heart', label: 'LIKES' },
+                { id: 'talk', icon: 'ph-chat-circle', label: 'TALK' },
+                { id: 'mypage', icon: 'ph-user', label: 'MY PAGE' },
+            ];
+
+            return (
+                <nav className={`absolute bottom-0 left-0 w-full ${theme.navBg}/95 backdrop-blur-xl border-t ${theme.border} z-40 pb-safe transition-colors duration-300`}>
+                    <div className="flex justify-around items-center pt-3 pb-2 px-2">
+                        {navItems.map(item => {
+                            const isActive = activeTab === item.id;
+                            return (
+                                <button key={item.id} className={`flex flex-col items-center p-2 transition-all duration-300 group ${isActive ? styleData.iconActive : theme.iconInactive}`}>
+                                    <i className={`ph-bold ${item.icon} text-[22px] mb-1.5 transition-transform ${isActive ? 'scale-110' : `group-hover:scale-90 ${theme.hoverAccentText}`}`}></i>
+                                    <span className={`text-[9px] font-bold tracking-wider ${!isActive && theme.hoverAccentText}`}>{item.label}</span>
+                                </button>
+                            );
+                        })}
+                    </div>
+                </nav>
+            );
+        };
+
+        // ==========================================
+        // 📱 画面1: ホーム / スワイプ画面
+        // ==========================================
+        const HomeSwipeScreen = ({ theme, styleData }) => {
+            const swipeData = {
+                name: 'CUTE',
+                copy: 'キャッチコピー！',
+                rating: '4.5',
+                reviews: '1',
+                location: '東京都 江戸川区',
+                bonus: '¥50,000円',
+                hourlyWage: '¥3,500〜',
+                helpWage: 'ー',
+                imageUrl: 'https://images.unsplash.com/photo-1543007630-9710e4a00a20?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80'
+            };
+
+            return (
+                <div className={`relative w-full h-full ${theme.bgMain} font-sans flex flex-col transition-colors duration-300`}>
+                    <header className={`absolute top-0 w-full z-20 flex items-center justify-between px-5 py-4 ${theme.bgOverlay} backdrop-blur-md border-b ${theme.border} pt-safe`}>
+                        <div className="w-20"></div>
+                        <h1 className={`${theme.textMain} ${theme.fontTitle} text-[17px] font-semibold`}>DISCOVERY</h1>
+                        <div className={`flex items-center gap-3.5 ${styleData.iconActive}`}>
+                            <i className="ph-bold ph-check text-[20px]"></i>
+                            <div className="relative">
+                                <i className="ph-bold ph-bell text-[20px]"></i>
+                                <span className={`absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full border-2 ${theme.border} ${styleData.tabIndicator}`}></span>
+                            </div>
+                            <i className="ph-bold ph-list text-[20px]"></i>
+                        </div>
+                    </header>
+
+                    <div className="flex-1 relative pb-[70px]">
+                        <img src={swipeData.imageUrl} alt="room" className="absolute inset-0 w-full h-full object-cover" />
+                        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/95"></div>
+
+                        <div className="absolute inset-0 z-10 flex flex-col justify-between pt-[85px] pb-6 px-5">
+                            <div>
+                                <div className="flex gap-1.5 mb-5">
+                                    <div className={`h-1 flex-1 rounded-full ${styleData.progressFill}`}></div>
+                                    <div className="h-1 bg-white/30 flex-1 rounded-full"></div>
+                                    <div className="h-1 bg-white/30 flex-1 rounded-full"></div>
+                                </div>
+                                <div className="flex justify-center">
+                                    <div className={`bg-black/60 backdrop-blur-md px-6 py-2.5 ${theme.radiusFull} ${styleData.card === 'bg-[#1E1726]' ? '' : 'border border-white/10 shadow-lg'}`}>
+                                        <span className="text-white font-bold tracking-widest text-[15px]">{swipeData.copy}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="flex items-end justify-between mb-4">
+                                <div className="flex-1 pr-4">
+                                    <div className="flex items-center gap-1.5 mb-1.5 drop-shadow-md">
+                                        <i className={`ph-fill ph-star text-[16px] ${theme.starColor}`}></i>
+                                        <span className={`font-bold text-[15px] ${theme.starColor}`}>{swipeData.rating}</span>
+                                        <span className="text-gray-300 text-xs">({swipeData.reviews})</span>
+                                    </div>
+                                    
+                                    <h2 className={`text-[32px] font-serif font-bold text-white mb-2 tracking-wide drop-shadow-lg`}>{swipeData.name}</h2>
+                                    
+                                    <div className="flex items-center text-gray-300 text-sm mb-6 drop-shadow-md">
+                                        <i className={`ph-fill ph-map-pin text-[14px] mr-1.5 ${styleData.iconActive}`}></i>
+                                        {swipeData.location}
+                                    </div>
+
+                                    <div className={`inline-flex items-center gap-5 px-6 py-3.5 ${theme.radiusFull} mb-5 cursor-pointer transform hover:scale-105 transition-all ${styleData.btnPrimary}`}>
+                                        <span className="text-xs font-bold tracking-wider">入店祝い金</span>
+                                        <span className="text-[22px] font-bold tracking-wider drop-shadow-sm">{swipeData.bonus}</span>
+                                    </div>
+
+                                    <div className="flex flex-col gap-2.5 drop-shadow-md">
+                                        <div className="flex items-center gap-4">
+                                            <span className={`text-[13px] font-bold w-[60px] ${styleData.textGrad}`}>体入時給</span>
+                                            <span className="text-[22px] font-bold text-white tracking-wider leading-none">{swipeData.hourlyWage}</span>
+                                        </div>
+                                        <div className="flex items-center gap-4">
+                                            <span className={`text-[13px] font-bold w-[60px] ${styleData.textGrad}`}>ヘルプ時給</span>
+                                            <span className="text-lg text-gray-400 font-medium leading-none">{swipeData.helpWage}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="flex flex-col gap-5 pb-2">
+                                    <div className="flex flex-col items-center gap-1.5 group cursor-pointer">
+                                        <button className={`w-[52px] h-[52px] rounded-full flex items-center justify-center transition-all duration-300 ${styleData.actionBtn}`}>
+                                            <i className="ph-bold ph-bookmark-simple text-[22px]"></i>
+                                        </button>
+                                        <span className="text-white text-[10px] font-bold tracking-wider drop-shadow-md">キープ</span>
+                                    </div>
+                                    <div className="flex flex-col items-center gap-1.5 group cursor-pointer">
+                                        <button className={`w-[52px] h-[52px] rounded-full flex items-center justify-center transition-all duration-300 ${styleData.actionBtn}`}>
+                                            <i className="ph-bold ph-chat-circle text-[24px]"></i>
+                                        </button>
+                                        <span className="text-white text-[10px] font-bold tracking-wider drop-shadow-md">メッセージ</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="flex flex-col items-center justify-end mt-2 opacity-70 cursor-pointer hover:opacity-100 transition-opacity">
+                                <i className="ph-bold ph-caret-up text-[24px] text-white animate-bounce"></i>
+                                <span className="text-white text-[10px] font-bold tracking-[0.2em] mt-1">SWIPE NEXT</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <BottomNav theme={theme} styleData={styleData} activeTab="swipe" />
+                </div>
+            );
+        };
+
+        // ==========================================
+        // 📱 画面2: 検索・タイムライン画面
+        // ==========================================
+        const SearchTimelineScreen = ({ theme, styleData }) => {
+            const [activeTab, setActiveTab] = useState('search');
+
+            const timelineData = [
+                {
+                    id: 1, name: 'Club Luminous', industry: 'キャバクラ', rating: '4.8', isExcellent: true, time: '16時間前', location: '東京都中央区',
+                    message: '今から入れます♡ 未経験の女の子も大歓迎！体験入店からの即日体入も可能です✨',
+                    imageUrl: 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80',
+                },
+                {
+                    id: 2, name: 'CUTE', industry: 'ガールズバー', rating: '4.5', isExcellent: true, time: '1ヶ月前', location: '東京都江戸川区',
+                    message: '西葛西にて新規オープン！オープニングメンバーを大募集してます🎀',
+                    imageUrl: 'https://images.unsplash.com/photo-1543007630-9710e4a00a20?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80',
+                },
+                {
+                    id: 3, name: 'Bar AMBER', industry: 'ラウンジ', rating: '4.2', isExcellent: false, time: '2ヶ月前', location: '東京都港区',
+                    message: '週末メインで出勤できる方を急募中。落ち着いた客層で働きやすさ抜群です🥂',
+                    imageUrl: 'https://images.unsplash.com/photo-1470337458703-415120288d15?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80',
+                }
+            ];
+
+            return (
+                <div className={`relative w-full h-full ${theme.bgMain} font-sans flex flex-col transition-colors duration-300`}>
+                    <header className={`flex items-center justify-between px-5 py-4 ${theme.bgOverlay} backdrop-blur-md border-b ${theme.border} z-20 shrink-0 pt-safe sticky top-0 transition-colors duration-300`}>
+                        <div className="w-20"></div>
+                        <h1 className={`${theme.textMain} ${theme.fontTitle} text-[17px] font-semibold`}>SEARCH</h1>
+                        <div className={`flex items-center gap-3.5 ${styleData.iconActive}`}>
+                            <button className="relative hover:opacity-80 transition-opacity">
+                                <i className="ph-bold ph-check text-[20px]"></i>
+                            </button>
+                            <button className="relative hover:opacity-80 transition-opacity">
+                                <i className="ph-bold ph-bell text-[20px]"></i>
+                                <span className={`absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full border-2 ${theme.border} ${styleData.tabIndicator}`}></span>
+                            </button>
+                            <button className="relative hover:opacity-80 transition-opacity">
+                                <i className="ph-bold ph-list text-[20px]"></i>
+                            </button>
+                        </div>
+                    </header>
+
+                    <div className={`flex ${theme.bgMain} border-b ${theme.border} shrink-0 relative z-10 px-4 pt-2 transition-colors duration-300`}>
+                        <button 
+                            onClick={() => setActiveTab('search')}
+                            className={`flex-1 py-3 text-[13px] font-bold transition-all duration-300 relative ${activeTab === 'search' ? theme.textMain : theme.textSub}`}
+                        >
+                            検索
+                            {activeTab === 'search' && (
+                                <div className={`absolute bottom-0 left-1/2 -translate-x-1/2 w-12 h-1 rounded-t-full ${styleData.tabIndicator}`}></div>
+                            )}
+                        </button>
+                        <button 
+                            onClick={() => setActiveTab('recommend')}
+                            className={`flex-1 py-3 text-[13px] font-bold transition-all duration-300 relative flex items-center justify-center gap-1 ${activeTab === 'recommend' ? theme.textMain : theme.textSub}`}
+                        >
+                            <i className={`ph-fill ph-sparkle text-[14px] ${activeTab === 'recommend' ? styleData.iconActive : theme.textSub}`}></i>
+                            AIレコメンド
+                            {activeTab === 'recommend' && (
+                                <div className={`absolute bottom-0 left-1/2 -translate-x-1/2 w-12 h-1 rounded-t-full ${styleData.tabIndicator}`}></div>
+                            )}
+                        </button>
+                    </div>
+
+                    <div className="flex-1 overflow-y-auto pb-24 scrollbar-hide relative z-0">
+                        <div className={`px-5 py-4 bg-gradient-to-b from-white/5 to-transparent border-b ${theme.border}`}>
+                            <div className="flex gap-2">
+                                <div className="relative flex-1">
+                                    <input 
+                                        type="text" 
+                                        placeholder="エリア・店名で検索..." 
+                                        className={`w-full ${theme.bgInput} ${theme.textMain} border ${theme.borderInput} ${theme.radiusFull} py-3 px-4 text-sm focus:outline-none focus:border-transparent focus:ring-1 focus:ring-current placeholder-opacity-50 transition-all`}
+                                        style={{ '--tw-ring-color': 'currentColor' }}
+                                    />
+                                </div>
+                                <button className={`w-[46px] h-[46px] ${theme.radiusBase} flex items-center justify-center shrink-0 transition-all duration-300 ${styleData.btnPrimary}`}>
+                                    <i className="ph-bold ph-magnifying-glass text-[20px]"></i>
+                                </button>
+                                <button className={`w-[46px] h-[46px] ${theme.radiusBase} flex items-center justify-center shrink-0 transition-all duration-300 ${styleData.btnSecondary}`}>
+                                    <i className="ph-bold ph-arrows-down-up text-[18px]"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div className="flex flex-col px-3 pt-3 gap-3">
+                            {timelineData.map((item) => (
+                                <div key={item.id} className={`${theme.radiusCard} p-4 transition-all duration-300 cursor-pointer group ${styleData.card}`}>
+                                    <div className="flex gap-4">
+                                        <div className="shrink-0 w-[72px] flex flex-col items-center gap-2">
+                                            <div className={`w-[72px] h-[72px] ${theme.bgMain} ${theme.radiusBase} overflow-hidden relative`}>
+                                                <img src={item.imageUrl} alt={item.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                                                <div className={`absolute inset-0 border border-white/10 ${theme.radiusBase} pointer-events-none`}></div>
+                                            </div>
+                                            {item.isExcellent && (
+                                                <div className={`flex items-center justify-center gap-1 text-[10px] px-2 py-1 rounded-lg w-[80px] relative -mt-5 z-10 transition-all ${styleData.badge}`}>
+                                                    <i className="ph-fill ph-crown text-[12px]"></i>
+                                                    <span>優良店</span>
+                                                </div>
+                                            )}
+                                        </div>
+
+                                        <div className="flex-1 min-w-0 flex flex-col pt-1">
+                                            <div className="flex items-center justify-between mb-1">
+                                                <h3 className={`${theme.textMain} font-bold text-[17px] truncate pr-2 ${theme.hoverAccentText} transition-colors`}>{item.name}</h3>
+                                            </div>
+                                            <div className="flex items-center flex-wrap text-[11px] mb-2 gap-x-2 gap-y-1.5">
+                                                <span className={`${theme.tagText} ${theme.tagBg} border ${theme.tagBorder} px-2 py-0.5 rounded-md font-medium`}>
+                                                    {item.industry}
+                                                </span>
+                                                <span className={`flex items-center ${theme.starColor} font-bold ${theme.starBg} px-1.5 py-0.5 rounded-md`}>
+                                                    <i className="ph-fill ph-star text-[12px] mr-0.5"></i>
+                                                    {item.rating}
+                                                </span>
+                                                <span className={`flex items-center ${theme.textSub}`}>
+                                                    <i className="ph-fill ph-map-pin text-[11px] mr-0.5"></i>
+                                                    {item.location}
+                                                </span>
+                                            </div>
+                                            <div className="mt-1">
+                                                <p className={`text-[13px] ${theme.textMain} opacity-80 leading-relaxed line-clamp-2`}>
+                                                    {item.message}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className={`flex justify-end items-center mt-3 pt-3 border-t ${theme.border}`}>
+                                        <span className={`flex items-center text-[10px] ${theme.textSub} font-medium`}>
+                                            <i className="ph-bold ph-clock text-[11px] mr-1"></i>
+                                            {item.time}
+                                        </span>
+                                    </div>
+                                </div>
+                            ))}
+                            <div className={`py-8 text-center ${theme.textSub} text-xs font-medium flex items-center justify-center gap-3`}>
+                                <div className={`w-10 h-px ${theme.border}`}></div>
+                                これ以上結果はありません
+                                <div className={`w-10 h-px ${theme.border}`}></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button className={`absolute bottom-[90px] right-5 w-[56px] h-[56px] rounded-full flex items-center justify-center transition-all duration-300 hover:scale-105 active:scale-95 z-30 ${styleData.btnPrimary}`}>
+                        <i className="ph-bold ph-faders text-[24px]"></i>
+                    </button>
+
+                    <BottomNav theme={theme} styleData={styleData} activeTab="search" />
+                </div>
+            );
+        };
+
+        // ==========================================
+        // 🚀 アプリケーション全体
+        // ==========================================
+        const App = () => {
+            // 初期状態を「Wine & Gold」の「立体」に設定
+            const [currentTheme, setCurrentTheme] = useState(themes.wine_gold); 
+            const [currentStyle, setCurrentStyle] = useState('3d');
+
+            return (
+                <div className={`min-h-screen ${currentTheme.bgApp} transition-colors duration-500 font-sans`}>
+                    
+                    {/* 🛠️ シミュレーター ツールバー (スマホ対応プルダウン) */}
+                    <div className="fixed top-0 left-0 w-full bg-black/80 backdrop-blur-xl border-b border-white/10 p-3 z-[60] shadow-xl">
+                        <div className="max-w-3xl mx-auto w-full flex gap-3 items-end">
+                            <div className="flex-1 relative">
+                                <label className="block text-[9px] text-gray-400 font-bold tracking-wider mb-1 ml-1">COLOR THEME</label>
+                                <select 
+                                    className="w-full bg-white/10 text-white border border-white/20 rounded-lg pl-3 pr-8 py-2 text-sm outline-none appearance-none focus:border-white/50 cursor-pointer font-bold"
+                                    value={currentTheme.id}
+                                    onChange={(e) => setCurrentTheme(themes[e.target.value])}
+                                >
+                                    {Object.values(themes).map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
+                                </select>
+                                <i className="ph-bold ph-caret-down absolute right-3 bottom-2.5 text-gray-400 pointer-events-none"></i>
+                            </div>
+                            <div className="flex-1 relative">
+                                <label className="block text-[9px] text-gray-400 font-bold tracking-wider mb-1 ml-1">UI STYLE (質感)</label>
+                                <select 
+                                    className="w-full bg-white/10 text-white border border-white/20 rounded-lg pl-3 pr-8 py-2 text-sm outline-none appearance-none focus:border-white/50 cursor-pointer font-bold"
+                                    value={currentStyle}
+                                    onChange={(e) => setCurrentStyle(e.target.value)}
+                                >
+                                    <option value="gradient">グラデーション (Standard)</option>
+                                    <option value="flat">のっぺり (Flat/Minimal)</option>
+                                    <option value="3d">立体 (Neumorphism)</option>
+                                    <option value="neon">ネオン (Glow/Cyber)</option>
+                                </select>
+                                <i className="ph-bold ph-caret-down absolute right-3 bottom-2.5 text-gray-400 pointer-events-none"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* 📱 プレビューエリア */}
+                    <div className="pt-24 pb-16 px-4 flex flex-col xl:flex-row items-center xl:items-start justify-center gap-10 xl:gap-20 min-h-screen">
+                        
+                        <div className="flex flex-col items-center gap-4 mt-6">
+                            <h2 className={`text-sm font-bold tracking-widest ${currentTheme.styles[currentStyle].textGrad}`}>HOME / SWIPE</h2>
+                            <div className={`w-[375px] h-[812px] bg-black relative overflow-hidden shadow-2xl rounded-[40px] border-[6px] border-gray-900 transition-transform duration-500 ring-1 ring-white/10`}>
+                                <HomeSwipeScreen theme={currentTheme} styleData={currentTheme.styles[currentStyle]} />
+                            </div>
+                        </div>
+
+                        <div className="flex flex-col items-center gap-4 mt-6 xl:mt-6">
+                            <h2 className={`text-sm font-bold tracking-widest ${currentTheme.styles[currentStyle].textGrad}`}>SEARCH / TIMELINE</h2>
+                            <div className={`w-[375px] h-[812px] bg-black relative overflow-hidden shadow-2xl rounded-[40px] border-[6px] border-gray-900 transition-transform duration-500 ring-1 ring-white/10`}>
+                                <SearchTimelineScreen theme={currentTheme} styleData={currentTheme.styles[currentStyle]} />
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
