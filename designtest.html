@@ -23,83 +23,148 @@
         .pt-safe { padding-top: max(8px, env(safe-area-inset-top, 8px)); }
         .scrollbar-hide::-webkit-scrollbar { display: none; }
         .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
-        body { background-color: #000; color: #fff; margin: 0; -webkit-tap-highlight-color: transparent; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        body { background-color: #000; color: #fff; margin: 0; -webkit-tap-highlight-color: transparent; overflow: hidden; }
         select option { background-color: #1a1a1a; color: #fff; }
     </style>
 </head>
-<body>
+<body className="overflow-hidden">
     <div id="root"></div>
 
     <script type="text/babel">
         const { useState } = React;
 
         // ==========================================
-        // 🎨 テーマ & スタイル 定義 (厳選5テーマ × Light/Dark)
+        // 🎨 テーマ & スタイル 定義
         // ==========================================
         const themes = {
             wine_gold: {
                 id: 'wine_gold', name: 'Wine & Gold (ワイン×金)',
                 dark: {
-                    bgApp: 'bg-[#2A0B15]', bgMain: 'bg-[#3A101D]', bgCard: 'bg-[#4D1526]', bgInput: 'bg-[#5E1A2E]', bgOverlay: 'bg-[#3A101D]/90', navBg: 'bg-[#3A101D]',
-                    textMain: 'text-[#FFF0F3]', textSub: 'text-[#E6A8B8]', hoverAccentText: 'group-hover:text-[#dcb568]',
-                    border: 'border-[#691D33]', borderInput: 'border-[#7A223C]',
-                    iconInactive: 'text-[#C98B9D]', starColor: 'text-[#dcb568]', starBg: 'bg-[#dcb568]/10',
+                    bgApp: 'bg-[#380D1F]', bgMain: 'bg-[#4A122A]', bgCard: 'bg-[#5C1735]', bgInput: 'bg-[#6E1C40]', bgOverlay: 'bg-[#4A122A]/90', navBg: 'bg-[#4A122A]',
+                    textMain: 'text-[#FFF0F5]', textSub: 'text-[#F0B4C6]', hoverAccentText: 'group-hover:text-[#dcb568]',
+                    border: 'border-[#7D2149]', borderInput: 'border-[#8F2653]',
+                    iconInactive: 'text-[#D192A6]', starColor: 'text-[#dcb568]', starBg: 'bg-[#dcb568]/10',
                     tagText: 'text-[#dcb568]', tagBg: 'bg-[#dcb568]/10', tagBorder: 'border-[#dcb568]/30',
                     radiusBase: 'rounded-xl', radiusCard: 'rounded-2xl', radiusFull: 'rounded-full', fontTitle: 'font-serif tracking-widest',
                     bgGradientTop: 'from-black/60 to-transparent', bgGradientBottom: 'from-black via-black/80 to-transparent', swipeTextMain: 'text-white', swipeTextSub: 'text-gray-300',
                     styles: {
-                        gradient: { btnPrimary: 'bg-gradient-to-r from-[#dcb568] to-[#b8860b] text-[#2A0B15] shadow-md font-bold', btnSecondary: 'bg-[#4D1526] text-[#dcb568] border border-[#7A223C]', textGrad: 'text-transparent bg-clip-text bg-gradient-to-r from-[#dcb568] to-[#b8860b]', card: 'bg-[#4D1526] border border-[#691D33] shadow-lg', badge: 'bg-gradient-to-r from-[#dcb568] to-[#b8860b] text-[#2A0B15] border-2 border-[#4D1526] shadow-sm font-bold', tabIndicator: 'bg-gradient-to-r from-[#dcb568] to-[#b8860b] shadow-[0_0_8px_rgba(220,181,104,0.6)]', iconActive: 'text-[#dcb568]', progressFill: 'bg-[#dcb568] shadow-[0_0_4px_rgba(220,181,104,0.8)]', actionBtn: 'bg-black/40 backdrop-blur-md border border-white/20 text-white hover:bg-[#dcb568] hover:border-transparent hover:text-[#2A0B15]', catchCopy: 'bg-black/60 border border-white/10 text-white' },
-                        flat: { btnPrimary: 'bg-[#dcb568] text-[#2A0B15] font-bold', btnSecondary: 'bg-[#4D1526] text-[#dcb568]', textGrad: 'text-[#dcb568]', card: 'bg-[#4D1526]', badge: 'bg-[#dcb568] text-[#2A0B15] font-bold', tabIndicator: 'bg-[#dcb568]', iconActive: 'text-[#dcb568]', progressFill: 'bg-[#dcb568]', actionBtn: 'bg-black/40 text-white hover:bg-[#dcb568] hover:text-[#2A0B15]', catchCopy: 'bg-black/60 text-white' },
-                        '3d': { btnPrimary: 'bg-gradient-to-b from-[#dcb568] to-[#b8860b] text-[#2A0B15] font-bold shadow-[inset_0_2px_4px_rgba(255,255,255,0.6),0_6px_12px_rgba(0,0,0,0.8)] active:translate-y-1', btnSecondary: 'bg-[#4D1526] text-[#dcb568] shadow-[inset_0_1px_2px_rgba(255,255,255,0.1),0_4px_8px_rgba(0,0,0,0.5)]', textGrad: 'text-[#dcb568] drop-shadow-md', card: 'bg-[#4D1526] border-t border-white/10 border-l border-white/5 shadow-[8px_8px_16px_rgba(0,0,0,0.6)]', badge: 'bg-[#dcb568] text-[#2A0B15] font-bold shadow-[inset_0_1px_2px_rgba(255,255,255,0.6),0_2px_4px_rgba(0,0,0,0.8)]', tabIndicator: 'bg-[#dcb568] shadow-[0_0_5px_rgba(220,181,104,0.8)]', iconActive: 'text-[#dcb568] drop-shadow-md', progressFill: 'bg-[#dcb568] shadow-[inset_0_1px_2px_rgba(255,255,255,0.8)]', actionBtn: 'bg-[#4D1526] text-[#dcb568] shadow-[0_6px_12px_rgba(0,0,0,0.6)] hover:bg-[#dcb568] hover:text-[#2A0B15]', catchCopy: 'bg-[#4D1526] text-[#dcb568] shadow-lg' },
-                        neon: { btnPrimary: 'bg-[#3A101D] border-2 border-[#dcb568] text-[#dcb568] font-bold shadow-[0_0_15px_rgba(220,181,104,0.5)]', btnSecondary: 'bg-[#3A101D] text-[#dcb568] border border-[#dcb568]/50 shadow-[0_0_10px_rgba(220,181,104,0.2)]', textGrad: 'text-[#dcb568] drop-shadow-[0_0_8px_#dcb568]', card: 'bg-[#3A101D]/80 border border-[#dcb568]/40 shadow-[0_0_20px_rgba(220,181,104,0.15)] backdrop-blur-sm', badge: 'bg-[#3A101D] border border-[#dcb568] text-[#dcb568] font-bold shadow-[0_0_8px_rgba(220,181,104,0.8)]', tabIndicator: 'bg-[#dcb568] shadow-[0_0_12px_#dcb568]', iconActive: 'text-[#dcb568] drop-shadow-[0_0_8px_#dcb568]', progressFill: 'bg-[#dcb568] shadow-[0_0_10px_#dcb568]', actionBtn: 'bg-[#3A101D] border border-[#dcb568] text-[#dcb568] shadow-[0_0_15px_rgba(220,181,104,0.4)] hover:bg-[#dcb568]/20', catchCopy: 'bg-[#3A101D]/80 border border-[#dcb568] text-[#dcb568] shadow-[0_0_15px_rgba(220,181,104,0.5)]' }
+                        gradient: { 
+                            btnPrimary: 'bg-gradient-to-r from-[#dcb568] to-[#b8860b] text-[#380D1F] shadow-md font-bold', 
+                            bonusBadge: 'bg-gradient-to-r from-[#dcb568] to-[#b8860b] text-[#380D1F] shadow-md font-bold',
+                            btnSecondary: 'bg-[#5C1735] text-[#dcb568] border border-[#8F2653]', 
+                            textGrad: 'text-transparent bg-clip-text bg-gradient-to-r from-[#dcb568] to-[#b8860b]', 
+                            card: 'bg-[#5C1735] border border-[#7D2149] shadow-lg', 
+                            badge: 'bg-gradient-to-r from-[#dcb568] to-[#b8860b] text-[#380D1F] border-2 border-[#5C1735] shadow-sm font-bold', 
+                            tabIndicator: 'bg-gradient-to-r from-[#dcb568] to-[#b8860b] shadow-[0_0_8px_rgba(220,181,104,0.6)]', 
+                            iconActive: 'text-[#dcb568]', 
+                            progressFill: 'bg-[#dcb568] shadow-[0_0_4px_rgba(220,181,104,0.8)]', 
+                            actionBtn: 'bg-black/40 backdrop-blur-md border border-white/20 text-white hover:bg-[#dcb568] hover:border-transparent hover:text-[#380D1F]', 
+                            catchCopy: 'bg-black/60 border border-white/10 text-white' 
+                        },
+                        flat: { 
+                            btnPrimary: 'bg-[#dcb568] text-[#380D1F] font-bold', 
+                            bonusBadge: 'bg-[#dcb568] text-[#380D1F] font-bold', 
+                            btnSecondary: 'bg-[#5C1735] text-[#dcb568]', 
+                            textGrad: 'text-[#dcb568]', 
+                            card: 'bg-[#5C1735]', 
+                            badge: 'bg-[#dcb568] text-[#380D1F] font-bold', 
+                            tabIndicator: 'bg-[#dcb568]', 
+                            iconActive: 'text-[#dcb568]', 
+                            progressFill: 'bg-[#dcb568]', 
+                            actionBtn: 'bg-black/40 text-white hover:bg-[#dcb568] hover:text-[#380D1F]', 
+                            catchCopy: 'bg-black/60 text-white' 
+                        },
+                        '3d': { 
+                            btnPrimary: 'bg-gradient-to-b from-[#dcb568] to-[#b8860b] text-[#380D1F] font-bold shadow-[inset_0_2px_4px_rgba(255,255,255,0.6),0_6px_12px_rgba(0,0,0,0.8)] active:translate-y-1', 
+                            bonusBadge: 'bg-gradient-to-b from-[#dcb568] to-[#b8860b] text-[#380D1F] font-bold shadow-[inset_0_2px_4px_rgba(255,255,255,0.6),0_4px_8px_rgba(0,0,0,0.8)]', 
+                            btnSecondary: 'bg-[#5C1735] text-[#dcb568] shadow-[inset_0_1px_2px_rgba(255,255,255,0.1),0_4px_8px_rgba(0,0,0,0.5)]', 
+                            textGrad: 'text-[#dcb568] drop-shadow-md', 
+                            card: 'bg-[#5C1735] border-t border-white/10 border-l border-white/5 shadow-[8px_8px_16px_rgba(0,0,0,0.6)]', 
+                            badge: 'bg-[#dcb568] text-[#380D1F] font-bold shadow-[inset_0_1px_2px_rgba(255,255,255,0.6),0_2px_4px_rgba(0,0,0,0.8)]', 
+                            tabIndicator: 'bg-[#dcb568] shadow-[0_0_5px_rgba(220,181,104,0.8)]', 
+                            iconActive: 'text-[#dcb568] drop-shadow-md', 
+                            progressFill: 'bg-[#dcb568] shadow-[inset_0_1px_2px_rgba(255,255,255,0.8)]', 
+                            actionBtn: 'bg-[#5C1735] text-[#dcb568] shadow-[0_6px_12px_rgba(0,0,0,0.6)] hover:bg-[#dcb568] hover:text-[#380D1F]', 
+                            catchCopy: 'bg-[#5C1735] text-[#dcb568] shadow-lg' 
+                        },
+                        neon: { 
+                            btnPrimary: 'bg-[#4A122A] border-2 border-[#dcb568] text-[#dcb568] font-bold shadow-[0_0_15px_rgba(220,181,104,0.5)]', 
+                            bonusBadge: 'bg-[#4A122A] border-2 border-[#dcb568] text-[#dcb568] font-bold shadow-[0_0_15px_rgba(220,181,104,0.5)]', 
+                            btnSecondary: 'bg-[#4A122A] text-[#dcb568] border border-[#dcb568]/50 shadow-[0_0_10px_rgba(220,181,104,0.2)]', 
+                            textGrad: 'text-[#dcb568] drop-shadow-[0_0_8px_#dcb568]', 
+                            card: 'bg-[#4A122A]/80 border border-[#dcb568]/40 shadow-[0_0_20px_rgba(220,181,104,0.15)] backdrop-blur-sm', 
+                            badge: 'bg-[#4A122A] border border-[#dcb568] text-[#dcb568] font-bold shadow-[0_0_8px_rgba(220,181,104,0.8)]', 
+                            tabIndicator: 'bg-[#dcb568] shadow-[0_0_12px_#dcb568]', 
+                            iconActive: 'text-[#dcb568] drop-shadow-[0_0_8px_#dcb568]', 
+                            progressFill: 'bg-[#dcb568] shadow-[0_0_10px_#dcb568]', 
+                            actionBtn: 'bg-[#4A122A] border border-[#dcb568] text-[#dcb568] shadow-[0_0_15px_rgba(220,181,104,0.4)] hover:bg-[#dcb568]/20', 
+                            catchCopy: 'bg-[#4A122A]/80 border border-[#dcb568] text-[#dcb568] shadow-[0_0_15px_rgba(220,181,104,0.5)]' 
+                        }
                     }
                 },
                 light: {
-                    bgApp: 'bg-[#FFF0F5]', bgMain: 'bg-[#FFE4EC]', bgCard: 'bg-[#FFFFFF]', bgInput: 'bg-[#FFF0F5]', bgOverlay: 'bg-[#FFE4EC]/90', navBg: 'bg-[#FFE4EC]',
-                    textMain: 'text-[#4D1526]', textSub: 'text-[#96475E]', hoverAccentText: 'group-hover:text-[#B8860B]',
-                    border: 'border-[#F2C7D4]', borderInput: 'border-[#F2C7D4]',
+                    bgApp: 'bg-[#FFF0F7]', bgMain: 'bg-[#FFE6EF]', bgCard: 'bg-[#FFFFFF]', bgInput: 'bg-[#FFF0F7]', bgOverlay: 'bg-[#FFE6EF]/90', navBg: 'bg-[#FFE6EF]',
+                    textMain: 'text-[#5C1735]', textSub: 'text-[#96475E]', hoverAccentText: 'group-hover:text-[#B8860B]',
+                    border: 'border-[#F2C4D6]', borderInput: 'border-[#F2C4D6]',
                     iconInactive: 'text-[#96475E]', starColor: 'text-[#B8860B]', starBg: 'bg-[#B8860B]/10',
                     tagText: 'text-[#B8860B]', tagBg: 'bg-[#B8860B]/10', tagBorder: 'border-[#B8860B]/30',
                     radiusBase: 'rounded-xl', radiusCard: 'rounded-2xl', radiusFull: 'rounded-full', fontTitle: 'font-serif tracking-widest',
-                    bgGradientTop: 'from-white/80 to-transparent', bgGradientBottom: 'from-white via-white/90 to-transparent', swipeTextMain: 'text-[#4D1526]', swipeTextSub: 'text-[#7A223C]',
+                    bgGradientTop: 'from-white/80 to-transparent', bgGradientBottom: 'from-white via-white/90 to-transparent', swipeTextMain: 'text-[#5C1735]', swipeTextSub: 'text-[#7A223C]',
                     styles: {
-                        gradient: { btnPrimary: 'bg-gradient-to-r from-[#dcb568] to-[#b8860b] text-[#FFFFFF] shadow-md font-bold', btnSecondary: 'bg-[#FFFFFF] text-[#B8860B] border border-[#F2C7D4]', textGrad: 'text-transparent bg-clip-text bg-gradient-to-r from-[#dcb568] to-[#b8860b]', card: 'bg-[#FFFFFF] border border-[#F2C7D4] shadow-lg', badge: 'bg-gradient-to-r from-[#dcb568] to-[#b8860b] text-[#FFFFFF] border-2 border-[#FFFFFF] shadow-sm font-bold', tabIndicator: 'bg-gradient-to-r from-[#dcb568] to-[#b8860b] shadow-[0_0_8px_rgba(184,134,11,0.4)]', iconActive: 'text-[#B8860B]', progressFill: 'bg-[#B8860B] shadow-[0_0_4px_rgba(184,134,11,0.5)]', actionBtn: 'bg-white/60 backdrop-blur-md border border-[#4D1526]/10 text-[#4D1526] hover:bg-[#B8860B] hover:border-transparent hover:text-white', catchCopy: 'bg-white/80 border border-[#4D1526]/10 text-[#4D1526]' },
-                        flat: { btnPrimary: 'bg-[#B8860B] text-[#FFFFFF] font-bold', btnSecondary: 'bg-[#FFFFFF] text-[#B8860B] border border-[#F2C7D4]', textGrad: 'text-[#B8860B]', card: 'bg-[#FFFFFF] border border-[#F2C7D4]', badge: 'bg-[#B8860B] text-[#FFFFFF] font-bold', tabIndicator: 'bg-[#B8860B]', iconActive: 'text-[#B8860B]', progressFill: 'bg-[#B8860B]', actionBtn: 'bg-white/80 text-[#4D1526] border border-[#F2C7D4] hover:bg-[#B8860B] hover:text-white hover:border-transparent', catchCopy: 'bg-white/90 text-[#4D1526]' },
-                        '3d': { btnPrimary: 'bg-gradient-to-b from-[#e5c587] to-[#b8860b] text-[#FFFFFF] font-bold shadow-[inset_0_2px_4px_rgba(255,255,255,0.8),0_4px_8px_rgba(184,134,11,0.4)] active:translate-y-1', btnSecondary: 'bg-[#FFFFFF] text-[#B8860B] shadow-[inset_0_1px_2px_rgba(0,0,0,0.05),0_4px_8px_rgba(0,0,0,0.1)]', textGrad: 'text-[#B8860B] drop-shadow-sm', card: 'bg-[#FFFFFF] border border-white shadow-[8px_8px_16px_rgba(200,180,185,0.4),-8px_-8px_16px_rgba(255,255,255,0.8)]', badge: 'bg-[#B8860B] text-[#FFFFFF] font-bold shadow-[inset_0_1px_2px_rgba(255,255,255,0.6),0_2px_4px_rgba(0,0,0,0.2)]', tabIndicator: 'bg-[#B8860B] shadow-[0_0_5px_rgba(184,134,11,0.4)]', iconActive: 'text-[#B8860B] drop-shadow-sm', progressFill: 'bg-[#B8860B] shadow-[inset_0_1px_2px_rgba(255,255,255,0.8)]', actionBtn: 'bg-[#FFFFFF] text-[#B8860B] shadow-[0_6px_12px_rgba(200,180,185,0.5)] hover:bg-[#B8860B] hover:text-white', catchCopy: 'bg-[#FFFFFF] text-[#B8860B] shadow-lg' },
-                        neon: { btnPrimary: 'bg-[#FFFFFF] border-2 border-[#B8860B] text-[#B8860B] font-bold shadow-[0_0_15px_rgba(184,134,11,0.3)]', btnSecondary: 'bg-[#FFFFFF] text-[#B8860B] border border-[#B8860B]/50 shadow-[0_0_10px_rgba(184,134,11,0.1)]', textGrad: 'text-[#B8860B] drop-shadow-[0_0_4px_rgba(184,134,11,0.4)]', card: 'bg-[#FFFFFF] border border-[#B8860B]/30 shadow-[0_0_20px_rgba(184,134,11,0.1)]', badge: 'bg-[#FFFFFF] border border-[#B8860B] text-[#B8860B] font-bold shadow-[0_0_8px_rgba(184,134,11,0.3)]', tabIndicator: 'bg-[#B8860B] shadow-[0_0_8px_#B8860B]', iconActive: 'text-[#B8860B] drop-shadow-[0_0_4px_rgba(184,134,11,0.4)]', progressFill: 'bg-[#B8860B] shadow-[0_0_8px_#B8860B]', actionBtn: 'bg-[#FFFFFF] border border-[#B8860B] text-[#B8860B] shadow-[0_0_15px_rgba(184,134,11,0.2)] hover:bg-[#B8860B]/10', catchCopy: 'bg-[#FFFFFF] border border-[#B8860B] text-[#B8860B] shadow-[0_0_15px_rgba(184,134,11,0.2)]' }
-                    }
-                }
-            },
-            classic: {
-                id: 'classic', name: 'Classic Gold (黒×金)',
-                dark: {
-                    bgApp: 'bg-[#0a0a0a]', bgMain: 'bg-[#161110]', bgCard: 'bg-[#1c1514]', bgInput: 'bg-[#261d1b]', bgOverlay: 'bg-[#161110]/90', navBg: 'bg-[#161110]',
-                    textMain: 'text-[#ececec]', textSub: 'text-gray-400', hoverAccentText: 'group-hover:text-[#dcb568]',
-                    border: 'border-[#362725]', borderInput: 'border-[#4a3633]',
-                    iconInactive: 'text-gray-500', starColor: 'text-[#dcb568]', starBg: 'bg-[#dcb568]/10',
-                    tagText: 'text-[#dcb568]', tagBg: 'bg-[#dcb568]/10', tagBorder: 'border-[#dcb568]/30',
-                    radiusBase: 'rounded-md', radiusCard: 'rounded-lg', radiusFull: 'rounded-full', fontTitle: 'font-serif tracking-widest',
-                    bgGradientTop: 'from-black/60 to-transparent', bgGradientBottom: 'from-black via-black/80 to-transparent', swipeTextMain: 'text-white', swipeTextSub: 'text-gray-300',
-                    styles: {
-                        gradient: { btnPrimary: 'bg-gradient-to-r from-[#dcb568] to-[#b8860b] text-[#161110] shadow-md font-bold', btnSecondary: 'bg-[#1c1514] text-[#dcb568] border border-[#4a3633]', textGrad: 'text-transparent bg-clip-text bg-gradient-to-r from-[#dcb568] to-[#b8860b]', card: 'bg-[#1c1514] border border-[#362725] shadow-lg', badge: 'bg-gradient-to-r from-[#dcb568] to-[#b8860b] text-[#161110] border-2 border-[#1c1514] shadow-sm font-bold', tabIndicator: 'bg-gradient-to-r from-[#dcb568] to-[#b8860b] shadow-[0_0_8px_rgba(220,181,104,0.6)]', iconActive: 'text-[#dcb568]', progressFill: 'bg-[#dcb568] shadow-[0_0_4px_rgba(220,181,104,0.8)]', actionBtn: 'bg-black/40 backdrop-blur-md border border-white/20 text-white hover:bg-[#dcb568] hover:border-transparent hover:text-[#161110]', catchCopy: 'bg-black/60 border border-white/10 text-white' },
-                        flat: { btnPrimary: 'bg-[#dcb568] text-[#161110] font-bold', btnSecondary: 'bg-[#1c1514] text-[#dcb568]', textGrad: 'text-[#dcb568]', card: 'bg-[#1c1514]', badge: 'bg-[#dcb568] text-[#161110] font-bold', tabIndicator: 'bg-[#dcb568]', iconActive: 'text-[#dcb568]', progressFill: 'bg-[#dcb568]', actionBtn: 'bg-black/40 text-white hover:bg-[#dcb568] hover:text-[#161110]', catchCopy: 'bg-black/60 text-white' },
-                        '3d': { btnPrimary: 'bg-gradient-to-b from-[#dcb568] to-[#b8860b] text-[#161110] font-bold shadow-[inset_0_2px_4px_rgba(255,255,255,0.6),0_6px_12px_rgba(0,0,0,0.8)] active:translate-y-1', btnSecondary: 'bg-[#1c1514] text-[#dcb568] shadow-[inset_0_1px_2px_rgba(255,255,255,0.1),0_4px_8px_rgba(0,0,0,0.5)]', textGrad: 'text-[#dcb568] drop-shadow-md', card: 'bg-[#1c1514] border-t border-white/10 border-l border-white/5 shadow-[8px_8px_16px_rgba(0,0,0,0.6)]', badge: 'bg-[#dcb568] text-[#161110] font-bold shadow-[inset_0_1px_2px_rgba(255,255,255,0.6),0_2px_4px_rgba(0,0,0,0.8)]', tabIndicator: 'bg-[#dcb568] shadow-[0_0_5px_rgba(220,181,104,0.8)]', iconActive: 'text-[#dcb568] drop-shadow-md', progressFill: 'bg-[#dcb568] shadow-[inset_0_1px_2px_rgba(255,255,255,0.8)]', actionBtn: 'bg-[#1c1514] text-[#dcb568] shadow-[0_6px_12px_rgba(0,0,0,0.6)] hover:bg-[#dcb568] hover:text-[#161110]', catchCopy: 'bg-[#1c1514] text-[#dcb568] shadow-lg' },
-                        neon: { btnPrimary: 'bg-[#161110] border-2 border-[#dcb568] text-[#dcb568] font-bold shadow-[0_0_15px_rgba(220,181,104,0.5)]', btnSecondary: 'bg-[#161110] text-[#dcb568] border border-[#dcb568]/50 shadow-[0_0_10px_rgba(220,181,104,0.2)]', textGrad: 'text-[#dcb568] drop-shadow-[0_0_8px_#dcb568]', card: 'bg-[#161110]/80 border border-[#dcb568]/40 shadow-[0_0_20px_rgba(220,181,104,0.15)] backdrop-blur-sm', badge: 'bg-[#161110] border border-[#dcb568] text-[#dcb568] font-bold shadow-[0_0_8px_rgba(220,181,104,0.8)]', tabIndicator: 'bg-[#dcb568] shadow-[0_0_12px_#dcb568]', iconActive: 'text-[#dcb568] drop-shadow-[0_0_8px_#dcb568]', progressFill: 'bg-[#dcb568] shadow-[0_0_10px_#dcb568]', actionBtn: 'bg-[#161110] border border-[#dcb568] text-[#dcb568] shadow-[0_0_15px_rgba(220,181,104,0.4)] hover:bg-[#dcb568]/20', catchCopy: 'bg-[#161110]/80 border border-[#dcb568] text-[#dcb568] shadow-[0_0_15px_rgba(220,181,104,0.5)]' }
-                    }
-                },
-                light: {
-                    bgApp: 'bg-[#F5F5F5]', bgMain: 'bg-[#EAEAEA]', bgCard: 'bg-[#FFFFFF]', bgInput: 'bg-[#F5F5F5]', bgOverlay: 'bg-[#EAEAEA]/90', navBg: 'bg-[#EAEAEA]',
-                    textMain: 'text-[#1A1A1A]', textSub: 'text-[#666666]', hoverAccentText: 'group-hover:text-[#9A7311]',
-                    border: 'border-[#D4D4D4]', borderInput: 'border-[#D4D4D4]',
-                    iconInactive: 'text-[#888888]', starColor: 'text-[#B8860B]', starBg: 'bg-[#B8860B]/10',
-                    tagText: 'text-[#9A7311]', tagBg: 'bg-[#B8860B]/10', tagBorder: 'border-[#B8860B]/30',
-                    radiusBase: 'rounded-md', radiusCard: 'rounded-lg', radiusFull: 'rounded-full', fontTitle: 'font-serif tracking-widest',
-                    bgGradientTop: 'from-white/80 to-transparent', bgGradientBottom: 'from-white via-white/90 to-transparent', swipeTextMain: 'text-[#1A1A1A]', swipeTextSub: 'text-[#444444]',
-                    styles: {
-                        gradient: { btnPrimary: 'bg-gradient-to-r from-[#dcb568] to-[#9A7311] text-[#FFFFFF] shadow-md font-bold', btnSecondary: 'bg-[#FFFFFF] text-[#9A7311] border border-[#D4D4D4]', textGrad: 'text-transparent bg-clip-text bg-gradient-to-r from-[#dcb568] to-[#9A7311]', card: 'bg-[#FFFFFF] border border-[#D4D4D4] shadow-lg', badge: 'bg-gradient-to-r from-[#dcb568] to-[#9A7311] text-[#FFFFFF] border-2 border-[#FFFFFF] shadow-sm font-bold', tabIndicator: 'bg-gradient-to-r from-[#dcb568] to-[#9A7311] shadow-[0_0_8px_rgba(184,134,11,0.4)]', iconActive: 'text-[#9A7311]', progressFill: 'bg-[#9A7311] shadow-[0_0_4px_rgba(184,134,11,0.5)]', actionBtn: 'bg-white/60 backdrop-blur-md border border-[#1A1A1A]/10 text-[#1A1A1A] hover:bg-[#9A7311] hover:border-transparent hover:text-white', catchCopy: 'bg-white/80 border border-[#1A1A1A]/10 text-[#1A1A1A]' },
-                        flat: { btnPrimary: 'bg-[#B8860B] text-[#FFFFFF] font-bold', btnSecondary: 'bg-[#FFFFFF] text-[#9A7311] border border-[#D4D4D4]', textGrad: 'text-[#9A7311]', card: 'bg-[#FFFFFF] border border-[#D4D4D4]', badge: 'bg-[#B8860B] text-[#FFFFFF] font-bold', tabIndicator: 'bg-[#B8860B]', iconActive: 'text-[#9A7311]', progressFill: 'bg-[#B8860B]', actionBtn: 'bg-white/80 text-[#1A1A1A] border border-[#D4D4D4] hover:bg-[#B8860B] hover:text-white hover:border-transparent', catchCopy: 'bg-white/90 text-[#1A1A1A]' },
-                        '3d': { btnPrimary: 'bg-gradient-to-b from-[#e5c587] to-[#9A7311] text-[#FFFFFF] font-bold shadow-[inset_0_2px_4px_rgba(255,255,255,0.8),0_4px_8px_rgba(184,134,11,0.4)] active:translate-y-1', btnSecondary: 'bg-[#FFFFFF] text-[#9A7311] shadow-[inset_0_1px_2px_rgba(0,0,0,0.05),0_4px_8px_rgba(0,0,0,0.1)]', textGrad: 'text-[#9A7311] drop-shadow-sm', card: 'bg-[#FFFFFF] border border-white shadow-[8px_8px_16px_rgba(200,200,200,0.4),-8px_-8px_16px_rgba(255,255,255,0.8)]', badge: 'bg-[#B8860B] text-[#FFFFFF] font-bold shadow-[inset_0_1px_2px_rgba(255,255,255,0.6),0_2px_4px_rgba(0,0,0,0.2)]', tabIndicator: 'bg-[#B8860B] shadow-[0_0_5px_rgba(184,134,11,0.4)]', iconActive: 'text-[#9A7311] drop-shadow-sm', progressFill: 'bg-[#B8860B] shadow-[inset_0_1px_2px_rgba(255,255,255,0.8)]', actionBtn: 'bg-[#FFFFFF] text-[#9A7311] shadow-[0_6px_12px_rgba(200,200,200,0.5)] hover:bg-[#B8860B] hover:text-white', catchCopy: 'bg-[#FFFFFF] text-[#9A7311] shadow-lg' },
-                        neon: { btnPrimary: 'bg-[#FFFFFF] border-2 border-[#B8860B] text-[#B8860B] font-bold shadow-[0_0_15px_rgba(184,134,11,0.3)]', btnSecondary: 'bg-[#FFFFFF] text-[#B8860B] border border-[#B8860B]/50 shadow-[0_0_10px_rgba(184,134,11,0.1)]', textGrad: 'text-[#B8860B] drop-shadow-[0_0_4px_rgba(184,134,11,0.4)]', card: 'bg-[#FFFFFF] border border-[#B8860B]/30 shadow-[0_0_20px_rgba(184,134,11,0.1)]', badge: 'bg-[#FFFFFF] border border-[#B8860B] text-[#B8860B] font-bold shadow-[0_0_8px_rgba(184,134,11,0.3)]', tabIndicator: 'bg-[#B8860B] shadow-[0_0_8px_#B8860B]', iconActive: 'text-[#B8860B] drop-shadow-[0_0_4px_rgba(184,134,11,0.4)]', progressFill: 'bg-[#B8860B] shadow-[0_0_8px_#B8860B]', actionBtn: 'bg-[#FFFFFF] border border-[#B8860B] text-[#B8860B] shadow-[0_0_15px_rgba(184,134,11,0.2)] hover:bg-[#B8860B]/10', catchCopy: 'bg-[#FFFFFF] border border-[#B8860B] text-[#B8860B] shadow-[0_0_15px_rgba(184,134,11,0.2)]' }
+                        gradient: { 
+                            btnPrimary: 'bg-gradient-to-r from-[#dcb568] to-[#b8860b] text-[#FFFFFF] shadow-md font-bold', 
+                            bonusBadge: 'bg-gradient-to-r from-[#dcb568] to-[#b8860b] text-[#FFFFFF] shadow-md font-bold',
+                            btnSecondary: 'bg-[#FFFFFF] text-[#B8860B] border border-[#F2C4D6]', 
+                            textGrad: 'text-transparent bg-clip-text bg-gradient-to-r from-[#dcb568] to-[#b8860b]', 
+                            card: 'bg-[#FFFFFF] border border-[#F2C4D6] shadow-lg', 
+                            badge: 'bg-gradient-to-r from-[#dcb568] to-[#b8860b] text-[#FFFFFF] border-2 border-[#FFFFFF] shadow-sm font-bold', 
+                            tabIndicator: 'bg-gradient-to-r from-[#dcb568] to-[#b8860b] shadow-[0_0_8px_rgba(184,134,11,0.4)]', 
+                            iconActive: 'text-[#B8860B]', 
+                            progressFill: 'bg-[#B8860B] shadow-[0_0_4px_rgba(184,134,11,0.5)]', 
+                            actionBtn: 'bg-white/60 backdrop-blur-md border border-[#5C1735]/10 text-[#5C1735] hover:bg-[#B8860B] hover:border-transparent hover:text-white', 
+                            catchCopy: 'bg-white/80 border border-[#5C1735]/10 text-[#5C1735]' 
+                        },
+                        flat: { 
+                            btnPrimary: 'bg-[#B8860B] text-[#FFFFFF] font-bold', 
+                            bonusBadge: 'bg-[#B8860B] text-[#FFFFFF] font-bold',
+                            btnSecondary: 'bg-[#FFFFFF] text-[#B8860B] border border-[#F2C4D6]', 
+                            textGrad: 'text-[#B8860B]', 
+                            card: 'bg-[#FFFFFF] border border-[#F2C4D6]', 
+                            badge: 'bg-[#B8860B] text-[#FFFFFF] font-bold', 
+                            tabIndicator: 'bg-[#B8860B]', 
+                            iconActive: 'text-[#B8860B]', 
+                            progressFill: 'bg-[#B8860B]', 
+                            actionBtn: 'bg-white/80 text-[#5C1735] border border-[#F2C4D6] hover:bg-[#B8860B] hover:text-white hover:border-transparent', 
+                            catchCopy: 'bg-white/90 text-[#5C1735]' 
+                        },
+                        '3d': { 
+                            btnPrimary: 'bg-gradient-to-b from-[#e5c587] to-[#b8860b] text-[#FFFFFF] font-bold shadow-[inset_0_2px_4px_rgba(255,255,255,0.8),0_4px_8px_rgba(184,134,11,0.4)] active:translate-y-1', 
+                            bonusBadge: 'bg-gradient-to-b from-[#e5c587] to-[#b8860b] text-[#FFFFFF] font-bold shadow-[inset_0_2px_4px_rgba(255,255,255,0.8),0_4px_8px_rgba(184,134,11,0.4)]',
+                            btnSecondary: 'bg-[#FFFFFF] text-[#B8860B] shadow-[inset_0_1px_2px_rgba(0,0,0,0.05),0_4px_8px_rgba(0,0,0,0.1)]', 
+                            textGrad: 'text-[#B8860B] drop-shadow-sm', 
+                            card: 'bg-[#FFFFFF] border border-white shadow-[8px_8px_16px_rgba(200,180,185,0.4),-8px_-8px_16px_rgba(255,255,255,0.8)]', 
+                            badge: 'bg-[#B8860B] text-[#FFFFFF] font-bold shadow-[inset_0_1px_2px_rgba(255,255,255,0.6),0_2px_4px_rgba(0,0,0,0.2)]', 
+                            tabIndicator: 'bg-[#B8860B] shadow-[0_0_5px_rgba(184,134,11,0.4)]', 
+                            iconActive: 'text-[#B8860B] drop-shadow-sm', 
+                            progressFill: 'bg-[#B8860B] shadow-[inset_0_1px_2px_rgba(255,255,255,0.8)]', 
+                            actionBtn: 'bg-[#FFFFFF] text-[#B8860B] shadow-[0_6px_12px_rgba(200,180,185,0.5)] hover:bg-[#B8860B] hover:text-white', 
+                            catchCopy: 'bg-[#FFFFFF] text-[#B8860B] shadow-lg' 
+                        },
+                        neon: { 
+                            btnPrimary: 'bg-[#FFFFFF] border-2 border-[#B8860B] text-[#B8860B] font-bold shadow-[0_0_15px_rgba(184,134,11,0.3)]', 
+                            bonusBadge: 'bg-[#FFFFFF] border-2 border-[#B8860B] text-[#B8860B] font-bold shadow-[0_0_15px_rgba(184,134,11,0.3)]',
+                            btnSecondary: 'bg-[#FFFFFF] text-[#B8860B] border border-[#B8860B]/50 shadow-[0_0_10px_rgba(184,134,11,0.1)]', 
+                            textGrad: 'text-[#B8860B] drop-shadow-[0_0_4px_rgba(184,134,11,0.4)]', 
+                            card: 'bg-[#FFFFFF] border border-[#B8860B]/30 shadow-[0_0_20px_rgba(184,134,11,0.1)]', 
+                            badge: 'bg-[#FFFFFF] border border-[#B8860B] text-[#B8860B] font-bold shadow-[0_0_8px_rgba(184,134,11,0.3)]', 
+                            tabIndicator: 'bg-[#B8860B] shadow-[0_0_8px_#B8860B]', 
+                            iconActive: 'text-[#B8860B] drop-shadow-[0_0_4px_rgba(184,134,11,0.4)]', 
+                            progressFill: 'bg-[#B8860B] shadow-[0_0_8px_#B8860B]', 
+                            actionBtn: 'bg-[#FFFFFF] border border-[#B8860B] text-[#B8860B] shadow-[0_0_15px_rgba(184,134,11,0.2)] hover:bg-[#B8860B]/10', 
+                            catchCopy: 'bg-[#FFFFFF] border border-[#B8860B] text-[#B8860B] shadow-[0_0_15px_rgba(184,134,11,0.2)]' 
+                        }
                     }
                 }
             },
@@ -114,10 +179,58 @@
                     radiusBase: 'rounded-[16px]', radiusCard: 'rounded-[24px]', radiusFull: 'rounded-full', fontTitle: 'font-serif tracking-[0.15em]',
                     bgGradientTop: 'from-black/60 to-transparent', bgGradientBottom: 'from-black via-black/80 to-transparent', swipeTextMain: 'text-white', swipeTextSub: 'text-gray-300',
                     styles: {
-                        gradient: { btnPrimary: 'bg-gradient-to-r from-[#FF2A7A] to-[#FF7A00] text-white shadow-md font-bold', btnSecondary: 'bg-[#2b1727] text-[#FF2A7A] border border-[#4a2742]', textGrad: 'text-transparent bg-clip-text bg-gradient-to-r from-[#FF2A7A] to-[#FF7A00]', card: 'bg-[#2b1727] border border-[#4a2742] shadow-lg', badge: 'bg-gradient-to-r from-[#FF2A7A] to-[#FF7A00] text-white border-2 border-[#2b1727] shadow-sm font-bold', tabIndicator: 'bg-gradient-to-r from-[#FF2A7A] to-[#FF7A00] shadow-[0_0_8px_rgba(255,42,122,0.6)]', iconActive: 'text-[#FF2A7A]', progressFill: 'bg-[#FF2A7A] shadow-[0_0_4px_rgba(255,42,122,0.8)]', actionBtn: 'bg-black/40 backdrop-blur-md border border-white/20 text-white hover:bg-[#FF2A7A] hover:border-transparent', catchCopy: 'bg-black/60 border border-white/10 text-white' },
-                        flat: { btnPrimary: 'bg-[#FF2A7A] text-white font-bold', btnSecondary: 'bg-[#2b1727] text-[#FF2A7A]', textGrad: 'text-[#FF2A7A]', card: 'bg-[#2b1727]', badge: 'bg-[#FF2A7A] text-white font-bold', tabIndicator: 'bg-[#FF2A7A]', iconActive: 'text-[#FF2A7A]', progressFill: 'bg-[#FF2A7A]', actionBtn: 'bg-black/40 text-white hover:bg-[#FF2A7A]', catchCopy: 'bg-black/60 text-white' },
-                        '3d': { btnPrimary: 'bg-gradient-to-b from-[#FF2A7A] to-[#cc1457] text-white font-bold shadow-[inset_0_2px_4px_rgba(255,255,255,0.6),0_6px_12px_rgba(0,0,0,0.8)] active:translate-y-1', btnSecondary: 'bg-[#2b1727] text-[#FF2A7A] shadow-[inset_0_1px_2px_rgba(255,255,255,0.1),0_4px_8px_rgba(0,0,0,0.5)]', textGrad: 'text-[#FF2A7A] drop-shadow-md', card: 'bg-[#2b1727] border-t border-white/10 border-l border-white/5 shadow-[8px_8px_16px_rgba(0,0,0,0.6)]', badge: 'bg-[#FF2A7A] text-white font-bold shadow-[inset_0_1px_2px_rgba(255,255,255,0.6),0_2px_4px_rgba(0,0,0,0.8)]', tabIndicator: 'bg-[#FF2A7A] shadow-[0_0_5px_rgba(255,42,122,0.8)]', iconActive: 'text-[#FF2A7A] drop-shadow-md', progressFill: 'bg-[#FF2A7A] shadow-[inset_0_1px_2px_rgba(255,255,255,0.8)]', actionBtn: 'bg-[#2b1727] text-[#FF2A7A] shadow-[0_6px_12px_rgba(0,0,0,0.6)] hover:bg-[#FF2A7A] hover:text-white', catchCopy: 'bg-[#2b1727] text-[#FF2A7A] shadow-lg' },
-                        neon: { btnPrimary: 'bg-[#1f101c] border-2 border-[#FF2A7A] text-[#FF2A7A] font-bold shadow-[0_0_15px_rgba(255,42,122,0.5)]', btnSecondary: 'bg-[#1f101c] text-[#FF2A7A] border border-[#FF2A7A]/50 shadow-[0_0_10px_rgba(255,42,122,0.2)]', textGrad: 'text-[#FF2A7A] drop-shadow-[0_0_8px_#FF2A7A]', card: 'bg-[#1f101c]/80 border border-[#FF2A7A]/40 shadow-[0_0_20px_rgba(255,42,122,0.15)] backdrop-blur-sm', badge: 'bg-[#1f101c] border border-[#FF2A7A] text-[#FF2A7A] font-bold shadow-[0_0_8px_rgba(255,42,122,0.8)]', tabIndicator: 'bg-[#FF2A7A] shadow-[0_0_12px_#FF2A7A]', iconActive: 'text-[#FF2A7A] drop-shadow-[0_0_8px_#FF2A7A]', progressFill: 'bg-[#FF2A7A] shadow-[0_0_10px_#FF2A7A]', actionBtn: 'bg-[#1f101c] border border-[#FF2A7A] text-[#FF2A7A] shadow-[0_0_15px_rgba(255,42,122,0.4)] hover:bg-[#FF2A7A]/20', catchCopy: 'bg-[#1f101c]/80 border border-[#FF2A7A] text-[#FF2A7A] shadow-[0_0_15px_rgba(255,42,122,0.5)]' }
+                        gradient: { 
+                            btnPrimary: 'bg-gradient-to-r from-[#FF2A7A] to-[#FF7A00] text-white shadow-md font-bold', 
+                            bonusBadge: 'bg-gradient-to-r from-[#F5D76E] to-[#D4A32A] text-[#1f101c] shadow-[0_4px_12px_rgba(245,215,110,0.3)] font-bold',
+                            btnSecondary: 'bg-[#2b1727] text-[#FF2A7A] border border-[#4a2742]', 
+                            textGrad: 'text-transparent bg-clip-text bg-gradient-to-r from-[#FF2A7A] to-[#FF7A00]', 
+                            card: 'bg-[#2b1727] border border-[#4a2742] shadow-lg', 
+                            badge: 'bg-gradient-to-r from-[#FF2A7A] to-[#FF7A00] text-white border-2 border-[#2b1727] shadow-sm font-bold', 
+                            tabIndicator: 'bg-gradient-to-r from-[#FF2A7A] to-[#FF7A00] shadow-[0_0_8px_rgba(255,42,122,0.6)]', 
+                            iconActive: 'text-[#FF2A7A]', 
+                            progressFill: 'bg-[#FF2A7A] shadow-[0_0_4px_rgba(255,42,122,0.8)]', 
+                            actionBtn: 'bg-black/40 backdrop-blur-md border border-white/20 text-white hover:bg-[#FF2A7A] hover:border-transparent', 
+                            catchCopy: 'bg-black/60 border border-white/10 text-white' 
+                        },
+                        flat: { 
+                            btnPrimary: 'bg-[#FF2A7A] text-white font-bold', 
+                            bonusBadge: 'bg-[#D4A32A] text-[#1f101c] font-bold', 
+                            btnSecondary: 'bg-[#2b1727] text-[#FF2A7A]', 
+                            textGrad: 'text-[#FF2A7A]', 
+                            card: 'bg-[#2b1727]', 
+                            badge: 'bg-[#FF2A7A] text-white font-bold', 
+                            tabIndicator: 'bg-[#FF2A7A]', 
+                            iconActive: 'text-[#FF2A7A]', 
+                            progressFill: 'bg-[#FF2A7A]', 
+                            actionBtn: 'bg-black/40 text-white hover:bg-[#FF2A7A]', 
+                            catchCopy: 'bg-black/60 text-white' 
+                        },
+                        '3d': { 
+                            btnPrimary: 'bg-gradient-to-b from-[#FF2A7A] to-[#cc1457] text-white font-bold shadow-[inset_0_2px_4px_rgba(255,255,255,0.6),0_6px_12px_rgba(0,0,0,0.8)] active:translate-y-1', 
+                            bonusBadge: 'bg-gradient-to-b from-[#F5D76E] to-[#D4A32A] text-[#1f101c] font-bold shadow-[inset_0_2px_4px_rgba(255,255,255,0.8),0_6px_12px_rgba(0,0,0,0.8)]', 
+                            btnSecondary: 'bg-[#2b1727] text-[#FF2A7A] shadow-[inset_0_1px_2px_rgba(255,255,255,0.1),0_4px_8px_rgba(0,0,0,0.5)]', 
+                            textGrad: 'text-[#FF2A7A] drop-shadow-md', 
+                            card: 'bg-[#2b1727] border-t border-white/10 border-l border-white/5 shadow-[8px_8px_16px_rgba(0,0,0,0.6)]', 
+                            badge: 'bg-[#FF2A7A] text-white font-bold shadow-[inset_0_1px_2px_rgba(255,255,255,0.6),0_2px_4px_rgba(0,0,0,0.8)]', 
+                            tabIndicator: 'bg-[#FF2A7A] shadow-[0_0_5px_rgba(255,42,122,0.8)]', 
+                            iconActive: 'text-[#FF2A7A] drop-shadow-md', 
+                            progressFill: 'bg-[#FF2A7A] shadow-[inset_0_1px_2px_rgba(255,255,255,0.8)]', 
+                            actionBtn: 'bg-[#2b1727] text-[#FF2A7A] shadow-[0_6px_12px_rgba(0,0,0,0.6)] hover:bg-[#FF2A7A] hover:text-white', 
+                            catchCopy: 'bg-[#2b1727] text-[#FF2A7A] shadow-lg' 
+                        },
+                        neon: { 
+                            btnPrimary: 'bg-[#1f101c] border-2 border-[#FF2A7A] text-[#FF2A7A] font-bold shadow-[0_0_15px_rgba(255,42,122,0.5)]', 
+                            bonusBadge: 'bg-[#1f101c] border-2 border-[#D4A32A] text-[#D4A32A] font-bold shadow-[0_0_15px_rgba(212,163,42,0.5),inset_0_0_10px_rgba(212,163,42,0.3)]', 
+                            btnSecondary: 'bg-[#1f101c] text-[#FF2A7A] border border-[#FF2A7A]/50 shadow-[0_0_10px_rgba(255,42,122,0.2)]', 
+                            textGrad: 'text-[#FF2A7A] drop-shadow-[0_0_8px_#FF2A7A]', 
+                            card: 'bg-[#1f101c]/80 border border-[#FF2A7A]/40 shadow-[0_0_20px_rgba(255,42,122,0.15)] backdrop-blur-sm', 
+                            badge: 'bg-[#1f101c] border border-[#FF2A7A] text-[#FF2A7A] font-bold shadow-[0_0_8px_rgba(255,42,122,0.8)]', 
+                            tabIndicator: 'bg-[#FF2A7A] shadow-[0_0_12px_#FF2A7A]', 
+                            iconActive: 'text-[#FF2A7A] drop-shadow-[0_0_8px_#FF2A7A]', 
+                            progressFill: 'bg-[#FF2A7A] shadow-[0_0_10px_#FF2A7A]', 
+                            actionBtn: 'bg-[#1f101c] border border-[#FF2A7A] text-[#FF2A7A] shadow-[0_0_15px_rgba(255,42,122,0.4)] hover:bg-[#FF2A7A]/20', 
+                            catchCopy: 'bg-[#1f101c]/80 border border-[#FF2A7A] text-[#FF2A7A] shadow-[0_0_15px_rgba(255,42,122,0.5)]' 
+                        }
                     }
                 },
                 light: {
@@ -129,76 +242,316 @@
                     radiusBase: 'rounded-[16px]', radiusCard: 'rounded-[24px]', radiusFull: 'rounded-full', fontTitle: 'font-serif tracking-[0.15em]',
                     bgGradientTop: 'from-white/80 to-transparent', bgGradientBottom: 'from-white via-white/90 to-transparent', swipeTextMain: 'text-[#2b1727]', swipeTextSub: 'text-[#5e3153]',
                     styles: {
-                        gradient: { btnPrimary: 'bg-gradient-to-r from-[#FF2A7A] to-[#FF7A00] text-white shadow-md font-bold', btnSecondary: 'bg-[#ffffff] text-[#D11A5C] border border-[#f2c7da]', textGrad: 'text-transparent bg-clip-text bg-gradient-to-r from-[#FF2A7A] to-[#FF7A00]', card: 'bg-[#ffffff] border border-[#f2c7da] shadow-lg', badge: 'bg-gradient-to-r from-[#FF2A7A] to-[#FF7A00] text-white border-2 border-[#ffffff] shadow-sm font-bold', tabIndicator: 'bg-gradient-to-r from-[#FF2A7A] to-[#FF7A00] shadow-[0_0_8px_rgba(255,42,122,0.4)]', iconActive: 'text-[#D11A5C]', progressFill: 'bg-[#D11A5C] shadow-[0_0_4px_rgba(209,26,92,0.5)]', actionBtn: 'bg-white/60 backdrop-blur-md border border-[#2b1727]/10 text-[#2b1727] hover:bg-[#D11A5C] hover:border-transparent hover:text-white', catchCopy: 'bg-white/80 border border-[#2b1727]/10 text-[#2b1727]' },
-                        flat: { btnPrimary: 'bg-[#D11A5C] text-white font-bold', btnSecondary: 'bg-[#ffffff] text-[#D11A5C] border border-[#f2c7da]', textGrad: 'text-[#D11A5C]', card: 'bg-[#ffffff] border border-[#f2c7da]', badge: 'bg-[#D11A5C] text-white font-bold', tabIndicator: 'bg-[#D11A5C]', iconActive: 'text-[#D11A5C]', progressFill: 'bg-[#D11A5C]', actionBtn: 'bg-white/80 text-[#2b1727] border border-[#f2c7da] hover:bg-[#D11A5C] hover:text-white hover:border-transparent', catchCopy: 'bg-white/90 text-[#2b1727]' },
-                        '3d': { btnPrimary: 'bg-gradient-to-b from-[#ff5e9a] to-[#D11A5C] text-white font-bold shadow-[inset_0_2px_4px_rgba(255,255,255,0.8),0_4px_8px_rgba(209,26,92,0.4)] active:translate-y-1', btnSecondary: 'bg-[#ffffff] text-[#D11A5C] shadow-[inset_0_1px_2px_rgba(0,0,0,0.05),0_4px_8px_rgba(0,0,0,0.1)]', textGrad: 'text-[#D11A5C] drop-shadow-sm', card: 'bg-[#ffffff] border border-white shadow-[8px_8px_16px_rgba(230,200,215,0.4),-8px_-8px_16px_rgba(255,255,255,0.8)]', badge: 'bg-[#D11A5C] text-white font-bold shadow-[inset_0_1px_2px_rgba(255,255,255,0.6),0_2px_4px_rgba(0,0,0,0.2)]', tabIndicator: 'bg-[#D11A5C] shadow-[0_0_5px_rgba(209,26,92,0.4)]', iconActive: 'text-[#D11A5C] drop-shadow-sm', progressFill: 'bg-[#D11A5C] shadow-[inset_0_1px_2px_rgba(255,255,255,0.8)]', actionBtn: 'bg-[#ffffff] text-[#D11A5C] shadow-[0_6px_12px_rgba(230,200,215,0.5)] hover:bg-[#D11A5C] hover:text-white', catchCopy: 'bg-[#ffffff] text-[#D11A5C] shadow-lg' },
-                        neon: { btnPrimary: 'bg-[#ffffff] border-2 border-[#D11A5C] text-[#D11A5C] font-bold shadow-[0_0_15px_rgba(209,26,92,0.3)]', btnSecondary: 'bg-[#ffffff] text-[#D11A5C] border border-[#D11A5C]/50 shadow-[0_0_10px_rgba(209,26,92,0.1)]', textGrad: 'text-[#D11A5C] drop-shadow-[0_0_4px_rgba(209,26,92,0.4)]', card: 'bg-[#ffffff] border border-[#D11A5C]/30 shadow-[0_0_20px_rgba(209,26,92,0.1)]', badge: 'bg-[#ffffff] border border-[#D11A5C] text-[#D11A5C] font-bold shadow-[0_0_8px_rgba(209,26,92,0.3)]', tabIndicator: 'bg-[#D11A5C] shadow-[0_0_8px_#D11A5C]', iconActive: 'text-[#D11A5C] drop-shadow-[0_0_4px_rgba(209,26,92,0.4)]', progressFill: 'bg-[#D11A5C] shadow-[0_0_8px_#D11A5C]', actionBtn: 'bg-[#ffffff] border border-[#D11A5C] text-[#D11A5C] shadow-[0_0_15px_rgba(209,26,92,0.2)] hover:bg-[#D11A5C]/10', catchCopy: 'bg-[#ffffff] border border-[#D11A5C] text-[#D11A5C] shadow-[0_0_15px_rgba(209,26,92,0.2)]' }
+                        gradient: { 
+                            btnPrimary: 'bg-gradient-to-r from-[#FF2A7A] to-[#FF7A00] text-white shadow-md font-bold', 
+                            bonusBadge: 'bg-gradient-to-r from-[#F5D76E] to-[#D4A32A] text-white shadow-md font-bold', 
+                            btnSecondary: 'bg-[#ffffff] text-[#D11A5C] border border-[#f2c7da]', 
+                            textGrad: 'text-transparent bg-clip-text bg-gradient-to-r from-[#FF2A7A] to-[#FF7A00]', 
+                            card: 'bg-[#ffffff] border border-[#f2c7da] shadow-lg', 
+                            badge: 'bg-gradient-to-r from-[#FF2A7A] to-[#FF7A00] text-white border-2 border-[#ffffff] shadow-sm font-bold', 
+                            tabIndicator: 'bg-gradient-to-r from-[#FF2A7A] to-[#FF7A00] shadow-[0_0_8px_rgba(255,42,122,0.4)]', 
+                            iconActive: 'text-[#D11A5C]', 
+                            progressFill: 'bg-[#D11A5C] shadow-[0_0_4px_rgba(209,26,92,0.5)]', 
+                            actionBtn: 'bg-white/60 backdrop-blur-md border border-[#2b1727]/10 text-[#2b1727] hover:bg-[#D11A5C] hover:border-transparent hover:text-white', 
+                            catchCopy: 'bg-white/80 border border-[#2b1727]/10 text-[#2b1727]' 
+                        },
+                        flat: { 
+                            btnPrimary: 'bg-[#D11A5C] text-white font-bold', 
+                            bonusBadge: 'bg-[#D4A32A] text-white font-bold', 
+                            btnSecondary: 'bg-[#ffffff] text-[#D11A5C] border border-[#f2c7da]', 
+                            textGrad: 'text-[#D11A5C]', 
+                            card: 'bg-[#ffffff] border border-[#f2c7da]', 
+                            badge: 'bg-[#D11A5C] text-white font-bold', 
+                            tabIndicator: 'bg-[#D11A5C]', 
+                            iconActive: 'text-[#D11A5C]', 
+                            progressFill: 'bg-[#D11A5C]', 
+                            actionBtn: 'bg-white/80 text-[#2b1727] border border-[#f2c7da] hover:bg-[#D11A5C] hover:text-white hover:border-transparent', 
+                            catchCopy: 'bg-white/90 text-[#2b1727]' 
+                        },
+                        '3d': { 
+                            btnPrimary: 'bg-gradient-to-b from-[#ff5e9a] to-[#D11A5C] text-white font-bold shadow-[inset_0_2px_4px_rgba(255,255,255,0.8),0_4px_8px_rgba(209,26,92,0.4)] active:translate-y-1', 
+                            bonusBadge: 'bg-gradient-to-b from-[#F5D76E] to-[#D4A32A] text-white font-bold shadow-[inset_0_2px_4px_rgba(255,255,255,0.8),0_4px_8px_rgba(212,163,42,0.4)]', 
+                            btnSecondary: 'bg-[#ffffff] text-[#D11A5C] shadow-[inset_0_1px_2px_rgba(0,0,0,0.05),0_4px_8px_rgba(0,0,0,0.1)]', 
+                            textGrad: 'text-[#D11A5C] drop-shadow-sm', 
+                            card: 'bg-[#ffffff] border border-white shadow-[8px_8px_16px_rgba(230,200,215,0.4),-8px_-8px_16px_rgba(255,255,255,0.8)]', 
+                            badge: 'bg-[#D11A5C] text-white font-bold shadow-[inset_0_1px_2px_rgba(255,255,255,0.6),0_2px_4px_rgba(0,0,0,0.2)]', 
+                            tabIndicator: 'bg-[#D11A5C] shadow-[0_0_5px_rgba(209,26,92,0.4)]', 
+                            iconActive: 'text-[#D11A5C] drop-shadow-sm', 
+                            progressFill: 'bg-[#D11A5C] shadow-[inset_0_1px_2px_rgba(255,255,255,0.8)]', 
+                            actionBtn: 'bg-[#ffffff] text-[#D11A5C] shadow-[0_6px_12px_rgba(230,200,215,0.5)] hover:bg-[#D11A5C] hover:text-white', 
+                            catchCopy: 'bg-[#ffffff] text-[#D11A5C] shadow-lg' 
+                        },
+                        neon: { 
+                            btnPrimary: 'bg-[#ffffff] border-2 border-[#D11A5C] text-[#D11A5C] font-bold shadow-[0_0_15px_rgba(209,26,92,0.3)]', 
+                            bonusBadge: 'bg-[#ffffff] border-2 border-[#D4A32A] text-[#D4A32A] font-bold shadow-[0_0_15px_rgba(212,163,42,0.3)]', 
+                            btnSecondary: 'bg-[#ffffff] text-[#D11A5C] border border-[#D11A5C]/50 shadow-[0_0_10px_rgba(209,26,92,0.1)]', 
+                            textGrad: 'text-[#D11A5C] drop-shadow-[0_0_4px_rgba(209,26,92,0.4)]', 
+                            card: 'bg-[#ffffff] border border-[#D11A5C]/30 shadow-[0_0_20px_rgba(209,26,92,0.1)]', 
+                            badge: 'bg-[#ffffff] border border-[#D11A5C] text-[#D11A5C] font-bold shadow-[0_0_8px_rgba(209,26,92,0.3)]', 
+                            tabIndicator: 'bg-[#D11A5C] shadow-[0_0_8px_#D11A5C]', 
+                            iconActive: 'text-[#D11A5C] drop-shadow-[0_0_4px_rgba(209,26,92,0.4)]', 
+                            progressFill: 'bg-[#D11A5C] shadow-[0_0_8px_#D11A5C]', 
+                            actionBtn: 'bg-[#ffffff] border border-[#D11A5C] text-[#D11A5C] shadow-[0_0_15px_rgba(209,26,92,0.2)] hover:bg-[#D11A5C]/10', 
+                            catchCopy: 'bg-[#ffffff] border border-[#D11A5C] text-[#D11A5C] shadow-[0_0_15px_rgba(209,26,92,0.2)]' 
+                        }
                     }
                 }
             },
-            sapphire: {
-                id: 'sapphire', name: 'Royal Sapphire (青×銀)',
+            peach_blossom: {
+                id: 'peach_blossom', name: 'Peach Blossom (ピーチ×金)',
                 dark: {
-                    bgApp: 'bg-[#040b16]', bgMain: 'bg-[#0b162c]', bgCard: 'bg-[#132342]', bgInput: 'bg-[#1a2f59]', bgOverlay: 'bg-[#0b162c]/90', navBg: 'bg-[#0b162c]',
-                    textMain: 'text-[#f8fafc]', textSub: 'text-[#94a3b8]', hoverAccentText: 'group-hover:text-[#38bdf8]',
-                    border: 'border-[#243c66]', borderInput: 'border-[#304d7d]',
-                    iconInactive: 'text-[#64748B]', starColor: 'text-[#38bdf8]', starBg: 'bg-[#38bdf8]/10',
-                    tagText: 'text-[#38bdf8]', tagBg: 'bg-[#38bdf8]/10', tagBorder: 'border-[#38bdf8]/30',
+                    bgApp: 'bg-[#2E151A]', bgMain: 'bg-[#401D24]', bgCard: 'bg-[#542630]', bgInput: 'bg-[#662F3B]', bgOverlay: 'bg-[#401D24]/90', navBg: 'bg-[#401D24]',
+                    textMain: 'text-[#FFF0F5]', textSub: 'text-[#F5B5C8]', hoverAccentText: 'group-hover:text-[#FF8DA1]',
+                    border: 'border-[#753846]', borderInput: 'border-[#8C4354]',
+                    iconInactive: 'text-[#D192A6]', starColor: 'text-[#F5D76E]', starBg: 'bg-[#F5D76E]/10',
+                    tagText: 'text-[#FF8DA1]', tagBg: 'bg-[#FF8DA1]/10', tagBorder: 'border-[#FF8DA1]/30',
                     radiusBase: 'rounded-[16px]', radiusCard: 'rounded-[24px]', radiusFull: 'rounded-full', fontTitle: 'font-serif tracking-widest',
                     bgGradientTop: 'from-black/60 to-transparent', bgGradientBottom: 'from-black via-black/80 to-transparent', swipeTextMain: 'text-white', swipeTextSub: 'text-gray-300',
                     styles: {
-                        gradient: { btnPrimary: 'bg-gradient-to-r from-[#38bdf8] to-[#0284c7] text-[#040b16] shadow-md font-bold', btnSecondary: 'bg-[#132342] text-[#38bdf8] border border-[#243c66]', textGrad: 'text-transparent bg-clip-text bg-gradient-to-r from-[#38bdf8] to-[#0284c7]', card: 'bg-[#132342] border border-[#243c66] shadow-lg', badge: 'bg-gradient-to-r from-[#38bdf8] to-[#0284c7] text-[#040b16] border-2 border-[#132342] shadow-sm font-bold', tabIndicator: 'bg-gradient-to-r from-[#38bdf8] to-[#0284c7] shadow-[0_0_8px_rgba(56,189,248,0.6)]', iconActive: 'text-[#38bdf8]', progressFill: 'bg-[#38bdf8] shadow-[0_0_4px_rgba(56,189,248,0.8)]', actionBtn: 'bg-black/40 backdrop-blur-md border border-white/20 text-white hover:bg-[#38bdf8] hover:border-transparent hover:text-[#040b16]', catchCopy: 'bg-black/60 border border-white/10 text-white' },
-                        flat: { btnPrimary: 'bg-[#38bdf8] text-[#040b16] font-bold', btnSecondary: 'bg-[#132342] text-[#38bdf8]', textGrad: 'text-[#38bdf8]', card: 'bg-[#132342]', badge: 'bg-[#38bdf8] text-[#040b16] font-bold', tabIndicator: 'bg-[#38bdf8]', iconActive: 'text-[#38bdf8]', progressFill: 'bg-[#38bdf8]', actionBtn: 'bg-black/40 text-white hover:bg-[#38bdf8] hover:text-[#040b16]', catchCopy: 'bg-black/60 text-white' },
-                        '3d': { btnPrimary: 'bg-gradient-to-b from-[#38bdf8] to-[#0284c7] text-[#040b16] font-bold shadow-[inset_0_2px_4px_rgba(255,255,255,0.6),0_6px_12px_rgba(0,0,0,0.8)] active:translate-y-1', btnSecondary: 'bg-[#132342] text-[#38bdf8] shadow-[inset_0_1px_2px_rgba(255,255,255,0.1),0_4px_8px_rgba(0,0,0,0.5)]', textGrad: 'text-[#38bdf8] drop-shadow-md', card: 'bg-[#132342] border-t border-white/10 border-l border-white/5 shadow-[8px_8px_16px_rgba(0,0,0,0.6)]', badge: 'bg-[#38bdf8] text-[#040b16] font-bold shadow-[inset_0_1px_2px_rgba(255,255,255,0.6),0_2px_4px_rgba(0,0,0,0.8)]', tabIndicator: 'bg-[#38bdf8] shadow-[0_0_5px_rgba(56,189,248,0.8)]', iconActive: 'text-[#38bdf8] drop-shadow-md', progressFill: 'bg-[#38bdf8] shadow-[inset_0_1px_2px_rgba(255,255,255,0.8)]', actionBtn: 'bg-[#132342] text-[#38bdf8] shadow-[0_6px_12px_rgba(0,0,0,0.6)] hover:bg-[#38bdf8] hover:text-[#040b16]', catchCopy: 'bg-[#132342] text-[#38bdf8] shadow-lg' },
-                        neon: { btnPrimary: 'bg-[#0b162c] border-2 border-[#38bdf8] text-[#38bdf8] font-bold shadow-[0_0_15px_rgba(56,189,248,0.5)]', btnSecondary: 'bg-[#0b162c] text-[#38bdf8] border border-[#38bdf8]/50 shadow-[0_0_10px_rgba(56,189,248,0.2)]', textGrad: 'text-[#38bdf8] drop-shadow-[0_0_8px_#38bdf8]', card: 'bg-[#0b162c]/80 border border-[#38bdf8]/40 shadow-[0_0_20px_rgba(56,189,248,0.15)] backdrop-blur-sm', badge: 'bg-[#0b162c] border border-[#38bdf8] text-[#38bdf8] font-bold shadow-[0_0_8px_rgba(56,189,248,0.8)]', tabIndicator: 'bg-[#38bdf8] shadow-[0_0_12px_#38bdf8]', iconActive: 'text-[#38bdf8] drop-shadow-[0_0_8px_#38bdf8]', progressFill: 'bg-[#38bdf8] shadow-[0_0_10px_#38bdf8]', actionBtn: 'bg-[#0b162c] border border-[#38bdf8] text-[#38bdf8] shadow-[0_0_15px_rgba(56,189,248,0.4)] hover:bg-[#38bdf8]/20', catchCopy: 'bg-[#0b162c]/80 border border-[#38bdf8] text-[#38bdf8] shadow-[0_0_15px_rgba(56,189,248,0.5)]' }
+                        gradient: { 
+                            btnPrimary: 'bg-gradient-to-r from-[#FF8DA1] to-[#FF6B8B] text-white shadow-md font-bold', 
+                            bonusBadge: 'bg-gradient-to-r from-[#F5D76E] to-[#D4A32A] text-[#2E151A] shadow-md font-bold',
+                            btnSecondary: 'bg-[#542630] text-[#FF8DA1] border border-[#753846]', 
+                            textGrad: 'text-transparent bg-clip-text bg-gradient-to-r from-[#FF8DA1] to-[#FF6B8B]', 
+                            card: 'bg-[#542630] border border-[#753846] shadow-lg', 
+                            badge: 'bg-gradient-to-r from-[#FF8DA1] to-[#FF6B8B] text-white border-2 border-[#542630] shadow-sm font-bold', 
+                            tabIndicator: 'bg-gradient-to-r from-[#FF8DA1] to-[#FF6B8B] shadow-[0_0_8px_rgba(255,141,161,0.6)]', 
+                            iconActive: 'text-[#FF8DA1]', 
+                            progressFill: 'bg-[#FF8DA1] shadow-[0_0_4px_rgba(255,141,161,0.8)]', 
+                            actionBtn: 'bg-black/40 backdrop-blur-md border border-white/20 text-white hover:bg-[#FF8DA1] hover:border-transparent', 
+                            catchCopy: 'bg-black/60 border border-white/10 text-white' 
+                        },
+                        flat: { 
+                            btnPrimary: 'bg-[#FF8DA1] text-[#2E151A] font-bold', 
+                            bonusBadge: 'bg-[#D4A32A] text-[#2E151A] font-bold', 
+                            btnSecondary: 'bg-[#542630] text-[#FF8DA1]', 
+                            textGrad: 'text-[#FF8DA1]', 
+                            card: 'bg-[#542630]', 
+                            badge: 'bg-[#FF8DA1] text-[#2E151A] font-bold', 
+                            tabIndicator: 'bg-[#FF8DA1]', 
+                            iconActive: 'text-[#FF8DA1]', 
+                            progressFill: 'bg-[#FF8DA1]', 
+                            actionBtn: 'bg-black/40 text-white hover:bg-[#FF8DA1] hover:text-[#2E151A]', 
+                            catchCopy: 'bg-black/60 text-white' 
+                        },
+                        '3d': { 
+                            btnPrimary: 'bg-gradient-to-b from-[#FFB5C2] to-[#FF6B8B] text-white font-bold shadow-[inset_0_2px_4px_rgba(255,255,255,0.6),0_6px_12px_rgba(0,0,0,0.8)] active:translate-y-1', 
+                            bonusBadge: 'bg-gradient-to-b from-[#F5D76E] to-[#D4A32A] text-[#2E151A] font-bold shadow-[inset_0_2px_4px_rgba(255,255,255,0.6),0_4px_8px_rgba(0,0,0,0.8)]', 
+                            btnSecondary: 'bg-[#542630] text-[#FF8DA1] shadow-[inset_0_1px_2px_rgba(255,255,255,0.1),0_4px_8px_rgba(0,0,0,0.5)]', 
+                            textGrad: 'text-[#FF8DA1] drop-shadow-md', 
+                            card: 'bg-[#542630] border-t border-white/10 border-l border-white/5 shadow-[8px_8px_16px_rgba(0,0,0,0.6)]', 
+                            badge: 'bg-[#FF8DA1] text-[#2E151A] font-bold shadow-[inset_0_1px_2px_rgba(255,255,255,0.6),0_2px_4px_rgba(0,0,0,0.8)]', 
+                            tabIndicator: 'bg-[#FF8DA1] shadow-[0_0_5px_rgba(255,141,161,0.8)]', 
+                            iconActive: 'text-[#FF8DA1] drop-shadow-md', 
+                            progressFill: 'bg-[#FF8DA1] shadow-[inset_0_1px_2px_rgba(255,255,255,0.8)]', 
+                            actionBtn: 'bg-[#542630] text-[#FF8DA1] shadow-[0_6px_12px_rgba(0,0,0,0.6)] hover:bg-[#FF8DA1] hover:text-[#2E151A]', 
+                            catchCopy: 'bg-[#542630] text-[#FF8DA1] shadow-lg' 
+                        },
+                        neon: { 
+                            btnPrimary: 'bg-[#401D24] border-2 border-[#FF8DA1] text-[#FF8DA1] font-bold shadow-[0_0_15px_rgba(255,141,161,0.5)]', 
+                            bonusBadge: 'bg-[#401D24] border-2 border-[#F5D76E] text-[#F5D76E] font-bold shadow-[0_0_15px_rgba(245,215,110,0.5)]', 
+                            btnSecondary: 'bg-[#401D24] text-[#FF8DA1] border border-[#FF8DA1]/50 shadow-[0_0_10px_rgba(255,141,161,0.2)]', 
+                            textGrad: 'text-[#FF8DA1] drop-shadow-[0_0_8px_#FF8DA1]', 
+                            card: 'bg-[#401D24]/80 border border-[#FF8DA1]/40 shadow-[0_0_20px_rgba(255,141,161,0.15)] backdrop-blur-sm', 
+                            badge: 'bg-[#401D24] border border-[#FF8DA1] text-[#FF8DA1] font-bold shadow-[0_0_8px_rgba(255,141,161,0.8)]', 
+                            tabIndicator: 'bg-[#FF8DA1] shadow-[0_0_12px_#FF8DA1]', 
+                            iconActive: 'text-[#FF8DA1] drop-shadow-[0_0_8px_#FF8DA1]', 
+                            progressFill: 'bg-[#FF8DA1] shadow-[0_0_10px_#FF8DA1]', 
+                            actionBtn: 'bg-[#401D24] border border-[#FF8DA1] text-[#FF8DA1] shadow-[0_0_15px_rgba(255,141,161,0.4)] hover:bg-[#FF8DA1]/20', 
+                            catchCopy: 'bg-[#401D24]/80 border border-[#FF8DA1] text-[#FF8DA1] shadow-[0_0_15px_rgba(255,141,161,0.5)]' 
+                        }
                     }
                 },
                 light: {
-                    bgApp: 'bg-[#f0f6fc]', bgMain: 'bg-[#e2eefa]', bgCard: 'bg-[#ffffff]', bgInput: 'bg-[#f0f6fc]', bgOverlay: 'bg-[#e2eefa]/90', navBg: 'bg-[#e2eefa]',
-                    textMain: 'text-[#0f172a]', textSub: 'text-[#475569]', hoverAccentText: 'group-hover:text-[#0284c7]',
-                    border: 'border-[#cce1f5]', borderInput: 'border-[#cce1f5]',
-                    iconInactive: 'text-[#64748B]', starColor: 'text-[#0284c7]', starBg: 'bg-[#0284c7]/10',
-                    tagText: 'text-[#0284c7]', tagBg: 'bg-[#0284c7]/10', tagBorder: 'border-[#0284c7]/30',
-                    radiusBase: 'rounded-[16px]', radiusCard: 'rounded-[24px]', radiusFull: 'rounded-full', fontTitle: 'font-serif tracking-widest',
-                    bgGradientTop: 'from-white/80 to-transparent', bgGradientBottom: 'from-white via-white/90 to-transparent', swipeTextMain: 'text-[#0f172a]', swipeTextSub: 'text-[#334155]',
+                    bgApp: 'bg-[#FFF0F4]', bgMain: 'bg-[#FFE4E8]', bgCard: 'bg-[#FFFFFF]', bgInput: 'bg-[#FFF0F4]', bgOverlay: 'bg-[#FFE4E8]/90', navBg: 'bg-[#FFE4E8]',
+                    textMain: 'text-[#542630]', textSub: 'text-[#A86175]', hoverAccentText: 'group-hover:text-[#FF6B8B]',
+                    border: 'border-[#F7CDD5]', borderInput: 'border-[#F7CDD5]',
+                    iconInactive: 'text-[#A86175]', starColor: 'text-[#D4A32A]', starBg: 'bg-[#D4A32A]/10',
+                    tagText: 'text-[#FF6B8B]', tagBg: 'bg-[#FF6B8B]/10', tagBorder: 'border-[#FF6B8B]/30',
+                    radiusBase: 'rounded-xl', radiusCard: 'rounded-2xl', radiusFull: 'rounded-full', fontTitle: 'font-serif tracking-widest',
+                    bgGradientTop: 'from-white/80 to-transparent', bgGradientBottom: 'from-white via-white/90 to-transparent', swipeTextMain: 'text-[#542630]', swipeTextSub: 'text-[#753846]',
                     styles: {
-                        gradient: { btnPrimary: 'bg-gradient-to-r from-[#38bdf8] to-[#0284c7] text-[#ffffff] shadow-md font-bold', btnSecondary: 'bg-[#ffffff] text-[#0284c7] border border-[#cce1f5]', textGrad: 'text-transparent bg-clip-text bg-gradient-to-r from-[#38bdf8] to-[#0284c7]', card: 'bg-[#ffffff] border border-[#cce1f5] shadow-lg', badge: 'bg-gradient-to-r from-[#38bdf8] to-[#0284c7] text-[#ffffff] border-2 border-[#ffffff] shadow-sm font-bold', tabIndicator: 'bg-gradient-to-r from-[#38bdf8] to-[#0284c7] shadow-[0_0_8px_rgba(2,132,199,0.4)]', iconActive: 'text-[#0284c7]', progressFill: 'bg-[#0284c7] shadow-[0_0_4px_rgba(2,132,199,0.5)]', actionBtn: 'bg-white/60 backdrop-blur-md border border-[#0f172a]/10 text-[#0f172a] hover:bg-[#0284c7] hover:border-transparent hover:text-white', catchCopy: 'bg-white/80 border border-[#0f172a]/10 text-[#0f172a]' },
-                        flat: { btnPrimary: 'bg-[#0284c7] text-[#ffffff] font-bold', btnSecondary: 'bg-[#ffffff] text-[#0284c7] border border-[#cce1f5]', textGrad: 'text-[#0284c7]', card: 'bg-[#ffffff] border border-[#cce1f5]', badge: 'bg-[#0284c7] text-[#ffffff] font-bold', tabIndicator: 'bg-[#0284c7]', iconActive: 'text-[#0284c7]', progressFill: 'bg-[#0284c7]', actionBtn: 'bg-white/80 text-[#0f172a] border border-[#cce1f5] hover:bg-[#0284c7] hover:text-white hover:border-transparent', catchCopy: 'bg-white/90 text-[#0f172a]' },
-                        '3d': { btnPrimary: 'bg-gradient-to-b from-[#7dd3fc] to-[#0284c7] text-[#ffffff] font-bold shadow-[inset_0_2px_4px_rgba(255,255,255,0.8),0_4px_8px_rgba(2,132,199,0.4)] active:translate-y-1', btnSecondary: 'bg-[#ffffff] text-[#0284c7] shadow-[inset_0_1px_2px_rgba(0,0,0,0.05),0_4px_8px_rgba(0,0,0,0.1)]', textGrad: 'text-[#0284c7] drop-shadow-sm', card: 'bg-[#ffffff] border border-white shadow-[8px_8px_16px_rgba(200,210,225,0.5),-8px_-8px_16px_rgba(255,255,255,0.8)]', badge: 'bg-[#0284c7] text-[#ffffff] font-bold shadow-[inset_0_1px_2px_rgba(255,255,255,0.6),0_2px_4px_rgba(0,0,0,0.2)]', tabIndicator: 'bg-[#0284c7] shadow-[0_0_5px_rgba(2,132,199,0.4)]', iconActive: 'text-[#0284c7] drop-shadow-sm', progressFill: 'bg-[#0284c7] shadow-[inset_0_1px_2px_rgba(255,255,255,0.8)]', actionBtn: 'bg-[#ffffff] text-[#0284c7] shadow-[0_6px_12px_rgba(200,210,225,0.6)] hover:bg-[#0284c7] hover:text-white', catchCopy: 'bg-[#ffffff] text-[#0284c7] shadow-lg' },
-                        neon: { btnPrimary: 'bg-[#ffffff] border-2 border-[#0284c7] text-[#0284c7] font-bold shadow-[0_0_15px_rgba(2,132,199,0.3)]', btnSecondary: 'bg-[#ffffff] text-[#0284c7] border border-[#0284c7]/50 shadow-[0_0_10px_rgba(2,132,199,0.1)]', textGrad: 'text-[#0284c7] drop-shadow-[0_0_4px_rgba(2,132,199,0.4)]', card: 'bg-[#ffffff] border border-[#0284c7]/30 shadow-[0_0_20px_rgba(2,132,199,0.1)]', badge: 'bg-[#ffffff] border border-[#0284c7] text-[#0284c7] font-bold shadow-[0_0_8px_rgba(2,132,199,0.3)]', tabIndicator: 'bg-[#0284c7] shadow-[0_0_8px_#0284c7]', iconActive: 'text-[#0284c7] drop-shadow-[0_0_4px_rgba(2,132,199,0.4)]', progressFill: 'bg-[#0284c7] shadow-[0_0_8px_#0284c7]', actionBtn: 'bg-[#ffffff] border border-[#0284c7] text-[#0284c7] shadow-[0_0_15px_rgba(2,132,199,0.2)] hover:bg-[#0284c7]/10', catchCopy: 'bg-[#ffffff] border border-[#0284c7] text-[#0284c7] shadow-[0_0_15px_rgba(2,132,199,0.2)]' }
+                        gradient: { 
+                            btnPrimary: 'bg-gradient-to-r from-[#FF8DA1] to-[#FF6B8B] text-white shadow-md font-bold', 
+                            bonusBadge: 'bg-gradient-to-r from-[#F5D76E] to-[#D4A32A] text-white shadow-md font-bold',
+                            btnSecondary: 'bg-[#FFFFFF] text-[#FF6B8B] border border-[#F7CDD5]', 
+                            textGrad: 'text-transparent bg-clip-text bg-gradient-to-r from-[#FF8DA1] to-[#FF6B8B]', 
+                            card: 'bg-[#FFFFFF] border border-[#F7CDD5] shadow-lg', 
+                            badge: 'bg-gradient-to-r from-[#FF8DA1] to-[#FF6B8B] text-white border-2 border-[#FFFFFF] shadow-sm font-bold', 
+                            tabIndicator: 'bg-gradient-to-r from-[#FF8DA1] to-[#FF6B8B] shadow-[0_0_8px_rgba(255,141,161,0.4)]', 
+                            iconActive: 'text-[#FF6B8B]', 
+                            progressFill: 'bg-[#FF6B8B] shadow-[0_0_4px_rgba(255,107,139,0.5)]', 
+                            actionBtn: 'bg-white/60 backdrop-blur-md border border-[#542630]/10 text-[#542630] hover:bg-[#FF6B8B] hover:border-transparent hover:text-white', 
+                            catchCopy: 'bg-white/80 border border-[#542630]/10 text-[#542630]' 
+                        },
+                        flat: { 
+                            btnPrimary: 'bg-[#FF6B8B] text-white font-bold', 
+                            bonusBadge: 'bg-[#D4A32A] text-white font-bold',
+                            btnSecondary: 'bg-[#FFFFFF] text-[#FF6B8B] border border-[#F7CDD5]', 
+                            textGrad: 'text-[#FF6B8B]', 
+                            card: 'bg-[#FFFFFF] border border-[#F7CDD5]', 
+                            badge: 'bg-[#FF6B8B] text-white font-bold', 
+                            tabIndicator: 'bg-[#FF6B8B]', 
+                            iconActive: 'text-[#FF6B8B]', 
+                            progressFill: 'bg-[#FF6B8B]', 
+                            actionBtn: 'bg-white/80 text-[#542630] border border-[#F7CDD5] hover:bg-[#FF6B8B] hover:text-white hover:border-transparent', 
+                            catchCopy: 'bg-white/90 text-[#542630]' 
+                        },
+                        '3d': { 
+                            btnPrimary: 'bg-gradient-to-b from-[#FFB5C2] to-[#FF6B8B] text-white font-bold shadow-[inset_0_2px_4px_rgba(255,255,255,0.8),0_4px_8px_rgba(255,107,139,0.4)] active:translate-y-1', 
+                            bonusBadge: 'bg-gradient-to-b from-[#F5D76E] to-[#D4A32A] text-white font-bold shadow-[inset_0_2px_4px_rgba(255,255,255,0.8),0_4px_8px_rgba(212,163,42,0.4)]',
+                            btnSecondary: 'bg-[#FFFFFF] text-[#FF6B8B] shadow-[inset_0_1px_2px_rgba(0,0,0,0.05),0_4px_8px_rgba(0,0,0,0.1)]', 
+                            textGrad: 'text-[#FF6B8B] drop-shadow-sm', 
+                            card: 'bg-[#FFFFFF] border border-white shadow-[8px_8px_16px_rgba(240,200,210,0.4),-8px_-8px_16px_rgba(255,255,255,0.8)]', 
+                            badge: 'bg-[#FF6B8B] text-white font-bold shadow-[inset_0_1px_2px_rgba(255,255,255,0.6),0_2px_4px_rgba(0,0,0,0.2)]', 
+                            tabIndicator: 'bg-[#FF6B8B] shadow-[0_0_5px_rgba(255,107,139,0.4)]', 
+                            iconActive: 'text-[#FF6B8B] drop-shadow-sm', 
+                            progressFill: 'bg-[#FF6B8B] shadow-[inset_0_1px_2px_rgba(255,255,255,0.8)]', 
+                            actionBtn: 'bg-[#FFFFFF] text-[#FF6B8B] shadow-[0_6px_12px_rgba(240,200,210,0.5)] hover:bg-[#FF6B8B] hover:text-white', 
+                            catchCopy: 'bg-[#FFFFFF] text-[#FF6B8B] shadow-lg' 
+                        },
+                        neon: { 
+                            btnPrimary: 'bg-[#FFFFFF] border-2 border-[#FF6B8B] text-[#FF6B8B] font-bold shadow-[0_0_15px_rgba(255,107,139,0.3)]', 
+                            bonusBadge: 'bg-[#FFFFFF] border-2 border-[#D4A32A] text-[#D4A32A] font-bold shadow-[0_0_15px_rgba(212,163,42,0.3)]',
+                            btnSecondary: 'bg-[#FFFFFF] text-[#FF6B8B] border border-[#FF6B8B]/50 shadow-[0_0_10px_rgba(255,107,139,0.1)]', 
+                            textGrad: 'text-[#FF6B8B] drop-shadow-[0_0_4px_rgba(255,107,139,0.4)]', 
+                            card: 'bg-[#FFFFFF] border border-[#FF6B8B]/30 shadow-[0_0_20px_rgba(255,107,139,0.1)]', 
+                            badge: 'bg-[#FFFFFF] border border-[#FF6B8B] text-[#FF6B8B] font-bold shadow-[0_0_8px_rgba(255,107,139,0.3)]', 
+                            tabIndicator: 'bg-[#FF6B8B] shadow-[0_0_8px_#FF6B8B]', 
+                            iconActive: 'text-[#FF6B8B] drop-shadow-[0_0_4px_rgba(255,107,139,0.4)]', 
+                            progressFill: 'bg-[#FF6B8B] shadow-[0_0_8px_#FF6B8B]', 
+                            actionBtn: 'bg-[#FFFFFF] border border-[#FF6B8B] text-[#FF6B8B] shadow-[0_0_15px_rgba(255,107,139,0.2)] hover:bg-[#FF6B8B]/10', 
+                            catchCopy: 'bg-[#FFFFFF] border border-[#FF6B8B] text-[#FF6B8B] shadow-[0_0_15px_rgba(255,107,139,0.2)]' 
+                        }
                     }
                 }
             },
-            pearl: {
-                id: 'pearl', name: 'Champagne Pearl (モカ×シャンパン)',
+            baby_sakura: {
+                id: 'baby_sakura', name: 'Baby Sakura (サクラピンク)',
                 dark: {
-                    bgApp: 'bg-[#1a1614]', bgMain: 'bg-[#2c2421]', bgCard: 'bg-[#3e332f]', bgInput: 'bg-[#4f433e]', bgOverlay: 'bg-[#2c2421]/90', navBg: 'bg-[#2c2421]',
-                    textMain: 'text-[#fffdf7]', textSub: 'text-[#d4cfc9]', hoverAccentText: 'group-hover:text-[#e3d5ca]',
-                    border: 'border-[#4f433e]', borderInput: 'border-[#6a5a54]',
-                    iconInactive: 'text-[#a39a95]', starColor: 'text-[#e3d5ca]', starBg: 'bg-[#e3d5ca]/10',
-                    tagText: 'text-[#e3d5ca]', tagBg: 'bg-[#e3d5ca]/10', tagBorder: 'border-[#e3d5ca]/30',
-                    radiusBase: 'rounded-[12px]', radiusCard: 'rounded-[20px]', radiusFull: 'rounded-full', fontTitle: 'font-serif tracking-[0.1em]',
+                    bgApp: 'bg-[#1C101A]', bgMain: 'bg-[#2A1827]', bgCard: 'bg-[#3A2136]', bgInput: 'bg-[#4A2B45]', bgOverlay: 'bg-[#2A1827]/90', navBg: 'bg-[#2A1827]',
+                    textMain: 'text-[#FFF5FA]', textSub: 'text-[#DCA8C8]', hoverAccentText: 'group-hover:text-[#FFA6C9]',
+                    border: 'border-[#593453]', borderInput: 'border-[#693E62]',
+                    iconInactive: 'text-[#B88AA9]', starColor: 'text-[#F5D76E]', starBg: 'bg-[#F5D76E]/10',
+                    tagText: 'text-[#FFA6C9]', tagBg: 'bg-[#FFA6C9]/10', tagBorder: 'border-[#FFA6C9]/30',
+                    radiusBase: 'rounded-[16px]', radiusCard: 'rounded-[24px]', radiusFull: 'rounded-full', fontTitle: 'font-serif tracking-[0.1em]',
                     bgGradientTop: 'from-black/60 to-transparent', bgGradientBottom: 'from-black via-black/80 to-transparent', swipeTextMain: 'text-white', swipeTextSub: 'text-gray-300',
                     styles: {
-                        gradient: { btnPrimary: 'bg-gradient-to-r from-[#e3d5ca] to-[#d5bdaf] text-[#1a1614] shadow-md font-bold', btnSecondary: 'bg-[#3e332f] text-[#e3d5ca] border border-[#4f433e]', textGrad: 'text-transparent bg-clip-text bg-gradient-to-r from-[#e3d5ca] to-[#d5bdaf]', card: 'bg-[#3e332f] border border-[#4f433e] shadow-lg', badge: 'bg-gradient-to-r from-[#e3d5ca] to-[#d5bdaf] text-[#1a1614] border-2 border-[#3e332f] shadow-sm font-bold', tabIndicator: 'bg-gradient-to-r from-[#e3d5ca] to-[#d5bdaf] shadow-[0_0_8px_rgba(227,213,202,0.6)]', iconActive: 'text-[#e3d5ca]', progressFill: 'bg-[#e3d5ca] shadow-[0_0_4px_rgba(227,213,202,0.8)]', actionBtn: 'bg-black/40 backdrop-blur-md border border-white/20 text-white hover:bg-[#e3d5ca] hover:border-transparent hover:text-[#1a1614]', catchCopy: 'bg-black/60 border border-white/10 text-white' },
-                        flat: { btnPrimary: 'bg-[#d5bdaf] text-[#1a1614] font-bold', btnSecondary: 'bg-[#3e332f] text-[#e3d5ca]', textGrad: 'text-[#e3d5ca]', card: 'bg-[#3e332f]', badge: 'bg-[#d5bdaf] text-[#1a1614] font-bold', tabIndicator: 'bg-[#e3d5ca]', iconActive: 'text-[#e3d5ca]', progressFill: 'bg-[#e3d5ca]', actionBtn: 'bg-black/40 text-white hover:bg-[#e3d5ca] hover:text-[#1a1614]', catchCopy: 'bg-black/60 text-white' },
-                        '3d': { btnPrimary: 'bg-gradient-to-b from-[#e3d5ca] to-[#d5bdaf] text-[#1a1614] font-bold shadow-[inset_0_2px_4px_rgba(255,255,255,0.6),0_6px_12px_rgba(0,0,0,0.8)] active:translate-y-1', btnSecondary: 'bg-[#3e332f] text-[#e3d5ca] shadow-[inset_0_1px_2px_rgba(255,255,255,0.1),0_4px_8px_rgba(0,0,0,0.5)]', textGrad: 'text-[#e3d5ca] drop-shadow-md', card: 'bg-[#3e332f] border-t border-white/10 border-l border-white/5 shadow-[8px_8px_16px_rgba(0,0,0,0.6)]', badge: 'bg-[#e3d5ca] text-[#1a1614] font-bold shadow-[inset_0_1px_2px_rgba(255,255,255,0.6),0_2px_4px_rgba(0,0,0,0.8)]', tabIndicator: 'bg-[#e3d5ca] shadow-[0_0_5px_rgba(227,213,202,0.8)]', iconActive: 'text-[#e3d5ca] drop-shadow-md', progressFill: 'bg-[#e3d5ca] shadow-[inset_0_1px_2px_rgba(255,255,255,0.8)]', actionBtn: 'bg-[#3e332f] text-[#e3d5ca] shadow-[0_6px_12px_rgba(0,0,0,0.6)] hover:bg-[#e3d5ca] hover:text-[#1a1614]', catchCopy: 'bg-[#3e332f] text-[#e3d5ca] shadow-lg' },
-                        neon: { btnPrimary: 'bg-[#2c2421] border-2 border-[#e3d5ca] text-[#e3d5ca] font-bold shadow-[0_0_15px_rgba(227,213,202,0.5)]', btnSecondary: 'bg-[#2c2421] text-[#e3d5ca] border border-[#e3d5ca]/50 shadow-[0_0_10px_rgba(227,213,202,0.2)]', textGrad: 'text-[#e3d5ca] drop-shadow-[0_0_8px_#e3d5ca]', card: 'bg-[#2c2421]/80 border border-[#e3d5ca]/40 shadow-[0_0_20px_rgba(227,213,202,0.15)] backdrop-blur-sm', badge: 'bg-[#2c2421] border border-[#e3d5ca] text-[#e3d5ca] font-bold shadow-[0_0_8px_rgba(227,213,202,0.8)]', tabIndicator: 'bg-[#e3d5ca] shadow-[0_0_12px_#e3d5ca]', iconActive: 'text-[#e3d5ca] drop-shadow-[0_0_8px_#e3d5ca]', progressFill: 'bg-[#e3d5ca] shadow-[0_0_10px_#e3d5ca]', actionBtn: 'bg-[#2c2421] border border-[#e3d5ca] text-[#e3d5ca] shadow-[0_0_15px_rgba(227,213,202,0.4)] hover:bg-[#e3d5ca]/20', catchCopy: 'bg-[#2c2421]/80 border border-[#e3d5ca] text-[#e3d5ca] shadow-[0_0_15px_rgba(227,213,202,0.5)]' }
+                        gradient: { 
+                            btnPrimary: 'bg-gradient-to-r from-[#FFA6C9] to-[#FF7EB3] text-[#1C101A] shadow-md font-bold', 
+                            bonusBadge: 'bg-gradient-to-r from-[#F5D76E] to-[#D4A32A] text-[#1C101A] shadow-md font-bold',
+                            btnSecondary: 'bg-[#3A2136] text-[#FFA6C9] border border-[#593453]', 
+                            textGrad: 'text-transparent bg-clip-text bg-gradient-to-r from-[#FFA6C9] to-[#FF7EB3]', 
+                            card: 'bg-[#3A2136] border border-[#593453] shadow-lg', 
+                            badge: 'bg-gradient-to-r from-[#FFA6C9] to-[#FF7EB3] text-[#1C101A] border-2 border-[#3A2136] shadow-sm font-bold', 
+                            tabIndicator: 'bg-gradient-to-r from-[#FFA6C9] to-[#FF7EB3] shadow-[0_0_8px_rgba(255,166,201,0.6)]', 
+                            iconActive: 'text-[#FFA6C9]', 
+                            progressFill: 'bg-[#FFA6C9] shadow-[0_0_4px_rgba(255,166,201,0.8)]', 
+                            actionBtn: 'bg-black/40 backdrop-blur-md border border-white/20 text-white hover:bg-[#FFA6C9] hover:border-transparent hover:text-[#1C101A]', 
+                            catchCopy: 'bg-black/60 border border-white/10 text-white' 
+                        },
+                        flat: { 
+                            btnPrimary: 'bg-[#FFA6C9] text-[#1C101A] font-bold', 
+                            bonusBadge: 'bg-[#D4A32A] text-[#1C101A] font-bold', 
+                            btnSecondary: 'bg-[#3A2136] text-[#FFA6C9]', 
+                            textGrad: 'text-[#FFA6C9]', 
+                            card: 'bg-[#3A2136]', 
+                            badge: 'bg-[#FFA6C9] text-[#1C101A] font-bold', 
+                            tabIndicator: 'bg-[#FFA6C9]', 
+                            iconActive: 'text-[#FFA6C9]', 
+                            progressFill: 'bg-[#FFA6C9]', 
+                            actionBtn: 'bg-black/40 text-white hover:bg-[#FFA6C9] hover:text-[#1C101A]', 
+                            catchCopy: 'bg-black/60 text-white' 
+                        },
+                        '3d': { 
+                            btnPrimary: 'bg-gradient-to-b from-[#FFCCE0] to-[#FF7EB3] text-[#1C101A] font-bold shadow-[inset_0_2px_4px_rgba(255,255,255,0.6),0_6px_12px_rgba(0,0,0,0.8)] active:translate-y-1', 
+                            bonusBadge: 'bg-gradient-to-b from-[#F5D76E] to-[#D4A32A] text-[#1C101A] font-bold shadow-[inset_0_2px_4px_rgba(255,255,255,0.6),0_4px_8px_rgba(0,0,0,0.8)]', 
+                            btnSecondary: 'bg-[#3A2136] text-[#FFA6C9] shadow-[inset_0_1px_2px_rgba(255,255,255,0.1),0_4px_8px_rgba(0,0,0,0.5)]', 
+                            textGrad: 'text-[#FFA6C9] drop-shadow-md', 
+                            card: 'bg-[#3A2136] border-t border-white/10 border-l border-white/5 shadow-[8px_8px_16px_rgba(0,0,0,0.6)]', 
+                            badge: 'bg-[#FFA6C9] text-[#1C101A] font-bold shadow-[inset_0_1px_2px_rgba(255,255,255,0.6),0_2px_4px_rgba(0,0,0,0.8)]', 
+                            tabIndicator: 'bg-[#FFA6C9] shadow-[0_0_5px_rgba(255,166,201,0.8)]', 
+                            iconActive: 'text-[#FFA6C9] drop-shadow-md', 
+                            progressFill: 'bg-[#FFA6C9] shadow-[inset_0_1px_2px_rgba(255,255,255,0.8)]', 
+                            actionBtn: 'bg-[#3A2136] text-[#FFA6C9] shadow-[0_6px_12px_rgba(0,0,0,0.6)] hover:bg-[#FFA6C9] hover:text-[#1C101A]', 
+                            catchCopy: 'bg-[#3A2136] text-[#FFA6C9] shadow-lg' 
+                        },
+                        neon: { 
+                            btnPrimary: 'bg-[#2A1827] border-2 border-[#FFA6C9] text-[#FFA6C9] font-bold shadow-[0_0_15px_rgba(255,166,201,0.5)]', 
+                            bonusBadge: 'bg-[#2A1827] border-2 border-[#F5D76E] text-[#F5D76E] font-bold shadow-[0_0_15px_rgba(245,215,110,0.5)]', 
+                            btnSecondary: 'bg-[#2A1827] text-[#FFA6C9] border border-[#FFA6C9]/50 shadow-[0_0_10px_rgba(255,166,201,0.2)]', 
+                            textGrad: 'text-[#FFA6C9] drop-shadow-[0_0_8px_#FFA6C9]', 
+                            card: 'bg-[#2A1827]/80 border border-[#FFA6C9]/40 shadow-[0_0_20px_rgba(255,166,201,0.15)] backdrop-blur-sm', 
+                            badge: 'bg-[#2A1827] border border-[#FFA6C9] text-[#FFA6C9] font-bold shadow-[0_0_8px_rgba(255,166,201,0.8)]', 
+                            tabIndicator: 'bg-[#FFA6C9] shadow-[0_0_12px_#FFA6C9]', 
+                            iconActive: 'text-[#FFA6C9] drop-shadow-[0_0_8px_#FFA6C9]', 
+                            progressFill: 'bg-[#FFA6C9] shadow-[0_0_10px_#FFA6C9]', 
+                            actionBtn: 'bg-[#2A1827] border border-[#FFA6C9] text-[#FFA6C9] shadow-[0_0_15px_rgba(255,166,201,0.4)] hover:bg-[#FFA6C9]/20', 
+                            catchCopy: 'bg-[#2A1827]/80 border border-[#FFA6C9] text-[#FFA6C9] shadow-[0_0_15px_rgba(255,166,201,0.5)]' 
+                        }
                     }
                 },
                 light: {
-                    bgApp: 'bg-[#faf7f5]', bgMain: 'bg-[#f0ece9]', bgCard: 'bg-[#ffffff]', bgInput: 'bg-[#faf7f5]', bgOverlay: 'bg-[#f0ece9]/90', navBg: 'bg-[#f0ece9]',
-                    textMain: 'text-[#3e332f]', textSub: 'text-[#6a5a54]', hoverAccentText: 'group-hover:text-[#a68a78]',
-                    border: 'border-[#e0dcd9]', borderInput: 'border-[#e0dcd9]',
-                    iconInactive: 'text-[#8c7f79]', starColor: 'text-[#a68a78]', starBg: 'bg-[#a68a78]/10',
-                    tagText: 'text-[#a68a78]', tagBg: 'bg-[#a68a78]/10', tagBorder: 'border-[#a68a78]/30',
-                    radiusBase: 'rounded-[12px]', radiusCard: 'rounded-[20px]', radiusFull: 'rounded-full', fontTitle: 'font-serif tracking-[0.1em]',
-                    bgGradientTop: 'from-white/80 to-transparent', bgGradientBottom: 'from-white via-white/90 to-transparent', swipeTextMain: 'text-[#3e332f]', swipeTextSub: 'text-[#6a5a54]',
+                    bgApp: 'bg-[#FFF5FA]', bgMain: 'bg-[#FFEBF3]', bgCard: 'bg-[#FFFFFF]', bgInput: 'bg-[#FFF5FA]', bgOverlay: 'bg-[#FFEBF3]/90', navBg: 'bg-[#FFEBF3]',
+                    textMain: 'text-[#3A2136]', textSub: 'text-[#9C6D8C]', hoverAccentText: 'group-hover:text-[#FF7EB3]',
+                    border: 'border-[#F2D1E2]', borderInput: 'border-[#F2D1E2]',
+                    iconInactive: 'text-[#9C6D8C]', starColor: 'text-[#D4A32A]', starBg: 'bg-[#D4A32A]/10',
+                    tagText: 'text-[#FF7EB3]', tagBg: 'bg-[#FF7EB3]/10', tagBorder: 'border-[#FF7EB3]/30',
+                    radiusBase: 'rounded-xl', radiusCard: 'rounded-2xl', radiusFull: 'rounded-full', fontTitle: 'font-serif tracking-widest',
+                    bgGradientTop: 'from-white/80 to-transparent', bgGradientBottom: 'from-white via-white/90 to-transparent', swipeTextMain: 'text-[#3A2136]', swipeTextSub: 'text-[#593453]',
                     styles: {
-                        gradient: { btnPrimary: 'bg-gradient-to-r from-[#e3d5ca] to-[#a68a78] text-[#ffffff] shadow-md font-bold', btnSecondary: 'bg-[#ffffff] text-[#a68a78] border border-[#e0dcd9]', textGrad: 'text-transparent bg-clip-text bg-gradient-to-r from-[#d5bdaf] to-[#a68a78]', card: 'bg-[#ffffff] border border-[#e0dcd9] shadow-lg', badge: 'bg-gradient-to-r from-[#e3d5ca] to-[#a68a78] text-[#ffffff] border-2 border-[#ffffff] shadow-sm font-bold', tabIndicator: 'bg-gradient-to-r from-[#e3d5ca] to-[#a68a78] shadow-[0_0_8px_rgba(166,138,120,0.4)]', iconActive: 'text-[#a68a78]', progressFill: 'bg-[#a68a78] shadow-[0_0_4px_rgba(166,138,120,0.5)]', actionBtn: 'bg-white/60 backdrop-blur-md border border-[#3e332f]/10 text-[#3e332f] hover:bg-[#a68a78] hover:border-transparent hover:text-white', catchCopy: 'bg-white/80 border border-[#3e332f]/10 text-[#3e332f]' },
-                        flat: { btnPrimary: 'bg-[#a68a78] text-[#ffffff] font-bold', btnSecondary: 'bg-[#ffffff] text-[#a68a78] border border-[#e0dcd9]', textGrad: 'text-[#a68a78]', card: 'bg-[#ffffff] border border-[#e0dcd9]', badge: 'bg-[#a68a78] text-[#ffffff] font-bold', tabIndicator: 'bg-[#a68a78]', iconActive: 'text-[#a68a78]', progressFill: 'bg-[#a68a78]', actionBtn: 'bg-white/80 text-[#3e332f] border border-[#e0dcd9] hover:bg-[#a68a78] hover:text-white hover:border-transparent', catchCopy: 'bg-white/90 text-[#3e332f]' },
-                        '3d': { btnPrimary: 'bg-gradient-to-b from-[#d5bdaf] to-[#a68a78] text-[#ffffff] font-bold shadow-[inset_0_2px_4px_rgba(255,255,255,0.8),0_4px_8px_rgba(166,138,120,0.4)] active:translate-y-1', btnSecondary: 'bg-[#ffffff] text-[#a68a78] shadow-[inset_0_1px_2px_rgba(0,0,0,0.05),0_4px_8px_rgba(0,0,0,0.1)]', textGrad: 'text-[#a68a78] drop-shadow-sm', card: 'bg-[#ffffff] border border-white shadow-[8px_8px_16px_rgba(215,205,200,0.5),-8px_-8px_16px_rgba(255,255,255,0.8)]', badge: 'bg-[#a68a78] text-[#ffffff] font-bold shadow-[inset_0_1px_2px_rgba(255,255,255,0.6),0_2px_4px_rgba(0,0,0,0.2)]', tabIndicator: 'bg-[#a68a78] shadow-[0_0_5px_rgba(166,138,120,0.4)]', iconActive: 'text-[#a68a78] drop-shadow-sm', progressFill: 'bg-[#a68a78] shadow-[inset_0_1px_2px_rgba(255,255,255,0.8)]', actionBtn: 'bg-[#ffffff] text-[#a68a78] shadow-[0_6px_12px_rgba(215,205,200,0.6)] hover:bg-[#a68a78] hover:text-white', catchCopy: 'bg-[#ffffff] text-[#a68a78] shadow-lg' },
-                        neon: { btnPrimary: 'bg-[#ffffff] border-2 border-[#a68a78] text-[#a68a78] font-bold shadow-[0_0_15px_rgba(166,138,120,0.3)]', btnSecondary: 'bg-[#ffffff] text-[#a68a78] border border-[#a68a78]/50 shadow-[0_0_10px_rgba(166,138,120,0.1)]', textGrad: 'text-[#a68a78] drop-shadow-[0_0_4px_rgba(166,138,120,0.4)]', card: 'bg-[#ffffff] border border-[#a68a78]/30 shadow-[0_0_20px_rgba(166,138,120,0.1)]', badge: 'bg-[#ffffff] border border-[#a68a78] text-[#a68a78] font-bold shadow-[0_0_8px_rgba(166,138,120,0.3)]', tabIndicator: 'bg-[#a68a78] shadow-[0_0_8px_#a68a78]', iconActive: 'text-[#a68a78] drop-shadow-[0_0_4px_rgba(166,138,120,0.4)]', progressFill: 'bg-[#a68a78] shadow-[0_0_8px_#a68a78]', actionBtn: 'bg-[#ffffff] border border-[#a68a78] text-[#a68a78] shadow-[0_0_15px_rgba(166,138,120,0.2)] hover:bg-[#a68a78]/10', catchCopy: 'bg-[#ffffff] border border-[#a68a78] text-[#a68a78] shadow-[0_0_15px_rgba(166,138,120,0.2)]' }
+                        gradient: { 
+                            btnPrimary: 'bg-gradient-to-r from-[#FFA6C9] to-[#FF7EB3] text-white shadow-md font-bold', 
+                            bonusBadge: 'bg-gradient-to-r from-[#F5D76E] to-[#D4A32A] text-white shadow-md font-bold',
+                            btnSecondary: 'bg-[#FFFFFF] text-[#FF7EB3] border border-[#F2D1E2]', 
+                            textGrad: 'text-transparent bg-clip-text bg-gradient-to-r from-[#FFA6C9] to-[#FF7EB3]', 
+                            card: 'bg-[#FFFFFF] border border-[#F2D1E2] shadow-lg', 
+                            badge: 'bg-gradient-to-r from-[#FFA6C9] to-[#FF7EB3] text-white border-2 border-[#FFFFFF] shadow-sm font-bold', 
+                            tabIndicator: 'bg-gradient-to-r from-[#FFA6C9] to-[#FF7EB3] shadow-[0_0_8px_rgba(255,166,201,0.4)]', 
+                            iconActive: 'text-[#FF7EB3]', 
+                            progressFill: 'bg-[#FF7EB3] shadow-[0_0_4px_rgba(255,126,179,0.5)]', 
+                            actionBtn: 'bg-white/60 backdrop-blur-md border border-[#3A2136]/10 text-[#3A2136] hover:bg-[#FF7EB3] hover:border-transparent hover:text-white', 
+                            catchCopy: 'bg-white/80 border border-[#3A2136]/10 text-[#3A2136]' 
+                        },
+                        flat: { 
+                            btnPrimary: 'bg-[#FF7EB3] text-white font-bold', 
+                            bonusBadge: 'bg-[#D4A32A] text-white font-bold',
+                            btnSecondary: 'bg-[#FFFFFF] text-[#FF7EB3] border border-[#F2D1E2]', 
+                            textGrad: 'text-[#FF7EB3]', 
+                            card: 'bg-[#FFFFFF] border border-[#F2D1E2]', 
+                            badge: 'bg-[#FF7EB3] text-white font-bold', 
+                            tabIndicator: 'bg-[#FF7EB3]', 
+                            iconActive: 'text-[#FF7EB3]', 
+                            progressFill: 'bg-[#FF7EB3]', 
+                            actionBtn: 'bg-white/80 text-[#3A2136] border border-[#F2D1E2] hover:bg-[#FF7EB3] hover:text-white hover:border-transparent', 
+                            catchCopy: 'bg-white/90 text-[#3A2136]' 
+                        },
+                        '3d': { 
+                            btnPrimary: 'bg-gradient-to-b from-[#FFCCE0] to-[#FF7EB3] text-white font-bold shadow-[inset_0_2px_4px_rgba(255,255,255,0.8),0_4px_8px_rgba(255,126,179,0.4)] active:translate-y-1', 
+                            bonusBadge: 'bg-gradient-to-b from-[#F5D76E] to-[#D4A32A] text-white font-bold shadow-[inset_0_2px_4px_rgba(255,255,255,0.8),0_4px_8px_rgba(212,163,42,0.4)]',
+                            btnSecondary: 'bg-[#FFFFFF] text-[#FF7EB3] shadow-[inset_0_1px_2px_rgba(0,0,0,0.05),0_4px_8px_rgba(0,0,0,0.1)]', 
+                            textGrad: 'text-[#FF7EB3] drop-shadow-sm', 
+                            card: 'bg-[#FFFFFF] border border-white shadow-[8px_8px_16px_rgba(240,210,225,0.4),-8px_-8px_16px_rgba(255,255,255,0.8)]', 
+                            badge: 'bg-[#FF7EB3] text-white font-bold shadow-[inset_0_1px_2px_rgba(255,255,255,0.6),0_2px_4px_rgba(0,0,0,0.2)]', 
+                            tabIndicator: 'bg-[#FF7EB3] shadow-[0_0_5px_rgba(255,126,179,0.4)]', 
+                            iconActive: 'text-[#FF7EB3] drop-shadow-sm', 
+                            progressFill: 'bg-[#FF7EB3] shadow-[inset_0_1px_2px_rgba(255,255,255,0.8)]', 
+                            actionBtn: 'bg-[#FFFFFF] text-[#FF7EB3] shadow-[0_6px_12px_rgba(240,210,225,0.5)] hover:bg-[#FF7EB3] hover:text-white', 
+                            catchCopy: 'bg-[#FFFFFF] text-[#FF7EB3] shadow-lg' 
+                        },
+                        neon: { 
+                            btnPrimary: 'bg-[#FFFFFF] border-2 border-[#FF7EB3] text-[#FF7EB3] font-bold shadow-[0_0_15px_rgba(255,126,179,0.3)]', 
+                            bonusBadge: 'bg-[#FFFFFF] border-2 border-[#D4A32A] text-[#D4A32A] font-bold shadow-[0_0_15px_rgba(212,163,42,0.3)]',
+                            btnSecondary: 'bg-[#FFFFFF] text-[#FF7EB3] border border-[#FF7EB3]/50 shadow-[0_0_10px_rgba(255,126,179,0.1)]', 
+                            textGrad: 'text-[#FF7EB3] drop-shadow-[0_0_4px_rgba(255,126,179,0.4)]', 
+                            card: 'bg-[#FFFFFF] border border-[#FF7EB3]/30 shadow-[0_0_20px_rgba(255,126,179,0.1)]', 
+                            badge: 'bg-[#FFFFFF] border border-[#FF7EB3] text-[#FF7EB3] font-bold shadow-[0_0_8px_rgba(255,126,179,0.3)]', 
+                            tabIndicator: 'bg-[#FF7EB3] shadow-[0_0_8px_#FF7EB3]', 
+                            iconActive: 'text-[#FF7EB3] drop-shadow-[0_0_4px_rgba(255,126,179,0.4)]', 
+                            progressFill: 'bg-[#FF7EB3] shadow-[0_0_8px_#FF7EB3]', 
+                            actionBtn: 'bg-[#FFFFFF] border border-[#FF7EB3] text-[#FF7EB3] shadow-[0_0_15px_rgba(255,126,179,0.2)] hover:bg-[#FF7EB3]/10', 
+                            catchCopy: 'bg-[#FFFFFF] border border-[#FF7EB3] text-[#FF7EB3] shadow-[0_0_15px_rgba(255,126,179,0.2)]' 
+                        }
                     }
                 }
             }
@@ -267,11 +620,9 @@
                     <div className="flex-1 relative">
                         <img src={swipeData.imageUrl} alt="room" className="absolute inset-0 w-full h-full object-cover" />
                         
-                        {/* モード(Dark/Light)に応じたグラデーション */}
                         <div className={`absolute top-0 left-0 w-full h-24 bg-gradient-to-b ${theme.bgGradientTop} pointer-events-none`}></div>
                         <div className={`absolute bottom-0 left-0 w-full h-[60%] bg-gradient-to-t ${theme.bgGradientBottom} pointer-events-none`}></div>
 
-                        {/* 右側のアクションボタン */}
                         <div className="absolute right-4 top-[55%] -translate-y-1/2 flex flex-col gap-4 z-20">
                             <div className="flex flex-col items-center gap-1.5 group cursor-pointer">
                                 <button className={`w-[48px] h-[48px] rounded-full flex items-center justify-center transition-all duration-300 ${styleData.actionBtn}`}>
@@ -287,7 +638,6 @@
                             </div>
                         </div>
 
-                        {/* 情報エリア */}
                         <div className="absolute inset-0 z-10 flex flex-col pt-[85px] pb-[110px] px-5 pointer-events-none">
                             <div className="pointer-events-auto">
                                 <div className="flex gap-1.5 mb-5 opacity-90">
@@ -317,7 +667,7 @@
                                     </div>
                                 </div>
                                 
-                                <div className={`inline-flex items-center gap-3 px-3 py-1.5 ${theme.radiusFull} mb-3 cursor-pointer transform hover:scale-105 transition-all ${styleData.btnPrimary} self-start`}>
+                                <div className={`inline-flex items-center gap-3 px-3 py-1.5 ${theme.radiusFull} mb-3 cursor-pointer transform hover:scale-105 transition-all ${styleData.bonusBadge} self-start`}>
                                     <span className="text-[10px] tracking-wider">入店祝い金</span>
                                     <span className="text-[16px] tracking-wider drop-shadow-sm">{swipeData.bonus}</span>
                                 </div>
@@ -335,7 +685,6 @@
                             </div>
                         </div>
 
-                        {/* SWIPE NEXT */}
                         <div className="absolute bottom-[75px] left-1/2 -translate-x-1/2 flex flex-col items-center opacity-70 cursor-pointer hover:opacity-100 transition-opacity z-20">
                             <i className={`ph-bold ph-caret-up text-[20px] ${theme.swipeTextMain} animate-bounce`}></i>
                             <span className={`${theme.swipeTextMain} text-[9px] font-bold tracking-[0.2em]`}>SWIPE NEXT</span>
@@ -466,11 +815,11 @@
             const styleData = theme.styles[currentStyle];
 
             return (
-                <div className={`min-h-screen ${theme.bgApp} transition-colors duration-500 font-sans`}>
+                <div className={`h-screen w-full flex flex-col overflow-hidden ${theme.bgApp} transition-colors duration-500 font-sans`}>
                     
                     {/* 🛠️ シミュレーター ツールバー (スマホ対応プルダウン) */}
-                    <div className="fixed top-0 left-0 w-full bg-black/80 backdrop-blur-xl border-b border-white/10 p-3 z-[60] shadow-xl">
-                        <div className="max-w-4xl mx-auto w-full flex gap-3 items-end overflow-x-auto pb-1 no-scrollbar">
+                    <div className="flex-none w-full bg-black/80 backdrop-blur-xl border-b border-white/10 p-3 z-[60] shadow-xl">
+                        <div className="max-w-6xl mx-auto w-full flex gap-3 items-end overflow-x-auto pb-1 no-scrollbar">
                             <div className="flex-1 min-w-[140px] relative">
                                 <label className="block text-[9px] text-gray-400 font-bold tracking-wider mb-1 ml-1">COLOR THEME</label>
                                 <select 
@@ -483,7 +832,6 @@
                                 <i className="ph-bold ph-caret-down absolute right-3 bottom-3 text-gray-400 pointer-events-none"></i>
                             </div>
 
-                            {/* 新規追加: MODE (Light / Dark) */}
                             <div className="w-[120px] shrink-0 relative">
                                 <label className="block text-[9px] text-gray-400 font-bold tracking-wider mb-1 ml-1">MODE</label>
                                 <select 
@@ -514,21 +862,15 @@
                         </div>
                     </div>
 
-                    {/* 📱 プレビューエリア */}
-                    <div className="pt-24 pb-16 px-4 flex flex-col xl:flex-row items-center xl:items-start justify-center gap-10 xl:gap-20 min-h-screen">
+                    {/* 📱 フルスクリーン プレビューエリア */}
+                    <div className="flex-1 flex flex-col md:flex-row w-full overflow-hidden">
                         
-                        <div className="flex flex-col items-center gap-4 mt-6">
-                            <h2 className={`text-sm font-bold tracking-widest ${styleData.textGrad}`}>HOME / SWIPE</h2>
-                            <div className={`w-[375px] h-[812px] bg-black relative overflow-hidden shadow-2xl rounded-[40px] border-[6px] border-gray-900 transition-transform duration-500 ring-1 ring-white/10`}>
-                                <HomeSwipeScreen theme={theme} styleData={styleData} />
-                            </div>
+                        <div className="w-full md:w-1/2 h-full relative border-b md:border-b-0 md:border-r border-white/10 overflow-hidden">
+                            <HomeSwipeScreen theme={theme} styleData={styleData} />
                         </div>
 
-                        <div className="flex flex-col items-center gap-4 mt-6 xl:mt-6">
-                            <h2 className={`text-sm font-bold tracking-widest ${styleData.textGrad}`}>SEARCH / TIMELINE</h2>
-                            <div className={`w-[375px] h-[812px] bg-black relative overflow-hidden shadow-2xl rounded-[40px] border-[6px] border-gray-900 transition-transform duration-500 ring-1 ring-white/10`}>
-                                <SearchTimelineScreen theme={theme} styleData={styleData} />
-                            </div>
+                        <div className="w-full md:w-1/2 h-full relative overflow-hidden">
+                            <SearchTimelineScreen theme={theme} styleData={styleData} />
                         </div>
 
                     </div>
