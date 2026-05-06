@@ -21,22 +21,20 @@
     <style>
         .pb-safe { padding-bottom: max(16px, env(safe-area-inset-bottom, 16px)); }
         .pt-safe { padding-top: max(8px, env(safe-area-inset-top, 8px)); }
-        .scrollbar-hide::-webkit-scrollbar { display: none; }
-        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+        body { background-color: #000; color: #fff; margin: 0; -webkit-tap-highlight-color: transparent; }
+        select option { background-color: #1a1a1a; color: #fff; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        body { background-color: #000; color: #fff; margin: 0; -webkit-tap-highlight-color: transparent; overflow: hidden; }
-        select option { background-color: #1a1a1a; color: #fff; }
     </style>
 </head>
-<body className="overflow-hidden">
+<body>
     <div id="root"></div>
 
     <script type="text/babel">
         const { useState } = React;
 
         // ==========================================
-        // 🎨 テーマ & スタイル 定義
+        // 🎨 テーマ & スタイル 定義 (全4テーマ × Light/Dark)
         // ==========================================
         const themes = {
             wine_gold: {
@@ -297,137 +295,8 @@
                     }
                 }
             },
-            peach_blossom: {
-                id: 'peach_blossom', name: 'Peach Blossom (ピーチ×金)',
-                dark: {
-                    bgApp: 'bg-[#2E151A]', bgMain: 'bg-[#401D24]', bgCard: 'bg-[#542630]', bgInput: 'bg-[#662F3B]', bgOverlay: 'bg-[#401D24]/90', navBg: 'bg-[#401D24]',
-                    textMain: 'text-[#FFF0F5]', textSub: 'text-[#F5B5C8]', hoverAccentText: 'group-hover:text-[#FF8DA1]',
-                    border: 'border-[#753846]', borderInput: 'border-[#8C4354]',
-                    iconInactive: 'text-[#D192A6]', starColor: 'text-[#F5D76E]', starBg: 'bg-[#F5D76E]/10',
-                    tagText: 'text-[#FF8DA1]', tagBg: 'bg-[#FF8DA1]/10', tagBorder: 'border-[#FF8DA1]/30',
-                    radiusBase: 'rounded-[16px]', radiusCard: 'rounded-[24px]', radiusFull: 'rounded-full', fontTitle: 'font-serif tracking-widest',
-                    bgGradientTop: 'from-black/60 to-transparent', bgGradientBottom: 'from-black via-black/80 to-transparent', swipeTextMain: 'text-white', swipeTextSub: 'text-gray-300',
-                    styles: {
-                        gradient: { 
-                            btnPrimary: 'bg-gradient-to-r from-[#FF8DA1] to-[#FF6B8B] text-white shadow-md font-bold', 
-                            bonusBadge: 'bg-gradient-to-r from-[#F5D76E] to-[#D4A32A] text-[#2E151A] shadow-md font-bold',
-                            btnSecondary: 'bg-[#542630] text-[#FF8DA1] border border-[#753846]', 
-                            textGrad: 'text-transparent bg-clip-text bg-gradient-to-r from-[#FF8DA1] to-[#FF6B8B]', 
-                            card: 'bg-[#542630] border border-[#753846] shadow-lg', 
-                            badge: 'bg-gradient-to-r from-[#FF8DA1] to-[#FF6B8B] text-white border-2 border-[#542630] shadow-sm font-bold', 
-                            tabIndicator: 'bg-gradient-to-r from-[#FF8DA1] to-[#FF6B8B] shadow-[0_0_8px_rgba(255,141,161,0.6)]', 
-                            iconActive: 'text-[#FF8DA1]', 
-                            progressFill: 'bg-[#FF8DA1] shadow-[0_0_4px_rgba(255,141,161,0.8)]', 
-                            actionBtn: 'bg-black/40 backdrop-blur-md border border-white/20 text-white hover:bg-[#FF8DA1] hover:border-transparent', 
-                            catchCopy: 'bg-black/60 border border-white/10 text-white' 
-                        },
-                        flat: { 
-                            btnPrimary: 'bg-[#FF8DA1] text-[#2E151A] font-bold', 
-                            bonusBadge: 'bg-[#D4A32A] text-[#2E151A] font-bold', 
-                            btnSecondary: 'bg-[#542630] text-[#FF8DA1]', 
-                            textGrad: 'text-[#FF8DA1]', 
-                            card: 'bg-[#542630]', 
-                            badge: 'bg-[#FF8DA1] text-[#2E151A] font-bold', 
-                            tabIndicator: 'bg-[#FF8DA1]', 
-                            iconActive: 'text-[#FF8DA1]', 
-                            progressFill: 'bg-[#FF8DA1]', 
-                            actionBtn: 'bg-black/40 text-white hover:bg-[#FF8DA1] hover:text-[#2E151A]', 
-                            catchCopy: 'bg-black/60 text-white' 
-                        },
-                        '3d': { 
-                            btnPrimary: 'bg-gradient-to-b from-[#FFB5C2] to-[#FF6B8B] text-white font-bold shadow-[inset_0_2px_4px_rgba(255,255,255,0.6),0_6px_12px_rgba(0,0,0,0.8)] active:translate-y-1', 
-                            bonusBadge: 'bg-gradient-to-b from-[#F5D76E] to-[#D4A32A] text-[#2E151A] font-bold shadow-[inset_0_2px_4px_rgba(255,255,255,0.6),0_4px_8px_rgba(0,0,0,0.8)]', 
-                            btnSecondary: 'bg-[#542630] text-[#FF8DA1] shadow-[inset_0_1px_2px_rgba(255,255,255,0.1),0_4px_8px_rgba(0,0,0,0.5)]', 
-                            textGrad: 'text-[#FF8DA1] drop-shadow-md', 
-                            card: 'bg-[#542630] border-t border-white/10 border-l border-white/5 shadow-[8px_8px_16px_rgba(0,0,0,0.6)]', 
-                            badge: 'bg-[#FF8DA1] text-[#2E151A] font-bold shadow-[inset_0_1px_2px_rgba(255,255,255,0.6),0_2px_4px_rgba(0,0,0,0.8)]', 
-                            tabIndicator: 'bg-[#FF8DA1] shadow-[0_0_5px_rgba(255,141,161,0.8)]', 
-                            iconActive: 'text-[#FF8DA1] drop-shadow-md', 
-                            progressFill: 'bg-[#FF8DA1] shadow-[inset_0_1px_2px_rgba(255,255,255,0.8)]', 
-                            actionBtn: 'bg-[#542630] text-[#FF8DA1] shadow-[0_6px_12px_rgba(0,0,0,0.6)] hover:bg-[#FF8DA1] hover:text-[#2E151A]', 
-                            catchCopy: 'bg-[#542630] text-[#FF8DA1] shadow-lg' 
-                        },
-                        neon: { 
-                            btnPrimary: 'bg-[#401D24] border-2 border-[#FF8DA1] text-[#FF8DA1] font-bold shadow-[0_0_15px_rgba(255,141,161,0.5)]', 
-                            bonusBadge: 'bg-[#401D24] border-2 border-[#F5D76E] text-[#F5D76E] font-bold shadow-[0_0_15px_rgba(245,215,110,0.5)]', 
-                            btnSecondary: 'bg-[#401D24] text-[#FF8DA1] border border-[#FF8DA1]/50 shadow-[0_0_10px_rgba(255,141,161,0.2)]', 
-                            textGrad: 'text-[#FF8DA1] drop-shadow-[0_0_8px_#FF8DA1]', 
-                            card: 'bg-[#401D24]/80 border border-[#FF8DA1]/40 shadow-[0_0_20px_rgba(255,141,161,0.15)] backdrop-blur-sm', 
-                            badge: 'bg-[#401D24] border border-[#FF8DA1] text-[#FF8DA1] font-bold shadow-[0_0_8px_rgba(255,141,161,0.8)]', 
-                            tabIndicator: 'bg-[#FF8DA1] shadow-[0_0_12px_#FF8DA1]', 
-                            iconActive: 'text-[#FF8DA1] drop-shadow-[0_0_8px_#FF8DA1]', 
-                            progressFill: 'bg-[#FF8DA1] shadow-[0_0_10px_#FF8DA1]', 
-                            actionBtn: 'bg-[#401D24] border border-[#FF8DA1] text-[#FF8DA1] shadow-[0_0_15px_rgba(255,141,161,0.4)] hover:bg-[#FF8DA1]/20', 
-                            catchCopy: 'bg-[#401D24]/80 border border-[#FF8DA1] text-[#FF8DA1] shadow-[0_0_15px_rgba(255,141,161,0.5)]' 
-                        }
-                    }
-                },
-                light: {
-                    bgApp: 'bg-[#FFF0F4]', bgMain: 'bg-[#FFE4E8]', bgCard: 'bg-[#FFFFFF]', bgInput: 'bg-[#FFF0F4]', bgOverlay: 'bg-[#FFE4E8]/90', navBg: 'bg-[#FFE4E8]',
-                    textMain: 'text-[#542630]', textSub: 'text-[#A86175]', hoverAccentText: 'group-hover:text-[#FF6B8B]',
-                    border: 'border-[#F7CDD5]', borderInput: 'border-[#F7CDD5]',
-                    iconInactive: 'text-[#A86175]', starColor: 'text-[#D4A32A]', starBg: 'bg-[#D4A32A]/10',
-                    tagText: 'text-[#FF6B8B]', tagBg: 'bg-[#FF6B8B]/10', tagBorder: 'border-[#FF6B8B]/30',
-                    radiusBase: 'rounded-xl', radiusCard: 'rounded-2xl', radiusFull: 'rounded-full', fontTitle: 'font-serif tracking-widest',
-                    bgGradientTop: 'from-white/80 to-transparent', bgGradientBottom: 'from-white via-white/90 to-transparent', swipeTextMain: 'text-[#542630]', swipeTextSub: 'text-[#753846]',
-                    styles: {
-                        gradient: { 
-                            btnPrimary: 'bg-gradient-to-r from-[#FF8DA1] to-[#FF6B8B] text-white shadow-md font-bold', 
-                            bonusBadge: 'bg-gradient-to-r from-[#F5D76E] to-[#D4A32A] text-white shadow-md font-bold',
-                            btnSecondary: 'bg-[#FFFFFF] text-[#FF6B8B] border border-[#F7CDD5]', 
-                            textGrad: 'text-transparent bg-clip-text bg-gradient-to-r from-[#FF8DA1] to-[#FF6B8B]', 
-                            card: 'bg-[#FFFFFF] border border-[#F7CDD5] shadow-lg', 
-                            badge: 'bg-gradient-to-r from-[#FF8DA1] to-[#FF6B8B] text-white border-2 border-[#FFFFFF] shadow-sm font-bold', 
-                            tabIndicator: 'bg-gradient-to-r from-[#FF8DA1] to-[#FF6B8B] shadow-[0_0_8px_rgba(255,141,161,0.4)]', 
-                            iconActive: 'text-[#FF6B8B]', 
-                            progressFill: 'bg-[#FF6B8B] shadow-[0_0_4px_rgba(255,107,139,0.5)]', 
-                            actionBtn: 'bg-white/60 backdrop-blur-md border border-[#542630]/10 text-[#542630] hover:bg-[#FF6B8B] hover:border-transparent hover:text-white', 
-                            catchCopy: 'bg-white/80 border border-[#542630]/10 text-[#542630]' 
-                        },
-                        flat: { 
-                            btnPrimary: 'bg-[#FF6B8B] text-white font-bold', 
-                            bonusBadge: 'bg-[#D4A32A] text-white font-bold',
-                            btnSecondary: 'bg-[#FFFFFF] text-[#FF6B8B] border border-[#F7CDD5]', 
-                            textGrad: 'text-[#FF6B8B]', 
-                            card: 'bg-[#FFFFFF] border border-[#F7CDD5]', 
-                            badge: 'bg-[#FF6B8B] text-white font-bold', 
-                            tabIndicator: 'bg-[#FF6B8B]', 
-                            iconActive: 'text-[#FF6B8B]', 
-                            progressFill: 'bg-[#FF6B8B]', 
-                            actionBtn: 'bg-white/80 text-[#542630] border border-[#F7CDD5] hover:bg-[#FF6B8B] hover:text-white hover:border-transparent', 
-                            catchCopy: 'bg-white/90 text-[#542630]' 
-                        },
-                        '3d': { 
-                            btnPrimary: 'bg-gradient-to-b from-[#FFB5C2] to-[#FF6B8B] text-white font-bold shadow-[inset_0_2px_4px_rgba(255,255,255,0.8),0_4px_8px_rgba(255,107,139,0.4)] active:translate-y-1', 
-                            bonusBadge: 'bg-gradient-to-b from-[#F5D76E] to-[#D4A32A] text-white font-bold shadow-[inset_0_2px_4px_rgba(255,255,255,0.8),0_4px_8px_rgba(212,163,42,0.4)]',
-                            btnSecondary: 'bg-[#FFFFFF] text-[#FF6B8B] shadow-[inset_0_1px_2px_rgba(0,0,0,0.05),0_4px_8px_rgba(0,0,0,0.1)]', 
-                            textGrad: 'text-[#FF6B8B] drop-shadow-sm', 
-                            card: 'bg-[#FFFFFF] border border-white shadow-[8px_8px_16px_rgba(240,200,210,0.4),-8px_-8px_16px_rgba(255,255,255,0.8)]', 
-                            badge: 'bg-[#FF6B8B] text-white font-bold shadow-[inset_0_1px_2px_rgba(255,255,255,0.6),0_2px_4px_rgba(0,0,0,0.2)]', 
-                            tabIndicator: 'bg-[#FF6B8B] shadow-[0_0_5px_rgba(255,107,139,0.4)]', 
-                            iconActive: 'text-[#FF6B8B] drop-shadow-sm', 
-                            progressFill: 'bg-[#FF6B8B] shadow-[inset_0_1px_2px_rgba(255,255,255,0.8)]', 
-                            actionBtn: 'bg-[#FFFFFF] text-[#FF6B8B] shadow-[0_6px_12px_rgba(240,200,210,0.5)] hover:bg-[#FF6B8B] hover:text-white', 
-                            catchCopy: 'bg-[#FFFFFF] text-[#FF6B8B] shadow-lg' 
-                        },
-                        neon: { 
-                            btnPrimary: 'bg-[#FFFFFF] border-2 border-[#FF6B8B] text-[#FF6B8B] font-bold shadow-[0_0_15px_rgba(255,107,139,0.3)]', 
-                            bonusBadge: 'bg-[#FFFFFF] border-2 border-[#D4A32A] text-[#D4A32A] font-bold shadow-[0_0_15px_rgba(212,163,42,0.3)]',
-                            btnSecondary: 'bg-[#FFFFFF] text-[#FF6B8B] border border-[#FF6B8B]/50 shadow-[0_0_10px_rgba(255,107,139,0.1)]', 
-                            textGrad: 'text-[#FF6B8B] drop-shadow-[0_0_4px_rgba(255,107,139,0.4)]', 
-                            card: 'bg-[#FFFFFF] border border-[#FF6B8B]/30 shadow-[0_0_20px_rgba(255,107,139,0.1)]', 
-                            badge: 'bg-[#FFFFFF] border border-[#FF6B8B] text-[#FF6B8B] font-bold shadow-[0_0_8px_rgba(255,107,139,0.3)]', 
-                            tabIndicator: 'bg-[#FF6B8B] shadow-[0_0_8px_#FF6B8B]', 
-                            iconActive: 'text-[#FF6B8B] drop-shadow-[0_0_4px_rgba(255,107,139,0.4)]', 
-                            progressFill: 'bg-[#FF6B8B] shadow-[0_0_8px_#FF6B8B]', 
-                            actionBtn: 'bg-[#FFFFFF] border border-[#FF6B8B] text-[#FF6B8B] shadow-[0_0_15px_rgba(255,107,139,0.2)] hover:bg-[#FF6B8B]/10', 
-                            catchCopy: 'bg-[#FFFFFF] border border-[#FF6B8B] text-[#FF6B8B] shadow-[0_0_15px_rgba(255,107,139,0.2)]' 
-                        }
-                    }
-                }
-            },
-            baby_sakura: {
-                id: 'baby_sakura', name: 'Baby Sakura (サクラピンク)',
+            sakura: {
+                id: 'sakura', name: 'Baby Sakura (サクラピンク)',
                 dark: {
                     bgApp: 'bg-[#1C101A]', bgMain: 'bg-[#2A1827]', bgCard: 'bg-[#3A2136]', bgInput: 'bg-[#4A2B45]', bgOverlay: 'bg-[#2A1827]/90', navBg: 'bg-[#2A1827]',
                     textMain: 'text-[#FFF5FA]', textSub: 'text-[#DCA8C8]', hoverAccentText: 'group-hover:text-[#FFA6C9]',
@@ -478,7 +347,7 @@
                         },
                         neon: { 
                             btnPrimary: 'bg-[#2A1827] border-2 border-[#FFA6C9] text-[#FFA6C9] font-bold shadow-[0_0_15px_rgba(255,166,201,0.5)]', 
-                            bonusBadge: 'bg-[#2A1827] border-2 border-[#F5D76E] text-[#F5D76E] font-bold shadow-[0_0_15px_rgba(245,215,110,0.5)]', 
+                            bonusBadge: 'bg-[#2A1827] border-2 border-[#D4A32A] text-[#D4A32A] font-bold shadow-[0_0_15px_rgba(212,163,42,0.5)]', 
                             btnSecondary: 'bg-[#2A1827] text-[#FFA6C9] border border-[#FFA6C9]/50 shadow-[0_0_10px_rgba(255,166,201,0.2)]', 
                             textGrad: 'text-[#FFA6C9] drop-shadow-[0_0_8px_#FFA6C9]', 
                             card: 'bg-[#2A1827]/80 border border-[#FFA6C9]/40 shadow-[0_0_20px_rgba(255,166,201,0.15)] backdrop-blur-sm', 
@@ -554,6 +423,135 @@
                         }
                     }
                 }
+            },
+            lavender: {
+                id: 'lavender', name: 'Lavender Dream (ラベンダー系)',
+                dark: {
+                    bgApp: 'bg-[#15101C]', bgMain: 'bg-[#1D1627]', bgCard: 'bg-[#2A2036]', bgInput: 'bg-[#3A2B45]', bgOverlay: 'bg-[#1D1627]/90', navBg: 'bg-[#1D1627]',
+                    textMain: 'text-[#F8F5FF]', textSub: 'text-[#C2B5D9]', hoverAccentText: 'group-hover:text-[#C59BFF]',
+                    border: 'border-[#433559]', borderInput: 'border-[#514269]',
+                    iconInactive: 'text-[#9E8EBB]', starColor: 'text-[#F5D76E]', starBg: 'bg-[#F5D76E]/10',
+                    tagText: 'text-[#C59BFF]', tagBg: 'bg-[#C59BFF]/10', tagBorder: 'border-[#C59BFF]/30',
+                    radiusBase: 'rounded-[16px]', radiusCard: 'rounded-[24px]', radiusFull: 'rounded-full', fontTitle: 'font-serif tracking-[0.1em]',
+                    bgGradientTop: 'from-black/60 to-transparent', bgGradientBottom: 'from-black via-black/80 to-transparent', swipeTextMain: 'text-white', swipeTextSub: 'text-gray-300',
+                    styles: {
+                        gradient: { 
+                            btnPrimary: 'bg-gradient-to-r from-[#C59BFF] to-[#A16DFF] text-[#1D1627] shadow-md font-bold', 
+                            bonusBadge: 'bg-gradient-to-r from-[#F5D76E] to-[#D4A32A] text-[#1D1627] shadow-md font-bold',
+                            btnSecondary: 'bg-[#2A2036] text-[#C59BFF] border border-[#433559]', 
+                            textGrad: 'text-transparent bg-clip-text bg-gradient-to-r from-[#C59BFF] to-[#A16DFF]', 
+                            card: 'bg-[#2A2036] border border-[#433559] shadow-lg', 
+                            badge: 'bg-gradient-to-r from-[#C59BFF] to-[#A16DFF] text-[#1D1627] border-2 border-[#2A2036] shadow-sm font-bold', 
+                            tabIndicator: 'bg-gradient-to-r from-[#C59BFF] to-[#A16DFF] shadow-[0_0_8px_rgba(197,155,255,0.6)]', 
+                            iconActive: 'text-[#C59BFF]', 
+                            progressFill: 'bg-[#C59BFF] shadow-[0_0_4px_rgba(197,155,255,0.8)]', 
+                            actionBtn: 'bg-black/40 backdrop-blur-md border border-white/20 text-white hover:bg-[#C59BFF] hover:border-transparent hover:text-[#1D1627]', 
+                            catchCopy: 'bg-black/60 border border-white/10 text-white' 
+                        },
+                        flat: { 
+                            btnPrimary: 'bg-[#C59BFF] text-[#1D1627] font-bold', 
+                            bonusBadge: 'bg-[#D4A32A] text-[#1D1627] font-bold', 
+                            btnSecondary: 'bg-[#2A2036] text-[#C59BFF]', 
+                            textGrad: 'text-[#C59BFF]', 
+                            card: 'bg-[#2A2036]', 
+                            badge: 'bg-[#C59BFF] text-[#1D1627] font-bold', 
+                            tabIndicator: 'bg-[#C59BFF]', 
+                            iconActive: 'text-[#C59BFF]', 
+                            progressFill: 'bg-[#C59BFF]', 
+                            actionBtn: 'bg-black/40 text-white hover:bg-[#C59BFF] hover:text-[#1D1627]', 
+                            catchCopy: 'bg-black/60 text-white' 
+                        },
+                        '3d': { 
+                            btnPrimary: 'bg-gradient-to-b from-[#E6D4FF] to-[#A16DFF] text-[#1D1627] font-bold shadow-[inset_0_2px_4px_rgba(255,255,255,0.6),0_6px_12px_rgba(0,0,0,0.8)] active:translate-y-1', 
+                            bonusBadge: 'bg-gradient-to-b from-[#F5D76E] to-[#D4A32A] text-[#1D1627] font-bold shadow-[inset_0_2px_4px_rgba(255,255,255,0.6),0_4px_8px_rgba(0,0,0,0.8)]', 
+                            btnSecondary: 'bg-[#2A2036] text-[#C59BFF] shadow-[inset_0_1px_2px_rgba(255,255,255,0.1),0_4px_8px_rgba(0,0,0,0.5)]', 
+                            textGrad: 'text-[#C59BFF] drop-shadow-md', 
+                            card: 'bg-[#2A2036] border-t border-white/10 border-l border-white/5 shadow-[8px_8px_16px_rgba(0,0,0,0.6)]', 
+                            badge: 'bg-[#C59BFF] text-[#1D1627] font-bold shadow-[inset_0_1px_2px_rgba(255,255,255,0.6),0_2px_4px_rgba(0,0,0,0.8)]', 
+                            tabIndicator: 'bg-[#C59BFF] shadow-[0_0_5px_rgba(197,155,255,0.8)]', 
+                            iconActive: 'text-[#C59BFF] drop-shadow-md', 
+                            progressFill: 'bg-[#C59BFF] shadow-[inset_0_1px_2px_rgba(255,255,255,0.8)]', 
+                            actionBtn: 'bg-[#2A2036] text-[#C59BFF] shadow-[0_6px_12px_rgba(0,0,0,0.6)] hover:bg-[#C59BFF] hover:text-[#1D1627]', 
+                            catchCopy: 'bg-[#2A2036] text-[#C59BFF] shadow-lg' 
+                        },
+                        neon: { 
+                            btnPrimary: 'bg-[#1D1627] border-2 border-[#C59BFF] text-[#C59BFF] font-bold shadow-[0_0_15px_rgba(197,155,255,0.5)]', 
+                            bonusBadge: 'bg-[#1D1627] border-2 border-[#D4A32A] text-[#D4A32A] font-bold shadow-[0_0_15px_rgba(212,163,42,0.5)]', 
+                            btnSecondary: 'bg-[#1D1627] text-[#C59BFF] border border-[#C59BFF]/50 shadow-[0_0_10px_rgba(197,155,255,0.2)]', 
+                            textGrad: 'text-[#C59BFF] drop-shadow-[0_0_8px_#C59BFF]', 
+                            card: 'bg-[#1D1627]/80 border border-[#C59BFF]/40 shadow-[0_0_20px_rgba(197,155,255,0.15)] backdrop-blur-sm', 
+                            badge: 'bg-[#1D1627] border border-[#C59BFF] text-[#C59BFF] font-bold shadow-[0_0_8px_rgba(197,155,255,0.8)]', 
+                            tabIndicator: 'bg-[#C59BFF] shadow-[0_0_12px_#C59BFF]', 
+                            iconActive: 'text-[#C59BFF] drop-shadow-[0_0_8px_#C59BFF]', 
+                            progressFill: 'bg-[#C59BFF] shadow-[0_0_10px_#C59BFF]', 
+                            actionBtn: 'bg-[#1D1627] border border-[#C59BFF] text-[#C59BFF] shadow-[0_0_15px_rgba(197,155,255,0.4)] hover:bg-[#C59BFF]/20', 
+                            catchCopy: 'bg-[#1D1627]/80 border border-[#C59BFF] text-[#C59BFF] shadow-[0_0_15px_rgba(197,155,255,0.5)]' 
+                        }
+                    }
+                },
+                light: {
+                    bgApp: 'bg-[#F8F5FF]', bgMain: 'bg-[#F2EDFA]', bgCard: 'bg-[#FFFFFF]', bgInput: 'bg-[#F8F5FF]', bgOverlay: 'bg-[#F2EDFA]/90', navBg: 'bg-[#F2EDFA]',
+                    textMain: 'text-[#302640]', textSub: 'text-[#7B6E94]', hoverAccentText: 'group-hover:text-[#A16DFF]',
+                    border: 'border-[#E2D6F5]', borderInput: 'border-[#E2D6F5]',
+                    iconInactive: 'text-[#8C7DA8]', starColor: 'text-[#D4A32A]', starBg: 'bg-[#D4A32A]/10',
+                    tagText: 'text-[#A16DFF]', tagBg: 'bg-[#A16DFF]/10', tagBorder: 'border-[#A16DFF]/30',
+                    radiusBase: 'rounded-xl', radiusCard: 'rounded-2xl', radiusFull: 'rounded-full', fontTitle: 'font-serif tracking-widest',
+                    bgGradientTop: 'from-white/80 to-transparent', bgGradientBottom: 'from-white via-white/90 to-transparent', swipeTextMain: 'text-[#302640]', swipeTextSub: 'text-[#56486B]',
+                    styles: {
+                        gradient: { 
+                            btnPrimary: 'bg-gradient-to-r from-[#C59BFF] to-[#A16DFF] text-white shadow-md font-bold', 
+                            bonusBadge: 'bg-gradient-to-r from-[#F5D76E] to-[#D4A32A] text-white shadow-md font-bold',
+                            btnSecondary: 'bg-[#FFFFFF] text-[#A16DFF] border border-[#E2D6F5]', 
+                            textGrad: 'text-transparent bg-clip-text bg-gradient-to-r from-[#C59BFF] to-[#A16DFF]', 
+                            card: 'bg-[#FFFFFF] border border-[#E2D6F5] shadow-lg', 
+                            badge: 'bg-gradient-to-r from-[#C59BFF] to-[#A16DFF] text-white border-2 border-[#FFFFFF] shadow-sm font-bold', 
+                            tabIndicator: 'bg-gradient-to-r from-[#C59BFF] to-[#A16DFF] shadow-[0_0_8px_rgba(161,109,255,0.4)]', 
+                            iconActive: 'text-[#A16DFF]', 
+                            progressFill: 'bg-[#A16DFF] shadow-[0_0_4px_rgba(161,109,255,0.5)]', 
+                            actionBtn: 'bg-white/60 backdrop-blur-md border border-[#302640]/10 text-[#302640] hover:bg-[#A16DFF] hover:border-transparent hover:text-white', 
+                            catchCopy: 'bg-white/80 border border-[#302640]/10 text-[#302640]' 
+                        },
+                        flat: { 
+                            btnPrimary: 'bg-[#A16DFF] text-white font-bold', 
+                            bonusBadge: 'bg-[#D4A32A] text-white font-bold',
+                            btnSecondary: 'bg-[#FFFFFF] text-[#A16DFF] border border-[#E2D6F5]', 
+                            textGrad: 'text-[#A16DFF]', 
+                            card: 'bg-[#FFFFFF] border border-[#E2D6F5]', 
+                            badge: 'bg-[#A16DFF] text-white font-bold', 
+                            tabIndicator: 'bg-[#A16DFF]', 
+                            iconActive: 'text-[#A16DFF]', 
+                            progressFill: 'bg-[#A16DFF]', 
+                            actionBtn: 'bg-white/80 text-[#302640] border border-[#E2D6F5] hover:bg-[#A16DFF] hover:text-white hover:border-transparent', 
+                            catchCopy: 'bg-white/90 text-[#302640]' 
+                        },
+                        '3d': { 
+                            btnPrimary: 'bg-gradient-to-b from-[#E2D4FF] to-[#A16DFF] text-white font-bold shadow-[inset_0_2px_4px_rgba(255,255,255,0.8),0_4px_8px_rgba(161,109,255,0.4)] active:translate-y-1', 
+                            bonusBadge: 'bg-gradient-to-b from-[#F5D76E] to-[#D4A32A] text-white font-bold shadow-[inset_0_2px_4px_rgba(255,255,255,0.8),0_4px_8px_rgba(212,163,42,0.4)]',
+                            btnSecondary: 'bg-[#FFFFFF] text-[#A16DFF] shadow-[inset_0_1px_2px_rgba(0,0,0,0.05),0_4px_8px_rgba(0,0,0,0.1)]', 
+                            textGrad: 'text-[#A16DFF] drop-shadow-sm', 
+                            card: 'bg-[#FFFFFF] border border-white shadow-[8px_8px_16px_rgba(220,210,240,0.4),-8px_-8px_16px_rgba(255,255,255,0.8)]', 
+                            badge: 'bg-[#A16DFF] text-white font-bold shadow-[inset_0_1px_2px_rgba(255,255,255,0.6),0_2px_4px_rgba(0,0,0,0.2)]', 
+                            tabIndicator: 'bg-[#A16DFF] shadow-[0_0_5px_rgba(161,109,255,0.4)]', 
+                            iconActive: 'text-[#A16DFF] drop-shadow-sm', 
+                            progressFill: 'bg-[#A16DFF] shadow-[inset_0_1px_2px_rgba(255,255,255,0.8)]', 
+                            actionBtn: 'bg-[#FFFFFF] text-[#A16DFF] shadow-[0_6px_12px_rgba(220,210,240,0.5)] hover:bg-[#A16DFF] hover:text-white', 
+                            catchCopy: 'bg-[#FFFFFF] text-[#A16DFF] shadow-lg' 
+                        },
+                        neon: { 
+                            btnPrimary: 'bg-[#FFFFFF] border-2 border-[#A16DFF] text-[#A16DFF] font-bold shadow-[0_0_15px_rgba(161,109,255,0.3)]', 
+                            bonusBadge: 'bg-[#FFFFFF] border-2 border-[#D4A32A] text-[#D4A32A] font-bold shadow-[0_0_15px_rgba(212,163,42,0.3)]',
+                            btnSecondary: 'bg-[#FFFFFF] text-[#A16DFF] border border-[#A16DFF]/50 shadow-[0_0_10px_rgba(161,109,255,0.1)]', 
+                            textGrad: 'text-[#A16DFF] drop-shadow-[0_0_4px_rgba(161,109,255,0.4)]', 
+                            card: 'bg-[#FFFFFF] border border-[#A16DFF]/30 shadow-[0_0_20px_rgba(161,109,255,0.1)]', 
+                            badge: 'bg-[#FFFFFF] border border-[#A16DFF] text-[#A16DFF] font-bold shadow-[0_0_8px_rgba(161,109,255,0.3)]', 
+                            tabIndicator: 'bg-[#A16DFF] shadow-[0_0_8px_#A16DFF]', 
+                            iconActive: 'text-[#A16DFF] drop-shadow-[0_0_4px_rgba(161,109,255,0.4)]', 
+                            progressFill: 'bg-[#A16DFF] shadow-[0_0_8px_#A16DFF]', 
+                            actionBtn: 'bg-[#FFFFFF] border border-[#A16DFF] text-[#A16DFF] shadow-[0_0_15px_rgba(161,109,255,0.2)] hover:bg-[#A16DFF]/10', 
+                            catchCopy: 'bg-[#FFFFFF] border border-[#A16DFF] text-[#A16DFF] shadow-[0_0_15px_rgba(161,109,255,0.2)]' 
+                        }
+                    }
+                }
             }
         };
 
@@ -570,8 +568,8 @@
             ];
 
             return (
-                <nav className={`absolute bottom-0 left-0 w-full ${theme.navBg}/95 backdrop-blur-xl border-t ${theme.border} z-40 pb-safe transition-colors duration-300`}>
-                    <div className="flex justify-around items-center pt-3 pb-2 px-2">
+                <nav className={`w-full ${theme.navBg}/95 backdrop-blur-xl border-t ${theme.border} z-40 pb-safe transition-colors duration-300 mt-auto`}>
+                    <div className="flex justify-around items-center pt-3 pb-2 px-2 max-w-[420px] mx-auto">
                         {navItems.map(item => {
                             const isActive = activeTab === item.id;
                             return (
@@ -604,9 +602,9 @@
 
             return (
                 <div className={`relative w-full h-full ${theme.bgMain} font-sans flex flex-col transition-colors duration-300`}>
-                    <header className={`absolute top-0 w-full z-20 flex items-center justify-between px-5 py-4 ${theme.bgOverlay} backdrop-blur-md border-b ${theme.border} pt-safe`}>
+                    <header className={`relative w-full z-20 flex items-center justify-between px-5 py-4 ${theme.bgOverlay} backdrop-blur-md border-b ${theme.border} pt-safe`}>
                         <div className="w-20"></div>
-                        <h1 className={`${theme.textMain} ${theme.fontTitle} text-[17px] font-semibold`}>DISCOVERY</h1>
+                        <h1 className={`${theme.textMain} ${theme.fontTitle} text-[17px] font-semibold text-center absolute left-1/2 -translate-x-1/2`}>DISCOVERY</h1>
                         <div className={`flex items-center gap-3.5 ${styleData.iconActive}`}>
                             <i className="ph-bold ph-check text-[20px]"></i>
                             <div className="relative">
@@ -617,11 +615,11 @@
                         </div>
                     </header>
 
-                    <div className="flex-1 relative">
+                    <div className="flex-1 relative w-full h-full overflow-hidden">
                         <img src={swipeData.imageUrl} alt="room" className="absolute inset-0 w-full h-full object-cover" />
                         
-                        <div className={`absolute top-0 left-0 w-full h-24 bg-gradient-to-b ${theme.bgGradientTop} pointer-events-none`}></div>
-                        <div className={`absolute bottom-0 left-0 w-full h-[60%] bg-gradient-to-t ${theme.bgGradientBottom} pointer-events-none`}></div>
+                        <div className={`absolute top-0 left-0 w-full h-32 bg-gradient-to-b ${theme.bgGradientTop} pointer-events-none`}></div>
+                        <div className={`absolute bottom-0 left-0 w-full h-[65%] bg-gradient-to-t ${theme.bgGradientBottom} pointer-events-none`}></div>
 
                         <div className="absolute right-4 top-[55%] -translate-y-1/2 flex flex-col gap-4 z-20">
                             <div className="flex flex-col items-center gap-1.5 group cursor-pointer">
@@ -638,7 +636,7 @@
                             </div>
                         </div>
 
-                        <div className="absolute inset-0 z-10 flex flex-col pt-[85px] pb-[110px] px-5 pointer-events-none">
+                        <div className="absolute inset-0 z-10 flex flex-col pt-[85px] pb-[110px] px-5 pointer-events-none max-w-[600px] mx-auto w-full">
                             <div className="pointer-events-auto">
                                 <div className="flex gap-1.5 mb-5 opacity-90">
                                     <div className={`h-1 flex-1 rounded-full ${styleData.progressFill}`}></div>
@@ -652,7 +650,7 @@
                                 </div>
                             </div>
 
-                            <div className="mt-auto flex flex-col pointer-events-auto pr-14">
+                            <div className="mt-auto flex flex-col pointer-events-auto pr-14 mb-6">
                                 <h2 className={`text-[30px] font-serif font-bold ${theme.swipeTextMain} mb-1.5 tracking-wide drop-shadow-lg leading-none`}>{swipeData.name}</h2>
                                 
                                 <div className="flex items-center gap-4 mb-3">
@@ -685,7 +683,7 @@
                             </div>
                         </div>
 
-                        <div className="absolute bottom-[75px] left-1/2 -translate-x-1/2 flex flex-col items-center opacity-70 cursor-pointer hover:opacity-100 transition-opacity z-20">
+                        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center opacity-70 cursor-pointer hover:opacity-100 transition-opacity z-20">
                             <i className={`ph-bold ph-caret-up text-[20px] ${theme.swipeTextMain} animate-bounce`}></i>
                             <span className={`${theme.swipeTextMain} text-[9px] font-bold tracking-[0.2em]`}>SWIPE NEXT</span>
                         </div>
@@ -710,9 +708,9 @@
 
             return (
                 <div className={`relative w-full h-full ${theme.bgMain} font-sans flex flex-col transition-colors duration-300`}>
-                    <header className={`flex items-center justify-between px-5 py-4 ${theme.bgOverlay} backdrop-blur-md border-b ${theme.border} z-20 shrink-0 pt-safe sticky top-0 transition-colors duration-300`}>
+                    <header className={`relative w-full flex items-center justify-between px-5 py-4 ${theme.bgOverlay} backdrop-blur-md border-b ${theme.border} z-20 shrink-0 pt-safe transition-colors duration-300`}>
                         <div className="w-20"></div>
-                        <h1 className={`${theme.textMain} ${theme.fontTitle} text-[17px] font-semibold`}>SEARCH</h1>
+                        <h1 className={`${theme.textMain} ${theme.fontTitle} text-[17px] font-semibold text-center absolute left-1/2 -translate-x-1/2`}>SEARCH</h1>
                         <div className={`flex items-center gap-3.5 ${styleData.iconActive}`}>
                             <button className="relative hover:opacity-80 transition-opacity"><i className="ph-bold ph-check text-[20px]"></i></button>
                             <button className="relative hover:opacity-80 transition-opacity">
@@ -723,80 +721,82 @@
                         </div>
                     </header>
 
-                    <div className={`flex ${theme.bgMain} border-b ${theme.border} shrink-0 relative z-10 px-4 pt-2 transition-colors duration-300`}>
-                        <button onClick={() => setActiveTab('search')} className={`flex-1 py-3 text-[13px] font-bold transition-all duration-300 relative ${activeTab === 'search' ? theme.textMain : theme.textSub}`}>
-                            検索
-                            {activeTab === 'search' && <div className={`absolute bottom-0 left-1/2 -translate-x-1/2 w-12 h-1 rounded-t-full ${styleData.tabIndicator}`}></div>}
-                        </button>
-                        <button onClick={() => setActiveTab('recommend')} className={`flex-1 py-3 text-[13px] font-bold transition-all duration-300 relative flex items-center justify-center gap-1 ${activeTab === 'recommend' ? theme.textMain : theme.textSub}`}>
-                            <i className={`ph-fill ph-sparkle text-[14px] ${activeTab === 'recommend' ? styleData.iconActive : theme.textSub}`}></i>
-                            AIレコメンド
-                            {activeTab === 'recommend' && <div className={`absolute bottom-0 left-1/2 -translate-x-1/2 w-12 h-1 rounded-t-full ${styleData.tabIndicator}`}></div>}
-                        </button>
-                    </div>
-
-                    <div className="flex-1 overflow-y-auto pb-24 scrollbar-hide relative z-0">
-                        <div className={`px-5 py-4 bg-gradient-to-b from-white/5 to-transparent border-b ${theme.border}`}>
-                            <div className="flex gap-2">
-                                <div className="relative flex-1">
-                                    <input type="text" placeholder="エリア・店名で検索..." className={`w-full ${theme.bgInput} ${theme.textMain} border ${theme.borderInput} ${theme.radiusFull} py-3 px-4 text-sm focus:outline-none focus:border-transparent focus:ring-1 focus:ring-current transition-all`} style={{ '--tw-ring-color': 'currentColor' }} />
-                                </div>
-                                <button className={`w-[46px] h-[46px] ${theme.radiusBase} flex items-center justify-center shrink-0 transition-all duration-300 ${styleData.btnPrimary}`}>
-                                    <i className="ph-bold ph-magnifying-glass text-[20px]"></i>
-                                </button>
-                                <button className={`w-[46px] h-[46px] ${theme.radiusBase} flex items-center justify-center shrink-0 transition-all duration-300 ${styleData.btnSecondary}`}>
-                                    <i className="ph-bold ph-arrows-down-up text-[18px]"></i>
-                                </button>
-                            </div>
+                    <div className="flex-1 flex flex-col w-full h-full max-w-[600px] mx-auto">
+                        <div className={`flex ${theme.bgMain} border-b ${theme.border} shrink-0 relative z-10 px-4 pt-2 transition-colors duration-300`}>
+                            <button onClick={() => setActiveTab('search')} className={`flex-1 py-3 text-[13px] font-bold transition-all duration-300 relative ${activeTab === 'search' ? theme.textMain : theme.textSub}`}>
+                                検索
+                                {activeTab === 'search' && <div className={`absolute bottom-0 left-1/2 -translate-x-1/2 w-12 h-1 rounded-t-full ${styleData.tabIndicator}`}></div>}
+                            </button>
+                            <button onClick={() => setActiveTab('recommend')} className={`flex-1 py-3 text-[13px] font-bold transition-all duration-300 relative flex items-center justify-center gap-1 ${activeTab === 'recommend' ? theme.textMain : theme.textSub}`}>
+                                <i className={`ph-fill ph-sparkle text-[14px] ${activeTab === 'recommend' ? styleData.iconActive : theme.textSub}`}></i>
+                                AIレコメンド
+                                {activeTab === 'recommend' && <div className={`absolute bottom-0 left-1/2 -translate-x-1/2 w-12 h-1 rounded-t-full ${styleData.tabIndicator}`}></div>}
+                            </button>
                         </div>
 
-                        <div className="flex flex-col px-3 pt-3 gap-3">
-                            {timelineData.map((item) => (
-                                <div key={item.id} className={`${theme.radiusCard} p-4 transition-all duration-300 cursor-pointer group ${styleData.card}`}>
-                                    <div className="flex gap-4">
-                                        <div className="shrink-0 w-[72px] flex flex-col items-center gap-2">
-                                            <div className={`w-[72px] h-[72px] ${theme.bgMain} ${theme.radiusBase} overflow-hidden relative`}>
-                                                <img src={item.imageUrl} alt={item.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                                                <div className={`absolute inset-0 border border-black/10 ${theme.radiusBase} pointer-events-none`}></div>
-                                            </div>
-                                            {item.isExcellent && (
-                                                <div className={`flex items-center justify-center gap-1 text-[10px] px-2 py-1 rounded-lg w-[80px] relative -mt-5 z-10 transition-all ${styleData.badge}`}>
-                                                    <i className="ph-fill ph-crown text-[12px]"></i>
-                                                    <span>優良店</span>
+                        <div className="flex-1 overflow-y-auto pb-24 scrollbar-hide relative z-0">
+                            <div className={`px-5 py-4 bg-gradient-to-b from-white/5 to-transparent border-b ${theme.border}`}>
+                                <div className="flex gap-2">
+                                    <div className="relative flex-1">
+                                        <input type="text" placeholder="エリア・店名で検索..." className={`w-full ${theme.bgInput} ${theme.textMain} border ${theme.borderInput} ${theme.radiusFull} py-3 px-4 text-sm focus:outline-none focus:border-transparent focus:ring-1 focus:ring-current transition-all`} style={{ '--tw-ring-color': 'currentColor' }} />
+                                    </div>
+                                    <button className={`w-[46px] h-[46px] ${theme.radiusBase} flex items-center justify-center shrink-0 transition-all duration-300 ${styleData.btnPrimary}`}>
+                                        <i className="ph-bold ph-magnifying-glass text-[20px]"></i>
+                                    </button>
+                                    <button className={`w-[46px] h-[46px] ${theme.radiusBase} flex items-center justify-center shrink-0 transition-all duration-300 ${styleData.btnSecondary}`}>
+                                        <i className="ph-bold ph-arrows-down-up text-[18px]"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div className="flex flex-col px-3 pt-3 gap-3">
+                                {timelineData.map((item) => (
+                                    <div key={item.id} className={`${theme.radiusCard} p-4 transition-all duration-300 cursor-pointer group ${styleData.card}`}>
+                                        <div className="flex gap-4">
+                                            <div className="shrink-0 w-[72px] flex flex-col items-center gap-2">
+                                                <div className={`w-[72px] h-[72px] ${theme.bgMain} ${theme.radiusBase} overflow-hidden relative`}>
+                                                    <img src={item.imageUrl} alt={item.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                                                    <div className={`absolute inset-0 border border-black/10 ${theme.radiusBase} pointer-events-none`}></div>
                                                 </div>
-                                            )}
-                                        </div>
+                                                {item.isExcellent && (
+                                                    <div className={`flex items-center justify-center gap-1 text-[10px] px-2 py-1 rounded-lg w-[80px] relative -mt-5 z-10 transition-all ${styleData.badge}`}>
+                                                        <i className="ph-fill ph-crown text-[12px]"></i>
+                                                        <span>優良店</span>
+                                                    </div>
+                                                )}
+                                            </div>
 
-                                        <div className="flex-1 min-w-0 flex flex-col pt-1">
-                                            <div className="flex items-center justify-between mb-1">
-                                                <h3 className={`${theme.textMain} font-bold text-[17px] truncate pr-2 ${theme.hoverAccentText} transition-colors`}>{item.name}</h3>
-                                            </div>
-                                            <div className="flex items-center flex-wrap text-[11px] mb-2 gap-x-2 gap-y-1.5">
-                                                <span className={`${theme.tagText} ${theme.tagBg} border ${theme.tagBorder} px-2 py-0.5 rounded-md font-medium`}>{item.industry}</span>
-                                                <span className={`flex items-center ${theme.starColor} font-bold ${theme.starBg} px-1.5 py-0.5 rounded-md`}><i className="ph-fill ph-star text-[12px] mr-0.5"></i>{item.rating}</span>
-                                                <span className={`flex items-center ${theme.textSub}`}><i className="ph-fill ph-map-pin text-[11px] mr-0.5"></i>{item.location}</span>
-                                            </div>
-                                            <div className="mt-1">
-                                                <p className={`text-[13px] ${theme.textMain} opacity-80 leading-relaxed line-clamp-2`}>{item.message}</p>
+                                            <div className="flex-1 min-w-0 flex flex-col pt-1">
+                                                <div className="flex items-center justify-between mb-1">
+                                                    <h3 className={`${theme.textMain} font-bold text-[17px] truncate pr-2 ${theme.hoverAccentText} transition-colors`}>{item.name}</h3>
+                                                </div>
+                                                <div className="flex items-center flex-wrap text-[11px] mb-2 gap-x-2 gap-y-1.5">
+                                                    <span className={`${theme.tagText} ${theme.tagBg} border ${theme.tagBorder} px-2 py-0.5 rounded-md font-medium`}>{item.industry}</span>
+                                                    <span className={`flex items-center ${theme.starColor} font-bold ${theme.starBg} px-1.5 py-0.5 rounded-md`}><i className="ph-fill ph-star text-[12px] mr-0.5"></i>{item.rating}</span>
+                                                    <span className={`flex items-center ${theme.textSub}`}><i className="ph-fill ph-map-pin text-[11px] mr-0.5"></i>{item.location}</span>
+                                                </div>
+                                                <div className="mt-1">
+                                                    <p className={`text-[13px] ${theme.textMain} opacity-80 leading-relaxed line-clamp-2`}>{item.message}</p>
+                                                </div>
                                             </div>
                                         </div>
+                                        <div className={`flex justify-end items-center mt-3 pt-3 border-t ${theme.border}`}>
+                                            <span className={`flex items-center text-[10px] ${theme.textSub} font-medium`}><i className="ph-bold ph-clock text-[11px] mr-1"></i>{item.time}</span>
+                                        </div>
                                     </div>
-                                    <div className={`flex justify-end items-center mt-3 pt-3 border-t ${theme.border}`}>
-                                        <span className={`flex items-center text-[10px] ${theme.textSub} font-medium`}><i className="ph-bold ph-clock text-[11px] mr-1"></i>{item.time}</span>
-                                    </div>
+                                ))}
+                                <div className={`py-8 text-center ${theme.textSub} text-xs font-medium flex items-center justify-center gap-3`}>
+                                    <div className={`w-10 h-px ${theme.border}`}></div>
+                                    これ以上結果はありません
+                                    <div className={`w-10 h-px ${theme.border}`}></div>
                                 </div>
-                            ))}
-                            <div className={`py-8 text-center ${theme.textSub} text-xs font-medium flex items-center justify-center gap-3`}>
-                                <div className={`w-10 h-px ${theme.border}`}></div>
-                                これ以上結果はありません
-                                <div className={`w-10 h-px ${theme.border}`}></div>
                             </div>
                         </div>
-                    </div>
 
-                    <button className={`absolute bottom-[90px] right-5 w-[56px] h-[56px] rounded-full flex items-center justify-center transition-all duration-300 hover:scale-105 active:scale-95 z-30 ${styleData.btnPrimary}`}>
-                        <i className="ph-bold ph-faders text-[24px]"></i>
-                    </button>
+                        <button className={`absolute bottom-[90px] right-5 w-[56px] h-[56px] rounded-full flex items-center justify-center transition-all duration-300 hover:scale-105 active:scale-95 z-30 ${styleData.btnPrimary}`}>
+                            <i className="ph-bold ph-faders text-[24px]"></i>
+                        </button>
+                    </div>
 
                     <BottomNav theme={theme} styleData={styleData} activeTab="search" />
                 </div>
@@ -815,61 +815,63 @@
             const styleData = theme.styles[currentStyle];
 
             return (
-                <div className={`h-screen w-full flex flex-col overflow-hidden ${theme.bgApp} transition-colors duration-500 font-sans`}>
+                <div className={`min-h-[100dvh] w-full flex flex-col ${theme.bgApp} transition-colors duration-500 font-sans`}>
                     
-                    {/* 🛠️ シミュレーター ツールバー (スマホ対応プルダウン) */}
-                    <div className="flex-none w-full bg-black/80 backdrop-blur-xl border-b border-white/10 p-3 z-[60] shadow-xl">
-                        <div className="max-w-6xl mx-auto w-full flex gap-3 items-end overflow-x-auto pb-1 no-scrollbar">
-                            <div className="flex-1 min-w-[140px] relative">
+                    {/* 🛠️ シミュレーター ツールバー (固定/スクロール追従) */}
+                    <div className="fixed top-0 left-0 w-full bg-black/80 backdrop-blur-xl border-b border-white/10 p-2 z-[60] shadow-xl">
+                        <div className="max-w-4xl mx-auto w-full flex gap-2 items-end overflow-x-auto pb-1 no-scrollbar px-2">
+                            <div className="flex-1 min-w-[130px] relative">
                                 <label className="block text-[9px] text-gray-400 font-bold tracking-wider mb-1 ml-1">COLOR THEME</label>
                                 <select 
-                                    className="w-full bg-white/10 text-white border border-white/20 rounded-lg pl-3 pr-8 py-2 text-sm outline-none appearance-none focus:border-white/50 cursor-pointer font-bold"
+                                    className="w-full bg-white/10 text-white border border-white/20 rounded-md pl-2 pr-6 py-1.5 text-xs outline-none appearance-none focus:border-white/50 cursor-pointer font-bold"
                                     value={currentThemeId}
                                     onChange={(e) => setCurrentThemeId(e.target.value)}
                                 >
                                     {Object.values(themes).map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
                                 </select>
-                                <i className="ph-bold ph-caret-down absolute right-3 bottom-3 text-gray-400 pointer-events-none"></i>
+                                <i className="ph-bold ph-caret-down absolute right-2 bottom-[8px] text-gray-400 pointer-events-none text-xs"></i>
                             </div>
 
-                            <div className="w-[120px] shrink-0 relative">
+                            <div className="w-[100px] shrink-0 relative">
                                 <label className="block text-[9px] text-gray-400 font-bold tracking-wider mb-1 ml-1">MODE</label>
                                 <select 
-                                    className="w-full bg-white/10 text-[#FFD700] border border-[#FFD700]/50 rounded-lg pl-3 pr-8 py-2 text-sm outline-none appearance-none focus:border-[#FFD700] cursor-pointer font-bold"
+                                    className="w-full bg-white/10 text-[#FFD700] border border-[#FFD700]/50 rounded-md pl-2 pr-6 py-1.5 text-xs outline-none appearance-none focus:border-[#FFD700] cursor-pointer font-bold"
                                     value={currentMode}
                                     onChange={(e) => setCurrentMode(e.target.value)}
                                 >
                                     <option value="dark">🌙 DARK</option>
                                     <option value="light">☀️ LIGHT</option>
                                 </select>
-                                <i className="ph-bold ph-caret-down absolute right-3 bottom-3 text-[#FFD700] pointer-events-none"></i>
+                                <i className="ph-bold ph-caret-down absolute right-2 bottom-[8px] text-[#FFD700] pointer-events-none text-xs"></i>
                             </div>
 
-                            <div className="flex-1 min-w-[140px] relative">
+                            <div className="flex-1 min-w-[130px] relative">
                                 <label className="block text-[9px] text-gray-400 font-bold tracking-wider mb-1 ml-1">UI STYLE (質感)</label>
                                 <select 
-                                    className="w-full bg-white/10 text-white border border-white/20 rounded-lg pl-3 pr-8 py-2 text-sm outline-none appearance-none focus:border-white/50 cursor-pointer font-bold"
+                                    className="w-full bg-white/10 text-white border border-white/20 rounded-md pl-2 pr-6 py-1.5 text-xs outline-none appearance-none focus:border-white/50 cursor-pointer font-bold"
                                     value={currentStyle}
                                     onChange={(e) => setCurrentStyle(e.target.value)}
                                 >
-                                    <option value="gradient">グラデーション (Standard)</option>
-                                    <option value="flat">のっぺり (Flat/Minimal)</option>
+                                    <option value="gradient">グラデ (Standard)</option>
+                                    <option value="flat">のっぺり (Flat)</option>
                                     <option value="3d">立体 (Neumorphism)</option>
-                                    <option value="neon">ネオン (Glow/Cyber)</option>
+                                    <option value="neon">ネオン (Glow)</option>
                                 </select>
-                                <i className="ph-bold ph-caret-down absolute right-3 bottom-3 text-gray-400 pointer-events-none"></i>
+                                <i className="ph-bold ph-caret-down absolute right-2 bottom-[8px] text-gray-400 pointer-events-none text-xs"></i>
                             </div>
                         </div>
                     </div>
 
-                    {/* 📱 フルスクリーン プレビューエリア */}
-                    <div className="flex-1 flex flex-col md:flex-row w-full overflow-hidden">
+                    {/* 📱 アプリ画面エリア (フルスクリーン、枠なし、縦スクロール) */}
+                    <div className="flex-1 flex flex-col w-full pt-[64px]">
                         
-                        <div className="w-full md:w-1/2 h-full relative border-b md:border-b-0 md:border-r border-white/10 overflow-hidden">
+                        {/* HOME / SWIPE 画面 */}
+                        <div className="w-full h-[100dvh] relative border-b-8 border-black/40">
                             <HomeSwipeScreen theme={theme} styleData={styleData} />
                         </div>
 
-                        <div className="w-full md:w-1/2 h-full relative overflow-hidden">
+                        {/* SEARCH / TIMELINE 画面 */}
+                        <div className="w-full min-h-[100dvh] relative">
                             <SearchTimelineScreen theme={theme} styleData={styleData} />
                         </div>
 
