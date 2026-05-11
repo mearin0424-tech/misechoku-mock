@@ -367,8 +367,8 @@
                 setDragOffset({ x: 0, y: 0 });
             };
 
-            const bonusBadgeStyle = `inline-flex items-center gap-4 mb-3 transform hover:scale-105 transition-all self-start px-4 py-2.5 rounded-full text-[#111] font-bold cursor-pointer ${theme.accentBg} shadow-[inset_0_2px_4px_rgba(255,255,255,0.4),inset_0_-4px_4px_rgba(0,0,0,0.3),0_6px_12px_rgba(0,0,0,0.8)] border border-transparent`;
-
+// ★ ボーナス金バッジ専用スタイル (濃いゴールド固定)
+            const bonusBadgeStyle = `inline-flex items-center gap-4 mb-3 transform hover:scale-105 transition-all self-start px-4 py-2.5 rounded-full text-[#111] font-bold cursor-pointer bg-gradient-to-r from-[#D4AF37] to-[#B8860B] shadow-[inset_0_2px_4px_rgba(255,255,255,0.4),inset_0_-4px_4px_rgba(0,0,0,0.3),0_6px_12px_rgba(0,0,0,0.8)] border border-[#D4AF37]/30`;
             const bgHex = theme.bgMainHex;
             const gradientStyle = {
                 background: `linear-gradient(to top, ${bgHex} 15%, ${bgHex} 45%, transparent 100%)`
