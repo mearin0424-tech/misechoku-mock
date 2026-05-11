@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -65,40 +66,45 @@
         // 🎨 テーマ定義
         // ==========================================
         const bgThemes = {
+            black: { 
+                id: 'black', name: 'ブラック (堅牢・透明性)', 
+                bgApp: 'bg-[#050505]', bgMain: 'bg-[#121212]', textMain: 'text-[#F5F5F5]', textSub: 'text-[#A0A0A0]', 
+                borderColor: 'border-[#2A2A2A]', glassBg: 'bg-[#121212]/75',
+                bgCardContrast: 'bg-[#1C1C1C]', borderCardContrast: 'border-[#333333]'
+            },
             wine: { 
                 id: 'wine', name: 'ワイン', 
                 bgApp: 'bg-[#2A0813]', bgMain: 'bg-[#3A0C1D]', textMain: 'text-[#FFF0F5]', textSub: 'text-[#D9A3B5]', 
-                borderColor: 'border-[#5C1B33]', glassBg: 'bg-[#3A0C1D]/65',
-                bgCardContrast: 'bg-[#1C1618]',
-                borderCardContrast: 'border-[#2D2426]'
+                borderColor: 'border-[#5C1B33]', glassBg: 'bg-[#3A0C1D]/75',
+                bgCardContrast: 'bg-[#4A1529]', borderCardContrast: 'border-[#5C1B33]'
             },
             deep_pink: { 
                 id: 'deep_pink', name: '濃いピンク', 
                 bgApp: 'bg-[#2B0A16]', bgMain: 'bg-[#3B0E20]', textMain: 'text-[#FFF0F5]', textSub: 'text-[#E8A5C3]', 
-                borderColor: 'border-[#5E1A36]', glassBg: 'bg-[#3B0E20]/65',
-                bgCardContrast: 'bg-[#1A1316]',
-                borderCardContrast: 'border-[#2D2227]'
+                borderColor: 'border-[#5E1A36]', glassBg: 'bg-[#3B0E20]/75',
+                bgCardContrast: 'bg-[#4D142B]', borderCardContrast: 'border-[#5E1A36]'
             },
             midnight_pink: { 
                 id: 'midnight_pink', name: 'ミッドナイトピンク', 
                 bgApp: 'bg-[#0F0510]', bgMain: 'bg-[#1A0B1A]', textMain: 'text-[#FFFFFF]', textSub: 'text-[#B380A8]', 
-                borderColor: 'border-[#331430]', glassBg: 'bg-[#1A0B1A]/65',
-                bgCardContrast: 'bg-[#141414]',
-                borderCardContrast: 'border-[#2A2A2A]'
-            },
-            black: { 
-                id: 'black', name: 'ブラック', 
-                bgApp: 'bg-[#050505]', bgMain: 'bg-[#121212]', textMain: 'text-[#F5F5F5]', textSub: 'text-[#A0A0A0]', 
-                borderColor: 'border-[#2A2A2A]', glassBg: 'bg-[#121212]/65',
-                bgCardContrast: 'bg-[#1E1E1E]',
-                borderCardContrast: 'border-[#333333]'
+                borderColor: 'border-[#331430]', glassBg: 'bg-[#1A0B1A]/75',
+                bgCardContrast: 'bg-[#2D142D]', borderCardContrast: 'border-[#331430]'
             }
         };
 
         const accentColors = {
+            concept_lavender: {
+                id: 'concept_lavender', name: 'モーブ・ラベンダー (新コンセプト)',
+                accentBg: 'bg-[#B58BCC]', accentText: 'text-[#B58BCC]', accentGrad: 'from-[#D2ABEB] to-[#996EB0]',
+                accentBorderLight: 'border-[#B58BCC]/30', // ★薄いラベンダーの枠線
+                neonShadow: 'shadow-[0_0_15px_rgba(181,139,204,0.6)]', neonText: 'drop-shadow-[0_0_8px_rgba(181,139,204,0.8)]',
+                neonShadowBorder: 'shadow-[0_0_15px_rgba(181,139,204,0.2)] border-[#B58BCC]/40',
+                glowShadow: 'shadow-[0_0_20px_rgba(210,171,235,0.4)]', glowText: 'drop-shadow-[0_0_10px_rgba(210,171,235,0.5)]'
+            },
             gold: {
                 id: 'gold', name: 'ゴールド',
                 accentBg: 'bg-[#E6C27A]', accentText: 'text-[#E6C27A]', accentGrad: 'from-[#F9E5B5] to-[#E6C27A]',
+                accentBorderLight: 'border-[#E6C27A]/30',
                 neonShadow: 'shadow-[0_0_15px_rgba(230,194,122,0.6)]', neonText: 'drop-shadow-[0_0_8px_rgba(230,194,122,0.8)]',
                 neonShadowBorder: 'shadow-[0_0_15px_rgba(230,194,122,0.2)] border-[#E6C27A]/40',
                 glowShadow: 'shadow-[0_0_20px_rgba(249,229,181,0.5)]', glowText: 'drop-shadow-[0_0_10px_rgba(249,229,181,0.6)]'
@@ -106,13 +112,15 @@
             pink: {
                 id: 'pink', name: 'ピンク',
                 accentBg: 'bg-[#FF3385]', accentText: 'text-[#FF3385]', accentGrad: 'from-[#FF80B3] to-[#FF3385]',
+                accentBorderLight: 'border-[#FF3385]/30',
                 neonShadow: 'shadow-[0_0_15px_rgba(255,51,133,0.6)]', neonText: 'drop-shadow-[0_0_8px_rgba(255,51,133,0.8)]',
                 neonShadowBorder: 'shadow-[0_0_15px_rgba(255,51,133,0.2)] border-[#FF3385]/40',
                 glowShadow: 'shadow-[0_0_20px_rgba(255,128,179,0.5)]', glowText: 'drop-shadow-[0_0_10px_rgba(255,128,179,0.6)]'
             },
             lavender: {
-                id: 'lavender', name: 'ラベンダー',
+                id: 'lavender', name: 'ラベンダー (青み)',
                 accentBg: 'bg-[#B380FF]', accentText: 'text-[#B380FF]', accentGrad: 'from-[#D9B3FF] to-[#B380FF]',
+                accentBorderLight: 'border-[#B380FF]/30',
                 neonShadow: 'shadow-[0_0_15px_rgba(179,128,255,0.6)]', neonText: 'drop-shadow-[0_0_8px_rgba(179,128,255,0.8)]',
                 neonShadowBorder: 'shadow-[0_0_15px_rgba(179,128,255,0.2)] border-[#B380FF]/40',
                 glowShadow: 'shadow-[0_0_20px_rgba(217,179,255,0.5)]', glowText: 'drop-shadow-[0_0_10px_rgba(217,179,255,0.6)]'
@@ -124,39 +132,41 @@
             modern: { id: 'modern', name: 'ポップ・見やすい' }
         };
 
-        // Tailwind JIT用セーフリスト
+        // Tailwind JIT用セーフリスト (動的クラスを正しく生成させるため)
         const TailwindSafelist = () => (
-            <div className="hidden bg-[#1C1618] border-[#2D2426] bg-[#1A1316] border-[#2D2227] bg-[#141414] border-[#2A2A2A] bg-[#1E1E1E] border-[#333333] shadow-[inset_0_4px_4px_rgba(255,255,255,0.7),inset_0_-4px_4px_rgba(0,0,0,0.2),0_8px_16px_rgba(0,0,0,0.8)] shadow-[inset_0_2px_2px_rgba(255,255,255,0.7),inset_0_-2px_2px_rgba(0,0,0,0.2),0_4px_8px_rgba(0,0,0,0.6)] shadow-[10px_10px_20px_rgba(0,0,0,0.6),-2px_-2px_5px_rgba(255,255,255,0.05),inset_0_2px_2px_rgba(255,255,255,0.05)] shadow-[inset_0_4px_4px_rgba(255,255,255,0.7),inset_0_-4px_4px_rgba(0,0,0,0.2),0_10px_20px_rgba(0,0,0,0.8)] shadow-[inset_0_4px_4px_rgba(255,255,255,0.8),inset_0_-4px_4px_rgba(0,0,0,0.2),0_8px_16px_rgba(0,0,0,0.8)] bg-[#2A0813] bg-[#3A0C1D] text-[#FFF0F5] text-[#D9A3B5] border-[#5C1B33] bg-[#3A0C1D]/65 bg-[#2B0A16] bg-[#3B0E20] text-[#E8A5C3] border-[#5E1A36] bg-[#3B0E20]/65 bg-[#0F0510] bg-[#1A0B1A] text-[#FFFFFF] text-[#B380A8] border-[#331430] bg-[#1A0B1A]/65 bg-[#050505] bg-[#121212] text-[#F5F5F5] text-[#A0A0A0] border-[#2A2A2A] bg-[#121212]/65 bg-[#E6C27A] text-[#E6C27A] from-[#F9E5B5] to-[#E6C27A] shadow-[0_0_15px_rgba(230,194,122,0.6)] drop-shadow-[0_0_8px_rgba(230,194,122,0.8)] shadow-[0_0_15px_rgba(230,194,122,0.2)] border-[#E6C27A]/40 shadow-[0_0_20px_rgba(249,229,181,0.5)] drop-shadow-[0_0_10px_rgba(249,229,181,0.6)] bg-[#FF3385] text-[#FF3385] from-[#FF80B3] to-[#FF3385] shadow-[0_0_15px_rgba(255,51,133,0.6)] drop-shadow-[0_0_8px_rgba(255,51,133,0.8)] shadow-[0_0_15px_rgba(255,51,133,0.2)] border-[#FF3385]/40 shadow-[0_0_20px_rgba(255,128,179,0.5)] drop-shadow-[0_0_10px_rgba(255,128,179,0.6)] bg-[#B380FF] text-[#B380FF] from-[#D9B3FF] to-[#B380FF] shadow-[0_0_15px_rgba(179,128,255,0.6)] drop-shadow-[0_0_8px_rgba(179,128,255,0.8)] shadow-[0_0_15px_rgba(179,128,255,0.2)] border-[#B380FF]/40 shadow-[0_0_20px_rgba(217,179,255,0.5)] drop-shadow-[0_0_10px_rgba(217,179,255,0.6)] text-transparent bg-clip-text bg-gradient-to-r bg-gradient-to-b group-hover:text-[#E6C27A] group-hover:text-[#FF3385] group-hover:text-[#B380FF]"></div>
+            <div className="hidden bg-[#B58BCC] text-[#B58BCC] from-[#D2ABEB] to-[#996EB0] border-[#B58BCC]/30 border-[#B58BCC]/40 border-[#E6C27A]/30 border-[#FF3385]/30 border-[#B380FF]/30 bg-[#1C1C1C] border-[#333333] shadow-[inset_0_2px_4px_rgba(255,255,255,0.4),inset_0_-4px_4px_rgba(0,0,0,0.3),0_6px_12px_rgba(0,0,0,0.8)] shadow-[inset_0_1px_2px_rgba(255,255,255,0.4),inset_0_-2px_2px_rgba(0,0,0,0.3),0_4px_8px_rgba(0,0,0,0.6)] shadow-[8px_8px_20px_rgba(0,0,0,0.8),-2px_-2px_8px_rgba(255,255,255,0.03)] bg-[#2A0813] bg-[#3A0C1D] text-[#FFF0F5] text-[#D9A3B5] border-[#5C1B33] bg-[#3A0C1D]/75 bg-[#2B0A16] bg-[#3B0E20] text-[#E8A5C3] border-[#5E1A36] bg-[#3B0E20]/75 bg-[#0F0510] bg-[#1A0B1A] text-[#FFFFFF] text-[#B380A8] border-[#331430] bg-[#1A0B1A]/75 bg-[#050505] bg-[#121212] text-[#F5F5F5] text-[#A0A0A0] border-[#2A2A2A] bg-[#121212]/75"></div>
         );
 
         // ==========================================
         // 🧩 動的スタイル生成ロジック (掛け合わせ)
         // ==========================================
         const generateStyles = (t, isGlow, is3D, isNeon, cardStyle) => {
-            const shadowBtn3D = 'shadow-[inset_0_4px_4px_rgba(255,255,255,0.7),inset_0_-4px_4px_rgba(0,0,0,0.2),0_8px_16px_rgba(0,0,0,0.8)] active:translate-y-1 active:shadow-[inset_0_6px_8px_rgba(0,0,0,0.4),0_2px_4px_rgba(0,0,0,0.8)]';
-            const shadowBadge3D = 'shadow-[inset_0_2px_2px_rgba(255,255,255,0.7),inset_0_-2px_2px_rgba(0,0,0,0.2),0_4px_8px_rgba(0,0,0,0.6)]';
-            const shadowCard3D = 'shadow-[10px_10px_20px_rgba(0,0,0,0.6),-2px_-2px_5px_rgba(255,255,255,0.05),inset_0_2px_2px_rgba(255,255,255,0.05)]';
-            const shadowFab3D = 'shadow-[inset_0_4px_4px_rgba(255,255,255,0.7),inset_0_-4px_4px_rgba(0,0,0,0.2),0_10px_20px_rgba(0,0,0,0.8)] active:translate-y-1 active:shadow-[inset_0_6px_8px_rgba(0,0,0,0.4),0_2px_4px_rgba(0,0,0,0.8)]';
+            // ★上品かつ「カッチリ感」のあるソリッドな3Dシャドウ
+            const shadowBtn3D = 'shadow-[inset_0_2px_4px_rgba(255,255,255,0.4),inset_0_-4px_4px_rgba(0,0,0,0.3),0_6px_12px_rgba(0,0,0,0.8)] active:translate-y-1 active:shadow-[inset_0_4px_6px_rgba(0,0,0,0.5),0_2px_4px_rgba(0,0,0,0.8)]';
+            const shadowBadge3D = 'shadow-[inset_0_1px_2px_rgba(255,255,255,0.4),inset_0_-2px_2px_rgba(0,0,0,0.3),0_4px_8px_rgba(0,0,0,0.6)]';
+            const shadowCard3D = 'shadow-[8px_8px_20px_rgba(0,0,0,0.8),-2px_-2px_8px_rgba(255,255,255,0.03)]';
+            const shadowFab3D = 'shadow-[inset_0_2px_4px_rgba(255,255,255,0.4),inset_0_-4px_4px_rgba(0,0,0,0.3),0_8px_16px_rgba(0,0,0,0.8)] active:translate-y-1 active:shadow-[inset_0_4px_6px_rgba(0,0,0,0.5),0_2px_4px_rgba(0,0,0,0.8)]';
 
-            // 同化か色分けかの背景色設定
             const cardBg = cardStyle === 'contrast' ? t.bgCardContrast : t.bgMain;
-            const cardBorderColor = cardStyle === 'contrast' ? t.borderCardContrast : t.borderColor;
 
             return {
-                button: `px-6 py-3.5 rounded-full text-[#111] transition-all duration-300 flex items-center justify-center gap-2 font-bold ${isGlow ? 'bg-gradient-to-r ' + t.accentGrad : t.accentBg} ${is3D ? shadowBtn3D : 'shadow-md'} ${isNeon ? t.neonShadow : ''} ${isGlow && !is3D && !isNeon ? t.glowShadow : ''} ${isNeon ? 'border border-white/50' : 'border border-transparent'}`,
+                // ボタン類は立体で押しやすく。
+                button: `px-6 py-3.5 rounded-full text-[#111] transition-all duration-300 flex items-center justify-center gap-2 font-bold ${isGlow ? 'bg-gradient-to-r ' + t.accentGrad : t.accentBg} ${is3D ? shadowBtn3D : 'shadow-md'} ${isNeon ? t.neonShadow + ' border border-white/50' : 'border border-transparent'} ${isGlow && !is3D && !isNeon ? t.glowShadow : ''}`,
                 badge: `px-4 py-2 rounded-full text-[#111] font-bold text-sm ${isGlow ? 'bg-gradient-to-r ' + t.accentGrad : t.accentBg} ${is3D ? shadowBadge3D : ''} ${isNeon ? t.neonShadow : ''} ${isGlow && !is3D && !isNeon ? t.glowShadow : ''}`,
                 miniBadge: `flex items-center justify-center gap-1 text-[#111] text-[9px] font-bold px-1.5 py-0.5 rounded w-full relative -mt-4 z-10 ${isGlow ? 'bg-gradient-to-r ' + t.accentGrad : t.accentBg} ${is3D ? shadowBadge3D + ' border border-transparent' : 'border border-black/20'} ${isNeon ? t.neonShadow : ''}`,
                 fab: `absolute bottom-[100px] right-5 w-[56px] h-[56px] rounded-full flex items-center justify-center text-[#111] hover:scale-105 transition-all z-30 ${isGlow ? 'bg-gradient-to-r ' + t.accentGrad : t.accentBg} ${is3D ? shadowFab3D : 'shadow-lg active:scale-95'} ${isNeon ? t.neonShadow : ''}`,
                 
+                // テキストには光彩をかけず、クリーンに見せる
                 textAccent: `${isGlow ? 'text-transparent bg-clip-text bg-gradient-to-b ' + t.accentGrad : t.accentText}`,
+                // アイコンだけは光らせて特別感を
                 iconAccent: `${isGlow ? 'text-transparent bg-clip-text bg-gradient-to-b ' + t.accentGrad : t.accentText} ${isGlow ? t.glowText : ''} ${isNeon ? t.neonText : ''}`,
                 
-                // カード系コンポーネント (cardStyleで背景色が変動)
-                card: `${cardBg} rounded-2xl overflow-hidden transition-all duration-300 ${is3D ? 'border-t border-l border-white/10 ' + shadowCard3D : `border ${cardBorderColor} shadow-lg hover:border-white/30`} ${isNeon ? t.neonShadowBorder : ''}`,
-                menuCard: `${cardBg} p-4 flex items-center justify-between rounded-[16px] transition-all duration-300 group cursor-pointer ${is3D ? 'border-t border-l border-white/10 ' + shadowCard3D : `border ${cardBorderColor} shadow-lg hover:border-white/30`} ${isNeon ? t.neonShadowBorder : ''}`,
+                // ★ カードや枠を、見やすい「薄いラベンダーカラー（各テーマのアクセント色/30）」で囲う
+                card: `${cardBg} rounded-[20px] overflow-hidden transition-all duration-300 ${is3D ? shadowCard3D : `shadow-lg hover:border-white/30`} border ${t.accentBorderLight} ${isNeon ? t.neonShadowBorder : ''}`,
+                menuCard: `${cardBg} p-4 flex items-center justify-between rounded-[16px] transition-all duration-300 group cursor-pointer ${is3D ? shadowCard3D : `shadow-lg hover:border-white/30`} border ${t.accentBorderLight} ${isNeon ? t.neonShadowBorder : ''}`,
                 
-                glassHeader: `${t.glassBg} backdrop-blur-2xl border-b border-white/10 shadow-lg`,
-                glassFooter: `${t.glassBg} backdrop-blur-2xl border-t border-white/10 shadow-[0_-4px_20px_rgba(0,0,0,0.3)]`,
+                glassHeader: `${t.glassBg} backdrop-blur-2xl border-b ${t.accentBorderLight} shadow-lg`,
+                glassFooter: `${t.glassBg} backdrop-blur-2xl border-t ${t.accentBorderLight} shadow-[0_-4px_20px_rgba(0,0,0,0.5)]`,
                 tabLine: `absolute bottom-0 left-1/2 -translate-x-1/2 w-12 h-1 rounded-t-full ${isGlow ? 'bg-gradient-to-r ' + t.accentGrad : t.accentBg} ${isNeon || isGlow ? t.glowShadow : ''}`
             }
         };
@@ -250,10 +260,11 @@
             const currentData = swipeDataList[currentIndex];
             const handleNext = () => setCurrentIndex((prev) => (prev + 1) % swipeDataList.length);
 
-            const bonusBadgeStyle = `inline-flex items-center gap-4 mb-4 transform hover:scale-105 transition-all self-start px-5 py-3 rounded-full text-[#111] font-bold border border-transparent cursor-pointer
+            // ⚠️ 入店祝い金バッジ専用スタイル (強制的にゴールドにする + 強い3D)
+            const bonusBadgeStyle = `inline-flex items-center gap-4 mb-4 transform hover:scale-105 transition-all self-start px-5 py-3 rounded-full text-[#111] font-bold border border-[#F9E5B5]/50 cursor-pointer
                 ${isGlow ? 'bg-gradient-to-r from-[#F9E5B5] to-[#E6C27A]' : 'bg-[#E6C27A]'} 
-                ${is3D ? 'shadow-[inset_0_4px_4px_rgba(255,255,255,0.8),inset_0_-4px_4px_rgba(0,0,0,0.2),0_8px_16px_rgba(0,0,0,0.8)]' : 'shadow-md'} 
-                ${isNeon ? 'shadow-[0_0_15px_rgba(230,194,122,0.6)] !border-white/50' : ''} 
+                ${is3D ? 'shadow-[inset_0_2px_4px_rgba(255,255,255,0.4),inset_0_-4px_4px_rgba(0,0,0,0.3),0_6px_12px_rgba(0,0,0,0.8)]' : 'shadow-md'} 
+                ${isNeon ? 'shadow-[0_0_15px_rgba(230,194,122,0.6)]' : ''} 
                 ${isGlow && !is3D && !isNeon ? 'shadow-[0_0_20px_rgba(249,229,181,0.5)]' : ''}`;
 
             return (
@@ -272,23 +283,23 @@
                     <div className="flex-1 relative w-full h-full overflow-hidden bg-black cursor-pointer" onClick={handleNext}>
                         <div key={`img-${currentIndex}`} className="absolute top-0 left-0 w-full h-[70%] animate-fade-in">
                             <img src={currentData.imageUrl} alt="room" className="w-full h-full object-cover" />
-                            <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black"></div>
+                            <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-[#050505]"></div>
                         </div>
 
-                        <div className="absolute bottom-0 left-0 w-full h-[50%] bg-gradient-to-t from-black via-black/95 to-transparent pointer-events-none"></div>
+                        <div className="absolute bottom-0 left-0 w-full h-[50%] bg-gradient-to-t from-[#050505] via-[#050505]/95 to-transparent pointer-events-none"></div>
 
                         <div className="absolute right-4 top-[45%] -translate-y-1/2 flex flex-col gap-4 z-20 pointer-events-auto">
                             <div className="flex flex-col items-center gap-1.5 group cursor-pointer" onClick={(e) => e.stopPropagation()}>
-                                <button className={`w-[48px] h-[48px] rounded-full flex items-center justify-center transition-all duration-300 bg-black/40 backdrop-blur-md border border-white/20 text-white hover:bg-white hover:text-black`}>
+                                <button className={`w-[48px] h-[48px] rounded-full flex items-center justify-center transition-all duration-300 bg-[#121212]/60 backdrop-blur-md border ${theme.accentBorderLight} text-white hover:${theme.accentBg} hover:text-black shadow-[0_4px_12px_rgba(0,0,0,0.5)]`}>
                                     <i className="ph-bold ph-bookmark-simple text-[20px]"></i>
                                 </button>
-                                <span className={`text-white text-[9px] font-bold tracking-wider drop-shadow-md`}>キープ</span>
+                                <span className={`text-[#F5F5F5] text-[9px] font-bold tracking-wider drop-shadow-md`}>キープ</span>
                             </div>
                             <div className="flex flex-col items-center gap-1.5 group cursor-pointer" onClick={(e) => e.stopPropagation()}>
-                                <button className={`w-[48px] h-[48px] rounded-full flex items-center justify-center transition-all duration-300 bg-black/40 backdrop-blur-md border border-white/20 text-white hover:bg-white hover:text-black`}>
+                                <button className={`w-[48px] h-[48px] rounded-full flex items-center justify-center transition-all duration-300 bg-[#121212]/60 backdrop-blur-md border ${theme.accentBorderLight} text-white hover:${theme.accentBg} hover:text-black shadow-[0_4px_12px_rgba(0,0,0,0.5)]`}>
                                     <i className="ph-bold ph-chat-circle text-[22px]"></i>
                                 </button>
-                                <span className={`text-white text-[9px] font-bold tracking-wider drop-shadow-md`}>メッセージ</span>
+                                <span className={`text-[#F5F5F5] text-[9px] font-bold tracking-wider drop-shadow-md`}>メッセージ</span>
                             </div>
                         </div>
 
@@ -296,12 +307,12 @@
                             <div className="pointer-events-auto">
                                 <div className="flex gap-1.5 mb-5 opacity-90 px-1">
                                     {swipeDataList.map((_, idx) => (
-                                        <div key={idx} className={`h-1 flex-1 rounded-full ${idx === currentIndex ? (isGlow ? 'bg-[#FFD700]' : theme.accentBg) : 'bg-white/30'}`}></div>
+                                        <div key={idx} className={`h-1 flex-1 rounded-full ${idx === currentIndex ? (isGlow ? 'bg-[#FFD700]' : theme.accentBg) : 'bg-[#1C1C1C]'}`}></div>
                                     ))}
                                 </div>
                                 <div className="flex justify-center">
-                                    <div className="bg-gradient-to-r from-black/70 via-black/40 to-black/70 backdrop-blur-md border border-white/10 px-6 py-2 rounded-full shadow-sm">
-                                        <span className="text-white font-bold tracking-widest text-[13px] drop-shadow-sm">{currentData.copy}</span>
+                                    <div className={`bg-[#050505]/70 backdrop-blur-md border ${theme.accentBorderLight} px-6 py-2 rounded-full shadow-sm`}>
+                                        <span className="text-[#F5F5F5] font-bold tracking-widest text-[13px] drop-shadow-sm">{currentData.copy}</span>
                                     </div>
                                 </div>
                             </div>
@@ -313,9 +324,9 @@
                                     <div className="flex items-center gap-1 drop-shadow-md">
                                         <i className={`ph-fill ph-star text-[14px] ${styles.iconAccent}`}></i>
                                         <span className={`font-bold text-[15px] ${styles.textAccent}`}>{currentData.rating}</span>
-                                        <span className="text-gray-300 text-[11px] ml-1">({currentData.reviews})</span>
+                                        <span className="text-[#A0A0A0] text-[11px] ml-1">({currentData.reviews})</span>
                                     </div>
-                                    <div className="flex items-center text-gray-300 text-[13px] drop-shadow-md">
+                                    <div className="flex items-center text-[#A0A0A0] text-[13px] drop-shadow-md">
                                         <i className={`ph-fill ph-map-pin text-[14px] mr-1 ${styles.iconAccent}`}></i>
                                         {currentData.location}
                                     </div>
@@ -329,11 +340,11 @@
                                 <div className="flex flex-col gap-2 drop-shadow-md">
                                     <div className="flex items-center gap-4">
                                         <span className={`text-[12px] font-bold ${styles.textAccent} w-[60px]`}>体入時給</span>
-                                        <span className={`text-[28px] font-bold text-white tracking-tight leading-none drop-shadow-md`}>{currentData.hourlyWage}</span>
+                                        <span className={`text-[28px] font-bold text-[#F5F5F5] tracking-tight leading-none drop-shadow-md`}>{currentData.hourlyWage}</span>
                                     </div>
                                     <div className="flex items-center gap-4">
                                         <span className={`text-[12px] font-bold ${styles.textAccent} w-[60px]`}>ヘルプ時給</span>
-                                        <span className={`text-[18px] text-gray-300 font-medium leading-none drop-shadow-sm`}>{currentData.helpWage}</span>
+                                        <span className={`text-[18px] text-[#A0A0A0] font-medium leading-none drop-shadow-sm`}>{currentData.helpWage}</span>
                                     </div>
                                 </div>
                             </div>
@@ -370,7 +381,7 @@
                     </header>
 
                     <div className="flex-1 flex flex-col w-full h-full overflow-y-auto scrollbar-hide pb-10">
-                        <div className={`flex ${theme.bgMain} border-b ${theme.borderColor} shrink-0 relative z-10 px-4 pt-2 transition-colors duration-300`}>
+                        <div className={`flex ${theme.bgMain} border-b ${theme.accentBorderLight} shrink-0 relative z-10 px-4 pt-2 transition-colors duration-300`}>
                             <button onClick={() => setActiveTab('search')} className={`flex-1 py-3 text-[13px] font-bold transition-all duration-300 relative ${activeTab === 'search' ? theme.textMain : theme.textSub}`}>
                                 検索
                                 {activeTab === 'search' && <div className={styles.tabLine}></div>}
@@ -382,10 +393,10 @@
                             </button>
                         </div>
 
-                        <div className={`px-5 py-4 bg-gradient-to-b from-white/5 to-transparent border-b ${theme.borderColor}`}>
+                        <div className={`px-5 py-4 bg-gradient-to-b from-white/5 to-transparent border-b ${theme.accentBorderLight}`}>
                             <div className="flex gap-2">
                                 <div className="relative flex-1">
-                                    <input type="text" placeholder="エリア・店名で検索..." className={`w-full bg-black/20 ${theme.textMain} border ${theme.borderColor} rounded-full py-3 px-4 text-sm focus:outline-none transition-all`} />
+                                    <input type="text" placeholder="エリア・店名で検索..." className={`w-full bg-[#1A1A1A] ${theme.textMain} border ${theme.accentBorderLight} rounded-full py-3 px-4 text-sm focus:outline-none transition-all shadow-[inset_0_2px_4px_rgba(0,0,0,0.5)]`} />
                                 </div>
                                 <button className={`${styles.button} !px-0 w-[46px] h-[46px] !rounded-full shrink-0`}>
                                     <i className="ph-bold ph-magnifying-glass text-[20px]"></i>
@@ -393,14 +404,14 @@
                             </div>
                         </div>
 
-                        <div className="flex flex-col px-4 pt-4 gap-4">
+                        <div className="flex flex-col px-4 pt-5 gap-5">
                             {timelineData.map((item) => (
                                 <div key={item.id} className={`${styles.card} p-4 group cursor-pointer`}>
                                     <div className="flex gap-4">
                                         <div className="shrink-0 w-[72px] flex flex-col items-center gap-2">
-                                            <div className={`w-[72px] h-[72px] bg-black/50 rounded-xl overflow-hidden relative`}>
+                                            <div className={`w-[72px] h-[72px] bg-[#121212] rounded-[16px] overflow-hidden relative shadow-inner`}>
                                                 <img src={item.imageUrl} alt={item.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                                                <div className={`absolute inset-0 border border-white/10 rounded-xl pointer-events-none`}></div>
+                                                <div className={`absolute inset-0 border border-white/10 rounded-[16px] pointer-events-none`}></div>
                                             </div>
                                             {item.isExcellent && (
                                                 <div className={styles.miniBadge}>
@@ -411,16 +422,16 @@
                                         </div>
 
                                         <div className="flex-1 min-w-0 flex flex-col pt-1">
-                                            <div className="flex items-center justify-between mb-1">
+                                            <div className="flex items-center justify-between mb-1.5">
                                                 <h3 className={`${theme.textMain} app-title font-bold text-[17px] truncate pr-2 group-hover:${styles.textAccent} transition-colors`}>{item.name}</h3>
                                             </div>
-                                            <div className="flex items-center flex-wrap text-[11px] mb-2 gap-x-2 gap-y-1.5">
-                                                <span className={`${styles.textAccent} bg-white/5 border border-white/10 px-2 py-0.5 rounded font-medium`}>{item.industry}</span>
-                                                <span className={`flex items-center ${styles.textAccent} font-bold bg-white/5 px-1.5 py-0.5 rounded`}><i className="ph-fill ph-star text-[12px] mr-0.5"></i>{item.rating}</span>
+                                            <div className="flex items-center flex-wrap text-[11px] mb-2.5 gap-x-2 gap-y-2">
+                                                <span className={`${styles.textAccent} bg-[#1A1A1A] border ${theme.accentBorderLight} px-2 py-0.5 rounded font-medium shadow-[inset_0_1px_2px_rgba(0,0,0,0.5)]`}>{item.industry}</span>
+                                                <span className={`flex items-center ${styles.textAccent} font-bold bg-[#1A1A1A] border ${theme.accentBorderLight} px-1.5 py-0.5 rounded shadow-[inset_0_1px_2px_rgba(0,0,0,0.5)]`}><i className="ph-fill ph-star text-[12px] mr-0.5"></i>{item.rating}</span>
                                                 <span className={`flex items-center ${theme.textSub}`}><i className="ph-fill ph-map-pin text-[11px] mr-0.5"></i>{item.location}</span>
                                             </div>
                                             <div className="mt-1">
-                                                <p className={`text-[13px] ${theme.textMain} opacity-80 leading-relaxed line-clamp-2`}>{item.message}</p>
+                                                <p className={`text-[13px] ${theme.textMain} opacity-90 leading-relaxed line-clamp-2`}>{item.message}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -462,15 +473,14 @@
                             <h2 className={`${theme.textMain} app-title text-[28px] font-bold mb-5 tracking-wide drop-shadow-sm`}>みさき</h2>
 
                             <div className="flex gap-4 mb-2">
-                                <div className={`w-[84px] h-[84px] rounded-full border-2 ${theme.borderColor} p-0.5 shrink-0 shadow-lg relative`}>
+                                <div className={`w-[84px] h-[84px] rounded-full border-2 ${theme.accentBorderLight} p-0.5 shrink-0 shadow-lg relative`}>
                                     <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80" alt="profile" className="w-full h-full rounded-full object-cover" />
                                 </div>
                                 
-                                <div className="flex-1 relative bg-[#F8F5F2] rounded-[16px] p-4 flex flex-col justify-between shadow-md">
-                                    <div className="absolute top-[30px] -left-[8px] w-0 h-0 border-y-[8px] border-y-transparent border-r-[10px] border-r-[#F8F5F2]"></div>
-                                    <p className="text-[#33252A] font-bold text-[14px] leading-snug">ひとこと！</p>
+                                <div className={`flex-1 relative bg-[#1E1A20] rounded-[16px] p-4 flex flex-col justify-between shadow-lg border ${theme.accentBorderLight}`}>
+                                    <p className="text-[#F5F5F5] font-bold text-[14px] leading-snug">ひとこと！</p>
                                     <div className="flex justify-between items-end mt-2">
-                                        <span className="text-[#A3989C] text-[10px] font-medium tracking-wider">最終更新 2026/05/08 10:37</span>
+                                        <span className="text-[#8A7D9E] text-[10px] font-medium tracking-wider">最終更新 2026/05/08 10:37</span>
                                         <div className="flex items-center gap-2">
                                             <div className={`w-6 h-6 rounded-full ${theme.accentBg} bg-opacity-20 flex items-center justify-center cursor-pointer hover:scale-110 transition-transform`}>
                                                 <i className={`ph-fill ph-globe text-[12px] ${styles.iconAccent}`}></i>
@@ -499,9 +509,9 @@
                             </div>
 
                             {/* 位置情報 */}
-                            <div className={styles.menuCard}>
+                            <div className={styles.menuCard + " mb-4"}>
                                 <div className="flex items-center gap-4">
-                                    <div className={`w-11 h-11 rounded-full ${theme.bgApp} flex items-center justify-center shadow-inner`}>
+                                    <div className={`w-11 h-11 rounded-full bg-[#121212] flex items-center justify-center shadow-[inset_0_2px_4px_rgba(0,0,0,0.6)]`}>
                                         <i className={`ph-fill ph-navigation-arrow ${theme.textSub} text-[18px]`}></i>
                                     </div>
                                     <div>
@@ -515,7 +525,7 @@
                             {/* 採用・入金管理 */}
                             <div className={styles.menuCard + " mb-10"}>
                                 <div className="flex items-center gap-4">
-                                    <div className={`w-11 h-11 rounded-xl ${theme.bgApp} flex items-center justify-center border border-white/5`}>
+                                    <div className={`w-11 h-11 rounded-xl bg-[#121212] flex items-center justify-center border border-[#B58BCC]/10 shadow-[inset_0_2px_4px_rgba(0,0,0,0.6)]`}>
                                         <i className={`ph-fill ph-folder ${styles.iconAccent} text-[18px]`}></i>
                                     </div>
                                     <div>
@@ -557,14 +567,16 @@
         // 🚀 アプリケーション全体
         // ==========================================
         const App = () => {
-            const [currentBgId, setCurrentBgId] = useState('wine'); 
-            const [currentAccentId, setCurrentAccentId] = useState('gold'); 
+            // ★ 新コンセプトに合わせてデフォルト値を設定
+            const [currentBgId, setCurrentBgId] = useState('black'); 
+            const [currentAccentId, setCurrentAccentId] = useState('concept_lavender'); 
             const [currentFontId, setCurrentFontId] = useState('elegant');
             
-            const [isGlow, setIsGlow] = useState(true);
+            // ★ UIスタイル：立体のみONにし、不要な光（ノイズ）を排す
+            const [isGlow, setIsGlow] = useState(false);
             const [is3D, setIs3D] = useState(true);
             const [isNeon, setIsNeon] = useState(false);
-            const [cardStyle, setCardStyle] = useState('contrast'); // 追加: カードの背景色スタイル
+            const [cardStyle, setCardStyle] = useState('contrast');
 
             const [currentAppTab, setCurrentAppTab] = useState('mypage');
             const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -589,7 +601,7 @@
                         onClick={() => setIsMenuOpen(false)}
                     ></div>
 
-                    <div className={`fixed top-0 right-0 h-full w-[300px] sm:w-[340px] bg-[#1a1a1a]/95 backdrop-blur-xl border-l border-white/10 z-[70] transform transition-transform duration-300 ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'} p-6 overflow-y-auto`}>
+                    <div className={`fixed top-0 right-0 h-full w-[300px] sm:w-[340px] bg-[#0A0A0A]/95 backdrop-blur-xl border-l border-white/10 z-[70] transform transition-transform duration-300 ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'} p-6 overflow-y-auto`}>
                         
                         <div className="flex justify-between items-center mb-8 border-b border-white/10 pb-4">
                             <h2 className="text-white font-bold tracking-widest text-sm flex items-center gap-2">
@@ -605,7 +617,7 @@
                             <div className="w-full relative">
                                 <label className="block text-[10px] text-gray-400 font-bold tracking-wider mb-2 ml-1">BACKGROUND (背景色)</label>
                                 <select 
-                                    className="w-full bg-black/50 text-white border border-white/20 rounded-lg pl-3 pr-8 py-3 text-sm outline-none appearance-none focus:border-white/50 cursor-pointer font-bold"
+                                    className="w-full bg-[#1A1A1A] text-white border border-white/20 rounded-lg pl-3 pr-8 py-3 text-sm outline-none appearance-none focus:border-white/50 cursor-pointer font-bold"
                                     value={currentBgId}
                                     onChange={(e) => setCurrentBgId(e.target.value)}
                                 >
@@ -617,7 +629,7 @@
                             <div className="w-full relative">
                                 <label className="block text-[10px] text-gray-400 font-bold tracking-wider mb-2 ml-1">POINT COLOR (強調色)</label>
                                 <select 
-                                    className="w-full bg-black/50 text-white border border-white/20 rounded-lg pl-3 pr-8 py-3 text-sm outline-none appearance-none focus:border-white/50 cursor-pointer font-bold"
+                                    className="w-full bg-[#1A1A1A] text-white border border-white/20 rounded-lg pl-3 pr-8 py-3 text-sm outline-none appearance-none focus:border-white/50 cursor-pointer font-bold"
                                     value={currentAccentId}
                                     onChange={(e) => setCurrentAccentId(e.target.value)}
                                 >
@@ -629,7 +641,7 @@
                             <div className="w-full relative">
                                 <label className="block text-[10px] text-gray-400 font-bold tracking-wider mb-2 ml-1">FONT (書体)</label>
                                 <select 
-                                    className="w-full bg-black/50 text-white border border-white/20 rounded-lg pl-3 pr-8 py-3 text-sm outline-none appearance-none focus:border-white/50 cursor-pointer font-bold"
+                                    className="w-full bg-[#1A1A1A] text-white border border-white/20 rounded-lg pl-3 pr-8 py-3 text-sm outline-none appearance-none focus:border-white/50 cursor-pointer font-bold"
                                     value={currentFontId}
                                     onChange={(e) => setCurrentFontId(e.target.value)}
                                 >
@@ -723,3 +735,6 @@
     </script>
 </body>
 </html>
+
+
+```
