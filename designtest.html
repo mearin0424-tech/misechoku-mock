@@ -57,6 +57,13 @@
         
         .scrollbar-hide::-webkit-scrollbar { display: none; }
         .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* アイコン用グラデーション設定 */
+        .text-gradient {
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent !important;
+        }
     </style>
 </head>
 <body>
@@ -78,32 +85,31 @@
 
         const accentColors = {
             amethyst: {
-                id: 'amethyst', name: 'アメジスト (王道の紫)', isDarkPurple: true,
+                id: 'amethyst', name: 'アメジスト (王道の紫)',
                 accentBg: 'bg-[#8B5CF6]', accentText: 'text-[#A78BFA]',
                 btnTextClass: 'text-[#E6DFFC]', btnIconClass: 'text-white',
                 accentGrad: 'from-[#A78BFA] to-[#7C3AED]', btnTextGradClass: 'text-[#F4F2FA]', btnIconGradClass: 'text-white'
             },
             lilac: {
-                id: 'lilac', name: 'ライラック (淡い紫)', isDarkPurple: false,
+                id: 'lilac', name: 'ライラック (淡い紫)',
                 accentBg: 'bg-[#D8B4E2]', accentText: 'text-[#D8B4E2]',
                 btnTextClass: 'text-[#111]', btnIconClass: 'text-[#111]',
                 accentGrad: 'from-[#F3E8F6] to-[#C997D6]', btnTextGradClass: 'text-[#111]', btnIconGradClass: 'text-[#111]'
             },
             light_blue: {
-                id: 'light_blue', name: 'ライトブルー (水色)', isDarkPurple: false,
+                id: 'light_blue', name: 'ライトブルー (水色)',
                 accentBg: 'bg-[#7DD3FC]', accentText: 'text-[#7DD3FC]',
                 btnTextClass: 'text-[#111]', btnIconClass: 'text-[#111]',
                 accentGrad: 'from-[#BAE6FD] to-[#38BDF8]', btnTextGradClass: 'text-[#111]', btnIconGradClass: 'text-[#111]'
             },
             light_pink: {
-                id: 'light_pink', name: 'ライトピンク (薄桃色)', isDarkPurple: false,
+                id: 'light_pink', name: 'ライトピンク (薄桃色)',
                 accentBg: 'bg-[#F9A8D4]', accentText: 'text-[#F9A8D4]',
                 btnTextClass: 'text-[#111]', btnIconClass: 'text-[#111]',
                 accentGrad: 'from-[#FBCFE8] to-[#F472B6]', btnTextGradClass: 'text-[#111]', btnIconGradClass: 'text-[#111]'
             }
         };
 
-        // ★ ヘッダー＆フッターの色定義
         const hfColorDefs = {
             black: { id: 'black', name: '単色 (ブラック)', bgClass: 'bg-[#050505]/50' },
             deep_purple: { id: 'deep_purple', name: '単色 (ディープパープル)', bgClass: 'bg-[#9333EA]/30' },
@@ -118,9 +124,8 @@
             noto_sans: { id: 'noto_sans', name: 'Noto Sans', family: 'font-noto' }
         };
 
-        // Tailwind JIT用セーフリスト
         const TailwindSafelist = () => (
-            <div className="hidden border-[#A855F7]/40 bg-[#A855F7] bg-[#A855F7]/10 bg-[#F5F2FA] bg-[#8B5CF6] text-[#A78BFA] from-[#A78BFA] to-[#7C3AED] bg-[#D8B4E2] text-[#D8B4E2] from-[#F3E8F6] to-[#C997D6] bg-[#7DD3FC] text-[#7DD3FC] from-[#BAE6FD] to-[#38BDF8] bg-[#F9A8D4] text-[#F9A8D4] from-[#FBCFE8] to-[#F472B6] text-[#1A1A1A] text-[#666666] text-[#E6DFFC] text-[#F3E8FF] text-[#E0E7FF] text-[#FAF5FF] text-[#EEF2FF] text-[#111] text-white shadow-[inset_0_4px_6px_rgba(255,255,255,0.5),inset_0_-6px_6px_rgba(0,0,0,0.4),0_12px_24px_rgba(0,0,0,0.7)] active:shadow-[inset_0_6px_8px_rgba(0,0,0,0.6),0_2px_4px_rgba(0,0,0,0.6)] shadow-[8px_8px_20px_rgba(0,0,0,0.8),-2px_-2px_8px_rgba(255,255,255,0.03)] shadow-[inset_0_2px_4px_rgba(0,0,0,0.5)] shadow-[inset_0_2px_4px_rgba(0,0,0,0.1)] bg-[#050505] text-[#F5F5F5] text-[#A0A0A0] border-[#2A2A2A] bg-[#050505]/40 from-[#D4AF37] to-[#B8860B] border-[#D4AF37]/30 bg-[#9333EA] from-[#A855F7] to-[#7E22CE] bg-[#581c87] from-[#6b21a8] to-[#3b0764] bg-[#050505]/50 bg-[#9333EA]/30 from-[#050505]/60 to-[#9333EA]/30 from-[#9333EA]/30 to-[#D4AF37]/30 to-[#D8B4E2]/30 to-[#8B5CF6]/30 to-[#EC4899]/30 shadow-[0_4px_12px_rgba(0,0,0,0.6),inset_0_1px_1px_rgba(255,255,255,0.15),inset_0_-1px_1px_rgba(0,0,0,0.5)] shadow-[0_-4px_20px_rgba(0,0,0,0.7),inset_0_1px_1px_rgba(255,255,255,0.15),inset_0_-1px_1px_rgba(0,0,0,0.5)] bg-gradient-to-br from-[#1a1a1a] to-[#050505] shadow-[6px_6px_16px_rgba(0,0,0,0.9),-2px_-2px_6px_rgba(255,255,255,0.06),inset_1px_1px_1px_rgba(255,255,255,0.08)]"></div>
+            <div className="hidden border-[#A855F7]/40 bg-[#A855F7] bg-[#A855F7]/10 bg-[#F5F2FA] bg-[#8B5CF6] text-[#A78BFA] from-[#A78BFA] to-[#7C3AED] bg-[#D8B4E2] text-[#D8B4E2] from-[#F3E8F6] to-[#C997D6] bg-[#7DD3FC] text-[#7DD3FC] from-[#BAE6FD] to-[#38BDF8] bg-[#F9A8D4] text-[#F9A8D4] from-[#FBCFE8] to-[#F472B6] text-[#1A1A1A] text-[#666666] text-[#E6DFFC] text-[#F3E8FF] text-[#E0E7FF] text-[#FAF5FF] text-[#EEF2FF] text-[#111] text-white shadow-[inset_0_4px_6px_rgba(255,255,255,0.5),inset_0_-6px_6px_rgba(0,0,0,0.4),0_12px_24px_rgba(0,0,0,0.7)] active:shadow-[inset_0_6px_8px_rgba(0,0,0,0.6),0_2px_4px_rgba(0,0,0,0.6)] shadow-[8px_8px_20px_rgba(0,0,0,0.8),-2px_-2px_8px_rgba(255,255,255,0.03)] shadow-[inset_0_2px_4px_rgba(0,0,0,0.5)] shadow-[inset_0_2px_4px_rgba(0,0,0,0.1)] bg-[#050505] text-[#F5F5F5] text-[#A0A0A0] border-[#2A2A2A] bg-[#050505]/40 from-[#D4AF37] to-[#B8860B] border-[#D4AF37]/30 bg-[#9333EA] from-[#A855F7] to-[#7E22CE] bg-[#581c87] from-[#6b21a8] to-[#3b0764] bg-[#050505]/50 bg-[#9333EA]/30 from-[#050505]/60 to-[#9333EA]/30 from-[#9333EA]/30 to-[#D4AF37]/30 to-[#D8B4E2]/30 to-[#8B5CF6]/30 to-[#EC4899]/30 shadow-[0_4px_12px_rgba(0,0,0,0.6),inset_0_1px_1px_rgba(255,255,255,0.15),inset_0_-1px_1px_rgba(0,0,0,0.5)] shadow-[0_-4px_20px_rgba(0,0,0,0.7),inset_0_1px_1px_rgba(255,255,255,0.15),inset_0_-1px_1px_rgba(0,0,0,0.5)] bg-gradient-to-br from-[#1a1a1a] to-[#050505] shadow-[6px_6px_16px_rgba(0,0,0,0.9),-2px_-2px_6px_rgba(255,255,255,0.06),inset_1px_1px_1px_rgba(255,255,255,0.08)] whitespace-nowrap"></div>
         );
 
         // ==========================================
@@ -131,18 +136,13 @@
             const shadowBadge3D = 'shadow-[inset_0_2px_3px_rgba(255,255,255,0.4),inset_0_-3px_3px_rgba(0,0,0,0.4),0_6px_12px_rgba(0,0,0,0.5)]';
             const shadowFab3D = 'shadow-[inset_0_4px_6px_rgba(255,255,255,0.5),inset_0_-6px_6px_rgba(0,0,0,0.4),0_14px_28px_rgba(0,0,0,0.7)] active:translate-y-1.5 active:shadow-[inset_0_6px_8px_rgba(0,0,0,0.6),0_2px_4px_rgba(0,0,0,0.6)]';
 
-            // ★ ボタン以外（枠線等）はディープパープルで固定
             const fixedBorderColor = 'border-[#A855F7]/40';
-            
-            // ★ カードの立体感（背景を少し明るいグラデーションにし、ハイライトと深い影を落とすダーク・ニューモーフィズム）
             const cardBg = is3D ? 'bg-gradient-to-br from-[#1a1a1a] to-[#050505]' : 'bg-transparent';
             const shadowCard3D = is3D ? 'shadow-[6px_6px_16px_rgba(0,0,0,0.9),-2px_-2px_6px_rgba(255,255,255,0.06),inset_1px_1px_1px_rgba(255,255,255,0.08)]' : 'shadow-none';
 
-            // ★ ヘッダー・フッターに「のっぺりしない」立体感（ガラスの厚み・ハイライト）を表現する影を追加
             const headerShadow = 'shadow-[0_4px_12px_rgba(0,0,0,0.6),inset_0_1px_1px_rgba(255,255,255,0.15),inset_0_-1px_1px_rgba(0,0,0,0.5)]';
             const footerShadow = 'shadow-[0_-4px_20px_rgba(0,0,0,0.7),inset_0_1px_1px_rgba(255,255,255,0.15),inset_0_-1px_1px_rgba(0,0,0,0.5)]';
 
-            // ヘッダー・フッターのスタイルを再構築
             const glassHeaderStyle = `${hfColor.bgClass} backdrop-blur-md border-b ${fixedBorderColor} ${headerShadow}`;
             const glassFooterStyle = `${hfColor.bgClass} backdrop-blur-md border-t ${fixedBorderColor} ${footerShadow}`;
 
@@ -153,7 +153,6 @@
             const inputPlaceholderClass = inputStyle === 'light' ? 'placeholder-gray-500' : 'placeholder-gray-400';
             const inputShadowClass = inputStyle === 'light' ? 'shadow-[inset_0_2px_4px_rgba(0,0,0,0.1)]' : 'shadow-[inset_0_2px_4px_rgba(0,0,0,0.5)]';
 
-            // ★ ボタンとバッヂの色は深いディープパープルで固定
             const btnBgClass = isGrad ? 'bg-gradient-to-r from-[#6b21a8] to-[#3b0764]' : 'bg-[#581c87]';
             const btnTextClass = isGrad ? 'text-[#FAF5FF]' : 'text-[#F3E8FF]';
             const btnIconClass = 'text-white';
@@ -200,11 +199,11 @@
         // ==========================================
         const BottomNav = ({ theme, styles, activeTab, onChangeTab }) => {
             const navItems = [
-                { id: 'swipe', icon: 'ph-cards-fill', label: 'SWIPE' },
-                { id: 'search', icon: 'ph-magnifying-glass-bold', label: 'SEARCH' },
-                { id: 'likes', icon: 'ph-users-fill', label: 'LIKES' },
-                { id: 'talk', icon: 'ph-chat-teardrop-text-fill', label: 'TALK' },
-                { id: 'mypage', icon: 'ph-user-fill', label: 'MY PAGE' },
+                { id: 'swipe', icon: 'ph-fill ph-house', label: 'SWIPE' },
+                { id: 'search', icon: 'ph-bold ph-magnifying-glass', label: 'SEARCH' },
+                { id: 'likes', icon: 'ph-fill ph-heart', label: 'LIKES' },
+                { id: 'talk', icon: 'ph-fill ph-chat-teardrop-text', label: 'TALK' },
+                { id: 'mypage', icon: 'ph-fill ph-user', label: 'MY PAGE' },
             ];
 
             return (
@@ -213,13 +212,9 @@
                         {navItems.map(item => {
                             const isActive = activeTab === item.id || (item.id === 'talk' && activeTab === 'talk_room');
                             return (
-                                <button 
-                                    key={item.id} 
-                                    onClick={() => onChangeTab(item.id)}
-                                    className={`flex flex-col items-center p-2 transition-all duration-300 group cursor-pointer`}
-                                >
-                                    <i className={`${item.icon} text-[22px] mb-1.5 transition-transform ${isActive ? 'scale-110 ' + styles.iconAccent : `group-hover:scale-95 ${theme.textSub} group-hover:text-white`}`}></i>
-                                    <span className={`app-title text-[9px] font-bold tracking-widest ${isActive ? styles.textAccent : `${theme.textSub} group-hover:text-white`}`}>{item.label}</span>
+                                <button key={item.id} onClick={() => onChangeTab(item.id)} className={`flex flex-col items-center p-2 transition-all duration-300 group ${isActive ? styles.textAccent : theme.textSub}`}>
+                                    <i className={`${item.icon} text-[22px] mb-1.5 transition-transform ${isActive ? 'scale-110' : 'group-hover:scale-95 group-hover:text-white'}`}></i>
+                                    <span className={`app-title text-[9px] font-bold tracking-wider ${isActive ? '' : 'group-hover:text-white'}`}>{item.label}</span>
                                 </button>
                             );
                         })}
@@ -231,55 +226,11 @@
         // ==========================================
         // 📱 画面1: ホーム / スワイプ画面
         // ==========================================
-        const HomeSwipeScreen = ({ theme, styles, is3D, isGrad, swipeActionStyle }) => {
+        const HomeSwipeScreen = ({ theme, styles, is3D, isGrad, swipeActionStyle, onOpenTalk }) => {
             const initialCards = [
-                {
-                    id: '1',
-                    name: 'Club Luminous',
-                    copy: 'エリア最高峰の高級ラウンジ',
-                    rating: '4.8',
-                    reviews: '24',
-                    location: '東京都 港区',
-                    bonus: '¥100,000',
-                    hourlyWage: '¥8,000〜',
-                    helpWage: '¥4,000',
-                    imageUrls: [
-                        'https://images.unsplash.com/photo-1585553616435-2dc0a54e271d?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80',
-                        'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80',
-                        'https://images.unsplash.com/photo-1575037614876-c385bbd826ea?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80'
-                    ]
-                },
-                {
-                    id: '2',
-                    name: 'Snack 昭和',
-                    copy: 'アットホームな老舗スナック',
-                    rating: '4.2',
-                    reviews: '8',
-                    location: '東京都 葛飾区',
-                    bonus: '¥10,000',
-                    hourlyWage: '¥2,000〜',
-                    helpWage: 'ー',
-                    imageUrls: [
-                        'https://images.unsplash.com/photo-1514933651103-005eec06c04b?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80',
-                        'https://images.unsplash.com/photo-1525268771113-32d9e9021a97?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80'
-                    ]
-                },
-                {
-                    id: '3',
-                    name: 'CUTE',
-                    copy: '未経験から高収入を目指せる！',
-                    rating: '4.5',
-                    reviews: '12',
-                    location: '東京都 江戸川区',
-                    bonus: '¥50,000',
-                    hourlyWage: '¥3,500〜',
-                    helpWage: 'ー',
-                    imageUrls: [
-                        'https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80',
-                        'https://images.unsplash.com/photo-1557672172-298e090bd0f1?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80',
-                        'https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80'
-                    ]
-                }
+                { id: '1', name: 'Club Luminous', copy: 'エリア最高峰の高級ラウンジ', rating: '4.8', reviews: '24', location: '東京都 港区', bonus: '￥120,000', hourlyWage: '￥2,500 ~ ￥5,000', helpWage: '￥2,500 ~ ￥5,000', imageUrls: ['https://images.unsplash.com/photo-1585553616435-2dc0a54e271d?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80'] },
+                { id: '2', name: 'Snack 昭和', copy: 'アットホームな老舗スナック', rating: '4.2', reviews: '8', location: '東京都 葛飾区', bonus: '￥120,000', hourlyWage: '￥2,500 ~ ￥5,000', helpWage: '￥2,500 ~ ￥5,000', imageUrls: ['https://images.unsplash.com/photo-1514933651103-005eec06c04b?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80'] },
+                { id: '3', name: 'CUTE', copy: '未経験から高収入を目指せる！', rating: '4.5', reviews: '12', location: '東京都 江戸川区', bonus: '￥120,000', hourlyWage: '￥2,500 ~ ￥5,000', helpWage: '￥2,500 ~ ￥5,000', imageUrls: ['https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80'] }
             ];
 
             const [cards, setCards] = useState(initialCards.map(c => ({...c, currentImageIndex: 0})));
@@ -288,79 +239,39 @@
             const [isDragging, setIsDragging] = useState(false);
 
             const handleDragStart = (e) => {
-                const clientX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
-                const clientY = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY;
-                setDragStart({ x: clientX, y: clientY });
+                const pos = e.type.includes('mouse') ? e : e.touches[0];
+                setDragStart({ x: pos.clientX, y: pos.clientY });
                 setIsDragging(true);
             };
 
             const handleDragMove = (e) => {
                 if (!isDragging) return;
-                const clientX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
-                const clientY = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY;
-                setDragOffset({ x: clientX - dragStart.x, y: clientY - dragStart.y });
+                const pos = e.type.includes('mouse') ? e : e.touches[0];
+                setDragOffset({ x: pos.clientX - dragStart.x, y: pos.clientY - dragStart.y });
             };
 
-            const handleDragEnd = (e) => {
+            const handleDragEnd = () => {
                 if (!isDragging) return;
                 setIsDragging(false);
-                
-                const absX = Math.abs(dragOffset.x);
-                const absY = Math.abs(dragOffset.y);
+                const { x, y } = dragOffset;
                 const threshold = 60;
-
-                if (absY > absX && absY > threshold) {
-                    if (dragOffset.y < -threshold) {
-                        handleSwipeCard('up');
-                    } else if (dragOffset.y > threshold) {
-                        handleSwipeCard('down');
-                    } else {
-                        setDragOffset({ x: 0, y: 0 });
-                    }
-                } else if (absX > absY && absX > threshold) {
-                    if (dragOffset.x < -threshold) {
-                        handleSwipeImage('next');
-                    } else if (dragOffset.x > threshold) {
-                        handleSwipeImage('prev');
-                    } else {
-                        setDragOffset({ x: 0, y: 0 });
-                    }
+                if (Math.abs(y) > Math.abs(x) && Math.abs(y) > threshold) {
+                    handleSwipeCard(y < 0 ? 'up' : 'down');
+                } else if (Math.abs(x) > Math.abs(y) && Math.abs(x) > threshold) {
+                    handleSwipeImage(x < 0 ? 'next' : 'prev');
                 } else {
                     setDragOffset({ x: 0, y: 0 });
                 }
             };
 
-            const handleClick = (e) => {
-                if (Math.abs(dragOffset.x) > 10 || Math.abs(dragOffset.y) > 10) return;
-                
-                const rect = e.currentTarget.getBoundingClientRect();
-                const clientX = e.type.includes('mouse') ? e.clientX : (e.changedTouches ? e.changedTouches[0].clientX : 0);
-                const x = clientX - rect.left;
-                
-                if (x > rect.width / 2) {
-                    handleSwipeImage('next');
-                } else {
-                    handleSwipeImage('prev');
-                }
-            };
-
             const handleSwipeCard = (direction) => {
-                setDragOffset({
-                    x: 0,
-                    y: direction === 'up' ? -window.innerHeight : window.innerHeight
-                });
-                
+                setDragOffset({ x: 0, y: direction === 'up' ? -window.innerHeight : window.innerHeight });
                 setTimeout(() => {
                     setCards(prev => {
                         const newCards = [...prev];
-                        if (direction === 'up') {
-                            const first = newCards.shift();
-                            newCards.push({...first, currentImageIndex: 0});
-                        } else {
-                            const last = newCards.pop();
-                            newCards.unshift({...last, currentImageIndex: 0});
-                        }
-                        return newCards;
+                        const item = direction === 'up' ? newCards.shift() : newCards.pop();
+                        direction === 'up' ? newCards.push(item) : newCards.unshift(item);
+                        return newCards.map(c => ({...c, currentImageIndex: 0}));
                     });
                     setDragOffset({ x: 0, y: 0 });
                 }, 300);
@@ -369,14 +280,10 @@
             const handleSwipeImage = (direction) => {
                 setCards(prev => {
                     const newCards = [...prev];
-                    const topCard = newCards[0];
-                    const maxIndex = topCard.imageUrls.length - 1;
-                    
-                    if (direction === 'next' && topCard.currentImageIndex < maxIndex) {
-                        topCard.currentImageIndex += 1;
-                    } else if (direction === 'prev' && topCard.currentImageIndex > 0) {
-                        topCard.currentImageIndex -= 1;
-                    }
+                    const top = newCards[0];
+                    const max = top.imageUrls.length - 1;
+                    if (direction === 'next' && top.currentImageIndex < max) top.currentImageIndex++;
+                    else if (direction === 'prev' && top.currentImageIndex > 0) top.currentImageIndex--;
                     return newCards;
                 });
                 setDragOffset({ x: 0, y: 0 });
@@ -386,135 +293,82 @@
                 handleSwipeCard('up');
             };
 
-            const bonusBadgeStyle = `inline-flex items-center gap-4 mb-3 transform hover:scale-105 transition-all self-start px-4 py-2.5 rounded-full text-[#111] font-bold cursor-pointer bg-gradient-to-r from-[#D4AF37] to-[#B8860B] shadow-[inset_0_4px_6px_rgba(255,255,255,0.5),inset_0_-6px_6px_rgba(0,0,0,0.4),0_12px_24px_rgba(0,0,0,0.7)] border border-[#D4AF37]/30`;
+            const sideBtnWrapperStyle = "flex flex-col items-center gap-1.5 cursor-pointer pointer-events-auto transition-transform active:scale-90";
+            const sideBtnGlassStyle = "w-14 h-14 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center shadow-[0_4px_12px_rgba(0,0,0,0.5)]";
+            const sideBtnLabelStyle = "text-white text-[10px] font-bold tracking-wider drop-shadow-md whitespace-nowrap";
+            const iconGradStyle = `text-[24px] text-gradient bg-gradient-to-r ${theme.accentGrad}`;
 
-            const bgHex = theme.bgMainHex;
-            const gradientStyle = {
-                background: `linear-gradient(to top, ${bgHex} 15%, ${bgHex} 45%, transparent 100%)`
-            };
+            const bonusBadgeStyle = `inline-flex items-center gap-4 mb-3 transform hover:scale-105 transition-all self-start px-4 py-2.5 rounded-full text-[#111] font-bold bg-gradient-to-r from-[#D4AF37] to-[#B8860B] shadow-[inset_0_4px_6px_rgba(255,255,255,0.4),inset_0_-6px_6px_rgba(0,0,0,0.4),0_12px_24px_rgba(0,0,0,0.7)] border border-[#D4AF37]/30`;
 
             return (
                 <div className={`relative w-full h-full flex flex-col overflow-hidden transition-colors duration-300 ${theme.bgMain}`}>
-                    
-                    <header className={`absolute top-0 left-0 w-full z-40 flex items-center justify-between px-5 py-4 ${styles.glassHeader} pt-safe pointer-events-none transition-colors duration-300`}>
+                    <header className={`absolute top-0 left-0 w-full z-40 flex items-center justify-between px-5 py-4 ${styles.glassHeader} pt-safe transition-colors duration-300 pointer-events-none`}>
                         <div className="w-12"></div>
                         <h1 className={`${theme.textMain} app-title text-[16px] font-bold text-center absolute left-1/2 -translate-x-1/2`}>DISCOVERY</h1>
                         <div className={`flex items-center gap-4 ${styles.iconAccent} pointer-events-auto`}>
-                            <div className="relative cursor-pointer">
-                                <i className="ph-bold ph-bell text-[20px]"></i>
-                                <span className={`absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full border-2 ${theme.borderColor} bg-[#A855F7]`}></span>
-                            </div>
+                            <i className="ph-bold ph-bell text-[20px] relative"><span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full border-2 border-black bg-[#A855F7]"></span></i>
                         </div>
                     </header>
 
                     <div className="flex-1 relative w-full h-full pt-20 pb-[90px] flex items-center justify-center">
                         <div className="relative w-[90%] max-w-[360px] h-[95%]">
-                            {cards.map((data, idx) => {
-                                if (idx > 2) return null;
+                            {cards.slice(0, 3).map((data, idx) => {
                                 const isTop = idx === 0;
-
                                 let cardStyle = {};
-                                let imageContainerStyle = {
-                                    transform: `translateX(-${data.currentImageIndex * 100}%)`,
-                                    transition: isDragging ? 'none' : 'transform 0.3s ease-out'
-                                };
-
+                                let imageStyle = { transform: `translateX(-${data.currentImageIndex * 100}%)`, transition: isDragging ? 'none' : 'transform 0.3s' };
                                 if (isTop) {
-                                    const absX = Math.abs(dragOffset.x);
-                                    const absY = Math.abs(dragOffset.y);
-
-                                    if (absY > absX) {
-                                        cardStyle = {
-                                            transform: `translateY(${dragOffset.y}px)`,
-                                            transition: isDragging ? 'none' : 'transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)'
-                                        };
+                                    if (Math.abs(dragOffset.y) > Math.abs(dragOffset.x)) {
+                                        cardStyle = { transform: `translateY(${dragOffset.y}px)`, transition: isDragging ? 'none' : 'transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)' };
                                     } else {
-                                        imageContainerStyle = {
-                                            transform: `translateX(calc(-${data.currentImageIndex * 100}% + ${dragOffset.x}px))`,
-                                            transition: 'none'
-                                        };
-                                        cardStyle = {
-                                            transform: `translateY(0px)`,
-                                            transition: 'transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)'
-                                        };
+                                        imageStyle.transform = `translateX(calc(-${data.currentImageIndex * 100}% + ${dragOffset.x}px))`;
+                                        imageStyle.transition = 'none';
                                     }
                                 } else {
-                                    const scale = 1 - (idx * 0.05);
-                                    const translateY = idx * 25;
-                                    cardStyle = {
-                                        transform: `translateY(${translateY}px) scale(${scale})`,
-                                        transition: 'transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)'
-                                    };
+                                    const s = 1 - (idx * 0.05);
+                                    cardStyle = { transform: `translateY(${idx * 25}px) scale(${s})`, transition: 'transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)' };
                                 }
 
                                 return (
-                                    <div 
-                                        key={data.id}
-                                        className={`absolute top-0 left-0 w-full h-full rounded-[24px] overflow-hidden ${styles.card} cursor-grab active:cursor-grabbing select-none flex flex-col`}
-                                        style={{...cardStyle, zIndex: 10 - idx}}
-                                        onMouseDown={isTop ? handleDragStart : null}
-                                        onMouseMove={isTop ? handleDragMove : null}
-                                        onMouseUp={isTop ? handleDragEnd : null}
-                                        onMouseLeave={isTop ? handleDragEnd : null}
-                                        onTouchStart={isTop ? handleDragStart : null}
-                                        onTouchMove={isTop ? handleDragMove : null}
-                                        onTouchEnd={isTop ? handleDragEnd : null}
-                                        onClick={isTop ? handleClick : null}
-                                    >
-                                        <div className="absolute top-4 left-5 right-5 flex gap-1.5 z-20 pointer-events-none">
-                                            {data.imageUrls.map((_, i) => (
-                                                <div key={i} className={`h-1 flex-1 rounded-full ${i === data.currentImageIndex ? 'bg-[#A855F7]' : 'bg-white/30 shadow-sm'}`}></div>
-                                            ))}
+                                    <div key={data.id} className={`absolute top-0 left-0 w-full h-full rounded-[24px] overflow-hidden ${styles.card} cursor-grab active:cursor-grabbing select-none flex flex-col`} style={{...cardStyle, zIndex: 10 - idx}} onMouseDown={isTop ? handleDragStart : null} onMouseMove={isTop ? handleDragMove : null} onMouseUp={isTop ? handleDragEnd : null} onMouseLeave={isTop ? handleDragEnd : null} onTouchStart={isTop ? handleDragStart : null} onTouchMove={isTop ? handleDragMove : null} onTouchEnd={isTop ? handleDragEnd : null}>
+                                        <div className="absolute top-4 left-5 right-5 flex gap-1.5 z-20">
+                                            {data.imageUrls.map((_, i) => <div key={i} className={`h-1 flex-1 rounded-full ${i === data.currentImageIndex ? 'bg-[#A855F7]' : 'bg-white/30'}`}></div>)}
                                         </div>
-
-                                        <div className="absolute top-0 left-0 w-full h-[65%] overflow-hidden pointer-events-none">
-                                            <div className="w-full h-full flex" style={imageContainerStyle}>
-                                                {data.imageUrls.map((url, i) => (
-                                                    <img key={i} src={url} alt={`img-${i}`} className="w-full h-full object-cover shrink-0" draggable="false" />
-                                                ))}
-                                            </div>
-                                            <div className="absolute inset-0 bg-gradient-to-b from-black/50 to-transparent pointer-events-none"></div>
+                                        <div className="absolute top-0 left-0 w-full h-[65%] overflow-hidden">
+                                            <div className="w-full h-full flex" style={imageStyle}>{data.imageUrls.map((u, i) => <img key={i} src={u} className="w-full h-full object-cover shrink-0" draggable="false" />)}</div>
+                                            <div className="absolute inset-0 bg-gradient-to-b from-black/50 to-transparent"></div>
                                         </div>
-                                        
-                                        <div className="absolute bottom-0 left-0 w-full h-[65%] pointer-events-none" style={gradientStyle}></div>
-
+                                        <div className="absolute bottom-0 left-0 w-full h-[65%]" style={{ background: `linear-gradient(to top, #050505 15%, #050505 45%, transparent 100%)` }}></div>
                                         <div className="absolute inset-0 z-10 flex flex-col justify-end p-5 pointer-events-none">
-                                            
-                                            <div className="mb-auto mt-8 pointer-events-auto flex justify-center">
-                                                <div className={`bg-[#121212]/80 backdrop-blur-md border ${styles.fixedBorderColor} px-4 py-1.5 rounded-full shadow-sm`}>
-                                                    <span className="text-[#F5F5F5] font-bold tracking-widest text-[11px] drop-shadow-sm">{data.copy}</span>
+                                            {isTop && (
+                                                <div className="absolute right-4 bottom-[20%] flex flex-col gap-5 z-30">
+                                                    {swipeActionStyle !== 'buttons' && (
+                                                        <div className={sideBtnWrapperStyle}>
+                                                            <div className={sideBtnGlassStyle}>
+                                                                <i className={`ph-fill ph-heart ${iconGradStyle}`}></i>
+                                                            </div>
+                                                            <span className={sideBtnLabelStyle}>ライク</span>
+                                                        </div>
+                                                    )}
+                                                    <div className={sideBtnWrapperStyle} onClick={onOpenTalk}>
+                                                        <div className={sideBtnGlassStyle}>
+                                                            <i className={`ph-fill ph-chat-teardrop-text ${iconGradStyle}`}></i>
+                                                        </div>
+                                                        <span className={sideBtnLabelStyle}>メッセージ</span>
+                                                    </div>
                                                 </div>
-                                            </div>
+                                            )}
 
-                                            <div className="pointer-events-auto flex flex-col">
-                                                <h2 className={`text-[26px] app-title font-bold text-white mb-2 tracking-wide drop-shadow-lg leading-tight`}>{data.name}</h2>
-                                                
+                                            <div className="mb-auto mt-8 flex justify-center"><div className={`bg-[#121212]/80 backdrop-blur-md border ${styles.fixedBorderColor} px-4 py-1.5 rounded-full shadow-sm`}><span className="text-[#F5F5F5] font-bold tracking-widest text-[11px] drop-shadow-sm whitespace-nowrap">{data.copy}</span></div></div>
+                                            <div className="flex flex-col max-w-[75%] pointer-events-auto">
+                                                <h2 className="text-[26px] app-title font-bold text-white mb-2 leading-tight drop-shadow-lg">{data.name}</h2>
                                                 <div className="flex items-center gap-3 mb-3">
-                                                    <div className="flex items-center gap-1 drop-shadow-md">
-                                                        <i className={`ph-fill ph-star text-[14px] ${styles.iconAccent}`}></i>
-                                                        <span className={`font-bold text-[14px] ${styles.textAccent}`}>{data.rating}</span>
-                                                        <span className="text-[#A0A0A0] text-[10px] ml-1">({data.reviews})</span>
-                                                    </div>
-                                                    <div className="flex items-center text-[#A0A0A0] text-[11px] drop-shadow-md">
-                                                        <i className={`ph-fill ph-map-pin text-[12px] mr-1 ${styles.iconAccent}`}></i>
-                                                        {data.location}
-                                                    </div>
+                                                    <div className="flex items-center gap-1 drop-shadow-md"><i className={`ph-fill ph-star text-[14px] ${styles.iconAccent}`}></i><span className={`font-bold text-[14px] ${styles.textAccent}`}>{data.rating}</span></div>
+                                                    <div className="flex items-center text-[#A0A0A0] text-[11px] drop-shadow-md"><i className={`ph-fill ph-map-pin text-[12px] mr-1 ${styles.iconAccent}`}></i>{data.location}</div>
                                                 </div>
-                                                
-                                                <div className={bonusBadgeStyle} onClick={(e) => e.stopPropagation()}>
-                                                    <span className="text-[9px] tracking-wider opacity-90">ボーナス金</span>
-                                                    <span className="text-[16px] tracking-wider drop-shadow-sm">{data.bonus}</span>
-                                                </div>
-
+                                                <div className={bonusBadgeStyle}><span className="text-[9px] tracking-wider opacity-90 mr-4">ボーナス金</span><span className="text-[16px] tracking-wider drop-shadow-sm">{data.bonus}</span></div>
                                                 <div className="flex flex-col gap-1.5 drop-shadow-md">
-                                                    <div className="flex items-center gap-3">
-                                                        <span className={`text-[11px] font-bold ${styles.textAccent} w-[50px]`}>体入時給</span>
-                                                        <span className={`text-[22px] font-bold text-[#F5F5F5] tracking-tight leading-none drop-shadow-md`}>{data.hourlyWage}</span>
-                                                    </div>
-                                                    <div className="flex items-center gap-3">
-                                                        <span className={`text-[11px] font-bold ${styles.textAccent} w-[50px]`}>ヘルプ時給</span>
-                                                        <span className={`text-[14px] text-[#A0A0A0] font-medium leading-none drop-shadow-sm`}>{data.helpWage}</span>
-                                                    </div>
+                                                    <div className="flex items-center gap-3"><span className={`text-[11px] font-bold ${styles.textAccent} whitespace-nowrap`}>体入時給</span><span className="text-[22px] font-bold text-[#F5F5F5] tracking-tight leading-none">{data.hourlyWage}</span></div>
+                                                    <div className="flex items-center gap-3"><span className={`text-[11px] font-bold ${styles.textAccent} whitespace-nowrap`}>ヘルプ時給</span><span className="text-[18px] text-[#A0A0A0] font-medium leading-none">{data.helpWage}</span></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -524,635 +378,151 @@
                         </div>
                     </div>
 
-                    {swipeActionStyle === 'swipe_only' && (
-                        <div className="absolute bottom-[100px] left-1/2 -translate-x-1/2 flex flex-col items-center opacity-70 pointer-events-none z-20">
-                            <div className="flex flex-col items-center gap-0.5 animate-bounce">
-                                <i className={`ph-bold ph-caret-up text-[20px] text-white`}></i>
-                                <span className={`app-title text-white text-[9px] font-bold tracking-[0.2em] text-center leading-tight`}>SWIPE UP<br/>TO NEXT</span>
-                            </div>
+                    {swipeActionStyle === 'swipe_only' ? (
+                        <div className="absolute bottom-[100px] left-1/2 -translate-x-1/2 flex flex-col items-center opacity-70 animate-bounce pointer-events-none z-20">
+                            <i className="ph-bold ph-caret-up text-[20px] text-white"></i>
+                            <span className="app-title text-white text-[9px] font-bold tracking-[0.2em] text-center">SWIPE UP TO NEXT</span>
+                        </div>
+                    ) : (
+                        <div className="absolute bottom-[90px] left-0 w-full flex justify-center gap-8 px-8 z-30 pb-safe pointer-events-none">
+                            <button onClick={() => handleSwipe('left')} className={`w-14 h-14 rounded-full bg-[#1A1A1A] border ${styles.fixedBorderColor} flex items-center justify-center text-gray-400 shadow-lg pointer-events-auto active:scale-95`}><i className="ph-bold ph-x text-2xl"></i></button>
+                            <button onClick={() => handleSwipe('right')} className={`w-14 h-14 rounded-full flex items-center justify-center font-bold ${styles.button.split('px-6')[0]} shadow-lg pointer-events-auto active:scale-95`}><i className={`ph-fill ph-heart text-2xl ${styles.buttonIcon}`}></i></button>
                         </div>
                     )}
-
-                    {swipeActionStyle === 'buttons' && (
-                        <div className="absolute bottom-[90px] left-0 w-full flex justify-center gap-8 px-8 z-30 pointer-events-none pb-safe">
-                        <button 
-                            onClick={() => handleSwipe('left')} 
-                            className={`w-14 h-14 rounded-full bg-[#1A1A1A] border ${styles.fixedBorderColor} flex items-center justify-center text-gray-400 hover:text-[#FF2A7A] transition-all shadow-[0_4px_12px_rgba(0,0,0,0.5)] pointer-events-auto active:scale-95`}
-                        >
-                            <i className="ph-bold ph-x text-2xl"></i>
-                        </button>
-                        <button 
-                            onClick={() => handleSwipe('right')} 
-                            className={`w-14 h-14 rounded-full flex items-center justify-center font-bold ${styles.button.split('px-6')[0]} pointer-events-auto active:scale-95`}
-                        >
-                            <i className={`ph-fill ph-heart text-2xl ${styles.buttonIcon}`}></i>
-                        </button>
-                    </div>
-                )}
-            </div>
-        );
-        };
-
-        // ==========================================
-        // 📱 画面2: 検索・タイムライン画面
-        // ==========================================
-        const SearchTimelineScreen = ({ theme, styles }) => {
-            const [activeTab, setActiveTab] = useState('search');
-
-            const timelineData = [
-                { id: 1, name: 'Club Luminous', industry: 'キャバクラ', rating: '4.8', isExcellent: true, time: '16時間前', location: '東京都中央区', message: '今から入れます♡ 未経験の女の子も大歓迎！体験入店からの即日体入も可能です✨', imageUrl: 'https://images.unsplash.com/photo-1585553616435-2dc0a54e271d?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80' },
-                { id: 2, name: 'CUTE', industry: 'ガールズバー', rating: '4.5', isExcellent: true, time: '1ヶ月前', location: '東京都江戸川区', message: '西葛西にて新規オープン！オープニングメンバーを大募集してます🎀', imageUrl: 'https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80' }
-            ];
-
-            return (
-                <div className={`relative w-full h-full flex flex-col transition-colors duration-300 overflow-hidden ${theme.bgMain}`}>
-                    <header className={`absolute top-0 left-0 w-full z-40 flex items-center justify-between px-5 py-4 ${styles.glassHeader} pt-safe transition-colors duration-300`}>
-                        <div className="w-12"></div>
-                        <h1 className={`${theme.textMain} app-title text-[16px] font-bold text-center absolute left-1/2 -translate-x-1/2`}>SEARCH</h1>
-                        <div className={`flex items-center gap-4 ${styles.iconAccent}`}>
-                            <i className="ph-bold ph-bell text-[20px]"></i>
-                        </div>
-                    </header>
-
-                    <div className="absolute inset-0 w-full h-full overflow-y-auto scrollbar-hide pb-[100px] pt-[68px] z-10">
-                        <div className={`flex bg-transparent border-b ${styles.fixedBorderColor} shrink-0 relative z-10 px-4 pt-2 transition-colors duration-300`}>
-                            <button onClick={() => setActiveTab('search')} className={`flex-1 py-3 text-[13px] font-bold transition-all duration-300 relative ${activeTab === 'search' ? theme.textMain : theme.textSub}`}>
-                                検索
-                                {activeTab === 'search' && <div className={styles.tabLine}></div>}
-                            </button>
-                            <button onClick={() => setActiveTab('recommend')} className={`flex-1 py-3 text-[13px] font-bold transition-all duration-300 relative flex items-center justify-center gap-1 ${activeTab === 'recommend' ? theme.textMain : theme.textSub}`}>
-                                <i className={`ph-fill ph-sparkle text-[14px] ${activeTab === 'recommend' ? styles.iconAccent : theme.textSub}`}></i>
-                                AIレコメンド
-                                {activeTab === 'recommend' && <div className={styles.tabLine}></div>}
-                            </button>
-                        </div>
-
-                        <div className={`px-5 py-4 bg-transparent border-b ${styles.fixedBorderColor}`}>
-                            <div className="flex gap-2">
-                                <div className="relative flex-1">
-                                    <input type="text" placeholder="エリア・店名で検索..." className={`w-full rounded-full py-3 px-4 text-sm focus:outline-none ${styles.inputContainer} ${styles.inputText} ${styles.inputPlaceholder}`} />
-                                </div>
-                                <button className={`${styles.button} !px-0 w-[46px] h-[46px] !rounded-full shrink-0`}>
-                                    <i className={`ph-bold ph-magnifying-glass text-[20px] ${styles.buttonIcon}`}></i>
-                                </button>
-                            </div>
-                        </div>
-
-                        <div className="flex flex-col px-4 pt-5 gap-5 pb-[40px]">
-                            {timelineData.map((item) => (
-                                <div key={item.id} className={`${styles.card} p-4 group cursor-pointer`}>
-                                    <div className="flex gap-4">
-                                        <div className="shrink-0 w-[72px] flex flex-col items-center gap-2">
-                                            <div className={`w-[72px] h-[72px] bg-transparent border ${styles.fixedBorderColor} rounded-[16px] overflow-hidden relative shadow-[inset_0_2px_4px_rgba(0,0,0,0.5)]`}>
-                                                <img src={item.imageUrl} alt={item.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                                                <div className={`absolute inset-0 border border-white/10 rounded-[16px] pointer-events-none`}></div>
-                                            </div>
-                                            {item.isExcellent && (
-                                                <div className={styles.miniBadge}>
-                                                    <i className="ph-fill ph-crown text-[10px]"></i>
-                                                    <span>優良店</span>
-                                                </div>
-                                            )}
-                                        </div>
-
-                                        <div className="flex-1 min-w-0 flex flex-col pt-1">
-                                            <div className="flex items-center justify-between mb-1.5">
-                                                <h3 className={`${theme.textMain} app-title font-bold text-[17px] truncate pr-2 group-hover:${styles.textAccent} transition-colors`}>{item.name}</h3>
-                                            </div>
-                                            <div className="flex items-center flex-wrap text-[11px] mb-2.5 gap-x-2 gap-y-2">
-                                                <span className={`${styles.textAccent} bg-transparent border ${styles.fixedBorderColor} px-2 py-0.5 rounded font-medium shadow-[inset_0_1px_2px_rgba(0,0,0,0.5)]`}>{item.industry}</span>
-                                                <span className={`flex items-center ${styles.textAccent} font-bold bg-transparent border ${styles.fixedBorderColor} px-1.5 py-0.5 rounded shadow-[inset_0_1px_2px_rgba(0,0,0,0.5)]`}><i className="ph-fill ph-star text-[12px] mr-0.5"></i>{item.rating}</span>
-                                                <span className={`flex items-center ${theme.textSub}`}><i className="ph-fill ph-map-pin text-[11px] mr-0.5"></i>{item.location}</span>
-                                            </div>
-                                            <div className="mt-1">
-                                                <p className={`text-[13px] ${theme.textMain} opacity-90 leading-relaxed line-clamp-2`}>{item.message}</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-
-                    <button className={`${styles.fab} z-30`}>
-                        <i className={`ph-bold ph-sliders-horizontal text-[24px] ${styles.buttonIcon}`}></i>
-                    </button>
                 </div>
             );
         };
 
-        // ==========================================
-        // 📱 画面3: マイページ (MY PAGE)
-        // ==========================================
+        const SearchTimelineScreen = ({ theme, styles }) => {
+            const timelineData = [{ id: 1, name: 'Club Luminous', industry: 'キャバクラ', rating: '4.8', isExcellent: true, time: '16時間前', location: '東京都中央区', message: '体験入店からの即日体入も可能です✨', imageUrl: 'https://images.unsplash.com/photo-1585553616435-2dc0a54e271d?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80' }];
+            return (
+                <div className={`relative w-full h-full flex flex-col transition-colors duration-300 overflow-hidden ${theme.bgMain}`}>
+                    <header className={`absolute top-0 left-0 w-full z-40 flex items-center justify-between px-5 py-4 ${styles.glassHeader} pt-safe`}>
+                        <div className="w-12"></div><h1 className={`${theme.textMain} app-title text-[16px] font-bold text-center absolute left-1/2 -translate-x-1/2`}>SEARCH</h1><div className={styles.iconAccent}><i className="ph-bold ph-bell text-[20px]"></i></div>
+                    </header>
+                    <div className="absolute inset-0 overflow-y-auto pb-[100px] pt-[72px] px-4">
+                        <div className="flex bg-transparent border-b border-[#A855F7]/40 pt-4 pb-2 mb-4"><button className={`flex-1 py-2 text-[13px] font-bold text-white relative`}>検索<div className={styles.tabLine}></div></button><button className={`flex-1 py-2 text-[13px] font-bold text-[#A0A0A0]`}>AIレコメンド</button></div>
+                        <div className="flex gap-2 mb-6"><input type="text" placeholder="エリア・店名で検索..." className={`flex-1 rounded-full py-2.5 px-4 text-sm ${styles.inputContainer} ${styles.inputText} focus:outline-none`} /><button className={`${styles.button} !px-0 w-10 h-10`}><i className="ph-bold ph-magnifying-glass text-lg"></i></button></div>
+                        {timelineData.map(i => (
+                            <div key={i.id} className={`${styles.card} p-4 flex gap-4 group mb-4`}>
+                                <div className="shrink-0 w-16 h-16 rounded-[16px] overflow-hidden border border-[#A855F7]/40 shadow-inner"><img src={i.imageUrl} className="w-full h-full object-cover" /></div>
+                                <div className="flex-1 min-w-0">
+                                    <h3 className={`${theme.textMain} font-bold text-[15px] mb-1`}>{i.name}</h3>
+                                    <div className="flex items-center gap-2 text-[10px] mb-2"><span className={`${styles.textAccent} border border-[#A855F7]/40 px-1.5 rounded bg-transparent`}>{i.industry}</span><span className="text-[#D4AF37] font-bold">★{i.rating}</span><span className={theme.textSub}>{i.location}</span></div>
+                                    <p className={`${theme.textMain} opacity-80 text-[12px] line-clamp-2`}>{i.message}</p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                    <button className={styles.fab}><i className="ph-bold ph-sliders-horizontal text-[24px]"></i></button>
+                </div>
+            );
+        };
+
         const MyPageScreen = ({ theme, styles }) => {
             return (
                 <div className={`relative w-full h-full flex flex-col transition-colors duration-300 overflow-hidden ${theme.bgMain}`}>
-                    <header className={`absolute top-0 left-0 w-full z-40 flex items-center justify-between px-5 py-4 ${styles.glassHeader} pt-safe transition-colors duration-300`}>
-                        <div className={`w-16 flex items-center justify-start ${styles.iconAccent}`}>
-                            <i className="ph-bold ph-caret-left text-[24px]"></i>
-                        </div>
-                        <h1 className={`${theme.textMain} app-title text-[16px] font-bold text-center`}>MYPAGE</h1>
-                        <div className={`flex items-center justify-end gap-4 ${styles.iconAccent} w-16`}>
-                            <div className="relative">
-                                <i className="ph-bold ph-bell text-[20px]"></i>
-                                <span className={`absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full border-2 ${theme.borderColor} bg-[#A855F7]`}></span>
-                            </div>
-                            <i className="ph-bold ph-list text-[20px]"></i>
-                        </div>
+                    <header className={`absolute top-0 left-0 w-full z-40 flex items-center justify-between px-5 py-4 ${styles.glassHeader} pt-safe`}>
+                        <div className={styles.iconAccent}><i className="ph-bold ph-caret-left text-[24px]"></i></div><h1 className={`${theme.textMain} app-title text-[16px] font-bold text-center`}>MYPAGE</h1><div className={`flex gap-4 ${styles.iconAccent}`}><i className="ph-bold ph-bell text-[20px]"></i><i className="ph-bold ph-list text-[20px]"></i></div>
                     </header>
-
-                    <div className="absolute inset-0 overflow-y-auto pb-[100px] pt-[72px] scrollbar-hide z-10">
-                        <div className="px-5 pt-6 pb-4">
-                            
-                            <h2 className={`${theme.textMain} app-title text-[28px] font-bold mb-5 tracking-wide drop-shadow-sm`}>みさき</h2>
-
-                            <div className="flex gap-4 mb-2">
-                                <div className={`w-[84px] h-[84px] rounded-full border-2 ${styles.fixedBorderColor} p-0.5 shrink-0 shadow-lg relative`}>
-                                    <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80" alt="profile" className="w-full h-full rounded-full object-cover" />
-                                </div>
-                                
-                                <div className={`flex-1 relative flex flex-col justify-between ${styles.inputContainer} rounded-[16px] p-4`}>
-                                    <p className={`font-bold text-[14px] leading-snug ${styles.inputText}`}>ひとこと！</p>
-                                    <div className="flex justify-between items-end mt-2">
-                                        <span className={`text-[10px] font-medium tracking-wider ${styles.inputSubText}`}>最終更新 2026/05/08 10:37</span>
-                                        <div className="flex items-center gap-2">
-                                            <div className={`w-6 h-6 rounded-full bg-[#A855F7] bg-opacity-20 flex items-center justify-center cursor-pointer hover:scale-110 transition-transform`}>
-                                                <i className={`ph-fill ph-globe text-[12px] ${styles.iconAccent}`}></i>
-                                            </div>
-                                            <div className={`w-6 h-6 rounded-full bg-[#A855F7] bg-opacity-20 flex items-center justify-center cursor-pointer hover:scale-110 transition-transform`}>
-                                                <i className={`ph-fill ph-pencil-simple text-[12px] ${styles.iconAccent}`}></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                    <div className="absolute inset-0 overflow-y-auto pb-[100px] pt-[72px] px-5">
+                        <h2 className="text-[28px] font-bold text-white mt-6 mb-5 tracking-wide drop-shadow-sm">みさき</h2>
+                        <div className="flex gap-4 mb-8">
+                            <div className="w-20 h-20 rounded-full border-2 border-[#A855F7]/40 p-0.5 shadow-lg"><img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80" className="w-full h-full rounded-full object-cover" /></div>
+                            <div className={`flex-1 ${styles.inputContainer} rounded-[16px] p-4 flex flex-col justify-between shadow-inner`}>
+                                <p className="font-bold text-[14px] text-black">ひとこと！</p>
+                                <div className="flex justify-between items-end"><span className="text-[10px] text-gray-500">最終更新 2026/05/08</span><div className="flex gap-2"><i className={`ph-fill ph-globe text-[12px] ${styles.iconAccent}`}></i><i className={`ph-fill ph-pencil-simple text-[12px] ${styles.iconAccent}`}></i></div></div>
                             </div>
-                            <p className={`text-right text-[10px] ${theme.textSub} mb-8 tracking-wider`}>※更新するとタイムラインに反映されます</p>
-
-                            <div className="flex justify-between items-end mb-8">
-                                <div>
-                                    <p className={`${styles.textAccent} font-bold text-xs mb-1 tracking-wide`}>獲得したボーナス金合計</p>
-                                    <div className="flex items-baseline gap-1">
-                                        <span className={`text-[16px] font-bold ${styles.textAccent}`}>¥</span>
-                                        <span className={`${theme.textMain} text-[36px] font-bold leading-none tracking-tight`}>0</span>
-                                    </div>
-                                </div>
-                                <div className="flex flex-col items-center">
-                                    <i className={`ph-fill ph-heart text-[20px] ${styles.iconAccent} mb-1`}></i>
-                                    <span className={`${theme.textMain} font-bold text-sm`}>2</span>
-                                </div>
-                            </div>
-
-                            <div className={styles.specialMenuCard + " mb-10"}>
-                                <div className="flex items-center gap-4">
-                                    <div className={styles.specialMenuIconWrapper}>
-                                        <i className={`ph-fill ph-folder ${styles.specialMenuIcon}`}></i>
-                                    </div>
-                                    <div>
-                                        <p className={styles.specialMenuSub}>EMPLOYMENT & PAYMENT</p>
-                                        <h3 className={styles.specialMenuTitle}>採用・入金管理</h3>
-                                    </div>
-                                </div>
-                                <div className={styles.specialMenuArrow}>
-                                    <i className={`ph-bold ph-caret-right ${styles.specialMenuArrowIcon}`}></i>
-                                </div>
-                            </div>
-
-                            <div className="flex items-center justify-between mb-5 border-b border-white/10 pb-3">
-                                <h3 className={`${styles.textAccent} app-title font-bold text-[15px]`}>PROFILE INFORMATION</h3>
-                                <button className={`border border-white/20 ${theme.textMain} px-4 py-1.5 rounded-full text-[11px] font-bold hover:bg-white/10 transition-colors`}>
-                                    編集
-                                </button>
-                            </div>
-
-                            <div className="flex items-center gap-2 mb-3">
-                                <i className={`ph-bold ph-user ${styles.iconAccent} text-[16px]`}></i>
-                                <h4 className={`${styles.textAccent} font-bold text-sm tracking-wide`}>基本情報</h4>
-                            </div>
-
-                            <div className="flex flex-col gap-3 mb-10">
-                                <div className={`${styles.inputContainer} rounded-[16px] p-4`}>
-                                    <div className="flex justify-between items-center">
-                                        <span className={`${styles.inputSubText} text-[13px] font-medium`}>生年月日</span>
-                                        <span className={`${styles.inputText} font-bold text-sm tracking-wide`}>2001年5月15日</span>
-                                    </div>
-                                </div>
-                                
-                                <div className={`${styles.inputContainer} rounded-[16px] p-4`}>
-                                    <div className="flex justify-between items-center">
-                                        <span className={`${styles.inputSubText} text-[13px] font-medium`}>身長</span>
-                                        <span className={`${styles.inputText} font-bold text-sm tracking-wide`}>162cm</span>
-                                    </div>
-                                </div>
-
-                                <div className={`${styles.inputContainer} rounded-[16px] p-4`}>
-                                    <div className="flex justify-between items-center">
-                                        <span className={`${styles.inputSubText} text-[13px] font-medium`}>居住地</span>
-                                        <span className={`${styles.inputText} font-bold text-sm tracking-wide`}>東京都 港区</span>
-                                    </div>
-                                </div>
-
-                                <div className={`${styles.inputContainer} rounded-[16px] p-4`}>
-                                    <div className="flex justify-between items-center">
-                                        <span className={`${styles.inputSubText} text-[13px] font-medium`}>お酒</span>
-                                        <span className={`${styles.inputText} font-bold text-sm tracking-wide`}>飲める</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="flex items-center justify-between mb-5 border-b border-white/10 pb-3">
-                                <h3 className={`${styles.textAccent} app-title font-bold text-[15px]`}>PREFERENCES</h3>
-                            </div>
-
-                            <div className={styles.menuCard + " mb-4"}>
-                                <div className="flex items-center gap-4">
-                                    <div className={`w-11 h-11 rounded-full bg-transparent border ${styles.fixedBorderColor} flex items-center justify-center shadow-[inset_0_2px_4px_rgba(0,0,0,0.6)]`}>
-                                        <i className={`ph-fill ph-navigation-arrow ${theme.textSub} text-[18px]`}></i>
-                                    </div>
-                                    <div>
-                                        <h3 className={`${theme.textMain} font-bold text-[15px] mb-1 group-hover:${styles.textAccent} transition-colors`}>位置情報での絞り込み</h3>
-                                        <p className={`${theme.textSub} text-[11px]`}>未設定 / 20km</p>
-                                    </div>
-                                </div>
-                                <i className={`ph-bold ph-caret-right ${theme.textSub} text-[18px]`}></i>
-                            </div>
-
                         </div>
-                    </div>
-                </div>
-            );
-        };
-
-        // ==========================================
-        // 📱 画面4-1: トーク一覧画面 (TALK LIST)
-        // ==========================================
-        const TalkListScreen = ({ theme, styles, onOpenRoom }) => {
-            const [activeTab, setActiveTab] = useState('active');
-
-            const talkListData = [
-                {
-                    id: 1,
-                    shopName: 'Club Luminous (ルミナス)',
-                    lastMessage: 'テスト',
-                    date: '2026/03/20',
-                    status: '本採用',
-                    imageUrl: 'https://images.unsplash.com/photo-1585553616435-2dc0a54e271d?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80',
-                    isPinned: true
-                }
-            ];
-
-            return (
-                <div className={`relative w-full h-full flex flex-col transition-colors duration-300 overflow-hidden ${theme.bgMain}`}>
-                    <header className={`absolute top-0 left-0 w-full z-40 flex items-center justify-between px-5 py-4 ${styles.glassHeader} pt-safe transition-colors duration-300`}>
-                        <div className="w-12"></div>
-                        <h1 className={`${theme.textMain} app-title text-[16px] font-bold text-center absolute left-1/2 -translate-x-1/2 uppercase`}>TALK</h1>
-                        <div className={`flex items-center gap-4 ${styles.iconAccent}`}>
-                            <i className="ph-bold ph-check-circle text-[20px]"></i>
-                            <div className="relative cursor-pointer">
-                                <i className="ph-bold ph-bell text-[20px]"></i>
-                                <span className={`absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full border-2 ${theme.borderColor} bg-[#A855F7]`}></span>
-                            </div>
-                            <i className="ph-bold ph-list text-[20px]"></i>
-                        </div>
-                    </header>
-
-                    <div className="absolute inset-0 w-full h-full overflow-y-auto scrollbar-hide pb-[100px] pt-[68px] z-10">
-                        <div className={`flex bg-transparent border-b ${styles.fixedBorderColor} shrink-0 relative z-10 px-4 pt-2 transition-colors duration-300`}>
-                            <button onClick={() => setActiveTab('active')} className={`flex-1 py-3 text-[13px] font-bold transition-all duration-300 relative ${activeTab === 'active' ? theme.textMain : theme.textSub}`}>
-                                やり取り中
-                                {activeTab === 'active' && <div className={styles.tabLine}></div>}
-                            </button>
-                            <button onClick={() => setActiveTab('offer')} className={`flex-1 py-3 text-[13px] font-bold transition-all duration-300 relative ${activeTab === 'offer' ? theme.textMain : theme.textSub}`}>
-                                オファー
-                                {activeTab === 'offer' && <div className={styles.tabLine}></div>}
-                            </button>
-                        </div>
-
-                        <div className="flex flex-col px-4 pt-5 gap-4 pb-[40px]">
-                            {talkListData.map(item => (
-                                <div key={item.id} onClick={() => onOpenRoom(item.id)} className={`${styles.menuCard} !p-4 cursor-pointer hover:border-white/20 transition-all`}>
-                                    <div className="flex items-center gap-4 w-full relative">
-                                        <div className={`w-[60px] h-[60px] rounded-full overflow-hidden shrink-0 border ${styles.fixedBorderColor}`}>
-                                            <img src={item.imageUrl} alt={item.shopName} className="w-full h-full object-cover" />
-                                        </div>
-                                        <div className="flex-1 min-w-0 pr-8">
-                                            <div className="flex justify-between items-start mb-1">
-                                                <h3 className={`${theme.textMain} font-bold text-[15px] truncate`}>{item.shopName}</h3>
-                                                <span className={`${theme.textSub} text-[10px] tracking-wider shrink-0 ml-2 mt-1`}>{item.date}</span>
-                                            </div>
-                                            <p className={`${theme.textMain} opacity-80 text-[13px] truncate mb-2`}>{item.lastMessage}</p>
-                                            <div className="flex items-center justify-between">
-                                                {item.status && (
-                                                    <span className={`inline-block px-3 py-0.5 rounded-full text-[10px] font-bold border ${styles.fixedBorderColor} text-[#F5F5F5]`}>
-                                                        {item.status}
-                                                    </span>
-                                                )}
-                                                {item.isPinned && (
-                                                    <div className={`w-7 h-7 rounded-full bg-[#1A1A1A] border ${styles.fixedBorderColor} flex items-center justify-center shrink-0 shadow-[inset_0_2px_4px_rgba(0,0,0,0.5)]`}>
-                                                        <i className={`ph-fill ph-push-pin text-[14px] ${theme.textMain}`}></i>
-                                                    </div>
-                                                )}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                        <div className="flex justify-between items-end mb-10"><div><p className={`${styles.textAccent} font-bold text-xs mb-1 tracking-wide`}>獲得したボーナス金合計</p><div className="flex items-baseline gap-1"><span className={styles.textAccent + " font-bold"}>¥</span><span className="text-white text-[36px] font-bold leading-none tracking-tight drop-shadow-sm">￥0</span></div></div><div className="flex flex-col items-center drop-shadow-md"><i className={`ph-fill ph-heart text-[20px] ${styles.iconAccent} mb-1`}></i><span className="text-white font-bold text-sm">2</span></div></div>
+                        <div className={styles.specialMenuCard + " mb-10"}><div className="flex items-center gap-4"><div className={styles.specialMenuIconWrapper}><i className={`ph-fill ph-folder ${styles.specialMenuIcon}`}></i></div><div><p className={styles.specialMenuSub}>EMPLOYMENT & PAYMENT</p><h3 className={styles.specialMenuTitle}>採用・入金管理</h3></div></div><i className={`ph-bold ph-caret-right ${styles.specialMenuArrowIcon}`}></i></div>
+                        <h3 className={`${styles.textAccent} app-title font-bold text-[15px] border-b border-white/10 pb-3 mb-5`}>PROFILE INFORMATION</h3>
+                        <div className="flex flex-col gap-3 mb-10">
+                            {['生年月日', '身長', '居住地', 'お酒'].map((l, i) => (
+                                <div key={i} className={`${styles.inputContainer} rounded-[16px] p-4 flex justify-between shadow-inner`}><span className={styles.inputSubText + " text-[13px] font-medium"}>{l}</span><span className={styles.inputText + " font-bold text-sm tracking-wide"}>{['2001/05/15', '162cm', '東京', '飲める'][i]}</span></div>
                             ))}
                         </div>
+                        <h3 className={`${styles.textAccent} app-title font-bold text-[15px] border-b border-white/10 pb-3 mb-5`}>PREFERENCES</h3>
+                        <div className={styles.menuCard + " mb-8"}><div className="flex items-center gap-4"><div className="w-11 h-11 rounded-full bg-transparent border border-[#A855F7]/40 flex items-center justify-center shadow-inner"><i className={`ph-fill ph-navigation-arrow ${theme.textSub} text-[18px]`}></i></div><div><h3 className="text-white font-bold text-[15px]">位置情報での絞り込み</h3><p className={theme.textSub + " text-[11px]"}>未設定 / 20km</p></div></div><i className="ph-bold ph-caret-right text-[18px]"></i></div>
                     </div>
                 </div>
             );
         };
 
-        // ==========================================
-        // 📱 画面4-2: トークルーム画面 (TALK ROOM)
-        // ==========================================
-        const TalkRoomScreen = ({ theme, styles, is3D, isGrad, onBack }) => {
-            const chatData = [
-                { type: 'system', text: '採用に向けての手続きを進めてください。ボーナスを受け取るためには報告が必要です。', buttonText: 'ボーナス達成報告' },
-                { type: 'received', time: '01:28', text: 'この度は面談ありがとうございました。採用で進めさせていただきたいと考えております。詳細は追ってご連絡いたします。', iconUrl: 'https://images.unsplash.com/photo-1585553616435-2dc0a54e271d?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80' },
-                { type: 'received', time: '23:52', text: 'あれ？', iconUrl: 'https://images.unsplash.com/photo-1585553616435-2dc0a54e271d?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80' },
-                { type: 'sent', time: '23:59', text: 'ありがとうございました。', read: true },
-                { type: 'sent', time: '17:17', text: 'テスト', read: true }
-            ];
-
-            const btnBgClass = isGrad ? `bg-gradient-to-r from-[#A855F7] to-[#7E22CE]` : 'bg-[#9333EA]';
-            const btnIconClass = 'text-white';
-
+        const TalkListScreen = ({ theme, styles, onOpenRoom }) => {
+            const list = [{ id: 1, name: 'Club Luminous', last: 'テスト', date: '2026/03/20', status: '本採用', url: 'https://images.unsplash.com/photo-1585553616435-2dc0a54e271d?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80' }];
             return (
                 <div className={`relative w-full h-full flex flex-col transition-colors duration-300 overflow-hidden ${theme.bgMain}`}>
-                    
-                    <div className="absolute top-0 left-0 w-full z-40">
-                        <header className={`flex items-center justify-between px-4 py-3 ${styles.glassHeader} border-b-0 pt-safe transition-colors duration-300`}>
-                            <div className="flex items-center gap-2.5 w-[75%]">
-                                <button onClick={onBack} className={`${styles.iconAccent} hover:opacity-80 shrink-0`}><i className="ph-bold ph-caret-left text-[20px]"></i></button>
-                                <div className={`w-8 h-8 rounded-full border ${styles.fixedBorderColor} overflow-hidden shrink-0 shadow-sm`}>
-                                    <img src="https://images.unsplash.com/photo-1585553616435-2dc0a54e271d?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80" alt="icon" className="w-full h-full object-cover" />
-                                </div>
-                                <h1 className={`${theme.textMain} font-bold text-[15px] truncate tracking-wide`}>Club Luminous...</h1>
-                            </div>
-                            <div className={`flex items-center gap-3 ${styles.iconAccent} shrink-0`}>
-                                <i className="ph-bold ph-check-circle text-[20px]"></i>
-                                <i className="ph-bold ph-bell text-[20px]"></i>
-                                <i className="ph-bold ph-list text-[20px]"></i>
-                            </div>
-                        </header>
-                        
-                        <div className={`flex items-center justify-between px-5 py-2.5 ${styles.glassHeader} text-[11px] transition-colors duration-300 border-t ${styles.fixedBorderColor}`}>
-                            <div className="flex items-center gap-3 font-bold">
-                                <div className="w-2.5 h-2.5 rounded-full bg-gradient-to-r from-[#D4AF37] to-[#B8860B] shadow-[inset_0_1px_2px_rgba(255,255,255,0.5),0_0_4px_rgba(212,175,55,0.5)]"></div>
-                                <span className={theme.textSub}>状況: <span className={styles.textAccent}>本採用</span></span>
-                                <span className={theme.textSub}>種別: <span className={styles.textAccent}>本入店</span></span>
-                            </div>
-                            <button className={`${theme.textSub} hover:${styles.textAccent} transition-colors`}>
-                                <i className="ph-bold ph-prohibit text-[16px]"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div className="absolute inset-0 w-full h-full overflow-y-auto scrollbar-hide pt-[120px] pb-[160px] z-10 flex flex-col gap-6 px-4">
-                        {chatData.map((msg, i) => {
-                            if (msg.type === 'system') {
-                                return (
-                                    <div key={i} className="flex gap-3 mt-4">
-                                        <div className={`w-9 h-9 rounded-full border ${styles.fixedBorderColor} flex items-center justify-center bg-[#1A1A1A] shrink-0 shadow-sm`}>
-                                            <i className={`ph-fill ph-robot text-[18px] ${styles.iconAccent}`}></i>
-                                        </div>
-                                        <div className="flex flex-col items-start max-w-[80%] gap-2.5">
-                                            <div className={styles.systemMessageBubble}>
-                                                {msg.text}
-                                            </div>
-                                            {msg.buttonText && (
-                                                <button className={`px-4 py-1.5 rounded-full border ${styles.fixedBorderColor} bg-transparent text-[11px] font-bold ${theme.textMain} hover:bg-white/5 transition-colors shadow-[inset_0_2px_4px_rgba(0,0,0,0.5)]`}>
-                                                    {msg.buttonText}
-                                                </button>
-                                            )}
-                                        </div>
-                                    </div>
-                                );
-                            }
-                            if (msg.type === 'received') {
-                                return (
-                                    <div key={i} className="flex gap-3">
-                                        <div className={`w-9 h-9 rounded-full border ${styles.fixedBorderColor} overflow-hidden shrink-0 shadow-sm`}>
-                                            <img src={msg.iconUrl} alt="icon" className="w-full h-full object-cover" />
-                                        </div>
-                                        <div className="flex items-end gap-2 max-w-[80%]">
-                                            <div className={styles.otherMessageBubble}>
-                                                {msg.text}
-                                            </div>
-                                            <span className={`text-[9px] font-bold ${theme.textSub} shrink-0 mb-1`}>{msg.time}</span>
-                                        </div>
-                                    </div>
-                                );
-                            }
-                            if (msg.type === 'sent') {
-                                return (
-                                    <div key={i} className="flex justify-end gap-2 w-full">
-                                        <div className="flex flex-col justify-end items-end shrink-0 mb-1">
-                                            <span className={`text-[9px] font-bold ${theme.textSub} flex items-center gap-0.5`}>
-                                                {msg.read && <i className={`ph-bold ph-check ${styles.textAccent}`}></i>}
-                                                {msg.time}
-                                            </span>
-                                        </div>
-                                        <div className={`max-w-[80%] ${styles.myMessageBubble}`}>
-                                            {msg.text}
-                                        </div>
-                                    </div>
-                                );
-                            }
-                        })}
-                    </div>
-
-                    <div className={`absolute left-0 w-full z-40 ${styles.glassFooter} px-4 py-3 border-b-0 shadow-[0_-4px_20px_rgba(0,0,0,0.5)]`} style={{ bottom: 'calc(58px + max(16px, env(safe-area-inset-bottom, 16px)))' }}>
-                        <div className="flex items-center gap-3">
-                            <button className={`w-10 h-10 rounded-full bg-[#1A1A1A] border ${styles.fixedBorderColor} flex items-center justify-center ${theme.textMain} hover:bg-white/5 transition-colors shrink-0 shadow-[inset_0_2px_4px_rgba(0,0,0,0.5)] active:scale-95`}>
-                                <i className="ph-bold ph-plus text-[18px]"></i>
-                            </button>
-                            <div className="flex-1 relative">
-                                <input type="text" placeholder="メッセージを入力..." className={`w-full ${styles.inputContainer} ${styles.inputText} ${styles.inputPlaceholder} py-2.5 px-4 text-[13px] rounded-full focus:outline-none`} />
-                            </div>
-                            <button className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 border border-transparent ${btnBgClass} ${is3D ? 'shadow-[inset_0_2px_4px_rgba(255,255,255,0.5),inset_0_-2px_4px_rgba(0,0,0,0.4),0_6px_12px_rgba(0,0,0,0.7)] active:translate-y-1 active:shadow-[inset_0_2px_4px_rgba(0,0,0,0.6),0_2px_4px_rgba(0,0,0,0.6)]' : 'shadow-md hover:scale-105 active:scale-95'} transition-all`}>
-                                <i className={`ph-fill ph-paper-plane-right ${btnIconClass} text-[16px] ml-[-2px]`}></i>
-                            </button>
-                        </div>
+                    <header className={`absolute top-0 left-0 w-full z-40 flex items-center justify-between px-5 py-4 ${styles.glassHeader} pt-safe`}><div className="w-12"></div><h1 className="text-white app-title text-[16px] font-bold absolute left-1/2 -translate-x-1/2">TALK</h1><div className={styles.iconAccent}><i className="ph-bold ph-bell text-[20px]"></i></div></header>
+                    <div className="absolute inset-0 overflow-y-auto pb-[100px] pt-[72px] px-4">
+                        <div className="flex bg-transparent border-b border-[#A855F7]/40 pt-4 pb-2 mb-6"><button className="flex-1 py-2 text-[13px] font-bold text-white relative">やり取り中<div className={styles.tabLine}></div></button><button className="flex-1 py-2 text-[13px] font-bold text-[#A0A0A0]">オファー</button></div>
+                        {list.map(i => (
+                            <div key={i.id} onClick={() => onOpenRoom(i.id)} className={`${styles.menuCard} !p-4 mb-4`}><div className="flex items-center gap-4 w-full"><img src={i.url} className="w-14 h-14 rounded-full border border-[#A855F7]/40 shadow-md" /><div className="flex-1 min-w-0"><div className="flex justify-between mb-1"><h3 className="text-white font-bold text-[15px] truncate">{i.name}</h3><span className="text-[#A0A0A0] text-[10px]">{i.date}</span></div><p className="text-white opacity-80 text-[13px] truncate">{i.last}</p><div className="mt-2"><span className="px-3 py-0.5 rounded-full text-[10px] border border-[#A855F7]/40 text-white font-bold bg-transparent shadow-sm">{i.status}</span></div></div></div></div>
+                        ))}
                     </div>
                 </div>
             );
         };
 
-        // ==========================================
-        // 🚀 アプリケーション全体
-        // ==========================================
+        const TalkRoomScreen = ({ theme, styles, onBack }) => {
+            const data = [{ t: 'sys', c: '採用に向けての手続きを進めてください。' }, { t: 'r', c: '詳細は追ってご連絡いたします。', time: '01:28' }, { t: 's', c: 'ありがとうございました。', time: '23:59', read: true }];
+            return (
+                <div className={`relative w-full h-full flex flex-col transition-colors duration-300 overflow-hidden ${theme.bgMain}`}>
+                    <header className={`absolute top-0 left-0 w-full z-40 flex items-center gap-3 px-4 py-3 ${styles.glassHeader} pt-safe transition-colors duration-300`}><i onClick={onBack} className={`ph-bold ph-caret-left text-[22px] ${styles.iconAccent} cursor-pointer`}></i><img src="https://images.unsplash.com/photo-1585553616435-2dc0a54e271d?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80" className="w-8 h-8 rounded-full border border-[#A855F7]/40 shadow-sm" /><h1 className="text-white font-bold text-[15px]">Club Luminous</h1></header>
+                    <div className="absolute inset-0 overflow-y-auto pb-[140px] pt-[72px] px-4 flex flex-col gap-6 scrollbar-hide">
+                        <div className="mt-4 px-5 py-2 border-y border-[#A855F7]/40 flex justify-between text-[11px] font-bold"><span className="text-gray-400">状況: <span className={styles.textAccent}>本採用</span></span><span className="text-gray-400">種別: <span className={styles.textAccent}>本入店</span></span></div>
+                        {data.map((m, i) => (
+                            <div key={i} className={`flex ${m.t === 's' ? 'justify-end' : 'justify-start'} gap-3 items-end`}>
+                                {m.t === 'r' && <img src="https://images.unsplash.com/photo-1585553616435-2dc0a54e271d?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80" className="w-8 h-8 rounded-full shadow-sm" />}
+                                <div className={m.t === 's' ? styles.myMessageBubble : styles.otherMessageBubble}>{m.c}</div>
+                                {m.t === 'r' && <span className="text-[9px] text-gray-500 mb-1">{m.time}</span>}
+                            </div>
+                        ))}
+                    </div>
+                    <div className={`absolute bottom-[60px] left-0 w-full p-3 ${styles.glassFooter} pb-safe transition-colors duration-300`}><div className="flex gap-2"><div className="w-10 h-10 rounded-full bg-[#1A1A1A] border border-[#A855F7]/40 flex items-center justify-center text-white shadow-inner"><i className="ph-bold ph-plus"></i></div><input className={`flex-1 rounded-full px-4 ${styles.inputContainer} ${styles.inputText} outline-none text-sm shadow-inner`} placeholder="メッセージ..." /><div className={`${styles.button} !w-10 !h-10 !px-0`}><i className="ph-fill ph-paper-plane-right"></i></div></div></div>
+                </div>
+            );
+        };
+
         const App = () => {
-            const [currentBgId, setCurrentBgId] = useState('black'); 
             const [currentAccentId, setCurrentAccentId] = useState('amethyst'); 
-            
-            const isGlass = true;
-            // ★ デフォルトをブラック×ディープパープルのグラデーションに設定
             const [hfColorId, setHfColorId] = useState('grad_black_purple');
-            
             const [inputStyle, setInputStyle] = useState('light');
-            
             const [is3D, setIs3D] = useState(true);
             const [isGrad, setIsGrad] = useState(true);
-
-            // ★ スワイプ画面のアクションスタイル初期値を「上スワイプ誘導」に変更
             const [swipeActionStyle, setSwipeActionStyle] = useState('swipe_only');
-
-            const [currentAppTab, setCurrentAppTab] = useState('talk');
+            const [currentAppTab, setCurrentAppTab] = useState('swipe');
             const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-            const theme = { ...bgThemes[currentBgId], ...accentColors[currentAccentId] };
+            const theme = { ...bgThemes.black, ...accentColors[currentAccentId], bgMainHex: '#050505' };
             const styles = generateStyles(theme, inputStyle, is3D, isGrad, hfColorDefs[hfColorId]);
 
             return (
-                <div className={`h-[100dvh] w-full flex flex-col ${theme.bgApp} transition-colors duration-500 ${fontDefs.noto_sans.family}`}>
+                <div className={`h-[100dvh] w-full flex flex-col ${theme.bgApp} transition-colors duration-500 font-noto`}>
                     <TailwindSafelist />
-                    
-                    <button 
-                        onClick={() => setIsMenuOpen(true)}
-                        className={`fixed top-4 right-4 z-50 bg-[#1a1a1a]/80 backdrop-blur-md border border-white/20 px-4 py-3 rounded-full shadow-2xl flex items-center gap-2 hover:bg-black transition-all hover:scale-105`}
-                    >
-                        <i className="ph-fill ph-palette text-[20px] text-white"></i>
-                        <span className="text-white text-[10px] font-bold tracking-widest">DESIGN</span>
-                    </button>
-
-                    <div 
-                        className={`fixed inset-0 bg-black/50 z-[60] transition-opacity duration-300 ${isMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`} 
-                        onClick={() => setIsMenuOpen(false)}
-                    ></div>
-
-                    <div className={`fixed top-0 right-0 h-full w-[300px] sm:w-[340px] bg-[#0A0A0A]/95 backdrop-blur-xl border-l border-white/10 z-[70] transform transition-transform duration-300 ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'} p-6 overflow-y-auto`}>
-                        
-                        <div className="flex justify-between items-center mb-8 border-b border-white/10 pb-4">
-                            <h2 className="text-white font-bold tracking-widest text-sm flex items-center gap-2">
-                                <i className="ph-fill ph-faders text-white"></i>
-                                CONTROLLER
-                            </h2>
-                            <button onClick={() => setIsMenuOpen(false)} className="text-gray-400 hover:text-white p-1">
-                                <i className="ph-bold ph-x text-[20px]"></i>
-                            </button>
-                        </div>
-                        
-                        <div className="flex flex-col gap-6">
-                            
-                            <div className="w-full relative">
-                                <label className="block text-[10px] text-[#A0A0A0] font-bold tracking-wider mb-2 ml-1">HEADER & FOOTER COLOR</label>
-                                <select 
-                                    className="w-full bg-[#1A1A1A] text-white border border-white/20 rounded-lg pl-3 pr-8 py-3 text-sm outline-none appearance-none focus:border-white/50 cursor-pointer font-bold"
-                                    value={hfColorId}
-                                    onChange={(e) => setHfColorId(e.target.value)}
-                                >
-                                    {Object.values(hfColorDefs).map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
-                                </select>
-                                <i className="ph-bold ph-caret-down absolute right-3 bottom-3.5 text-gray-400 pointer-events-none text-sm"></i>
-                            </div>
-
-                            <div className="w-full relative">
-                                <label className="block text-[10px] text-[#A0A0A0] font-bold tracking-wider mb-2 ml-1">TEXT & ICON COLOR (選択)</label>
-                                <select 
-                                    className="w-full bg-[#1A1A1A] text-white border border-white/20 rounded-lg pl-3 pr-8 py-3 text-sm outline-none appearance-none focus:border-white/50 cursor-pointer font-bold"
-                                    value={currentAccentId}
-                                    onChange={(e) => setCurrentAccentId(e.target.value)}
-                                >
-                                    {Object.values(accentColors).map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
-                                </select>
-                                <i className="ph-bold ph-caret-down absolute right-3 bottom-3.5 text-gray-400 pointer-events-none text-sm"></i>
-                            </div>
-
-                            {/* ★ ボタンコンポーネント用スタイル：立体 & グラデーション */}
-                            <div className="w-full relative border-t border-white/10 pt-6">
-                                <label className="block text-[10px] text-[#A0A0A0] font-bold tracking-wider mb-4 ml-1">COMPONENTS UI STYLE</label>
-                                <div className="flex flex-col gap-4 px-2">
-                                    <label className="flex items-center gap-3 cursor-pointer group">
-                                        <input type="checkbox" checked={is3D} onChange={e => setIs3D(e.target.checked)} className="hidden" />
-                                        <div className={`w-5 h-5 rounded flex items-center justify-center border transition-colors ${is3D ? 'bg-white border-white' : 'border-gray-500 group-hover:border-gray-300'}`}>
-                                            {is3D && <i className="ph-bold ph-check text-black text-[12px]"></i>}
-                                        </div>
-                                        <span className={`text-sm font-bold tracking-wide ${is3D ? 'text-white' : 'text-[#A0A0A0]'}`}>思いっきり立体 (強力シャドウ)</span>
-                                    </label>
-                                    <label className="flex items-center gap-3 cursor-pointer group">
-                                        <input type="checkbox" checked={isGrad} onChange={e => setIsGrad(e.target.checked)} className="hidden" />
-                                        <div className={`w-5 h-5 rounded flex items-center justify-center border transition-colors ${isGrad ? 'bg-white border-white' : 'border-gray-500 group-hover:border-gray-300'}`}>
-                                            {isGrad && <i className="ph-bold ph-check text-black text-[12px]"></i>}
-                                        </div>
-                                        <span className={`text-sm font-bold tracking-wide ${isGrad ? 'text-white' : 'text-[#A0A0A0]'}`}>グラデーション背景</span>
-                                    </label>
-                                </div>
-                            </div>
-
-                            <div className="w-full relative border-t border-white/10 pt-6">
-                                <label className="block text-[10px] text-[#A0A0A0] font-bold tracking-wider mb-4 ml-1">INPUT STYLE (入力欄)</label>
-                                <div className="flex gap-6 px-2">
-                                    <label className="flex items-center gap-3 cursor-pointer">
-                                        <input type="radio" name="inputStyle" value="dark" checked={inputStyle === 'dark'} onChange={() => setInputStyle('dark')} className="hidden" />
-                                        <div className={`w-5 h-5 rounded-full border flex items-center justify-center transition-colors ${inputStyle === 'dark' ? 'border-white' : 'border-gray-500'}`}>
-                                            {inputStyle === 'dark' && <div className="w-2.5 h-2.5 rounded-full bg-white"></div>}
-                                        </div>
-                                        <span className={`text-sm font-bold ${inputStyle === 'dark' ? 'text-white' : 'text-[#A0A0A0]'}`}>ダーク (透過)</span>
-                                    </label>
-                                    <label className="flex items-center gap-3 cursor-pointer">
-                                        <input type="radio" name="inputStyle" value="light" checked={inputStyle === 'light'} onChange={() => setInputStyle('light')} className="hidden" />
-                                        <div className={`w-5 h-5 rounded-full border flex items-center justify-center transition-colors ${inputStyle === 'light' ? 'border-white' : 'border-gray-500'}`}>
-                                            {inputStyle === 'light' && <div className="w-2.5 h-2.5 rounded-full bg-white"></div>}
-                                        </div>
-                                        <span className={`text-sm font-bold ${inputStyle === 'light' ? 'text-white' : 'text-[#A0A0A0]'}`}>ライト (明るい薄紫)</span>
-                                    </label>
-                                </div>
-                            </div>
-
-                            <div className="w-full relative border-t border-white/10 pt-6">
-                                <label className="block text-[10px] text-[#A0A0A0] font-bold tracking-wider mb-4 ml-1">SWIPE ACTION STYLE</label>
-                                <div className="flex gap-6 px-2">
-                                    <label className="flex items-center gap-3 cursor-pointer">
-                                        <input type="radio" name="swipeActionStyle" value="buttons" checked={swipeActionStyle === 'buttons'} onChange={() => setSwipeActionStyle('buttons')} className="hidden" />
-                                        <div className={`w-5 h-5 rounded-full border flex items-center justify-center transition-colors ${swipeActionStyle === 'buttons' ? 'border-white' : 'border-gray-500'}`}>
-                                            {swipeActionStyle === 'buttons' && <div className="w-2.5 h-2.5 rounded-full bg-white"></div>}
-                                        </div>
-                                        <span className={`text-sm font-bold ${swipeActionStyle === 'buttons' ? 'text-white' : 'text-[#A0A0A0]'}`}>ボタン (× / ♡)</span>
-                                    </label>
-                                    <label className="flex items-center gap-3 cursor-pointer">
-                                        <input type="radio" name="swipeActionStyle" value="swipe_only" checked={swipeActionStyle === 'swipe_only'} onChange={() => setSwipeActionStyle('swipe_only')} className="hidden" />
-                                        <div className={`w-5 h-5 rounded-full border flex items-center justify-center transition-colors ${swipeActionStyle === 'swipe_only' ? 'border-white' : 'border-gray-500'}`}>
-                                            {swipeActionStyle === 'swipe_only' && <div className="w-2.5 h-2.5 rounded-full bg-white"></div>}
-                                        </div>
-                                        <span className={`text-sm font-bold ${swipeActionStyle === 'swipe_only' ? 'text-white' : 'text-[#A0A0A0]'}`}>上スワイプ誘導のみ</span>
-                                    </label>
-                                </div>
+                    <button onClick={() => setIsMenuOpen(true)} className="fixed top-4 right-4 z-[60] bg-[#1a1a1a]/80 backdrop-blur-md border border-white/20 px-4 py-3 rounded-full shadow-2xl flex items-center gap-2 hover:scale-105 transition-all"><i className="ph-fill ph-palette text-[20px] text-white"></i><span className="text-white text-[10px] font-bold tracking-widest uppercase">Design</span></button>
+                    {isMenuOpen && <div className="fixed inset-0 bg-black/50 z-[70]" onClick={() => setIsMenuOpen(false)}></div>}
+                    <div className={`fixed top-0 right-0 h-full w-[300px] bg-[#0A0A0A]/95 backdrop-blur-xl border-l border-white/10 z-[80] transform transition-transform duration-300 ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'} p-6 overflow-y-auto`}>
+                        <div className="flex justify-between mb-8 pb-4 border-b border-white/10"><h2 className="text-white font-bold tracking-widest text-sm flex items-center gap-2"><i className="ph-fill ph-faders text-white"></i>CONTROLLER</h2><i onClick={() => setIsMenuOpen(false)} className="ph-bold ph-x text-gray-400 cursor-pointer"></i></div>
+                        <div className="flex flex-col gap-6 text-white text-[10px] font-bold tracking-wider">
+                            <label className="mb-[-15px] uppercase">Header & Footer Color</label>
+                            <select className="bg-[#1A1A1A] border border-white/20 rounded-lg p-3 outline-none" value={hfColorId} onChange={e => setHfColorId(e.target.value)}>{Object.values(hfColorDefs).map(t => <option key={t.id} value={t.id}>{t.name}</option>)}</select>
+                            <label className="mb-[-15px] uppercase">Text & Icon Color</label>
+                            <select className="bg-[#1A1A1A] border border-white/20 rounded-lg p-3 outline-none" value={currentAccentId} onChange={e => setCurrentAccentId(e.target.value)}>{Object.values(accentColors).map(t => <option key={t.id} value={t.id}>{t.name}</option>)}</select>
+                            <div className="border-t border-white/10 pt-4 flex flex-col gap-4">
+                                <label className="flex items-center gap-3 cursor-pointer"><input type="checkbox" checked={is3D} onChange={e => setIs3D(e.target.checked)} className="hidden" /><div className={`w-5 h-5 border rounded flex items-center justify-center ${is3D ? 'bg-white' : ''}`}>{is3D && <i className="ph-bold ph-check text-black"></i>}</div>思いっきり立体</label>
+                                <label className="flex items-center gap-3 cursor-pointer"><input type="checkbox" checked={isGrad} onChange={e => setIsGrad(e.target.checked)} className="hidden" /><div className={`w-5 h-5 border rounded flex items-center justify-center ${isGrad ? 'bg-white' : ''}`}>{isGrad && <i className="ph-bold ph-check text-black"></i>}</div>グラデーション背景</label>
                             </div>
                         </div>
                     </div>
 
-                    {/* 📱 アプリ画面エリア */}
-                    <div className={`flex-1 flex flex-col w-full max-w-[430px] mx-auto bg-[#050505] shadow-[0_0_50px_rgba(0,0,0,0.8)] relative overflow-hidden h-full`}>
-                        
-                        {currentAppTab === 'swipe' && (
-                            <HomeSwipeScreen theme={theme} styles={styles} is3D={is3D} isGrad={isGrad} swipeActionStyle={swipeActionStyle} />
-                        )}
-                        {currentAppTab === 'search' && (
-                            <SearchTimelineScreen theme={theme} styles={styles} />
-                        )}
-                        {currentAppTab === 'talk' && (
-                            <TalkListScreen theme={theme} styles={styles} onOpenRoom={() => setCurrentAppTab('talk_room')} />
-                        )}
-                        {currentAppTab === 'talk_room' && (
-                            <TalkRoomScreen theme={theme} styles={styles} is3D={is3D} isGrad={isGrad} onBack={() => setCurrentAppTab('talk')} />
-                        )}
-                        {currentAppTab === 'mypage' && (
-                            <MyPageScreen theme={theme} styles={styles} />
-                        )}
-                        
-                        {!['swipe', 'search', 'talk', 'talk_room', 'mypage'].includes(currentAppTab) && (
-                            <div className={`relative w-full h-full ${theme.bgMain} flex flex-col transition-colors duration-300`}>
-                                <header className={`relative w-full z-20 flex items-center justify-center px-5 py-4 ${styles.glassHeader} pt-safe`}>
-                                    <h1 className={`${theme.textMain} app-title text-[16px] font-bold text-center uppercase`}>{currentAppTab}</h1>
-                                </header>
-                                <div className="flex-1 flex items-center justify-center flex-col gap-4">
-                                    <i className={`ph-fill ph-wrench ${theme.textSub} text-4xl opacity-50`}></i>
-                                    <p className={`${theme.textSub} font-bold text-sm tracking-widest opacity-80`}>COMING SOON...</p>
-                                </div>
-                            </div>
-                        )}
-
+                    <div className="flex-1 flex flex-col w-full max-w-[430px] mx-auto bg-[#050505] shadow-[0_0_50px_rgba(0,0,0,0.8)] relative overflow-hidden h-full">
+                        {currentAppTab === 'swipe' && <HomeSwipeScreen theme={theme} styles={styles} is3D={is3D} isGrad={isGrad} swipeActionStyle={swipeActionStyle} onOpenTalk={() => setCurrentAppTab('talk_room')} />}
+                        {currentAppTab === 'search' && <SearchTimelineScreen theme={theme} styles={styles} />}
+                        {currentAppTab === 'likes' && <div className="flex-1 flex items-center justify-center text-gray-500 font-bold uppercase tracking-widest bg-[#050505]">Likes (Coming Soon)</div>}
+                        {currentAppTab === 'talk' && <TalkListScreen theme={theme} styles={styles} onOpenRoom={() => setCurrentAppTab('talk_room')} />}
+                        {currentAppTab === 'talk_room' && <TalkRoomScreen theme={theme} styles={styles} is3D={is3D} isGrad={isGrad} onBack={() => setCurrentAppTab('talk')} />}
+                        {currentAppTab === 'mypage' && <MyPageScreen theme={theme} styles={styles} />}
                         <BottomNav theme={theme} styles={styles} activeTab={currentAppTab} onChangeTab={setCurrentAppTab} />
                     </div>
                 </div>
