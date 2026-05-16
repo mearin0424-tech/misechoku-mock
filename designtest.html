@@ -64,6 +64,11 @@
             background-clip: text;
             color: transparent !important;
         }
+
+        /* ★ 追加：白っぽい画像でも文字をクッキリ読ませるための強いテキストシャドウ */
+        .text-shadow-heavy {
+            text-shadow: 0 2px 4px rgba(0,0,0,0.9), 0 4px 12px rgba(0,0,0,0.9), 0 0 2px rgba(0,0,0,0.5);
+        }
     </style>
 </head>
 <body>
@@ -125,7 +130,7 @@
         };
 
         const TailwindSafelist = () => (
-            <div className="hidden border-[#A855F7]/40 bg-[#A855F7] bg-[#A855F7]/10 bg-[#F5F2FA] bg-[#8B5CF6] text-[#A78BFA] from-[#A78BFA] to-[#7C3AED] bg-[#D8B4E2] text-[#D8B4E2] from-[#F3E8F6] to-[#C997D6] bg-[#7DD3FC] text-[#7DD3FC] from-[#BAE6FD] to-[#38BDF8] bg-[#F9A8D4] text-[#F9A8D4] from-[#FBCFE8] to-[#F472B6] text-[#1A1A1A] text-[#666666] text-[#E6DFFC] text-[#F3E8FF] text-[#E0E7FF] text-[#FAF5FF] text-[#EEF2FF] text-[#111] text-white shadow-[inset_0_4px_6px_rgba(255,255,255,0.5),inset_0_-6px_6px_rgba(0,0,0,0.4),0_12px_24px_rgba(0,0,0,0.7)] active:shadow-[inset_0_6px_8px_rgba(0,0,0,0.6),0_2px_4px_rgba(0,0,0,0.6)] shadow-[8px_8px_20px_rgba(0,0,0,0.8),-2px_-2px_8px_rgba(255,255,255,0.03)] shadow-[inset_0_2px_4px_rgba(0,0,0,0.5)] shadow-[inset_0_2px_4px_rgba(0,0,0,0.1)] bg-[#050505] text-[#F5F5F5] text-[#A0A0A0] border-[#2A2A2A] bg-[#050505]/40 from-[#D4AF37] to-[#B8860B] border-[#D4AF37]/30 bg-[#9333EA] from-[#A855F7] to-[#7E22CE] bg-[#581c87] from-[#6b21a8] to-[#3b0764] bg-[#050505]/50 bg-[#9333EA]/30 from-[#050505]/60 to-[#9333EA]/30 from-[#9333EA]/30 to-[#D4AF37]/30 to-[#D8B4E2]/30 to-[#8B5CF6]/30 to-[#EC4899]/30 shadow-[0_4px_12px_rgba(0,0,0,0.6),inset_0_1px_1px_rgba(255,255,255,0.15),inset_0_-1px_1px_rgba(0,0,0,0.5)] shadow-[0_-4px_20px_rgba(0,0,0,0.7),inset_0_1px_1px_rgba(255,255,255,0.15),inset_0_-1px_1px_rgba(0,0,0,0.5)] bg-gradient-to-br from-[#1a1a1a] to-[#050505] shadow-[6px_6px_16px_rgba(0,0,0,0.9),-2px_-2px_6px_rgba(255,255,255,0.06),inset_1px_1px_1px_rgba(255,255,255,0.08)] whitespace-nowrap pb-32 pb-44 scale-110 drop-shadow-[0_0_8px_currentColor] text-white/60 group-hover:scale-95 group-hover:text-white/90 drop-shadow-md bg-black/60 border-[1.5px] border-white/40 drop-shadow-[0_0_8px_rgba(255,255,255,0.3)] w-[60px] h-[60px] hover:scale-105"></div>
+            <div className="hidden border-[#A855F7]/40 bg-[#A855F7] bg-[#A855F7]/10 bg-[#F5F2FA] bg-[#8B5CF6] text-[#A78BFA] from-[#A78BFA] to-[#7C3AED] bg-[#D8B4E2] text-[#D8B4E2] from-[#F3E8F6] to-[#C997D6] bg-[#7DD3FC] text-[#7DD3FC] from-[#BAE6FD] to-[#38BDF8] bg-[#F9A8D4] text-[#F9A8D4] from-[#FBCFE8] to-[#F472B6] text-[#1A1A1A] text-[#666666] text-[#E6DFFC] text-[#F3E8FF] text-[#E0E7FF] text-[#FAF5FF] text-[#EEF2FF] text-[#111] text-white shadow-[inset_0_4px_6px_rgba(255,255,255,0.5),inset_0_-6px_6px_rgba(0,0,0,0.4),0_12px_24px_rgba(0,0,0,0.7)] active:shadow-[inset_0_6px_8px_rgba(0,0,0,0.6),0_2px_4px_rgba(0,0,0,0.6)] shadow-[8px_8px_20px_rgba(0,0,0,0.8),-2px_-2px_8px_rgba(255,255,255,0.03)] shadow-[inset_0_2px_4px_rgba(0,0,0,0.5)] shadow-[inset_0_2px_4px_rgba(0,0,0,0.1)] bg-[#050505] text-[#F5F5F5] text-[#A0A0A0] border-[#2A2A2A] bg-[#050505]/40 from-[#D4AF37] to-[#B8860B] border-[#D4AF37]/30 bg-[#9333EA] from-[#A855F7] to-[#7E22CE] bg-[#581c87] from-[#6b21a8] to-[#3b0764] bg-[#050505]/50 bg-[#9333EA]/30 from-[#050505]/60 to-[#9333EA]/30 from-[#9333EA]/30 to-[#D4AF37]/30 to-[#D8B4E2]/30 to-[#8B5CF6]/30 to-[#EC4899]/30 shadow-[0_4px_12px_rgba(0,0,0,0.6),inset_0_1px_1px_rgba(255,255,255,0.15),inset_0_-1px_1px_rgba(0,0,0,0.5)] shadow-[0_-4px_20px_rgba(0,0,0,0.7),inset_0_1px_1px_rgba(255,255,255,0.15),inset_0_-1px_1px_rgba(0,0,0,0.5)] bg-gradient-to-br from-[#1a1a1a] to-[#050505] shadow-[6px_6px_16px_rgba(0,0,0,0.9),-2px_-2px_6px_rgba(255,255,255,0.06),inset_1px_1px_1px_rgba(255,255,255,0.08)] whitespace-nowrap pb-32 pb-44 scale-110 drop-shadow-[0_0_8px_currentColor] text-white/60 group-hover:scale-95 group-hover:text-white/90 drop-shadow-md bg-black/60 border-[1.5px] border-white/40 drop-shadow-[0_0_8px_rgba(255,255,255,0.3)] w-[60px] h-[60px] hover:scale-105 drop-shadow-none drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] from-[#2a2a2a]/80 to-[#050505]/80 shadow-[4px_4px_10px_rgba(0,0,0,0.9),-1px_-1px_4px_rgba(255,255,255,0.1),inset_1px_1px_2px_rgba(255,255,255,0.05)] border-white/5 text-[20px] text-shadow-heavy h-[75%] bg-gradient-to-t from-[#050505] via-[#050505]/80 to-transparent"></div>
         );
 
         // ==========================================
@@ -197,7 +202,7 @@
         // ==========================================
         // 📱 共通コンポーネント: 下部ナビゲーション
         // ==========================================
-        const BottomNav = ({ theme, styles, activeTab, onChangeTab }) => {
+        const BottomNav = ({ theme, styles, activeTab, onChangeTab, navIconStyle }) => {
             const navItems = [
                 { id: 'swipe', icon: 'ph-fill ph-house', label: 'SWIPE' },
                 { id: 'search', icon: 'ph-bold ph-magnifying-glass', label: 'SEARCH' },
@@ -211,10 +216,31 @@
                     <div className="flex justify-around items-center pt-3 pb-2 px-2 max-w-[430px] mx-auto">
                         {navItems.map(item => {
                             const isActive = activeTab === item.id || (item.id === 'talk' && activeTab === 'talk_room');
+                            
+                            let activeIconClass = "";
+                            let activeLabelClass = "";
+                            
+                            if (navIconStyle === 'neon') {
+                                activeIconClass = `${styles.textAccent} scale-110 drop-shadow-[0_0_8px_currentColor]`;
+                                activeLabelClass = `${styles.textAccent} drop-shadow-md`;
+                            } else if (navIconStyle === 'flat') {
+                                activeIconClass = `${styles.textAccent} scale-110 drop-shadow-none`;
+                                activeLabelClass = `${styles.textAccent} drop-shadow-none`;
+                            } else if (navIconStyle === '3d') {
+                                activeIconClass = `${styles.textAccent} drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]`;
+                                activeLabelClass = `${styles.textAccent} drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]`;
+                            }
+
                             return (
                                 <button key={item.id} onClick={() => onChangeTab(item.id)} className={`flex flex-col items-center p-2 transition-all duration-300 group`}>
-                                    <i className={`${item.icon} text-[22px] mb-1.5 transition-all ${isActive ? styles.textAccent + ' scale-110 drop-shadow-[0_0_8px_currentColor]' : 'text-white/60 group-hover:scale-95 group-hover:text-white/90'}`}></i>
-                                    <span className={`app-title text-[9px] font-bold tracking-wider transition-colors ${isActive ? styles.textAccent + ' drop-shadow-md' : 'text-white/60 group-hover:text-white/90'}`}>{item.label}</span>
+                                    {navIconStyle === '3d' && isActive ? (
+                                        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#2a2a2a]/80 to-[#050505]/80 shadow-[4px_4px_10px_rgba(0,0,0,0.9),-1px_-1px_4px_rgba(255,255,255,0.1),inset_1px_1px_2px_rgba(255,255,255,0.05)] border border-white/5 flex items-center justify-center mb-1 transition-all">
+                                            <i className={`${item.icon} text-[24px] ${activeIconClass}`}></i>
+                                        </div>
+                                    ) : (
+                                        <i className={`${item.icon} text-[28px] mb-1.5 transition-all ${isActive ? activeIconClass : 'text-white/60 group-hover:scale-95 group-hover:text-white/90'}`}></i>
+                                    )}
+                                    <span className={`app-title text-[9px] font-bold tracking-wider transition-colors ${isActive ? activeLabelClass : 'text-white/60 group-hover:text-white/90'}`}>{item.label}</span>
                                 </button>
                             );
                         })}
@@ -226,7 +252,7 @@
         // ==========================================
         // 📱 画面1: ホーム / スワイプ画面 (フルスクリーン & 無限ループ)
         // ==========================================
-        const HomeSwipeScreen = ({ theme, styles, is3D, isGrad, swipeActionStyle, onOpenTalk }) => {
+        const HomeSwipeScreen = ({ theme, styles, is3D, isGrad, swipeActionStyle, navIconStyle, onOpenTalk }) => {
             const initialCards = [
                 { id: '1', name: 'Club Luminous', copy: 'エリア最高峰の高級ラウンジ', rating: '4.8', reviews: '24', location: '東京都 港区', bonus: '￥120,000', hourlyWage: '￥2,500 ~ ￥5,000', helpWage: '￥2,500 ~ ￥5,000', imageUrls: ['https://images.unsplash.com/photo-1585553616435-2dc0a54e271d?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80', 'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80'] },
                 { id: '2', name: 'Snack 昭和', copy: 'アットホームな老舗スナック', rating: '4.2', reviews: '8', location: '東京都 葛飾区', bonus: '￥120,000', hourlyWage: '￥2,500 ~ ￥5,000', helpWage: '￥2,500 ~ ￥5,000', imageUrls: ['https://images.unsplash.com/photo-1514933651103-005eec06c04b?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80'] },
@@ -289,11 +315,46 @@
                 setDragOffset({ x: 0, y: 0 });
             };
 
-            // ★ サイドボタンのスタイル修正（ラベル削除、サイズ＆視認性アップ）
+            // ★ サイドボタンのスタイルを Nav Icon Style と連動させる
             const sideBtnWrapperStyle = "flex flex-col items-center cursor-pointer pointer-events-auto transition-transform active:scale-90 hover:scale-105";
-            const sideBtnGlassStyle = `w-[60px] h-[60px] rounded-full bg-black/60 backdrop-blur-lg border-[1.5px] border-white/40 flex items-center justify-center shadow-[0_8px_20px_rgba(0,0,0,0.6)]`;
-            const iconGradStyle = `text-[30px] text-gradient bg-gradient-to-r ${theme.accentGrad} drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]`;
+            let sideBtnGlassStyle = "";
+            let iconGradStyle = "";
+
+            if (navIconStyle === 'neon') {
+                sideBtnGlassStyle = `w-[60px] h-[60px] rounded-full bg-black/60 backdrop-blur-lg border-[1.5px] border-white/40 flex items-center justify-center shadow-[0_8px_20px_rgba(0,0,0,0.6)]`;
+                iconGradStyle = `text-[30px] text-gradient bg-gradient-to-r ${theme.accentGrad} drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]`;
+            } else if (navIconStyle === 'flat') {
+                sideBtnGlassStyle = `w-[60px] h-[60px] rounded-full bg-black/60 backdrop-blur-lg border border-white/20 flex items-center justify-center shadow-md`;
+                iconGradStyle = `text-[30px] ${styles.textAccent} drop-shadow-none`;
+            } else if (navIconStyle === '3d') {
+                sideBtnGlassStyle = `w-[60px] h-[60px] rounded-full bg-gradient-to-br from-[#2a2a2a]/80 to-[#050505]/80 shadow-[4px_4px_10px_rgba(0,0,0,0.9),-1px_-1px_4px_rgba(255,255,255,0.1),inset_1px_1px_2px_rgba(255,255,255,0.05)] border border-white/5 flex items-center justify-center`;
+                iconGradStyle = `text-[26px] ${styles.textAccent} drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]`;
+            }
             
+            // ★ ボタンモード時の下部ボタン (× と ♡) のスタイル
+            const actionBtnWrapper = "w-14 h-14 rounded-full flex items-center justify-center pointer-events-auto active:scale-95 transition-all";
+            let xBtnStyle = "";
+            let heartBtnStyle = "";
+            let xIconStyle = "";
+            let heartIconStyle = "";
+
+            if (navIconStyle === 'neon') {
+                xBtnStyle = `${actionBtnWrapper} bg-[#1A1A1A] border ${styles.fixedBorderColor} shadow-[0_4px_12px_rgba(0,0,0,0.5)]`;
+                xIconStyle = "ph-bold ph-x text-2xl text-gray-400";
+                heartBtnStyle = `${actionBtnWrapper} bg-black/60 backdrop-blur-md border-[1.5px] border-white/40 shadow-[0_8px_20px_rgba(0,0,0,0.6)] hover:scale-105`;
+                heartIconStyle = `ph-fill ph-heart text-3xl text-gradient bg-gradient-to-r ${theme.accentGrad} drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]`;
+            } else if (navIconStyle === 'flat') {
+                xBtnStyle = `${actionBtnWrapper} bg-[#1A1A1A] border ${styles.fixedBorderColor} shadow-md`;
+                xIconStyle = "ph-bold ph-x text-2xl text-gray-400";
+                heartBtnStyle = `${actionBtnWrapper} bg-black/60 backdrop-blur-md border border-white/20 shadow-md hover:scale-105`;
+                heartIconStyle = `ph-fill ph-heart text-3xl ${styles.textAccent} drop-shadow-none`;
+            } else if (navIconStyle === '3d') {
+                xBtnStyle = `${actionBtnWrapper} bg-gradient-to-br from-[#2a2a2a]/80 to-[#050505]/80 shadow-[4px_4px_10px_rgba(0,0,0,0.9),-1px_-1px_4px_rgba(255,255,255,0.1),inset_1px_1px_2px_rgba(255,255,255,0.05)] border border-white/5`;
+                xIconStyle = "ph-bold ph-x text-2xl text-gray-400 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]";
+                heartBtnStyle = `${actionBtnWrapper} bg-gradient-to-br from-[#2a2a2a]/80 to-[#050505]/80 shadow-[4px_4px_10px_rgba(0,0,0,0.9),-1px_-1px_4px_rgba(255,255,255,0.1),inset_1px_1px_2px_rgba(255,255,255,0.05)] border border-white/5 hover:scale-105`;
+                heartIconStyle = `ph-fill ph-heart text-[26px] ${styles.textAccent} drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]`;
+            }
+
             const bonusBadgeStyle = `inline-flex items-center gap-4 mb-3 transform hover:scale-105 transition-all self-start px-4 py-2.5 rounded-full text-[#111] font-bold bg-gradient-to-r from-[#D4AF37] to-[#B8860B] shadow-[inset_0_4px_6px_rgba(255,255,255,0.4),inset_0_-6px_6px_rgba(0,0,0,0.4),0_12px_24px_rgba(0,0,0,0.7)] border border-[#D4AF37]/30`;
 
             return (
@@ -334,8 +395,9 @@
                                     </div>
                                     <div className="absolute inset-0 overflow-hidden">
                                         <div className="w-full h-full flex" style={imageStyle}>{data.imageUrls.map((u, i) => <img key={i} src={u} className="w-full h-full object-cover shrink-0" draggable="false" />)}</div>
-                                        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-[#050505] opacity-90"></div>
-                                        <div className="absolute bottom-0 left-0 w-full h-[60%] bg-gradient-to-t from-[#050505] via-[#050505]/40 to-transparent"></div>
+                                        
+                                        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-[#050505] opacity-95"></div>
+                                        <div className="absolute bottom-0 left-0 w-full h-[75%] bg-gradient-to-t from-[#050505] via-[#050505]/80 to-transparent pointer-events-none"></div>
                                     </div>
                                     
                                     <div className="absolute inset-0 z-10 flex flex-col justify-end p-6 pb-44 pointer-events-none">
@@ -357,16 +419,17 @@
                                         )}
 
                                         <div className="mb-auto mt-24 flex justify-center"><div className={`bg-[#121212]/80 backdrop-blur-md border ${styles.fixedBorderColor} px-4 py-1.5 rounded-full shadow-sm`}><span className="text-[#F5F5F5] font-bold tracking-widest text-[11px] whitespace-nowrap">{data.copy}</span></div></div>
+                                        
                                         <div className="flex flex-col max-w-[75%] pointer-events-auto">
-                                            <h2 className="text-[34px] app-title font-bold text-white mb-2 leading-tight drop-shadow-xl">{data.name}</h2>
+                                            <h2 className="text-[34px] app-title font-bold text-white mb-2 leading-tight text-shadow-heavy">{data.name}</h2>
                                             <div className="flex items-center gap-3 mb-4">
-                                                <div className="flex items-center gap-1"><i className={`ph-fill ph-star text-[14px] ${styles.iconAccent}`}></i><span className={`font-bold text-[14px] ${styles.textAccent}`}>{data.rating}</span></div>
-                                                <div className="flex items-center text-[#A0A0A0] text-[11px] drop-shadow-md"><i className={`ph-fill ph-map-pin text-[12px] mr-1 ${styles.iconAccent}`}></i>{data.location}</div>
+                                                <div className="flex items-center gap-1 text-shadow-heavy"><i className={`ph-fill ph-star text-[14px] ${styles.iconAccent}`}></i><span className={`font-bold text-[14px] ${styles.textAccent}`}>{data.rating}</span></div>
+                                                <div className="flex items-center text-[#A0A0A0] text-[11px] text-shadow-heavy"><i className={`ph-fill ph-map-pin text-[12px] mr-1 ${styles.iconAccent}`}></i>{data.location}</div>
                                             </div>
                                             <div className={bonusBadgeStyle}><span className="text-[9px] tracking-wider opacity-90 mr-4">ボーナス金</span><span className="text-[16px] tracking-wider font-extrabold">{data.bonus}</span></div>
-                                            <div className="flex flex-col gap-2 drop-shadow-lg">
-                                                <div className="flex items-center gap-3"><span className={`text-[11px] font-bold ${styles.textAccent} whitespace-nowrap`}>体入時給</span><span className="text-[24px] font-bold text-white tracking-tight leading-none">{data.hourlyWage}</span></div>
-                                                <div className="flex items-center gap-3"><span className={`text-[11px] font-bold ${styles.textAccent} whitespace-nowrap`}>ヘルプ時給</span><span className="text-[18px] text-[#A0A0A0] font-medium leading-none">{data.helpWage}</span></div>
+                                            <div className="flex flex-col gap-2">
+                                                <div className="flex items-center gap-3 text-shadow-heavy"><span className={`text-[11px] font-bold ${styles.textAccent} whitespace-nowrap`}>体入時給</span><span className="text-[24px] font-bold text-white tracking-tight leading-none">{data.hourlyWage}</span></div>
+                                                <div className="flex items-center gap-3 text-shadow-heavy"><span className={`text-[11px] font-bold ${styles.textAccent} whitespace-nowrap`}>ヘルプ時給</span><span className="text-[18px] text-[#A0A0A0] font-medium leading-none">{data.helpWage}</span></div>
                                             </div>
                                         </div>
                                     </div>
@@ -376,14 +439,15 @@
                     </div>
 
                     {swipeActionStyle === 'swipe_only' ? (
-                        <div className="absolute bottom-[90px] left-1/2 -translate-x-1/2 flex flex-col items-center opacity-80 animate-bounce pointer-events-none z-20">
-                            <i className="ph-bold ph-caret-up text-[20px] text-white"></i>
-                            <span className="app-title text-white text-[9px] font-bold tracking-[0.2em] text-center">SWIPE UP TO NEXT</span>
+                        <div className="absolute bottom-[100px] left-0 w-full flex justify-center pointer-events-none z-20">
+                            <div className="opacity-80 animate-bounce flex items-center justify-center">
+                                <i className="ph-bold ph-caret-up text-[32px] text-white drop-shadow-lg"></i>
+                            </div>
                         </div>
                     ) : (
                         <div className="absolute bottom-[90px] left-0 w-full flex justify-center gap-8 px-8 z-30 pb-safe pointer-events-none">
-                            <button onClick={() => handleSwipeCard('up')} className={`w-14 h-14 rounded-full bg-[#1A1A1A] border ${styles.fixedBorderColor} flex items-center justify-center text-gray-400 shadow-lg pointer-events-auto active:scale-95`}><i className="ph-bold ph-x text-2xl"></i></button>
-                            <button onClick={() => handleSwipeCard('up')} className={`w-14 h-14 rounded-full flex items-center justify-center font-bold ${styles.button.split('px-6')[0]} shadow-lg pointer-events-auto active:scale-95`}><i className={`ph-fill ph-heart text-2xl ${styles.buttonIcon}`}></i></button>
+                            <button onClick={() => handleSwipeCard('up')} className={xBtnStyle}><i className={xIconStyle}></i></button>
+                            <button onClick={() => handleSwipeCard('up')} className={heartBtnStyle}><i className={heartIconStyle}></i></button>
                         </div>
                     )}
                 </div>
@@ -397,7 +461,7 @@
                     <header className={`absolute top-0 left-0 w-full z-40 flex items-center justify-between px-5 py-4 ${styles.glassHeader} pt-safe`}>
                         <div className="w-12"></div><h1 className={`${theme.textMain} app-title text-[16px] font-bold text-center absolute left-1/2 -translate-x-1/2 uppercase`}>Search</h1><div className="flex items-center gap-4 text-white drop-shadow-md cursor-pointer hover:text-white/80 transition-colors"><i className="ph-bold ph-bell text-[20px]"></i></div>
                     </header>
-                    <div className="absolute inset-0 overflow-y-auto pb-[100px] pt-[72px] px-4">
+                    <div className="absolute inset-0 overflow-y-auto pb-[100px] pt-[72px] px-4 scrollbar-hide">
                         <div className="flex bg-transparent border-b border-[#A855F7]/40 pt-4 pb-2 mb-4"><button className={`flex-1 py-2 text-[13px] font-bold text-white relative`}>検索<div className={styles.tabLine}></div></button><button className={`flex-1 py-2 text-[13px] font-bold text-[#A0A0A0]`}>AIレコメンド</button></div>
                         <div className="flex gap-2 mb-6"><input type="text" placeholder="エリア・店名で検索..." className={`flex-1 rounded-full py-2.5 px-4 text-sm ${styles.inputContainer} ${styles.inputText} focus:outline-none`} /><button className={`${styles.button} !px-0 w-10 h-10`}><i className="ph-bold ph-magnifying-glass text-lg"></i></button></div>
                         {timelineData.map(i => (
@@ -501,7 +565,7 @@
                     <header className={`absolute top-0 left-0 w-full z-40 flex items-center justify-between px-5 py-4 ${styles.glassHeader} pt-safe`}>
                         <div className="flex items-center gap-4 text-white drop-shadow-md cursor-pointer hover:text-white/80 transition-colors"><i className="ph-bold ph-caret-left text-[24px]"></i></div><h1 className={`${theme.textMain} app-title text-[16px] font-bold text-center uppercase`}>Mypage</h1><div className={`flex gap-4 text-white drop-shadow-md cursor-pointer hover:text-white/80 transition-colors`}><i className="ph-bold ph-bell text-[20px]"></i><i className="ph-bold ph-list text-[20px]"></i></div>
                     </header>
-                    <div className="absolute inset-0 overflow-y-auto pb-[100px] pt-[72px] px-5">
+                    <div className="absolute inset-0 overflow-y-auto pb-[100px] pt-[72px] px-5 scrollbar-hide">
                         <h2 className="text-[28px] font-bold text-white mt-6 mb-5 tracking-wide drop-shadow-sm">みさき</h2>
                         <div className="flex gap-4 mb-8">
                             <div className="w-20 h-20 rounded-full border-2 border-[#A855F7]/40 p-0.5 shadow-lg"><img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80" className="w-full h-full rounded-full object-cover" /></div>
@@ -530,7 +594,7 @@
             return (
                 <div className={`relative w-full h-full flex flex-col transition-colors duration-300 overflow-hidden ${theme.bgMain}`}>
                     <header className={`absolute top-0 left-0 w-full z-40 flex items-center justify-between px-5 py-4 ${styles.glassHeader} pt-safe`}><div className="w-12"></div><h1 className="text-white app-title text-[16px] font-bold absolute left-1/2 -translate-x-1/2 uppercase">Talk</h1><div className="flex items-center gap-4 text-white drop-shadow-md cursor-pointer hover:text-white/80 transition-colors"><i className="ph-bold ph-bell text-[20px]"></i></div></header>
-                    <div className="absolute inset-0 overflow-y-auto pb-[100px] pt-[72px] px-4">
+                    <div className="absolute inset-0 overflow-y-auto pb-[100px] pt-[72px] px-4 scrollbar-hide">
                         <div className="flex bg-transparent border-b border-[#A855F7]/40 pt-4 pb-2 mb-6"><button className="flex-1 py-2 text-[13px] font-bold text-white relative">やり取り中<div className={styles.tabLine}></div></button><button className="flex-1 py-2 text-[13px] font-bold text-[#A0A0A0]">オファー</button></div>
                         {list.map(i => (
                             <div key={i.id} onClick={() => onOpenRoom(i.id)} className={`${styles.menuCard} !p-4 mb-4 shadow-xl border ${styles.fixedBorderColor}`}><div className="flex items-center gap-4 w-full"><img src={i.url} className="w-14 h-14 rounded-full border border-[#A855F7]/40 shadow-md" /><div className="flex-1 min-w-0"><div className="flex justify-between mb-1"><h3 className="text-white font-bold text-[15px] truncate">{i.name}</h3><span className="text-[#A0A0A0] text-[10px]">{i.date}</span></div><p className="text-white opacity-80 text-[13px] truncate">{i.last}</p><div className="mt-2"><span className="px-3 py-0.5 rounded-full text-[10px] border border-[#A855F7]/40 text-white font-bold bg-transparent shadow-sm">{i.status}</span></div></div></div></div>
@@ -561,12 +625,13 @@
         };
 
         const App = () => {
-            const [currentAccentId, setCurrentAccentId] = useState('light_pink'); // ★デフォルトをライトピンクに変更
-            const [hfColorId, setHfColorId] = useState('grad_black_purple');
+            const [currentAccentId, setCurrentAccentId] = useState('light_pink');
+            const [hfColorId, setHfColorId] = useState('deep_purple'); // ★デフォルトを「ディープパープル単色」に変更
             const [inputStyle, setInputStyle] = useState('light');
             const [is3D, setIs3D] = useState(true);
             const [isGrad, setIsGrad] = useState(true);
             const [swipeActionStyle, setSwipeActionStyle] = useState('swipe_only');
+            const [navIconStyle, setNavIconStyle] = useState('flat'); // ★デフォルトを「フラット」に変更
             const [currentAppTab, setCurrentAppTab] = useState('swipe');
             const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -589,6 +654,16 @@
                                 <label className="flex items-center gap-3 cursor-pointer"><input type="checkbox" checked={is3D} onChange={e => setIs3D(e.target.checked)} className="hidden" /><div className={`w-5 h-5 border rounded flex items-center justify-center ${is3D ? 'bg-white' : ''}`}>{is3D && <i className="ph-bold ph-check text-black"></i>}</div>思いっきり立体</label>
                                 <label className="flex items-center gap-3 cursor-pointer"><input type="checkbox" checked={isGrad} onChange={e => setIsGrad(e.target.checked)} className="hidden" /><div className={`w-5 h-5 border rounded flex items-center justify-center ${isGrad ? 'bg-white' : ''}`}>{isGrad && <i className="ph-bold ph-check text-black"></i>}</div>グラデーション背景</label>
                             </div>
+                            
+                            <div className="border-t border-white/10 pt-4 flex flex-col gap-2">
+                                <label className="uppercase">Nav Icon Style</label>
+                                <div className="flex gap-2">
+                                    <button onClick={() => setNavIconStyle('neon')} className={`flex-1 py-2 text-[11px] font-bold border rounded transition-all ${navIconStyle === 'neon' ? 'bg-white text-black' : 'border-white/20 text-white'}`}>ネオン</button>
+                                    <button onClick={() => setNavIconStyle('flat')} className={`flex-1 py-2 text-[11px] font-bold border rounded transition-all ${navIconStyle === 'flat' ? 'bg-white text-black' : 'border-white/20 text-white'}`}>フラット</button>
+                                    <button onClick={() => setNavIconStyle('3d')} className={`flex-1 py-2 text-[11px] font-bold border rounded transition-all ${navIconStyle === '3d' ? 'bg-white text-black' : 'border-white/20 text-white'}`}>立体感</button>
+                                </div>
+                            </div>
+
                             <div className="border-t border-white/10 pt-4 flex flex-col gap-2">
                                 <label className="uppercase">Swipe Action Style</label>
                                 <div className="flex gap-4"><button onClick={() => setSwipeActionStyle('buttons')} className={`flex-1 py-2 border rounded transition-all ${swipeActionStyle === 'buttons' ? 'bg-white text-black' : 'border-white/20'}`}>ボタン</button><button onClick={() => setSwipeActionStyle('swipe_only')} className={`flex-1 py-2 border rounded transition-all ${swipeActionStyle === 'swipe_only' ? 'bg-white text-black' : 'border-white/20'}`}>上スワイプ誘導</button></div>
@@ -597,13 +672,13 @@
                     </div>
 
                     <div className="flex-1 flex flex-col w-full max-w-[430px] mx-auto bg-[#050505] shadow-[0_0_50px_rgba(0,0,0,0.8)] relative overflow-hidden h-full">
-                        {currentAppTab === 'swipe' && <HomeSwipeScreen theme={theme} styles={styles} is3D={is3D} isGrad={isGrad} swipeActionStyle={swipeActionStyle} onOpenTalk={() => setCurrentAppTab('talk_room')} />}
+                        {currentAppTab === 'swipe' && <HomeSwipeScreen theme={theme} styles={styles} is3D={is3D} isGrad={isGrad} swipeActionStyle={swipeActionStyle} navIconStyle={navIconStyle} onOpenTalk={() => setCurrentAppTab('talk_room')} />}
                         {currentAppTab === 'search' && <SearchTimelineScreen theme={theme} styles={styles} />}
                         {currentAppTab === 'likes' && <LikesScreen theme={theme} styles={styles} />}
                         {currentAppTab === 'talk' && <TalkListScreen theme={theme} styles={styles} onOpenRoom={() => setCurrentAppTab('talk_room')} />}
                         {currentAppTab === 'talk_room' && <TalkRoomScreen theme={theme} styles={styles} is3D={is3D} isGrad={isGrad} onBack={() => setCurrentAppTab('talk')} />}
                         {currentAppTab === 'mypage' && <MyPageScreen theme={theme} styles={styles} />}
-                        <BottomNav theme={theme} styles={styles} activeTab={currentAppTab} onChangeTab={setCurrentAppTab} />
+                        <BottomNav theme={theme} styles={styles} activeTab={currentAppTab} onChangeTab={setCurrentAppTab} navIconStyle={navIconStyle} />
                     </div>
                 </div>
             );
