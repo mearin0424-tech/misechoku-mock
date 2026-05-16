@@ -3,21 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>NightWork App Simulator</title>
+    <title>NightWork App Design Simulator</title>
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500;700;800&family=Montserrat:wght@600;700;800&family=Noto+Sans+JP:wght@400;500;700;800&family=Zen+Maru+Gothic:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Noto+Sans+JP:wght@400;500;700;800&display=swap" rel="stylesheet">
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- React & ReactDOM -->
+    <!-- React & ReactDOM (CDN) -->
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     
-    <!-- Babel -->
+    <!-- Babel (CDN) -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     
     <!-- Phosphor Icons -->
@@ -36,12 +36,6 @@
             -webkit-tap-highlight-color: transparent; 
         }
         #root { height: 100%; width: 100%; }
-
-        .font-zen { font-family: 'Zen Maru Gothic', sans-serif; }
-        .font-zen .app-title { font-family: 'Zen Maru Gothic', sans-serif; font-weight: 700; letter-spacing: 0.05em; }
-
-        .font-mplus { font-family: 'M PLUS Rounded 1c', sans-serif; }
-        .font-mplus .app-title { font-family: 'M PLUS Rounded 1c', sans-serif; font-weight: 800; letter-spacing: 0.05em; }
 
         .font-noto { font-family: 'Noto Sans JP', sans-serif; }
         .font-noto .app-title { font-family: 'Montserrat', 'Noto Sans JP', sans-serif; font-weight: 700; letter-spacing: 0.05em; }
@@ -78,82 +72,114 @@
             black: { 
                 id: 'black', name: 'ブラック (堅牢・透明性)', 
                 bgApp: 'bg-[#050505]', bgMain: 'bg-[#050505]', textMain: 'text-[#F5F5F5]', textSub: 'text-[#A0A0A0]', 
-                borderColor: 'border-[#2A2A2A]', glassBg: 'bg-[#050505]/65', bgMainHex: '#050505'
+                borderColor: 'border-[#2A2A2A]', glassBg: 'bg-[#050505]/40', bgMainHex: '#050505'
             }
         };
 
         const accentColors = {
-            mauve_lavender: {
-                id: 'mauve_lavender', name: 'モーブ (薄ピンクに近い紫)',
-                accentBg: 'bg-[#CBA6D9]', accentText: 'text-[#CBA6D9]', accentBorderLight: 'border-[#CBA6D9]/40', 
-                inputBg: 'bg-[#CBA6D9]/10', inputBgLight: 'bg-[#F5F0F7]' // ほんのり紫がかった白
+            amethyst: {
+                id: 'amethyst', name: 'アメジスト (王道の紫)', isDarkPurple: true,
+                accentBg: 'bg-[#8B5CF6]', accentText: 'text-[#A78BFA]',
+                btnTextClass: 'text-[#E6DFFC]', btnIconClass: 'text-white',
+                accentGrad: 'from-[#A78BFA] to-[#7C3AED]', btnTextGradClass: 'text-[#F4F2FA]', btnIconGradClass: 'text-white'
             },
-            pale_lilac: {
-                id: 'pale_lilac', name: 'ライラック (淡く優しい紫)',
-                accentBg: 'bg-[#D8B4E2]', accentText: 'text-[#D8B4E2]', accentBorderLight: 'border-[#D8B4E2]/40', 
-                inputBg: 'bg-[#D8B4E2]/10', inputBgLight: 'bg-[#F8F5F9]'
+            lilac: {
+                id: 'lilac', name: 'ライラック (淡い紫)', isDarkPurple: false,
+                accentBg: 'bg-[#D8B4E2]', accentText: 'text-[#D8B4E2]',
+                btnTextClass: 'text-[#111]', btnIconClass: 'text-[#111]',
+                accentGrad: 'from-[#F3E8F6] to-[#C997D6]', btnTextGradClass: 'text-[#111]', btnIconGradClass: 'text-[#111]'
             },
-            royal_amethyst: {
-                id: 'royal_amethyst', name: 'アメジスト (王道で高貴な紫)',
-                accentBg: 'bg-[#8B5CF6]', accentText: 'text-[#A78BFA]', accentBorderLight: 'border-[#A78BFA]/40', 
-                inputBg: 'bg-[#A78BFA]/10', inputBgLight: 'bg-[#F4F2FA]'
+            light_blue: {
+                id: 'light_blue', name: 'ライトブルー (水色)', isDarkPurple: false,
+                accentBg: 'bg-[#7DD3FC]', accentText: 'text-[#7DD3FC]',
+                btnTextClass: 'text-[#111]', btnIconClass: 'text-[#111]',
+                accentGrad: 'from-[#BAE6FD] to-[#38BDF8]', btnTextGradClass: 'text-[#111]', btnIconGradClass: 'text-[#111]'
             },
-            deep_purple: {
-                id: 'deep_purple', name: 'ディープ・パープル (濃い紫)',
-                accentBg: 'bg-[#9333EA]', accentText: 'text-[#A855F7]', accentBorderLight: 'border-[#A855F7]/40', 
-                inputBg: 'bg-[#A855F7]/10', inputBgLight: 'bg-[#F5F2FA]'
-            },
-            blue_purple: {
-                id: 'blue_purple', name: 'ブルー・パープル (青みのある紫)',
-                accentBg: 'bg-[#6366F1]', accentText: 'text-[#818CF8]', accentBorderLight: 'border-[#818CF8]/40', 
-                inputBg: 'bg-[#818CF8]/10', inputBgLight: 'bg-[#F3F4FB]'
+            light_pink: {
+                id: 'light_pink', name: 'ライトピンク (薄桃色)', isDarkPurple: false,
+                accentBg: 'bg-[#F9A8D4]', accentText: 'text-[#F9A8D4]',
+                btnTextClass: 'text-[#111]', btnIconClass: 'text-[#111]',
+                accentGrad: 'from-[#FBCFE8] to-[#F472B6]', btnTextGradClass: 'text-[#111]', btnIconGradClass: 'text-[#111]'
             }
         };
 
-        const fontDefs = {
-            zen_maru: { id: 'zen_maru', name: 'Zen Maru (親しみ・ポップ)', family: 'font-zen' },
-            m_plus: { id: 'm_plus', name: 'M PLUS Rounded (モダン・すっきり)', family: 'font-mplus' },
-            noto_sans: { id: 'noto_sans', name: 'Noto Sans (王道・高視認性)', family: 'font-noto' },
+        // ★ ヘッダー＆フッターの色定義
+        const hfColorDefs = {
+            black: { id: 'black', name: '単色 (ブラック)', bgClass: 'bg-[#050505]/50' },
+            deep_purple: { id: 'deep_purple', name: '単色 (ディープパープル)', bgClass: 'bg-[#9333EA]/30' },
+            grad_black_purple: { id: 'grad_black_purple', name: 'グラデ (ブラック × ディープパープル)', bgClass: 'bg-gradient-to-r from-[#050505]/60 to-[#9333EA]/30' },
+            grad_purple_yellow: { id: 'grad_purple_yellow', name: 'グラデ (ディープパープル × イエロー)', bgClass: 'bg-gradient-to-r from-[#9333EA]/30 to-[#D4AF37]/30' },
+            grad_purple_lilac: { id: 'grad_purple_lilac', name: 'グラデ (ディープパープル × ライラック)', bgClass: 'bg-gradient-to-r from-[#9333EA]/30 to-[#D8B4E2]/30' },
+            grad_purple_amethyst: { id: 'grad_purple_amethyst', name: 'グラデ (ディープパープル × アメジスト)', bgClass: 'bg-gradient-to-r from-[#9333EA]/30 to-[#8B5CF6]/30' },
+            grad_purple_pink: { id: 'grad_purple_pink', name: 'グラデ (ディープパープル × ピンク)', bgClass: 'bg-gradient-to-r from-[#9333EA]/30 to-[#EC4899]/30' }
         };
 
+        const fontDefs = {
+            noto_sans: { id: 'noto_sans', name: 'Noto Sans', family: 'font-noto' }
+        };
+
+        // Tailwind JIT用セーフリスト
         const TailwindSafelist = () => (
-            <div className="hidden bg-[#CBA6D9] text-[#CBA6D9] border-[#CBA6D9]/40 bg-[#CBA6D9]/10 bg-[#F5F0F7] bg-[#D8B4E2] text-[#D8B4E2] border-[#D8B4E2]/40 bg-[#D8B4E2]/10 bg-[#F8F5F9] bg-[#8B5CF6] text-[#A78BFA] border-[#A78BFA]/40 bg-[#A78BFA]/10 bg-[#F4F2FA] bg-[#9333EA] text-[#A855F7] border-[#A855F7]/40 bg-[#A855F7]/10 bg-[#F5F2FA] bg-[#6366F1] text-[#818CF8] border-[#818CF8]/40 bg-[#818CF8]/10 bg-[#F3F4FB] text-[#1A1A1A] text-[#666666] shadow-[inset_0_2px_4px_rgba(255,255,255,0.4),inset_0_-4px_4px_rgba(0,0,0,0.3),0_6px_12px_rgba(0,0,0,0.8)] shadow-[inset_0_1px_2px_rgba(255,255,255,0.4),inset_0_-2px_2px_rgba(0,0,0,0.3),0_4px_8px_rgba(0,0,0,0.6)] shadow-[8px_8px_20px_rgba(0,0,0,0.8),-2px_-2px_8px_rgba(255,255,255,0.03)] shadow-[inset_0_2px_4px_rgba(0,0,0,0.5)] shadow-[inset_0_2px_4px_rgba(0,0,0,0.1)] bg-[#050505] text-[#F5F5F5] text-[#A0A0A0] border-[#2A2A2A] bg-[#050505]/65"></div>
+            <div className="hidden border-[#A855F7]/40 bg-[#A855F7] bg-[#A855F7]/10 bg-[#F5F2FA] bg-[#8B5CF6] text-[#A78BFA] from-[#A78BFA] to-[#7C3AED] bg-[#D8B4E2] text-[#D8B4E2] from-[#F3E8F6] to-[#C997D6] bg-[#7DD3FC] text-[#7DD3FC] from-[#BAE6FD] to-[#38BDF8] bg-[#F9A8D4] text-[#F9A8D4] from-[#FBCFE8] to-[#F472B6] text-[#1A1A1A] text-[#666666] text-[#E6DFFC] text-[#F3E8FF] text-[#E0E7FF] text-[#FAF5FF] text-[#EEF2FF] text-[#111] text-white shadow-[inset_0_4px_6px_rgba(255,255,255,0.5),inset_0_-6px_6px_rgba(0,0,0,0.4),0_12px_24px_rgba(0,0,0,0.7)] active:shadow-[inset_0_6px_8px_rgba(0,0,0,0.6),0_2px_4px_rgba(0,0,0,0.6)] shadow-[8px_8px_20px_rgba(0,0,0,0.8),-2px_-2px_8px_rgba(255,255,255,0.03)] shadow-[inset_0_2px_4px_rgba(0,0,0,0.5)] shadow-[inset_0_2px_4px_rgba(0,0,0,0.1)] bg-[#050505] text-[#F5F5F5] text-[#A0A0A0] border-[#2A2A2A] bg-[#050505]/40 from-[#D4AF37] to-[#B8860B] border-[#D4AF37]/30 bg-[#9333EA] from-[#A855F7] to-[#7E22CE] bg-[#581c87] from-[#6b21a8] to-[#3b0764] bg-[#050505]/50 bg-[#9333EA]/30 from-[#050505]/60 to-[#9333EA]/30 from-[#9333EA]/30 to-[#D4AF37]/30 to-[#D8B4E2]/30 to-[#8B5CF6]/30 to-[#EC4899]/30 shadow-[0_4px_12px_rgba(0,0,0,0.6),inset_0_1px_1px_rgba(255,255,255,0.15),inset_0_-1px_1px_rgba(0,0,0,0.5)] shadow-[0_-4px_20px_rgba(0,0,0,0.7),inset_0_1px_1px_rgba(255,255,255,0.15),inset_0_-1px_1px_rgba(0,0,0,0.5)] bg-gradient-to-br from-[#1a1a1a] to-[#050505] shadow-[6px_6px_16px_rgba(0,0,0,0.9),-2px_-2px_6px_rgba(255,255,255,0.06),inset_1px_1px_1px_rgba(255,255,255,0.08)]"></div>
         );
 
         // ==========================================
         // 🧩 スタイル生成ロジック
         // ==========================================
-        const generateStyles = (t, isGlass, inputStyle) => {
-            const shadowBtn3D = 'shadow-[inset_0_2px_4px_rgba(255,255,255,0.4),inset_0_-4px_4px_rgba(0,0,0,0.3),0_6px_12px_rgba(0,0,0,0.8)] active:translate-y-1 active:shadow-[inset_0_4px_6px_rgba(0,0,0,0.5),0_2px_4px_rgba(0,0,0,0.8)]';
-            const shadowBadge3D = 'shadow-[inset_0_1px_2px_rgba(255,255,255,0.4),inset_0_-2px_2px_rgba(0,0,0,0.3),0_4px_8px_rgba(0,0,0,0.6)]';
-            const shadowCard3D = 'shadow-[8px_8px_20px_rgba(0,0,0,0.8),-2px_-2px_8px_rgba(255,255,255,0.03)]';
-            const shadowFab3D = 'shadow-[inset_0_2px_4px_rgba(255,255,255,0.4),inset_0_-4px_4px_rgba(0,0,0,0.3),0_8px_16px_rgba(0,0,0,0.8)] active:translate-y-1 active:shadow-[inset_0_4px_6px_rgba(0,0,0,0.5),0_2px_4px_rgba(0,0,0,0.8)]';
+        const generateStyles = (t, inputStyle, is3D, isGrad, hfColor) => {
+            const shadowBtn3D = 'shadow-[inset_0_4px_6px_rgba(255,255,255,0.5),inset_0_-6px_6px_rgba(0,0,0,0.4),0_12px_24px_rgba(0,0,0,0.7)] active:translate-y-1.5 active:shadow-[inset_0_6px_8px_rgba(0,0,0,0.6),0_2px_4px_rgba(0,0,0,0.6)]';
+            const shadowBadge3D = 'shadow-[inset_0_2px_3px_rgba(255,255,255,0.4),inset_0_-3px_3px_rgba(0,0,0,0.4),0_6px_12px_rgba(0,0,0,0.5)]';
+            const shadowFab3D = 'shadow-[inset_0_4px_6px_rgba(255,255,255,0.5),inset_0_-6px_6px_rgba(0,0,0,0.4),0_14px_28px_rgba(0,0,0,0.7)] active:translate-y-1.5 active:shadow-[inset_0_6px_8px_rgba(0,0,0,0.6),0_2px_4px_rgba(0,0,0,0.6)]';
 
-            const cardBg = 'bg-transparent';
-            const glassHeaderStyle = isGlass ? `${t.glassBg} backdrop-blur-xl border-b ${t.accentBorderLight} shadow-lg` : `${t.bgMain} border-b ${t.accentBorderLight} shadow-lg`;
-            const glassFooterStyle = isGlass ? `${t.glassBg} backdrop-blur-xl border-t ${t.accentBorderLight} shadow-[0_-4px_20px_rgba(0,0,0,0.5)]` : `${t.bgMain} border-t ${t.accentBorderLight} shadow-[0_-4px_20px_rgba(0,0,0,0.5)]`;
+            // ★ ボタン以外（枠線等）はディープパープルで固定
+            const fixedBorderColor = 'border-[#A855F7]/40';
+            
+            // ★ カードの立体感（背景を少し明るいグラデーションにし、ハイライトと深い影を落とすダーク・ニューモーフィズム）
+            const cardBg = is3D ? 'bg-gradient-to-br from-[#1a1a1a] to-[#050505]' : 'bg-transparent';
+            const shadowCard3D = is3D ? 'shadow-[6px_6px_16px_rgba(0,0,0,0.9),-2px_-2px_6px_rgba(255,255,255,0.06),inset_1px_1px_1px_rgba(255,255,255,0.08)]' : 'shadow-none';
 
-            // ★ 入力欄（ライト/ダーク）のスタイル制御
-            const inputBgClass = inputStyle === 'light' ? t.inputBgLight : t.inputBg;
-            const inputBorderClass = inputStyle === 'light' ? 'border-transparent' : `border ${t.accentBorderLight}`;
+            // ★ ヘッダー・フッターに「のっぺりしない」立体感（ガラスの厚み・ハイライト）を表現する影を追加
+            const headerShadow = 'shadow-[0_4px_12px_rgba(0,0,0,0.6),inset_0_1px_1px_rgba(255,255,255,0.15),inset_0_-1px_1px_rgba(0,0,0,0.5)]';
+            const footerShadow = 'shadow-[0_-4px_20px_rgba(0,0,0,0.7),inset_0_1px_1px_rgba(255,255,255,0.15),inset_0_-1px_1px_rgba(0,0,0,0.5)]';
+
+            // ヘッダー・フッターのスタイルを再構築
+            const glassHeaderStyle = `${hfColor.bgClass} backdrop-blur-md border-b ${fixedBorderColor} ${headerShadow}`;
+            const glassFooterStyle = `${hfColor.bgClass} backdrop-blur-md border-t ${fixedBorderColor} ${footerShadow}`;
+
+            const inputBgClass = inputStyle === 'light' ? 'bg-[#F5F2FA]' : 'bg-[#A855F7]/10';
+            const inputBorderClass = inputStyle === 'light' ? 'border-transparent' : `border ${fixedBorderColor}`;
             const inputTextClass = inputStyle === 'light' ? 'text-[#1A1A1A]' : 'text-[#F5F5F5]';
             const inputSubTextClass = inputStyle === 'light' ? 'text-[#666666]' : 'text-[#A0A0A0]';
             const inputPlaceholderClass = inputStyle === 'light' ? 'placeholder-gray-500' : 'placeholder-gray-400';
             const inputShadowClass = inputStyle === 'light' ? 'shadow-[inset_0_2px_4px_rgba(0,0,0,0.1)]' : 'shadow-[inset_0_2px_4px_rgba(0,0,0,0.5)]';
 
+            // ★ ボタンとバッヂの色は深いディープパープルで固定
+            const btnBgClass = isGrad ? 'bg-gradient-to-r from-[#6b21a8] to-[#3b0764]' : 'bg-[#581c87]';
+            const btnTextClass = isGrad ? 'text-[#FAF5FF]' : 'text-[#F3E8FF]';
+            const btnIconClass = 'text-white';
+
             return {
-                button: `px-6 py-3.5 rounded-full text-[#111] transition-all duration-300 flex items-center justify-center gap-2 font-bold ${t.accentBg} ${shadowBtn3D} border border-transparent`,
-                badge: `px-4 py-2 rounded-full text-[#111] font-bold text-sm ${t.accentBg} ${shadowBadge3D}`,
-                miniBadge: `flex items-center justify-center gap-1 text-[#111] text-[9px] font-bold px-1.5 py-0.5 rounded w-full relative -mt-4 z-10 ${t.accentBg} ${shadowBadge3D} border border-transparent`,
-                fab: `absolute bottom-[90px] right-5 w-[56px] h-[56px] rounded-full flex items-center justify-center text-[#111] hover:scale-105 transition-all z-30 ${t.accentBg} ${shadowFab3D}`,
+                button: `px-6 py-3.5 rounded-full ${btnBgClass} ${btnTextClass} ${is3D ? shadowBtn3D : 'shadow-md'} border border-transparent transition-all duration-300 flex items-center justify-center gap-2 font-bold`,
+                buttonIcon: btnIconClass,
+                badge: `px-4 py-2 rounded-full ${btnBgClass} ${btnTextClass} ${is3D ? shadowBadge3D : ''} font-bold text-sm`,
+                miniBadge: `flex items-center justify-center gap-1 ${btnBgClass} ${btnTextClass} text-[9px] font-bold px-1.5 py-0.5 rounded w-full relative -mt-4 z-10 ${is3D ? shadowBadge3D : 'border border-black/20'}`,
+                fab: `absolute bottom-[90px] right-5 w-[56px] h-[56px] rounded-full flex items-center justify-center ${btnBgClass} ${btnTextClass} hover:scale-105 transition-all z-30 ${is3D ? shadowFab3D : 'shadow-lg active:scale-95'}`,
                 
                 textAccent: t.accentText,
                 iconAccent: t.accentText,
+                fixedBorderColor: fixedBorderColor,
                 
-                card: `${cardBg} rounded-[20px] overflow-hidden transition-all duration-300 ${shadowCard3D} border ${t.accentBorderLight}`,
-                menuCard: `${cardBg} p-4 flex items-center justify-between rounded-[16px] transition-all duration-300 group cursor-pointer ${shadowCard3D} border ${t.accentBorderLight}`,
+                card: `${cardBg} rounded-[20px] overflow-hidden transition-all duration-300 ${shadowCard3D} border ${fixedBorderColor}`,
+                menuCard: `${cardBg} p-4 flex items-center justify-between rounded-[16px] transition-all duration-300 group cursor-pointer ${shadowCard3D} border ${fixedBorderColor}`,
                 
-                // 入力系のスタイル
+                specialMenuCard: `rounded-[16px] p-4 flex items-center justify-between transition-all duration-300 group cursor-pointer ${is3D ? `${btnBgClass} ${shadowBtn3D} border border-transparent` : `${cardBg} ${shadowCard3D} border ${fixedBorderColor}`}`,
+                specialMenuTitle: `app-title font-bold text-[15px] tracking-widest group-hover:opacity-80 transition-opacity ${is3D ? btnTextClass : t.accentText}`,
+                specialMenuSub: `text-[9px] font-bold tracking-[0.1em] mb-1 uppercase ${is3D ? btnTextClass + ' opacity-70' : t.textSub}`,
+                specialMenuIconWrapper: `w-11 h-11 rounded-xl flex items-center justify-center transition-all ${is3D ? 'bg-black/20 shadow-inner border border-white/10' : 'bg-transparent border ' + fixedBorderColor + ' shadow-[inset_0_2px_4px_rgba(0,0,0,0.6)]'}`,
+                specialMenuIcon: `text-[18px] ${is3D ? btnIconClass : t.accentText}`,
+                specialMenuArrow: `w-8 h-8 rounded-full border flex items-center justify-center transition-colors ${is3D ? 'border-white/30 group-hover:border-white/70' : 'border-white/20 group-hover:border-white/50'}`,
+                specialMenuArrowIcon: `text-[16px] transition-colors ${is3D ? btnIconClass + ' opacity-70 group-hover:opacity-100' : 'text-white/50 group-hover:text-white'}`,
+
                 inputContainer: `${inputBgClass} ${inputBorderClass} ${inputShadowClass} transition-all duration-300`,
                 inputText: inputTextClass,
                 inputSubText: inputSubTextClass,
@@ -161,7 +187,11 @@
 
                 glassHeader: glassHeaderStyle,
                 glassFooter: glassFooterStyle,
-                tabLine: `absolute bottom-0 left-1/2 -translate-x-1/2 w-12 h-1 rounded-t-full ${t.accentBg}`
+                tabLine: `absolute bottom-0 left-1/2 -translate-x-1/2 w-12 h-1 rounded-t-full bg-[#A855F7]`,
+                
+                myMessageBubble: `px-4 py-2.5 rounded-[20px] rounded-tr-sm ${btnBgClass} ${btnTextClass} ${is3D ? shadowBadge3D : 'shadow-md'} font-medium text-[13px] leading-relaxed border border-transparent w-fit`,
+                otherMessageBubble: `px-4 py-2.5 rounded-[20px] rounded-tl-sm ${cardBg} border ${fixedBorderColor} ${shadowCard3D} ${t.textMain} font-medium text-[13px] leading-relaxed w-fit`,
+                systemMessageBubble: `px-4 py-2.5 rounded-[20px] ${cardBg} border ${fixedBorderColor} ${shadowCard3D} ${t.textMain} font-medium text-[13px] leading-relaxed w-fit`
             }
         };
 
@@ -181,7 +211,7 @@
                 <nav className={`absolute bottom-0 left-0 w-full ${styles.glassFooter} z-50 pb-safe transition-colors duration-300`}>
                     <div className="flex justify-around items-center pt-3 pb-2 px-2 max-w-[430px] mx-auto">
                         {navItems.map(item => {
-                            const isActive = activeTab === item.id;
+                            const isActive = activeTab === item.id || (item.id === 'talk' && activeTab === 'talk_room');
                             return (
                                 <button 
                                     key={item.id} 
@@ -201,7 +231,7 @@
         // ==========================================
         // 📱 画面1: ホーム / スワイプ画面
         // ==========================================
-        const HomeSwipeScreen = ({ theme, styles }) => {
+        const HomeSwipeScreen = ({ theme, styles, is3D, isGrad, swipeActionStyle }) => {
             const initialCards = [
                 {
                     id: '1',
@@ -248,21 +278,6 @@
                         'https://images.unsplash.com/photo-1513360371669-4adf3dd7dff8?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80',
                         'https://images.unsplash.com/photo-1557672172-298e090bd0f1?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80',
                         'https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80'
-                    ]
-                },
-                {
-                    id: '4',
-                    name: 'PUB 淀み',
-                    copy: '地元で愛される大衆キャバクラ',
-                    rating: '3.9',
-                    reviews: '5',
-                    location: '東京都 北区',
-                    bonus: '¥30,000',
-                    hourlyWage: '¥2,500〜',
-                    helpWage: 'ー',
-                    imageUrls: [
-                        'https://images.unsplash.com/photo-1566737236500-c8ac43014a67?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80',
-                        'https://images.unsplash.com/photo-1574096079513-d8259312b78a?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80'
                     ]
                 }
             ];
@@ -367,8 +382,12 @@
                 setDragOffset({ x: 0, y: 0 });
             };
 
-// ★ ボーナス金バッジ専用スタイル (濃いゴールド固定)
-            const bonusBadgeStyle = `inline-flex items-center gap-4 mb-3 transform hover:scale-105 transition-all self-start px-4 py-2.5 rounded-full text-[#111] font-bold cursor-pointer bg-gradient-to-r from-[#D4AF37] to-[#B8860B] shadow-[inset_0_2px_4px_rgba(255,255,255,0.4),inset_0_-4px_4px_rgba(0,0,0,0.3),0_6px_12px_rgba(0,0,0,0.8)] border border-[#D4AF37]/30`;
+            const handleSwipe = (direction) => {
+                handleSwipeCard('up');
+            };
+
+            const bonusBadgeStyle = `inline-flex items-center gap-4 mb-3 transform hover:scale-105 transition-all self-start px-4 py-2.5 rounded-full text-[#111] font-bold cursor-pointer bg-gradient-to-r from-[#D4AF37] to-[#B8860B] shadow-[inset_0_4px_6px_rgba(255,255,255,0.5),inset_0_-6px_6px_rgba(0,0,0,0.4),0_12px_24px_rgba(0,0,0,0.7)] border border-[#D4AF37]/30`;
+
             const bgHex = theme.bgMainHex;
             const gradientStyle = {
                 background: `linear-gradient(to top, ${bgHex} 15%, ${bgHex} 45%, transparent 100%)`
@@ -383,7 +402,7 @@
                         <div className={`flex items-center gap-4 ${styles.iconAccent} pointer-events-auto`}>
                             <div className="relative cursor-pointer">
                                 <i className="ph-bold ph-bell text-[20px]"></i>
-                                <span className={`absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full border-2 ${theme.borderColor} ${theme.accentBg}`}></span>
+                                <span className={`absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full border-2 ${theme.borderColor} bg-[#A855F7]`}></span>
                             </div>
                         </div>
                     </header>
@@ -442,10 +461,9 @@
                                         onTouchEnd={isTop ? handleDragEnd : null}
                                         onClick={isTop ? handleClick : null}
                                     >
-                                        
                                         <div className="absolute top-4 left-5 right-5 flex gap-1.5 z-20 pointer-events-none">
                                             {data.imageUrls.map((_, i) => (
-                                                <div key={i} className={`h-1 flex-1 rounded-full ${i === data.currentImageIndex ? theme.accentBg : 'bg-white/30 shadow-sm'}`}></div>
+                                                <div key={i} className={`h-1 flex-1 rounded-full ${i === data.currentImageIndex ? 'bg-[#A855F7]' : 'bg-white/30 shadow-sm'}`}></div>
                                             ))}
                                         </div>
 
@@ -463,7 +481,7 @@
                                         <div className="absolute inset-0 z-10 flex flex-col justify-end p-5 pointer-events-none">
                                             
                                             <div className="mb-auto mt-8 pointer-events-auto flex justify-center">
-                                                <div className={`bg-[#121212]/80 backdrop-blur-md border ${theme.accentBorderLight} px-4 py-1.5 rounded-full shadow-sm`}>
+                                                <div className={`bg-[#121212]/80 backdrop-blur-md border ${styles.fixedBorderColor} px-4 py-1.5 rounded-full shadow-sm`}>
                                                     <span className="text-[#F5F5F5] font-bold tracking-widest text-[11px] drop-shadow-sm">{data.copy}</span>
                                                 </div>
                                             </div>
@@ -484,7 +502,7 @@
                                                 </div>
                                                 
                                                 <div className={bonusBadgeStyle} onClick={(e) => e.stopPropagation()}>
-                                                    <span className="text-[9px] tracking-wider opacity-90">入店祝い金</span>
+                                                    <span className="text-[9px] tracking-wider opacity-90">ボーナス金</span>
                                                     <span className="text-[16px] tracking-wider drop-shadow-sm">{data.bonus}</span>
                                                 </div>
 
@@ -506,14 +524,33 @@
                         </div>
                     </div>
 
-                    <div className="absolute bottom-24 left-1/2 -translate-x-1/2 flex flex-col items-center opacity-70 pointer-events-none z-20">
-                        <div className="flex flex-col items-center gap-0.5 animate-bounce">
-                            <i className={`ph-bold ph-caret-up text-[20px] text-white`}></i>
-                            <span className={`app-title text-white text-[9px] font-bold tracking-[0.2em] text-center leading-tight`}>SWIPE UP<br/>TO NEXT</span>
+                    {swipeActionStyle === 'swipe_only' && (
+                        <div className="absolute bottom-[100px] left-1/2 -translate-x-1/2 flex flex-col items-center opacity-70 pointer-events-none z-20">
+                            <div className="flex flex-col items-center gap-0.5 animate-bounce">
+                                <i className={`ph-bold ph-caret-up text-[20px] text-white`}></i>
+                                <span className={`app-title text-white text-[9px] font-bold tracking-[0.2em] text-center leading-tight`}>SWIPE UP<br/>TO NEXT</span>
+                            </div>
                         </div>
+                    )}
+
+                    {swipeActionStyle === 'buttons' && (
+                        <div className="absolute bottom-[90px] left-0 w-full flex justify-center gap-8 px-8 z-30 pointer-events-none pb-safe">
+                        <button 
+                            onClick={() => handleSwipe('left')} 
+                            className={`w-14 h-14 rounded-full bg-[#1A1A1A] border ${styles.fixedBorderColor} flex items-center justify-center text-gray-400 hover:text-[#FF2A7A] transition-all shadow-[0_4px_12px_rgba(0,0,0,0.5)] pointer-events-auto active:scale-95`}
+                        >
+                            <i className="ph-bold ph-x text-2xl"></i>
+                        </button>
+                        <button 
+                            onClick={() => handleSwipe('right')} 
+                            className={`w-14 h-14 rounded-full flex items-center justify-center font-bold ${styles.button.split('px-6')[0]} pointer-events-auto active:scale-95`}
+                        >
+                            <i className={`ph-fill ph-heart text-2xl ${styles.buttonIcon}`}></i>
+                        </button>
                     </div>
-                </div>
-            );
+                )}
+            </div>
+        );
         };
 
         // ==========================================
@@ -538,7 +575,7 @@
                     </header>
 
                     <div className="absolute inset-0 w-full h-full overflow-y-auto scrollbar-hide pb-[100px] pt-[68px] z-10">
-                        <div className={`flex bg-transparent border-b ${theme.accentBorderLight} shrink-0 relative z-10 px-4 pt-2 transition-colors duration-300`}>
+                        <div className={`flex bg-transparent border-b ${styles.fixedBorderColor} shrink-0 relative z-10 px-4 pt-2 transition-colors duration-300`}>
                             <button onClick={() => setActiveTab('search')} className={`flex-1 py-3 text-[13px] font-bold transition-all duration-300 relative ${activeTab === 'search' ? theme.textMain : theme.textSub}`}>
                                 検索
                                 {activeTab === 'search' && <div className={styles.tabLine}></div>}
@@ -550,14 +587,13 @@
                             </button>
                         </div>
 
-                        <div className={`px-5 py-4 bg-transparent border-b ${theme.accentBorderLight}`}>
+                        <div className={`px-5 py-4 bg-transparent border-b ${styles.fixedBorderColor}`}>
                             <div className="flex gap-2">
                                 <div className="relative flex-1">
-                                    {/* ★ 検索ボックス (入力欄) */}
                                     <input type="text" placeholder="エリア・店名で検索..." className={`w-full rounded-full py-3 px-4 text-sm focus:outline-none ${styles.inputContainer} ${styles.inputText} ${styles.inputPlaceholder}`} />
                                 </div>
                                 <button className={`${styles.button} !px-0 w-[46px] h-[46px] !rounded-full shrink-0`}>
-                                    <i className="ph-bold ph-magnifying-glass text-[20px]"></i>
+                                    <i className={`ph-bold ph-magnifying-glass text-[20px] ${styles.buttonIcon}`}></i>
                                 </button>
                             </div>
                         </div>
@@ -567,7 +603,7 @@
                                 <div key={item.id} className={`${styles.card} p-4 group cursor-pointer`}>
                                     <div className="flex gap-4">
                                         <div className="shrink-0 w-[72px] flex flex-col items-center gap-2">
-                                            <div className={`w-[72px] h-[72px] bg-transparent border ${theme.accentBorderLight} rounded-[16px] overflow-hidden relative shadow-[inset_0_2px_4px_rgba(0,0,0,0.5)]`}>
+                                            <div className={`w-[72px] h-[72px] bg-transparent border ${styles.fixedBorderColor} rounded-[16px] overflow-hidden relative shadow-[inset_0_2px_4px_rgba(0,0,0,0.5)]`}>
                                                 <img src={item.imageUrl} alt={item.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                                                 <div className={`absolute inset-0 border border-white/10 rounded-[16px] pointer-events-none`}></div>
                                             </div>
@@ -584,8 +620,8 @@
                                                 <h3 className={`${theme.textMain} app-title font-bold text-[17px] truncate pr-2 group-hover:${styles.textAccent} transition-colors`}>{item.name}</h3>
                                             </div>
                                             <div className="flex items-center flex-wrap text-[11px] mb-2.5 gap-x-2 gap-y-2">
-                                                <span className={`${styles.textAccent} bg-transparent border ${theme.accentBorderLight} px-2 py-0.5 rounded font-medium shadow-[inset_0_1px_2px_rgba(0,0,0,0.5)]`}>{item.industry}</span>
-                                                <span className={`flex items-center ${styles.textAccent} font-bold bg-transparent border ${theme.accentBorderLight} px-1.5 py-0.5 rounded shadow-[inset_0_1px_2px_rgba(0,0,0,0.5)]`}><i className="ph-fill ph-star text-[12px] mr-0.5"></i>{item.rating}</span>
+                                                <span className={`${styles.textAccent} bg-transparent border ${styles.fixedBorderColor} px-2 py-0.5 rounded font-medium shadow-[inset_0_1px_2px_rgba(0,0,0,0.5)]`}>{item.industry}</span>
+                                                <span className={`flex items-center ${styles.textAccent} font-bold bg-transparent border ${styles.fixedBorderColor} px-1.5 py-0.5 rounded shadow-[inset_0_1px_2px_rgba(0,0,0,0.5)]`}><i className="ph-fill ph-star text-[12px] mr-0.5"></i>{item.rating}</span>
                                                 <span className={`flex items-center ${theme.textSub}`}><i className="ph-fill ph-map-pin text-[11px] mr-0.5"></i>{item.location}</span>
                                             </div>
                                             <div className="mt-1">
@@ -599,7 +635,7 @@
                     </div>
 
                     <button className={`${styles.fab} z-30`}>
-                        <i className="ph-bold ph-sliders-horizontal text-[24px]"></i>
+                        <i className={`ph-bold ph-sliders-horizontal text-[24px] ${styles.buttonIcon}`}></i>
                     </button>
                 </div>
             );
@@ -619,7 +655,7 @@
                         <div className={`flex items-center justify-end gap-4 ${styles.iconAccent} w-16`}>
                             <div className="relative">
                                 <i className="ph-bold ph-bell text-[20px]"></i>
-                                <span className={`absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full border-2 ${theme.borderColor} ${theme.accentBg}`}></span>
+                                <span className={`absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full border-2 ${theme.borderColor} bg-[#A855F7]`}></span>
                             </div>
                             <i className="ph-bold ph-list text-[20px]"></i>
                         </div>
@@ -631,20 +667,19 @@
                             <h2 className={`${theme.textMain} app-title text-[28px] font-bold mb-5 tracking-wide drop-shadow-sm`}>みさき</h2>
 
                             <div className="flex gap-4 mb-2">
-                                <div className={`w-[84px] h-[84px] rounded-full border-2 ${theme.accentBorderLight} p-0.5 shrink-0 shadow-lg relative`}>
+                                <div className={`w-[84px] h-[84px] rounded-full border-2 ${styles.fixedBorderColor} p-0.5 shrink-0 shadow-lg relative`}>
                                     <img src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?ixlib=rb-1.2.1&auto=format&fit=crop&w=300&q=80" alt="profile" className="w-full h-full rounded-full object-cover" />
                                 </div>
                                 
-                                {/* ★「ひとこと」吹き出し (入力欄) */}
                                 <div className={`flex-1 relative flex flex-col justify-between ${styles.inputContainer} rounded-[16px] p-4`}>
                                     <p className={`font-bold text-[14px] leading-snug ${styles.inputText}`}>ひとこと！</p>
                                     <div className="flex justify-between items-end mt-2">
                                         <span className={`text-[10px] font-medium tracking-wider ${styles.inputSubText}`}>最終更新 2026/05/08 10:37</span>
                                         <div className="flex items-center gap-2">
-                                            <div className={`w-6 h-6 rounded-full ${theme.accentBg} bg-opacity-20 flex items-center justify-center cursor-pointer hover:scale-110 transition-transform`}>
+                                            <div className={`w-6 h-6 rounded-full bg-[#A855F7] bg-opacity-20 flex items-center justify-center cursor-pointer hover:scale-110 transition-transform`}>
                                                 <i className={`ph-fill ph-globe text-[12px] ${styles.iconAccent}`}></i>
                                             </div>
-                                            <div className={`w-6 h-6 rounded-full ${theme.accentBg} bg-opacity-20 flex items-center justify-center cursor-pointer hover:scale-110 transition-transform`}>
+                                            <div className={`w-6 h-6 rounded-full bg-[#A855F7] bg-opacity-20 flex items-center justify-center cursor-pointer hover:scale-110 transition-transform`}>
                                                 <i className={`ph-fill ph-pencil-simple text-[12px] ${styles.iconAccent}`}></i>
                                             </div>
                                         </div>
@@ -667,33 +702,18 @@
                                 </div>
                             </div>
 
-                            {/* 位置情報 */}
-                            <div className={styles.menuCard + " mb-4"}>
+                            <div className={styles.specialMenuCard + " mb-10"}>
                                 <div className="flex items-center gap-4">
-                                    <div className={`w-11 h-11 rounded-full bg-transparent border ${theme.accentBorderLight} flex items-center justify-center shadow-[inset_0_2px_4px_rgba(0,0,0,0.6)]`}>
-                                        <i className={`ph-fill ph-navigation-arrow ${theme.textSub} text-[18px]`}></i>
+                                    <div className={styles.specialMenuIconWrapper}>
+                                        <i className={`ph-fill ph-folder ${styles.specialMenuIcon}`}></i>
                                     </div>
                                     <div>
-                                        <h3 className={`${theme.textMain} font-bold text-[15px] mb-1 group-hover:${styles.textAccent} transition-colors`}>位置情報での絞り込み</h3>
-                                        <p className={`${theme.textSub} text-[11px]`}>未設定 / 20km</p>
+                                        <p className={styles.specialMenuSub}>EMPLOYMENT & PAYMENT</p>
+                                        <h3 className={styles.specialMenuTitle}>採用・入金管理</h3>
                                     </div>
                                 </div>
-                                <i className={`ph-bold ph-caret-right ${theme.textSub} text-[18px]`}></i>
-                            </div>
-
-                            {/* 採用・入金管理 */}
-                            <div className={styles.menuCard + " mb-10"}>
-                                <div className="flex items-center gap-4">
-                                    <div className={`w-11 h-11 rounded-xl bg-transparent border ${theme.accentBorderLight} flex items-center justify-center shadow-[inset_0_2px_4px_rgba(0,0,0,0.6)]`}>
-                                        <i className={`ph-fill ph-folder ${styles.iconAccent} text-[18px]`}></i>
-                                    </div>
-                                    <div>
-                                        <p className={`${theme.textSub} text-[9px] font-bold tracking-[0.1em] mb-1 uppercase`}>EMPLOYMENT & PAYMENT</p>
-                                        <h3 className={`${styles.textAccent} app-title font-bold text-[15px] tracking-widest group-hover:opacity-80 transition-opacity`}>採用・入金管理</h3>
-                                    </div>
-                                </div>
-                                <div className={`w-8 h-8 rounded-full border border-white/20 flex items-center justify-center group-hover:border-white/50 transition-colors`}>
-                                    <i className={`ph-bold ph-caret-right text-white/50 group-hover:text-white text-[16px]`}></i>
+                                <div className={styles.specialMenuArrow}>
+                                    <i className={`ph-bold ph-caret-right ${styles.specialMenuArrowIcon}`}></i>
                                 </div>
                             </div>
 
@@ -709,14 +729,250 @@
                                 <h4 className={`${styles.textAccent} font-bold text-sm tracking-wide`}>基本情報</h4>
                             </div>
 
-                            {/* ★ 基本情報 (入力欄) */}
-                            <div className={`${styles.inputContainer} rounded-[16px] p-4`}>
-                                <div className="flex justify-between items-center">
-                                    <span className={`${styles.inputSubText} text-[13px] font-medium`}>生年月日</span>
-                                    <span className={`${styles.inputText} font-bold text-sm tracking-wide`}>2001年5月15日</span>
+                            <div className="flex flex-col gap-3 mb-10">
+                                <div className={`${styles.inputContainer} rounded-[16px] p-4`}>
+                                    <div className="flex justify-between items-center">
+                                        <span className={`${styles.inputSubText} text-[13px] font-medium`}>生年月日</span>
+                                        <span className={`${styles.inputText} font-bold text-sm tracking-wide`}>2001年5月15日</span>
+                                    </div>
+                                </div>
+                                
+                                <div className={`${styles.inputContainer} rounded-[16px] p-4`}>
+                                    <div className="flex justify-between items-center">
+                                        <span className={`${styles.inputSubText} text-[13px] font-medium`}>身長</span>
+                                        <span className={`${styles.inputText} font-bold text-sm tracking-wide`}>162cm</span>
+                                    </div>
+                                </div>
+
+                                <div className={`${styles.inputContainer} rounded-[16px] p-4`}>
+                                    <div className="flex justify-between items-center">
+                                        <span className={`${styles.inputSubText} text-[13px] font-medium`}>居住地</span>
+                                        <span className={`${styles.inputText} font-bold text-sm tracking-wide`}>東京都 港区</span>
+                                    </div>
+                                </div>
+
+                                <div className={`${styles.inputContainer} rounded-[16px] p-4`}>
+                                    <div className="flex justify-between items-center">
+                                        <span className={`${styles.inputSubText} text-[13px] font-medium`}>お酒</span>
+                                        <span className={`${styles.inputText} font-bold text-sm tracking-wide`}>飲める</span>
+                                    </div>
                                 </div>
                             </div>
 
+                            <div className="flex items-center justify-between mb-5 border-b border-white/10 pb-3">
+                                <h3 className={`${styles.textAccent} app-title font-bold text-[15px]`}>PREFERENCES</h3>
+                            </div>
+
+                            <div className={styles.menuCard + " mb-4"}>
+                                <div className="flex items-center gap-4">
+                                    <div className={`w-11 h-11 rounded-full bg-transparent border ${styles.fixedBorderColor} flex items-center justify-center shadow-[inset_0_2px_4px_rgba(0,0,0,0.6)]`}>
+                                        <i className={`ph-fill ph-navigation-arrow ${theme.textSub} text-[18px]`}></i>
+                                    </div>
+                                    <div>
+                                        <h3 className={`${theme.textMain} font-bold text-[15px] mb-1 group-hover:${styles.textAccent} transition-colors`}>位置情報での絞り込み</h3>
+                                        <p className={`${theme.textSub} text-[11px]`}>未設定 / 20km</p>
+                                    </div>
+                                </div>
+                                <i className={`ph-bold ph-caret-right ${theme.textSub} text-[18px]`}></i>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        // ==========================================
+        // 📱 画面4-1: トーク一覧画面 (TALK LIST)
+        // ==========================================
+        const TalkListScreen = ({ theme, styles, onOpenRoom }) => {
+            const [activeTab, setActiveTab] = useState('active');
+
+            const talkListData = [
+                {
+                    id: 1,
+                    shopName: 'Club Luminous (ルミナス)',
+                    lastMessage: 'テスト',
+                    date: '2026/03/20',
+                    status: '本採用',
+                    imageUrl: 'https://images.unsplash.com/photo-1585553616435-2dc0a54e271d?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80',
+                    isPinned: true
+                }
+            ];
+
+            return (
+                <div className={`relative w-full h-full flex flex-col transition-colors duration-300 overflow-hidden ${theme.bgMain}`}>
+                    <header className={`absolute top-0 left-0 w-full z-40 flex items-center justify-between px-5 py-4 ${styles.glassHeader} pt-safe transition-colors duration-300`}>
+                        <div className="w-12"></div>
+                        <h1 className={`${theme.textMain} app-title text-[16px] font-bold text-center absolute left-1/2 -translate-x-1/2 uppercase`}>TALK</h1>
+                        <div className={`flex items-center gap-4 ${styles.iconAccent}`}>
+                            <i className="ph-bold ph-check-circle text-[20px]"></i>
+                            <div className="relative cursor-pointer">
+                                <i className="ph-bold ph-bell text-[20px]"></i>
+                                <span className={`absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full border-2 ${theme.borderColor} bg-[#A855F7]`}></span>
+                            </div>
+                            <i className="ph-bold ph-list text-[20px]"></i>
+                        </div>
+                    </header>
+
+                    <div className="absolute inset-0 w-full h-full overflow-y-auto scrollbar-hide pb-[100px] pt-[68px] z-10">
+                        <div className={`flex bg-transparent border-b ${styles.fixedBorderColor} shrink-0 relative z-10 px-4 pt-2 transition-colors duration-300`}>
+                            <button onClick={() => setActiveTab('active')} className={`flex-1 py-3 text-[13px] font-bold transition-all duration-300 relative ${activeTab === 'active' ? theme.textMain : theme.textSub}`}>
+                                やり取り中
+                                {activeTab === 'active' && <div className={styles.tabLine}></div>}
+                            </button>
+                            <button onClick={() => setActiveTab('offer')} className={`flex-1 py-3 text-[13px] font-bold transition-all duration-300 relative ${activeTab === 'offer' ? theme.textMain : theme.textSub}`}>
+                                オファー
+                                {activeTab === 'offer' && <div className={styles.tabLine}></div>}
+                            </button>
+                        </div>
+
+                        <div className="flex flex-col px-4 pt-5 gap-4 pb-[40px]">
+                            {talkListData.map(item => (
+                                <div key={item.id} onClick={() => onOpenRoom(item.id)} className={`${styles.menuCard} !p-4 cursor-pointer hover:border-white/20 transition-all`}>
+                                    <div className="flex items-center gap-4 w-full relative">
+                                        <div className={`w-[60px] h-[60px] rounded-full overflow-hidden shrink-0 border ${styles.fixedBorderColor}`}>
+                                            <img src={item.imageUrl} alt={item.shopName} className="w-full h-full object-cover" />
+                                        </div>
+                                        <div className="flex-1 min-w-0 pr-8">
+                                            <div className="flex justify-between items-start mb-1">
+                                                <h3 className={`${theme.textMain} font-bold text-[15px] truncate`}>{item.shopName}</h3>
+                                                <span className={`${theme.textSub} text-[10px] tracking-wider shrink-0 ml-2 mt-1`}>{item.date}</span>
+                                            </div>
+                                            <p className={`${theme.textMain} opacity-80 text-[13px] truncate mb-2`}>{item.lastMessage}</p>
+                                            <div className="flex items-center justify-between">
+                                                {item.status && (
+                                                    <span className={`inline-block px-3 py-0.5 rounded-full text-[10px] font-bold border ${styles.fixedBorderColor} text-[#F5F5F5]`}>
+                                                        {item.status}
+                                                    </span>
+                                                )}
+                                                {item.isPinned && (
+                                                    <div className={`w-7 h-7 rounded-full bg-[#1A1A1A] border ${styles.fixedBorderColor} flex items-center justify-center shrink-0 shadow-[inset_0_2px_4px_rgba(0,0,0,0.5)]`}>
+                                                        <i className={`ph-fill ph-push-pin text-[14px] ${theme.textMain}`}></i>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        // ==========================================
+        // 📱 画面4-2: トークルーム画面 (TALK ROOM)
+        // ==========================================
+        const TalkRoomScreen = ({ theme, styles, is3D, isGrad, onBack }) => {
+            const chatData = [
+                { type: 'system', text: '採用に向けての手続きを進めてください。ボーナスを受け取るためには報告が必要です。', buttonText: 'ボーナス達成報告' },
+                { type: 'received', time: '01:28', text: 'この度は面談ありがとうございました。採用で進めさせていただきたいと考えております。詳細は追ってご連絡いたします。', iconUrl: 'https://images.unsplash.com/photo-1585553616435-2dc0a54e271d?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80' },
+                { type: 'received', time: '23:52', text: 'あれ？', iconUrl: 'https://images.unsplash.com/photo-1585553616435-2dc0a54e271d?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80' },
+                { type: 'sent', time: '23:59', text: 'ありがとうございました。', read: true },
+                { type: 'sent', time: '17:17', text: 'テスト', read: true }
+            ];
+
+            const btnBgClass = isGrad ? `bg-gradient-to-r from-[#A855F7] to-[#7E22CE]` : 'bg-[#9333EA]';
+            const btnIconClass = 'text-white';
+
+            return (
+                <div className={`relative w-full h-full flex flex-col transition-colors duration-300 overflow-hidden ${theme.bgMain}`}>
+                    
+                    <div className="absolute top-0 left-0 w-full z-40">
+                        <header className={`flex items-center justify-between px-4 py-3 ${styles.glassHeader} border-b-0 pt-safe transition-colors duration-300`}>
+                            <div className="flex items-center gap-2.5 w-[75%]">
+                                <button onClick={onBack} className={`${styles.iconAccent} hover:opacity-80 shrink-0`}><i className="ph-bold ph-caret-left text-[20px]"></i></button>
+                                <div className={`w-8 h-8 rounded-full border ${styles.fixedBorderColor} overflow-hidden shrink-0 shadow-sm`}>
+                                    <img src="https://images.unsplash.com/photo-1585553616435-2dc0a54e271d?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80" alt="icon" className="w-full h-full object-cover" />
+                                </div>
+                                <h1 className={`${theme.textMain} font-bold text-[15px] truncate tracking-wide`}>Club Luminous...</h1>
+                            </div>
+                            <div className={`flex items-center gap-3 ${styles.iconAccent} shrink-0`}>
+                                <i className="ph-bold ph-check-circle text-[20px]"></i>
+                                <i className="ph-bold ph-bell text-[20px]"></i>
+                                <i className="ph-bold ph-list text-[20px]"></i>
+                            </div>
+                        </header>
+                        
+                        <div className={`flex items-center justify-between px-5 py-2.5 ${styles.glassHeader} text-[11px] transition-colors duration-300 border-t ${styles.fixedBorderColor}`}>
+                            <div className="flex items-center gap-3 font-bold">
+                                <div className="w-2.5 h-2.5 rounded-full bg-gradient-to-r from-[#D4AF37] to-[#B8860B] shadow-[inset_0_1px_2px_rgba(255,255,255,0.5),0_0_4px_rgba(212,175,55,0.5)]"></div>
+                                <span className={theme.textSub}>状況: <span className={styles.textAccent}>本採用</span></span>
+                                <span className={theme.textSub}>種別: <span className={styles.textAccent}>本入店</span></span>
+                            </div>
+                            <button className={`${theme.textSub} hover:${styles.textAccent} transition-colors`}>
+                                <i className="ph-bold ph-prohibit text-[16px]"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div className="absolute inset-0 w-full h-full overflow-y-auto scrollbar-hide pt-[120px] pb-[160px] z-10 flex flex-col gap-6 px-4">
+                        {chatData.map((msg, i) => {
+                            if (msg.type === 'system') {
+                                return (
+                                    <div key={i} className="flex gap-3 mt-4">
+                                        <div className={`w-9 h-9 rounded-full border ${styles.fixedBorderColor} flex items-center justify-center bg-[#1A1A1A] shrink-0 shadow-sm`}>
+                                            <i className={`ph-fill ph-robot text-[18px] ${styles.iconAccent}`}></i>
+                                        </div>
+                                        <div className="flex flex-col items-start max-w-[80%] gap-2.5">
+                                            <div className={styles.systemMessageBubble}>
+                                                {msg.text}
+                                            </div>
+                                            {msg.buttonText && (
+                                                <button className={`px-4 py-1.5 rounded-full border ${styles.fixedBorderColor} bg-transparent text-[11px] font-bold ${theme.textMain} hover:bg-white/5 transition-colors shadow-[inset_0_2px_4px_rgba(0,0,0,0.5)]`}>
+                                                    {msg.buttonText}
+                                                </button>
+                                            )}
+                                        </div>
+                                    </div>
+                                );
+                            }
+                            if (msg.type === 'received') {
+                                return (
+                                    <div key={i} className="flex gap-3">
+                                        <div className={`w-9 h-9 rounded-full border ${styles.fixedBorderColor} overflow-hidden shrink-0 shadow-sm`}>
+                                            <img src={msg.iconUrl} alt="icon" className="w-full h-full object-cover" />
+                                        </div>
+                                        <div className="flex items-end gap-2 max-w-[80%]">
+                                            <div className={styles.otherMessageBubble}>
+                                                {msg.text}
+                                            </div>
+                                            <span className={`text-[9px] font-bold ${theme.textSub} shrink-0 mb-1`}>{msg.time}</span>
+                                        </div>
+                                    </div>
+                                );
+                            }
+                            if (msg.type === 'sent') {
+                                return (
+                                    <div key={i} className="flex justify-end gap-2 w-full">
+                                        <div className="flex flex-col justify-end items-end shrink-0 mb-1">
+                                            <span className={`text-[9px] font-bold ${theme.textSub} flex items-center gap-0.5`}>
+                                                {msg.read && <i className={`ph-bold ph-check ${styles.textAccent}`}></i>}
+                                                {msg.time}
+                                            </span>
+                                        </div>
+                                        <div className={`max-w-[80%] ${styles.myMessageBubble}`}>
+                                            {msg.text}
+                                        </div>
+                                    </div>
+                                );
+                            }
+                        })}
+                    </div>
+
+                    <div className={`absolute left-0 w-full z-40 ${styles.glassFooter} px-4 py-3 border-b-0 shadow-[0_-4px_20px_rgba(0,0,0,0.5)]`} style={{ bottom: 'calc(58px + max(16px, env(safe-area-inset-bottom, 16px)))' }}>
+                        <div className="flex items-center gap-3">
+                            <button className={`w-10 h-10 rounded-full bg-[#1A1A1A] border ${styles.fixedBorderColor} flex items-center justify-center ${theme.textMain} hover:bg-white/5 transition-colors shrink-0 shadow-[inset_0_2px_4px_rgba(0,0,0,0.5)] active:scale-95`}>
+                                <i className="ph-bold ph-plus text-[18px]"></i>
+                            </button>
+                            <div className="flex-1 relative">
+                                <input type="text" placeholder="メッセージを入力..." className={`w-full ${styles.inputContainer} ${styles.inputText} ${styles.inputPlaceholder} py-2.5 px-4 text-[13px] rounded-full focus:outline-none`} />
+                            </div>
+                            <button className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 border border-transparent ${btnBgClass} ${is3D ? 'shadow-[inset_0_2px_4px_rgba(255,255,255,0.5),inset_0_-2px_4px_rgba(0,0,0,0.4),0_6px_12px_rgba(0,0,0,0.7)] active:translate-y-1 active:shadow-[inset_0_2px_4px_rgba(0,0,0,0.6),0_2px_4px_rgba(0,0,0,0.6)]' : 'shadow-md hover:scale-105 active:scale-95'} transition-all`}>
+                                <i className={`ph-fill ph-paper-plane-right ${btnIconClass} text-[16px] ml-[-2px]`}></i>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -728,17 +984,25 @@
         // ==========================================
         const App = () => {
             const [currentBgId, setCurrentBgId] = useState('black'); 
-            const [currentAccentId, setCurrentAccentId] = useState('mauve_lavender'); 
-            const [isGlass, setIsGlass] = useState(true);
+            const [currentAccentId, setCurrentAccentId] = useState('amethyst'); 
             
-            // ★ 入力欄のスタイル切替状態
+            const isGlass = true;
+            // ★ デフォルトをブラック×ディープパープルのグラデーションに設定
+            const [hfColorId, setHfColorId] = useState('grad_black_purple');
+            
             const [inputStyle, setInputStyle] = useState('light');
+            
+            const [is3D, setIs3D] = useState(true);
+            const [isGrad, setIsGrad] = useState(true);
 
-            const [currentAppTab, setCurrentAppTab] = useState('swipe');
+            // ★ スワイプ画面のアクションスタイル初期値を「上スワイプ誘導」に変更
+            const [swipeActionStyle, setSwipeActionStyle] = useState('swipe_only');
+
+            const [currentAppTab, setCurrentAppTab] = useState('talk');
             const [isMenuOpen, setIsMenuOpen] = useState(false);
 
             const theme = { ...bgThemes[currentBgId], ...accentColors[currentAccentId] };
-            const styles = generateStyles(theme, isGlass, inputStyle);
+            const styles = generateStyles(theme, inputStyle, is3D, isGrad, hfColorDefs[hfColorId]);
 
             return (
                 <div className={`h-[100dvh] w-full flex flex-col ${theme.bgApp} transition-colors duration-500 ${fontDefs.noto_sans.family}`}>
@@ -772,14 +1036,19 @@
                         <div className="flex flex-col gap-6">
                             
                             <div className="w-full relative">
-                                <label className="block text-[10px] text-[#A0A0A0] font-bold tracking-wider mb-2 ml-1">BACKGROUND</label>
-                                <div className="w-full bg-[#1A1A1A] text-white border border-white/20 rounded-lg px-4 py-3 text-sm font-bold opacity-70">
-                                    ブラック (固定)
-                                </div>
+                                <label className="block text-[10px] text-[#A0A0A0] font-bold tracking-wider mb-2 ml-1">HEADER & FOOTER COLOR</label>
+                                <select 
+                                    className="w-full bg-[#1A1A1A] text-white border border-white/20 rounded-lg pl-3 pr-8 py-3 text-sm outline-none appearance-none focus:border-white/50 cursor-pointer font-bold"
+                                    value={hfColorId}
+                                    onChange={(e) => setHfColorId(e.target.value)}
+                                >
+                                    {Object.values(hfColorDefs).map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
+                                </select>
+                                <i className="ph-bold ph-caret-down absolute right-3 bottom-3.5 text-gray-400 pointer-events-none text-sm"></i>
                             </div>
 
                             <div className="w-full relative">
-                                <label className="block text-[10px] text-[#A0A0A0] font-bold tracking-wider mb-2 ml-1">POINT COLOR (多彩な紫)</label>
+                                <label className="block text-[10px] text-[#A0A0A0] font-bold tracking-wider mb-2 ml-1">TEXT & ICON COLOR (選択)</label>
                                 <select 
                                     className="w-full bg-[#1A1A1A] text-white border border-white/20 rounded-lg pl-3 pr-8 py-3 text-sm outline-none appearance-none focus:border-white/50 cursor-pointer font-bold"
                                     value={currentAccentId}
@@ -790,14 +1059,27 @@
                                 <i className="ph-bold ph-caret-down absolute right-3 bottom-3.5 text-gray-400 pointer-events-none text-sm"></i>
                             </div>
 
-                            <div className="w-full relative">
-                                <label className="block text-[10px] text-[#A0A0A0] font-bold tracking-wider mb-2 ml-1">FONT (フォント)</label>
-                                <div className="w-full bg-[#1A1A1A] text-white border border-white/20 rounded-lg px-4 py-3 text-sm font-bold opacity-70">
-                                    Noto Sans (固定)
+                            {/* ★ ボタンコンポーネント用スタイル：立体 & グラデーション */}
+                            <div className="w-full relative border-t border-white/10 pt-6">
+                                <label className="block text-[10px] text-[#A0A0A0] font-bold tracking-wider mb-4 ml-1">COMPONENTS UI STYLE</label>
+                                <div className="flex flex-col gap-4 px-2">
+                                    <label className="flex items-center gap-3 cursor-pointer group">
+                                        <input type="checkbox" checked={is3D} onChange={e => setIs3D(e.target.checked)} className="hidden" />
+                                        <div className={`w-5 h-5 rounded flex items-center justify-center border transition-colors ${is3D ? 'bg-white border-white' : 'border-gray-500 group-hover:border-gray-300'}`}>
+                                            {is3D && <i className="ph-bold ph-check text-black text-[12px]"></i>}
+                                        </div>
+                                        <span className={`text-sm font-bold tracking-wide ${is3D ? 'text-white' : 'text-[#A0A0A0]'}`}>思いっきり立体 (強力シャドウ)</span>
+                                    </label>
+                                    <label className="flex items-center gap-3 cursor-pointer group">
+                                        <input type="checkbox" checked={isGrad} onChange={e => setIsGrad(e.target.checked)} className="hidden" />
+                                        <div className={`w-5 h-5 rounded flex items-center justify-center border transition-colors ${isGrad ? 'bg-white border-white' : 'border-gray-500 group-hover:border-gray-300'}`}>
+                                            {isGrad && <i className="ph-bold ph-check text-black text-[12px]"></i>}
+                                        </div>
+                                        <span className={`text-sm font-bold tracking-wide ${isGrad ? 'text-white' : 'text-[#A0A0A0]'}`}>グラデーション背景</span>
+                                    </label>
                                 </div>
                             </div>
 
-                            {/* ★ 入力欄のスタイル切替オプション */}
                             <div className="w-full relative border-t border-white/10 pt-6">
                                 <label className="block text-[10px] text-[#A0A0A0] font-bold tracking-wider mb-4 ml-1">INPUT STYLE (入力欄)</label>
                                 <div className="flex gap-6 px-2">
@@ -819,21 +1101,21 @@
                             </div>
 
                             <div className="w-full relative border-t border-white/10 pt-6">
-                                <label className="block text-[10px] text-[#A0A0A0] font-bold tracking-wider mb-4 ml-1">HEADER & FOOTER STYLE</label>
+                                <label className="block text-[10px] text-[#A0A0A0] font-bold tracking-wider mb-4 ml-1">SWIPE ACTION STYLE</label>
                                 <div className="flex gap-6 px-2">
                                     <label className="flex items-center gap-3 cursor-pointer">
-                                        <input type="radio" name="glassStyle" value="solid" checked={!isGlass} onChange={() => setIsGlass(false)} className="hidden" />
-                                        <div className={`w-5 h-5 rounded-full border flex items-center justify-center transition-colors ${!isGlass ? 'border-white' : 'border-gray-500'}`}>
-                                            {!isGlass && <div className="w-2.5 h-2.5 rounded-full bg-white"></div>}
+                                        <input type="radio" name="swipeActionStyle" value="buttons" checked={swipeActionStyle === 'buttons'} onChange={() => setSwipeActionStyle('buttons')} className="hidden" />
+                                        <div className={`w-5 h-5 rounded-full border flex items-center justify-center transition-colors ${swipeActionStyle === 'buttons' ? 'border-white' : 'border-gray-500'}`}>
+                                            {swipeActionStyle === 'buttons' && <div className="w-2.5 h-2.5 rounded-full bg-white"></div>}
                                         </div>
-                                        <span className={`text-sm font-bold ${!isGlass ? 'text-white' : 'text-[#A0A0A0]'}`}>ソリッド (不透明)</span>
+                                        <span className={`text-sm font-bold ${swipeActionStyle === 'buttons' ? 'text-white' : 'text-[#A0A0A0]'}`}>ボタン (× / ♡)</span>
                                     </label>
                                     <label className="flex items-center gap-3 cursor-pointer">
-                                        <input type="radio" name="glassStyle" value="glass" checked={isGlass} onChange={() => setIsGlass(true)} className="hidden" />
-                                        <div className={`w-5 h-5 rounded-full border flex items-center justify-center transition-colors ${isGlass ? 'border-white' : 'border-gray-500'}`}>
-                                            {isGlass && <div className="w-2.5 h-2.5 rounded-full bg-white"></div>}
+                                        <input type="radio" name="swipeActionStyle" value="swipe_only" checked={swipeActionStyle === 'swipe_only'} onChange={() => setSwipeActionStyle('swipe_only')} className="hidden" />
+                                        <div className={`w-5 h-5 rounded-full border flex items-center justify-center transition-colors ${swipeActionStyle === 'swipe_only' ? 'border-white' : 'border-gray-500'}`}>
+                                            {swipeActionStyle === 'swipe_only' && <div className="w-2.5 h-2.5 rounded-full bg-white"></div>}
                                         </div>
-                                        <span className={`text-sm font-bold ${isGlass ? 'text-white' : 'text-[#A0A0A0]'}`}>グラスモーフィズム</span>
+                                        <span className={`text-sm font-bold ${swipeActionStyle === 'swipe_only' ? 'text-white' : 'text-[#A0A0A0]'}`}>上スワイプ誘導のみ</span>
                                     </label>
                                 </div>
                             </div>
@@ -844,16 +1126,22 @@
                     <div className={`flex-1 flex flex-col w-full max-w-[430px] mx-auto bg-[#050505] shadow-[0_0_50px_rgba(0,0,0,0.8)] relative overflow-hidden h-full`}>
                         
                         {currentAppTab === 'swipe' && (
-                            <HomeSwipeScreen theme={theme} styles={styles} />
+                            <HomeSwipeScreen theme={theme} styles={styles} is3D={is3D} isGrad={isGrad} swipeActionStyle={swipeActionStyle} />
                         )}
                         {currentAppTab === 'search' && (
                             <SearchTimelineScreen theme={theme} styles={styles} />
+                        )}
+                        {currentAppTab === 'talk' && (
+                            <TalkListScreen theme={theme} styles={styles} onOpenRoom={() => setCurrentAppTab('talk_room')} />
+                        )}
+                        {currentAppTab === 'talk_room' && (
+                            <TalkRoomScreen theme={theme} styles={styles} is3D={is3D} isGrad={isGrad} onBack={() => setCurrentAppTab('talk')} />
                         )}
                         {currentAppTab === 'mypage' && (
                             <MyPageScreen theme={theme} styles={styles} />
                         )}
                         
-                        {!['swipe', 'search', 'mypage'].includes(currentAppTab) && (
+                        {!['swipe', 'search', 'talk', 'talk_room', 'mypage'].includes(currentAppTab) && (
                             <div className={`relative w-full h-full ${theme.bgMain} flex flex-col transition-colors duration-300`}>
                                 <header className={`relative w-full z-20 flex items-center justify-center px-5 py-4 ${styles.glassHeader} pt-safe`}>
                                     <h1 className={`${theme.textMain} app-title text-[16px] font-bold text-center uppercase`}>{currentAppTab}</h1>
